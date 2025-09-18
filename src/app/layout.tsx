@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Figtree, Playfair_Display } from "next/font/google";
 import "./globals.css";
+
+const figtree = Figtree({
+  subsets: ["latin"],
+  //variable: "--font-figtree",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  //variable: "--font-playfair",
+});
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${figtree.className} ${playfair.className} antialiased`}
       >
         {children}
       </body>

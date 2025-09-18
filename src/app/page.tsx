@@ -1,15 +1,20 @@
 import ContactOurExperts from "@/components/home/contact-our-experts";
+import DestinationGrid from "@/components/home/destination";
 import HomeHeroSection from "@/components/home/hero-section";
+import Marquee from "@/components/home/marquee";
+import TrendingPackages from "@/components/home/trending-packages";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <div>
-      <HomeHeroSection/>
-    <ContactOurExperts/>
-
+    <div className="">
+      <HomeHeroSection />
+      <TrendingPackages />
+      <DestinationGrid/>
+      <Marquee />
+      <ContactOurExperts />
     </div>
-    
+
     // <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
     //   <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
     //     <Image
