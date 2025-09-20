@@ -78,7 +78,7 @@ export function TravelGoalsSection() {
                             />
                         </div>
                         <p className="text-sm text-muted-foreground font-medium tracking-wide text-[#1A2F46] text-center font-['Figtree'] text-[16px] font-semibold leading-normal capitalize relative z-10">Get to Your New</p>
-                        <h2 className="text-2xl sm:text-3xl lg:text-4xl text-[#1A2F46] text-center font-['Playfair] text-[36px] font-semibold leading-norma relative z-10">
+                        <h2 className="text-2xl sm:text-3xl lg:text-4xl text-[#1A2F46] text-center font-['Playfair'] text-[36px] font-semibold leading-norma relative z-10">
                             Explore by Travel Goals
                         </h2>
                     </div>

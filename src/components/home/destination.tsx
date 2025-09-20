@@ -35,7 +35,7 @@ export default function DestinationFlexLayout() {
 
                     {/* Text */}
                     <div className="relative">
-                        <p className="text-[#1A2F46] text-center font-[Figtree]  text-[16px] font-semibold leading-normal capitalize">Explore our destinations</p>
+                        <p className="text-[#1A2F46] text-center font-['Figtree']  text-[16px] font-semibold leading-normal capitalize">Explore our destinations</p>
                         <h2 className="text-[#1A2F46] text-center font-['Playfair_Display']r text-[36px] font-semibold leading-normal">
                             Destinations That Stay With You
                         </h2>
@@ -49,8 +49,8 @@ export default function DestinationFlexLayout() {
                     <Link href={''}>
                         <Image src={destinations[0].image} alt={destinations[0].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-[Figtree] text-[20px] font-semibold leading-normal">{destinations[0].title}</h3>
-                            <p className="font-[Figtree]  text-[14px] font-normal leading-normal uppercase">{destinations[0].price}</p>
+                            <h3 className="font-['Figtree'] text-[20px] font-semibold leading-normal">{destinations[0].title}</h3>
+                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[0].price}</p>
                         </div>
                     </Link>
                 </div>
@@ -60,8 +60,8 @@ export default function DestinationFlexLayout() {
                     <Link href={''}>
                         <Image src={destinations[1].image} alt={destinations[1].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-[Figtree]  text-[20px] font-semibold leading-normal">{destinations[1].title}</h3>
-                            <p className="font-[Figtree]  text-[14px] font-normal leading-normal uppercase">{destinations[1].price}</p>
+                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[1].title}</h3>
+                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[1].price}</p>
                         </div>
                     </Link>
                 </div>
@@ -71,8 +71,8 @@ export default function DestinationFlexLayout() {
                     <Link href={''}>
                         <Image src={destinations[2].image} alt={destinations[2].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-[Figtree]  text-[20px] font-semibold leading-normal">{destinations[2].title}</h3>
-                            <p className="font-[Figtree]  text-[14px] font-normal leading-normal uppercase">{destinations[2].price}</p>
+                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[2].title}</h3>
+                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[2].price}</p>
                         </div>
                     </Link>
                 </div>
@@ -81,8 +81,8 @@ export default function DestinationFlexLayout() {
                     <Link href={''}>
                         <Image src={destinations[3].image} alt={destinations[3].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-[Figtree]  text-[20px] font-semibold leading-normal">{destinations[3].title}</h3>
-                            <p className="font-[Figtree]  text-[14px] font-normal leading-normal uppercase">{destinations[3].price}</p>
+                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[3].title}</h3>
+                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[3].price}</p>
                         </div>
                     </Link>
                 </div>
@@ -91,8 +91,8 @@ export default function DestinationFlexLayout() {
                     <Link href={''}>
                         <Image src={destinations[4].image} alt={destinations[4].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-[Figtree]  text-[20px] font-semibold leading-normal">{destinations[4].title}</h3>
-                            <p className="font-[Figtree]  text-[14px] font-normal leading-normal uppercase">{destinations[4].price}</p>
+                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[4].title}</h3>
+                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[4].price}</p>
                         </div>
                     </Link>
                 </div>
@@ -101,8 +101,8 @@ export default function DestinationFlexLayout() {
                     <Link href={''}>
                         <Image src={destinations[5].image} alt={destinations[5].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-[Figtree]  text-[20px] font-semibold leading-normal">{destinations[5].title}</h3>
-                            <p className="font-[Figtree]  text-[14px] font-normal leading-normal uppercase">{destinations[5].price}</p>
+                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[5].title}</h3>
+                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[5].price}</p>
                         </div>
                     </Link>
                 </div>
@@ -111,8 +111,8 @@ export default function DestinationFlexLayout() {
                     <Link href={''}>
                         <Image src={destinations[6].image} alt={destinations[6].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-[Figtree]  text-[20px] font-semibold leading-normal">{destinations[6].title}</h3>
-                            <p className="font-[Figtree]  text-[14px] font-normal leading-normal uppercase">{destinations[6].price}</p>
+                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[6].title}</h3>
+                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[6].price}</p>
                         </div>
                     </Link>
                 </div>
@@ -121,8 +121,8 @@ export default function DestinationFlexLayout() {
                     <Link href={''}>
                         <Image src={destinations[7].image} alt={destinations[7].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-[Figtree]  text-[20px] font-semibold leading-normal">{destinations[7].title}</h3>
-                            <p className="font-[Figtree]  text-[14px] font-normal leading-normal uppercase">{destinations[7].price}</p>
+                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[7].title}</h3>
+                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[7].price}</p>
                         </div>
                     </Link>
                 </div>

@@ -3,11 +3,11 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "../ui/textarea"
 import { Phone, Mail, MessageCircle } from "lucide-react"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select1"
 
 export function Footer() {

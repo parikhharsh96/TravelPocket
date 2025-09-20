@@ -60,7 +60,7 @@ export default function ContactOurExperts() {
 
                     {/* Text */}
                     <div className="relative">
-                        <p className="text-[#1A2F46] text-center font-[Figtree]  text-[16px] font-semibold leading-normal capitalize">Need Help?</p>
+                        <p className="text-[#1A2F46] text-center font-['Figtree']  text-[16px] font-semibold leading-normal capitalize">Need Help?</p>
                         <h2 className="text-[#1A2F46] text-center font-['Playfair_Display']r text-[36px] font-semibold leading-normal">
                             Contact our Experts
                         </h2>
