@@ -4,6 +4,7 @@ import HomeHeroSection from "@/components/home/hero-section";
 import Marquee from "@/components/home/marquee";
 import { TravelGoalsSection } from "@/components/home/travel-goals";
 import TrendingPackages from "@/components/home/trending-packages";
+import { Footer } from "@/components/shared/footer";
 import Image from "next/image";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <Marquee />
       <ContactOurExperts />
       <TravelGoalsSection />
+      <Footer />
     </div>
 
     // <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
