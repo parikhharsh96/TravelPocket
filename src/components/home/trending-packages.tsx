@@ -86,7 +86,7 @@ export default function TrendingPackages() {
     return (
         <section className="max-w-[1920px] mx-auto px-4 pb-[25px] sm:px-6 md:px-8 lg:px-[50px]">
             {/* Header */}
-            <div className="flex items-center justify-between py-10 relative mb-4 mt-2">
+            <div className="flex flex-col md:flex-row items-center justify-between py-10 relative mb-4 mt-2">
                 {/* Title with background circle */}
                 <div className="relative flex-1 text-center">
                     {/* Circle background */}
@@ -110,7 +110,7 @@ export default function TrendingPackages() {
                 </div>
 
                 {/* View All button (aligned right) */}
-                <Button variant="outline" className="rounded-[6px] border border-[var(--Primary,#E97737)] ml-6">
+                <Button variant="outline" className="rounded-[6px] border border-[var(--Primary,#E97737)] ml-0 mt-6 md:ml-6 md:mt-0 cursor-pointer hover:scale-115 transform transition duration-200">
                     <span className="text-[var(--Primary,#E97737)] font-[Figtree] text-sm font-semibold uppercase">View All</span>
                     <img
                         src="/images/trendingpackages/Group1000007348.svg"
@@ -129,7 +129,7 @@ export default function TrendingPackages() {
                     className="absolute left-[0px] top-1/2 -translate-y-1/2 shadow-md rounded-full p-2 z-10"
                     style={{ background: '#E3E6EE' }}
                 >
-                    <ArrowLeft className="h-5 w-5" />
+                    <ArrowLeft className="h-5 w-5 cursor-pointer" />
                 </button>
 
                 <div className="slider-wrp">
@@ -201,10 +201,10 @@ export default function TrendingPackages() {
                 {/* Right Arrow */}
                 <Button
                     onClick={() => scroll("right")}
-                    className="absolute right-[0px] top-1/2 -translate-y-1/2 shadow-md rounded-full p-2 z-10"
+                    className="absolute right-[0px] top-1/2 -translate-y-1/2 shadow-md rounded-full p-2 z-10 cursor-pointer"
                     style={{ background: '#E3E6EE' }}
                 >
-                    <ArrowRight className="h-5 w-5" />
+                    <ArrowRight className="h-5 w-5"/>
                 </Button>
             </div>
         </section>

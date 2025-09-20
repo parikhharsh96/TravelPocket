@@ -8,7 +8,7 @@ export default function Marquee() {
             <section className="w-full bg-[linear-gradient(180deg,#F3F8FC_0%,#D0E0EE_50.73%,rgba(238,245,251,0)_100%)]">
                 {/* <div className="w-full bg-[url('/images/marquee/24bc226117abfea57056d1a3d4d4cbbfdb2af8f7.jpg')] bg-cover bg-center"> */}
                 <div className="max-w-[1920px] mx-auto">
-                    <div className="flex items-center gap-[50px]">
+                    <div className="flex items-center gap-[50px] flex-col md:flex-row">
                         <div className="border-[#5A6C9C] px-2 py-1 inline-block">
                             <span className="font-[Figtree] text-[74px] font-bold leading-normal tracking-[1.48px] uppercase text-stroke">Travel</span>
                         </div>
@@ -114,7 +114,7 @@ export default function Marquee() {
                         {/* Left Column - Content */}
                         <div className="flex-1 text-white space-y-6 max-w-lg">
                             <div className="space-y-2">
-                                <p className="text-white font-[Figtree] text-[16px] font-semibold leading-normal">Get to know us</p>
+                                <p className="text-white font-figtree text-[16px] font-semibold leading-normal">Get to know us</p>
                                 <h1 className="text-white font-['Playfair_Display'] text-[36px] font-semibold leading-normal">
                                     Our Purpose,<br />
                                     Our Journey
@@ -129,9 +129,9 @@ export default function Marquee() {
                                 you long after your return.
                             </p>
 
-                            <button className="flex items-center gap-2 border border-orange-500 text-orange-500 px-6 py-3 rounded-lg font-semibold hover:bg-orange-500 hover:text-white transition-all duration-300 group">
-                                ABOUT US
-                                <div className="w-6 h-6 rounded-full border border-orange-500 flex items-center justify-center group-hover:border-white">
+                            <button className="flex items-center gap-2 rounded-[6px] border border-white px-6 py-3 hover:text-white transition-all duration-300 group">
+                                <span className="text-white font-['Figtree'] text-[14px] font-semibold leading-normal uppercase">ABOUT US</span>
+                                <div className="w-6 h-6 rounded-full border border-white flex items-center justify-center group-hover:border-white">
                                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                     </svg>
@@ -140,10 +140,10 @@ export default function Marquee() {
 
                             {/* Bottom Left Stat */}
                             <div className="mt-16 lg:mt-24">
-                                <div className="bg-black/40 backdrop-blur-sm rounded-lg p-6 border border-orange-500/30 max-w-xs">
-                                    <div className="text-3xl lg:text-4xl font-bold text-orange-500 mb-2">25K+</div>
-                                    <div className="text-white font-semibold mb-1">Travellers Served</div>
-                                    <div className="text-sm text-gray-300">Across solo trips, families, and corporate groups</div>
+                                <div className="h-[300px] w-[300px] p-6 bg-black/60 rounded-full p-6 border border-gray-700/50">
+                                    <div className="text-[#E97737] text-center font-['Figtree'] text-[84px] font-bold leading-normal mt-3">25K+</div>
+                                    <div className="text-white text-center font-figtree text-[26px] font-light leading-normal mb-1">Travellers Served</div>
+                                    <div className="text-white text-center font-figtree text-[14px] font-normal leading-normal">Across solo trips, families, and corporate groups</div>
                                 </div>
                             </div>
                         </div>
@@ -151,27 +151,26 @@ export default function Marquee() {
                         {/* Right Column - Stats */}
                         <div className="flex-1 text-white space-y-6 lg:max-w-sm lg:ml-auto">
                             <div className="bg-black/60 backdrop-blur-sm rounded-lg p-6 border border-gray-700/50">
-                                <div className="text-2xl lg:text-3xl font-bold text-orange-500 mb-2">#TravelWithSoul</div>
+                                <div className="text-[#E97737] font-['Figtree'] text-[40px] font-bold leading-[21px] mb-2 p-6">#TravelWithSoul</div>
+                                <div className="space-y-4">
+                                <div className="p-6">
+                                    <div className="text-[#E97737] font-['Figtree'] text-[70px] font-light leading-normal mb-2">10+</div>
+                                    <div className="text-white font-['Figtree] text-[26px] font-light leading-normal mb-1">Years of Experience</div>
+                                    <div className="text-white font-['Figtree'] text-[14px] font-normal leading-normal">In pilgrimage and experiential travel planning</div>
+                                </div>
+
+                                <div className="p-6">
+                                    <div className="text-[#E97737] font-['Figtree'] text-[70px] font-light leading-normal mb-2">30+</div>
+                                    <div className="text-white font-['Figtree] text-[26px] font-light leading-normal mb-1">Destinations Covered</div>
+                                    <div className="text-white font-['Figtree'] text-[14px] font-normal leading-normal">Across India, Nepal, Tibet, Bhutan and South Asia</div>
+                                </div>
+
+                                <div className="p-6">
+                                    <div className="text-[#E97737] font-['Figtree'] text-[70px] font-light leading-normal mb-2">4.9</div>
+                                    <div className="text-white font-['Figtree] text-[26px] font-light leading-normal mb-1">Happy Customer Rating</div>
+                                    <div className="text-white font-['Figtree'] text-[14px] font-normal leading-normal">Based on authentic feedback and return journeys</div>
+                                </div>
                             </div>
-
-                            <div className="space-y-4">
-                                <div className="bg-black/40 backdrop-blur-sm rounded-lg p-6 border border-orange-500/30">
-                                    <div className="text-3xl lg:text-4xl font-bold text-orange-500 mb-2">10+</div>
-                                    <div className="text-white font-semibold mb-1">Years of Experience</div>
-                                    <div className="text-sm text-gray-300">In pilgrimage and experiential travel planning</div>
-                                </div>
-
-                                <div className="bg-black/40 backdrop-blur-sm rounded-lg p-6 border border-orange-500/30">
-                                    <div className="text-3xl lg:text-4xl font-bold text-orange-500 mb-2">30+</div>
-                                    <div className="text-white font-semibold mb-1">Destinations Covered</div>
-                                    <div className="text-sm text-gray-300">Across India, Nepal, Tibet, Bhutan and South Asia</div>
-                                </div>
-
-                                <div className="bg-black/40 backdrop-blur-sm rounded-lg p-6 border border-orange-500/30">
-                                    <div className="text-3xl lg:text-4xl font-bold text-orange-500 mb-2">4.9</div>
-                                    <div className="text-white font-semibold mb-1">Happy Customer Rating</div>
-                                    <div className="text-sm text-gray-300">Based on authentic feedback and return journeys</div>
-                                </div>
                             </div>
                         </div>
                     </div>

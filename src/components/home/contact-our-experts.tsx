@@ -9,10 +9,10 @@ export default function ContactOurExperts() {
       <div className="container mx-auto px-4 py-8 lg:py-16">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-7xl mx-auto">
           {/* Left Section - Hero Image with Speech Bubbles */}
-          <div className="relative">
+          <div className="relative hidden">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TravelPocket-oB5QRBCyqvVjbpOo23w9jXnfOXvpRW.png"
+                src="/images/contactus/3ff2917d72d58e47518620beec3ef3b0a0d55781.png"
                 alt="Travel expert in mountain landscape"
                 className="w-full h-[400px] lg:h-[500px] object-cover"
               />
@@ -43,13 +43,38 @@ export default function ContactOurExperts() {
 
           {/* Right Section - Contact Form */}
           <div className="relative">
+            {/* Header */}
+            <div className="flex items-center justify-between py-10 relative mb-0 mt-2">
+                {/* Title with background circle */}
+                <div className="relative flex-1 text-center">
+                    {/* Circle background */}
+                    <div className="absolute left-1/2 -translate-x-1/2 -top-6" style={{ top: '-40px' }}>
+                        <img
+                            src="/images/trendingpackages/titledesign.svg"
+                            alt="Title Circle"
+                            width={150}
+                            height={150}
+                            className="mx-auto"
+                        />
+                    </div>
+
+                    {/* Text */}
+                    <div className="relative">
+                        <p className="text-[#1A2F46] text-center font-[Figtree]  text-[16px] font-semibold leading-normal capitalize">Need Help?</p>
+                        <h2 className="text-[#1A2F46] text-center font-['Playfair_Display']r text-[36px] font-semibold leading-normal">
+                            Contact our Experts
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
             <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-2xl rounded-3xl p-8 lg:p-10">
               <div className="space-y-8">
-                <div className="text-center">
+                {/* <div className="text-center">
                   <h1 className="text-3xl lg:text-4xl font-bold text-[#1c1b1f] mb-2 text-balance">
                     Contact our Experts
                   </h1>
-                </div>
+                </div> */}
 
                 <form className="space-y-6">
                   <div className="relative">
@@ -72,7 +97,7 @@ export default function ContactOurExperts() {
 
                   <Button
                     type="submit"
-                    className="w-full h-14 rounded-xl font-semibold text-lg transition-all duration-200 hover:scale-[1.02]"
+                    className="h-14 rounded-xl font-semibold text-lg transition-all duration-200 hover:scale-[1.02] "
                     style={{ backgroundColor: "#e97737", color: "white" }}
                   >
                     ENQUIRE NOW
