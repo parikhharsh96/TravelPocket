@@ -102,7 +102,7 @@ export default function TrendingPackages() {
 
                     {/* Text */}
                     <div className="relative">
-                        <p className="text-[var(--Primary-Blue,#1A2F46)] text-center font-[Figtree] text-[16px] font-semibold leading-normal capitalize">Most Popular</p>
+                        <p className="text-[var(--Primary-Blue,#1A2F46)] text-center font-['Figtree'] text-[16px] font-semibold leading-normal capitalize">Most Popular</p>
                         <h2 className="text-[var(--Primary-Blue,#1A2F46)] text-center font-['Playfair_Display'] text-[36px] font-semibold leading-normal">
                             Trending Packages of 2025
                         </h2>
@@ -111,7 +111,7 @@ export default function TrendingPackages() {
 
                 {/* View All button (aligned right) */}
                 <Button variant="outline" className="rounded-[6px] border border-[var(--Primary,#E97737)] ml-0 mt-6 md:ml-6 md:mt-0 cursor-pointer hover:scale-115 transform transition duration-200">
-                    <span className="text-[var(--Primary,#E97737)] font-[Figtree] text-sm font-semibold uppercase">View All</span>
+                    <span className="text-[var(--Primary,#E97737)] font-['Figtree'] text-sm font-semibold uppercase">View All</span>
                     <img
                         src="/images/trendingpackages/Group1000007348.svg"
                         alt=""
@@ -151,20 +151,20 @@ export default function TrendingPackages() {
                                         icon="/images/trendingpackages/local_fire_department.svg"
                                         className="absolute top-0.5 left-0.5 rounded-[4px] bg-[#FCD205]"
                                     >
-                                        <span className="text-[#1A2F46] font-[Figtree] text-[12px] font-medium leading-[14px] uppercase">Popular</span>
+                                        <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-medium leading-[14px] uppercase">Popular</span>
                                     </Badge>
 
                                 </div>
                                 <CardContent className="py-0 space-y-2">
                                     <Badge variant="registration" icon="/images/trendingpackages/Ellipse6306.svg" className="rounded-[4px] bg-[#DFF8F1]">
-                                        <span className="text-[#00A53F] font-[Figtree] text-[12px] font-semibold leading-[14px] uppercase">
+                                        <span className="text-[#00A53F] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
                                             Registrations Open
                                         </span>
                                     </Badge>
                                     <div className="flex flex-col items-start gap-[12px] h-[165px]">
                                         <div className="flex flex-col items-start gap-[10px]">
-                                            <h3 className="ttext-[#333] font-[Figtree] text-[20px] font-semibold leading-normal">{pkg.title}</h3>
-                                            <p className="text-[#333] font-[Figtree] text-[16px] font-normal leading-[22px]">{pkg.description}</p>
+                                            <h3 className="ttext-[#333] font-['Figtree'] text-[20px] font-semibold leading-normal">{pkg.title}</h3>
+                                            <p className="text-[#333] font-['Figtree'] text-[16px] font-normal leading-[22px]">{pkg.description}</p>
                                         </div>
 
                                         <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
@@ -177,19 +177,19 @@ export default function TrendingPackages() {
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-[6px]">
-                                        <p className="text-[#333333] font-[Figtree] text-[16px] font-normal leading-[24px]">
-                                            EMI starts from <span className="text-[#333333] font-[Figtree] text-[22px] font-semibold leading-[24px]">{pkg.price}</span>
+                                        <p className="text-[#333333] font-['Figtree'] text-[16px] font-normal leading-[24px]">
+                                            EMI starts from <span className="text-[#333333] font-['Figtree'] text-[22px] font-semibold leading-[24px]">{pkg.price}</span>
                                         </p>
                                     </div>
                                 </CardContent>
                                 {/* <CardFooter> */}
                                 {/* Buttons */}
-                                <div className="flex gap-4">
+                                <div className="flex flex-col md:flex-row lg:flex-row gap-4">
                                     <Button variant="outline" className="flex-1 shrink-0">
-                                        <span className="text-[#1A2F46] text-center font-[Figtree] text-[14px] font-medium uppercase leading-normal">View Details</span>
+                                        <span className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">View Details</span>
                                     </Button>
                                     <Button variant="outline" className="flex-1 shrink-0">
-                                        <span className="text-[#E97737] text-center font-[Figtree] text-[14px] font-medium uppercase leading-normal">Book Now</span>
+                                        <span className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">Book Now</span>
                                     </Button>
                                 </div>
                                 {/* </CardFooter> */}

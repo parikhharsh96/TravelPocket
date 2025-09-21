@@ -4,6 +4,7 @@ import HomeHeroSection from "@/components/home/hero-section";
 import Marquee from "@/components/home/marquee";
 import { TravelGoalsSection } from "@/components/home/travel-goals";
 import TrendingPackages from "@/components/home/trending-packages";
+import Blogs from "@/components/home/blogs";
 import { Footer } from "@/components/shared/footer";
 import Image from "next/image";
 
@@ -15,6 +16,7 @@ export default function Home() {
       <DestinationGrid/>
       <Marquee />
       <ContactOurExperts />
+      <Blogs />
       <TravelGoalsSection />
       <Footer />
     </div>
