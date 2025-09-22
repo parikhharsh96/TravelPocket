@@ -10,10 +10,12 @@ import {
     SelectValue,
 } from "@/components/ui/select1"
 import { NewsletterSection } from "../home/news-letter"
+import { HelpCenterSection } from "../home/helpcenter"
 
 export function Footer() {
     return (
         <section>
+            <HelpCenterSection />
             <NewsletterSection />
             <footer className="bg-[#E9FBFF] pt-16 pb-8">
                 <div className="max-w-[1920px] mx-auto px-4 pb-[25px] sm:px-6 md:px-8 lg:px-[50px]"> {/**container mx-auto px-4 */}

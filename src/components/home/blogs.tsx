@@ -78,7 +78,7 @@ export default function Blogs() {
                     </div>
 
                     {/* View All button (aligned right) */}
-                    <Button variant="outline" className="relative right-[40px] rounded-[6px] border border-[#E97737] ml-0 mt-6 md:mt-0 cursor-pointer bg-transparent transition-all duration-300 hover:bg-[#E97737] hover:border-[#E97737]">
+                    <Button variant="outline" className="group relative right-[40px] rounded-[6px] border border-[#E97737] ml-0 mt-6 md:mt-0 cursor-pointer bg-transparent transition-all duration-300 hover:bg-[#E97737] hover:border-[#E97737]">
                         {/* <span className="text-[#E97737] font-['Figtree'] text-sm font-semibold uppercase">View All</span>
                         <img
                             src="/images/trendingpackages/Group1000007348.svg"
