@@ -11,10 +11,12 @@ import {
 } from "@/components/ui/select1"
 import { NewsletterSection } from "../home/news-letter"
 import { HelpCenterSection } from "../home/helpcenter"
+import WhatsAppBanner from "./whatsapp-banner"
 
 export function Footer() {
     return (
         <section>
+            <WhatsAppBanner />
             <HelpCenterSection />
             <NewsletterSection />
             <footer className="bg-[#E9FBFF] pt-16 pb-8">

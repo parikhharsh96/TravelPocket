@@ -32,10 +32,10 @@ export function NewsletterSection() {
                     <path d="M1921 -151.277H0V330.723H1921V-151.277Z" fill="url(#paint0_linear_354_16472)" />
                     <defs>
                         <linearGradient id="paint0_linear_354_16472" x1="960.5" y1="-151.277" x2="960.5" y2="254.085" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="white" />
-                            <stop offset="0.453" stop-color="white" />
-                            <stop offset="0.594" stop-color="white" stop-opacity="0.62" />
-                            <stop offset="1" stop-color="white" stop-opacity="0" />
+                            <stop stopColor="white" />
+                            <stop offset="0.453" stopColor="white" />
+                            <stop offset="0.594" stopColor="white" stopOpacity="0.62" />
+                            <stop offset="1" stopColor="white" stopOpacity="0" />
                         </linearGradient>
                     </defs>
                 </svg>
