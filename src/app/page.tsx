@@ -7,6 +7,7 @@ import TrendingPackages from "@/components/home/trending-packages";
 import Blogs from "@/components/home/blogs";
 import { Footer } from "@/components/shared/footer";
 import Image from "next/image";
+import TravelGallery from "@/components/home/travel-gallery";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <Marquee />
       <ContactOurExperts />
       <Blogs />
+      <TravelGallery />
       <TravelGoalsSection />
       <Footer />
     </div>

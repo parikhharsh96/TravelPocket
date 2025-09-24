@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${figtree.className} ${playfair.className} ${inter.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${figtree.className} ${playfair.className} ${inter.variable} antialiased min-h-screen bg-[#ffff]`}
       >
         {children}
       </body>
