@@ -8,6 +8,7 @@ import Blogs from "@/components/home/blogs";
 import { Footer } from "@/components/shared/footer";
 import Image from "next/image";
 import TravelGallery from "@/components/home/travel-gallery";
+import TestimonialCards from "@/components/home/testimonial-cards";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <DestinationGrid/>
       <Marquee />
       <ContactOurExperts />
+      <TestimonialCards />
       <Blogs />
       <TravelGallery />
       <TravelGoalsSection />
