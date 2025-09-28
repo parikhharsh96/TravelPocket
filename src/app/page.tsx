@@ -12,6 +12,7 @@ import TestimonialCards from "@/components/home/testimonial-cards";
 import KailashMansarovarPage from "@/components/home/kailash-mansarovar";
 import CharDhamSection from "@/components/home/char-dham";
 import NepalTourSection from "@/components/home/nepal-tour";
+import RajasthanTourSection from "@/components/home/rajasthan-tour";
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
       <CharDhamSection />
       <TestimonialCards />
       <NepalTourSection />
+      <RajasthanTourSection />
       <Blogs />
       <TravelGallery />
       <Footer />
