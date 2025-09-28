@@ -11,6 +11,7 @@ import TravelGallery from "@/components/home/travel-gallery";
 import TestimonialCards from "@/components/home/testimonial-cards";
 import KailashMansarovarPage from "@/components/home/kailash-mansarovar";
 import CharDhamSection from "@/components/home/char-dham";
+import NepalTourSection from "@/components/home/nepal-tour";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
       <TravelGoalsSection />
       <CharDhamSection />
       <TestimonialCards />
+      <NepalTourSection />
       <Blogs />
       <TravelGallery />
       <Footer />
