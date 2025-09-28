@@ -10,6 +10,7 @@ import Image from "next/image";
 import TravelGallery from "@/components/home/travel-gallery";
 import TestimonialCards from "@/components/home/testimonial-cards";
 import KailashMansarovarPage from "@/components/home/kailash-mansarovar";
+import CharDhamSection from "@/components/home/char-dham";
 
 export default function Home() {
   return (
@@ -20,10 +21,11 @@ export default function Home() {
       <Marquee />
       <KailashMansarovarPage/>
       <ContactOurExperts />
+      <TravelGoalsSection />
+      <CharDhamSection />
       <TestimonialCards />
       <Blogs />
       <TravelGallery />
-      <TravelGoalsSection />
       <Footer />
     </div>
 

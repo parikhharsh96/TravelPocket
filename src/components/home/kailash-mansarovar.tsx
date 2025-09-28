@@ -138,7 +138,7 @@ export default function KailashMansarovarPage() {
                 {/* Packages Section */}
                 <div className="absolute left-0 right-0 z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
                     style={{
-                        top: "60vh", // Position it to overlap the bottom half of the background
+                        top: "70vh", // Position it to overlap the bottom half of the background
                     }}>
                     {/* Section heading typography */}
                     <h2
