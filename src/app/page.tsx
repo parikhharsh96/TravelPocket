@@ -9,6 +9,7 @@ import { Footer } from "@/components/shared/footer";
 import Image from "next/image";
 import TravelGallery from "@/components/home/travel-gallery";
 import TestimonialCards from "@/components/home/testimonial-cards";
+import KailashMansarovarPage from "@/components/home/kailash-mansarovar";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
       <TrendingPackages />
       <DestinationGrid/>
       <Marquee />
+      <KailashMansarovarPage/>
       <ContactOurExperts />
       <TestimonialCards />
       <Blogs />

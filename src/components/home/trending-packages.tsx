@@ -163,7 +163,7 @@ export default function TrendingPackages() {
                                     </Badge>
                                     <div className="flex flex-col items-start gap-[12px] h-[165px]">
                                         <div className="flex flex-col items-start gap-[10px]">
-                                            <h3 className="ttext-[#333] font-['Figtree'] text-[20px] font-semibold leading-normal">{pkg.title}</h3>
+                                            <h3 className="text-[#333] font-['Figtree'] text-[20px] font-semibold leading-normal">{pkg.title}</h3>
                                             <p className="text-[#333] font-['Figtree'] text-[16px] font-normal leading-[22px]">{pkg.description}</p>
                                         </div>
 
