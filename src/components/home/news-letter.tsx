@@ -23,9 +23,20 @@ export function NewsletterSection() {
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                 style={{
-                    backgroundImage: "url('/images/mountain-background.png')",
+                    backgroundImage: "url('/images/newsletter/cloud_bg_1.png')",
                 }}
             />
+
+            {/* <div className="absolute inset-0" style={{
+                background: "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)",
+            }} />
+
+            <div
+                className="absolute inset-0"
+                style={{
+                    background: "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)",
+                }}
+            /> */}
 
             <div className="absolute top-0 left-0 w-full h-32 bg-contain bg-repeat-x bg-top opacity-80">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1920" height="331" viewBox="0 0 1920 331" fill="none">
