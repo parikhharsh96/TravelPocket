@@ -103,9 +103,9 @@ export default function KailashMansarovarPage() {
 
                                 {/* Text */}
                                 <div className="relative">
-                                    <p className="text-[var(--Primary-Blue,#1A2F46)] text-center font-['Figtree'] text-[16px] font-semibold leading-normal capitalize">Most Popular</p>
-                                    <h2 className="text-[var(--Primary-Blue,#1A2F46)] text-center font-['Playfair_Display'] text-[36px] font-semibold leading-normal">
-                                        Trending Packages of 2025
+                                    <p className="text-[#1A2F46)] text-center font-['Figtree'] text-[16px] font-semibold leading-normal capitalize">Walk the Sacred Circle</p>
+                                    <h2 className="text-[#1A2F46)] text-center font-['Playfair_Display'] text-[36px] font-semibold leading-normal">
+                                        Kailash Mansarovar: The Journey of a Lifetime
                                     </h2>
                                 </div>
                             </div>
