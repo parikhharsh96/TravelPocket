@@ -1,115 +1,140 @@
 'use client';
 
+import { useState } from "react";
 import { Separator } from "@radix-ui/react-separator";
 
-
 export default function Header() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const navLinks = ["Kailash Mansarovar", "ADI Kailash", "All Destinations", "WHO WE ARE"];
+    const topLinks = ["Blogs", "JOIN POCKETCLUB", "OFFERS", "FAQs", "Contact"];
+    const icons = ["magnifiying-glass", "wishlist", "cart", "user"];
 
     return (
-        <>
-            <section className="max-w-[1920px] mx-auto px-4 md:px-6 lg:px-8 w-full">
-                <div className="flex flex-row justify-between items-center w-full p-2">
-                    {/* -- Left section -- */}
-                    <div className="flex items-center space-x-4">
-                        <div className="flex items-center gap-4">
-                            <div className="">
-                                <img src="/images/header/facebook.svg" width="15px" height="16px"
-                                    alt="Twitter" className="aspect-[23/24] cursor-pointer" />
-                            </div>
-                            <div className="">
-                                <img src="/images/header/logo_51.svg" width="15px" height="16px"
-                                    alt="Twitter" className="aspect-[23/24] cursor-pointer" />
-                            </div>
-                            <div className="">
-                                <img src="/images/header/instagram.svg" width="18px" height="18px"
-                                    alt="Twitter" className="aspect-[23/24] cursor-pointer" />
-                            </div>
-                        </div>
-                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                        <div className="ml-2">
-                            <div className="flex items-center gap-2">
-                                <img src="/images/header/calendar.svg" width="18px" height="18px"
-                                    alt="Twitter" className="aspect-[23/24] cursor-pointer" />
-                                <div className="text-[#333] font-[Figtree] text-[14px] font-normal leading-normal uppercase">2025 Calendar</div>
-                            </div>
-                        </div>
-                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                        <div className="ml-2">
-                            <div className="flex items-center gap-2">
-                                <img src="/images/header/call.svg" width="18px" height="18px"
-                                    alt="Twitter" className="aspect-[23/24] cursor-pointer" />
-                                <div className="text-[#333] font-[Figtree] text-[14px] font-normal leading-normal uppercase underline">+91 78270-33601</div>
-                            </div>
-                        </div>
+        <header className="w-full overflow-x-hidden relative">
+            {/* Top Bar */}
+            <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap justify-between items-center gap-2">
+                {/* Left Section */}
+                <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+                    <div className="flex items-center gap-2 sm:gap-4">
+                        <img src="/images/header/facebook.svg" alt="Facebook" className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer" />
+                        <img src="/images/header/logo_51.svg" alt="Logo" className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer" />
+                        <img src="/images/header/instagram.svg" alt="Instagram" className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer" />
                     </div>
 
-                    {/* -- Right section -- */}
-                    <div className="flex items-center space-x-4">
-                        <a href="#" className="text-[#333] font-[Figtree] text-[14px] font-normal leading-normal uppercase">Blogs</a>
-                        <a href="#" className="text-[#333] font-[Figtree] text-[14px] font-normal leading-normal uppercase">JOIN POCKETCLUB</a>
-                        <a href="#" className="text-[#333] font-[Figtree] text-[14px] font-normal leading-normal uppercase">OFFERS</a>
-                        <a href="#" className="text-[#333] font-[Figtree] text-[14px] font-normal leading-normal uppercase">FAQs</a>
-                        <a href="#" className="text-[#333] font-[Figtree] text-[14px] font-normal leading-normal uppercase">Contact</a>
-                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                        <div className="flex">
-                            <div className="text-[#333] font-[Figtree] text-[14px] font-normal leading-normal uppercase">EN</div>
-                            <img src="/images/header/Polygon.svg"
-                                alt="Reliable" className="ml-1 shrink-0" />
-                        </div>
+                    <Separator orientation="vertical" className="!h-4 w-px bg-[#BBB] hidden lg:block" />
 
+                    <div className="flex items-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] uppercase font-normal font-[Figtree] text-[#333] hidden lg:flex">
+                        <img src="/images/header/calendar.svg" alt="Calendar" className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <span className="text-[12px] md:text-[12px] lg:text-[14px]">2025 Calendar</span>
+                    </div>
+
+                    <Separator orientation="vertical" className="!h-4 w-px bg-[#BBB]" />
+                    <div className="flex items-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] uppercase font-normal font-[Figtree] text-[#333] underline">
+                        <img src="/images/header/call.svg" alt="Call" className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <span>+91 78270-33601</span>
                     </div>
                 </div>
 
-                <Separator orientation="horizontal" className="mt-0 mb-1 bg-[#BBB] border border-[#BBB]" />
+                {/* Right Section */}
+                <div className="flex items-center flex-wrap gap-2 sm:gap-4">
+                    {topLinks.map(link => (
+                        <a key={link} href="#" className={`text-[#333] font-[Figtree] text-[12px] md:text-[12px] lg:text-[14px] uppercase ${link !== "FAQs" ? "hidden lg:block" : ""}`}>{link}</a>
+                    ))}
 
-                <div className="flex flex-row justify-between items-center w-full p-0">
-                    {/* -- Left section -- */}
-                    <div className="flex items-center space-x-4">
-                        <img src="/images/footer/logo_design_travel_pocket.svg"
-                            alt="Reliable" className="shrink-0 aspect-[119/32]" />
-                    </div>
+                    <Separator orientation="vertical" className="!h-4 w-px bg-[#BBB] hidden lg:block" />
 
-                    {/* -- Middle section -- */}
-                    <div className="flex items-center space-x-4">
-                        <div className="flex gap-8">
-                            <div className="flex gap-[8px]">
-                                <div className="text-[#333] font-[Figtree] text-[14px] font-semibold leading-normal uppercase">Kailash Mansarovar</div>
-                                <img src="/images/header/path_up.svg"
-                                    alt="Reliable" className="shrink-0 aspect-[1/2]" />
-                            </div>
-                            <div className="flex gap-[8px]">
-                                <div className="text-[#333] font-[Figtree] text-[14px] font-semibold leading-normal uppercase">ADI Kailash</div>
-                                <img src="/images/header/path_up.svg"
-                                    alt="Reliable" className="shrink-0 aspect-[1/2]" />
-                            </div>
-                            <div className="flex gap-[8px]">
-                                <div className="text-[#333] font-[Figtree] text-[14px] font-semibold leading-normal uppercase">All Destinations</div>
-                                <img src="/images/header/path_up.svg"
-                                    alt="Reliable" className="shrink-0 aspect-[1/2]" />
-                            </div>
-                            <div className="flex gap-[8px]">
-                                <div className="text-[#333] font-[Figtree] text-[14px] font-semibold leading-normal uppercase">WHO WE ARE</div>
-                                <img src="/images/header/path_up.svg"
-                                    alt="Reliable" className="shrink-0 aspect-[1/2]" />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* -- Right section -- */}
-                    <div className="flex items-center space-x-4">
-                        <div className="flex gap-8">
-                            <img src="/images/header/magnifiying-glass.svg" width="22px" height="22px"
-                                alt="Reliable" className="shrink-0" />
-                            <img src="/images/header/wishlist.svg" width="22px" height="22px"
-                                alt="Reliable" className="shrink-0" />
-                            <img src="/images/header/cart.svg" width="22px" height="22px"
-                                alt="Reliable" className="shrink-0" />
-                            <img src="/images/header/user.svg" width="22px" height="22px"
-                                alt="Reliable" className="shrink-0" />
-                        </div>
+                    <div className="hidden lg:flex items-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] uppercase font-[Figtree] text-[#333]">
+                        <span>EN</span>
+                        <img src="/images/header/Polygon.svg" alt="Dropdown" className="w-2 h-2 sm:w-3 sm:h-3" />
                     </div>
                 </div>
-            </section>
-        </>
-    )
+            </div>
+
+            <Separator orientation="horizontal" className="bg-[#BBB] my-1" />
+
+            {/* Bottom Bar */}
+            <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-2 py-2">
+                <div className="flex items-center gap-4">
+                    {/* Hamburger Menu for Mobile & Tablet */}
+                    <button
+                        className="lg:hidden p-2"
+                        onClick={() => setIsMenuOpen(true)}
+                    >
+                        <img src="/images/header/dehaze.svg" alt="Menu" className="w-6 h-6" />
+                    </button>
+
+                    {/* Logo */}
+                    <div className="flex-shrink-0">
+                        <img src="/images/footer/logo_design_travel_pocket.svg" alt="Logo" className="w-[100px] sm:w-[119px] h-auto" />
+                    </div>
+                </div>
+
+                {/* Navigation Links */}
+                <div className="hidden lg:flex items-center gap-4">
+                    {navLinks.map((item) => (
+                        <div key={item} className="flex items-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] font-semibold uppercase text-[#333]">
+                            <span>{item}</span>
+                            <img src="/images/header/path_up.svg" alt="" className="w-2 h-4 sm:w-3 sm:h-5" />
+                        </div>
+                    ))}
+                </div>
+
+                {/* Icons */}
+                <div className="flex items-center gap-2 sm:gap-4">
+                    {icons.map((icon) => (
+                        <img key={icon} src={`/images/header/${icon}.svg`} alt={icon} className={`w-5 h-5 sm:w-6 sm:h-6 ${icon === "wishlist" ? "hidden sm:block" : ""}`} />
+                    ))}
+                </div>
+            </div>
+
+            {/* Mobile/Tablet Sidebar Menu */}
+            <div
+                className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-50 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"
+                    }`}
+            >
+                {/* Close Button */}
+                <div className="flex justify-end p-4">
+                    <button onClick={() => setIsMenuOpen(false)}>
+                        <img src="/images/header/close.svg" alt="Close" className="w-6 h-6" />
+                    </button>
+                </div>
+
+                {/* Links */}
+                <nav className="flex flex-col gap-4 px-6 mt-4">
+                    {topLinks.map((link) => (
+                        <a
+                            key={link}
+                            href="#"
+                            className="text-[#333] font-[Figtree] text-[12px] md:text-[12px] lg:text-[14px] uppercase"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            {link}
+                        </a>
+                    ))}
+
+                    <Separator orientation="horizontal" className="my-2 bg-[#BBB] border border-[#BBB]" />
+
+                    {navLinks.map((link) => (
+                        <a
+                            key={link}
+                            href="#"
+                            className="text-[#333] font-[Figtree] text-[12px] md:text-[12px] lg:text-[14px] uppercase"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            {link}
+                        </a>
+                    ))}
+                </nav>
+            </div>
+
+            {/* Overlay */}
+            {isMenuOpen && (
+                <div
+                    className="fixed inset-0 bg-opacity-30 z-40"
+                    onClick={() => setIsMenuOpen(false)}
+                />
+            )}
+        </header>
+    );
 }
