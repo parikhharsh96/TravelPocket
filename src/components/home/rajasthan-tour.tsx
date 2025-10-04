@@ -40,6 +40,22 @@ export default function RajasthanTourSection() {
             duration: "5 NIGHTS 6 DAYS",
             inclusions: "20+ INCLUSIONS",
         },
+        {
+            id: 5,
+            title: "Jodhpur Jaisalmer",
+            image: "/images/rajasthan-tour/mahal.jpg",
+            price: "₹9500",
+            duration: "5 NIGHTS 6 DAYS",
+            inclusions: "20+ INCLUSIONS",
+        },
+        {
+            id: 6,
+            title: "Jodhpur Jaisalmer",
+            image: "/images/rajasthan-tour/mahal.jpg",
+            price: "₹9500",
+            duration: "5 NIGHTS 6 DAYS",
+            inclusions: "20+ INCLUSIONS",
+        },
     ]
 
     const nextSlide = () => {
@@ -134,14 +150,14 @@ export default function RajasthanTourSection() {
                                 {packages.map((pkg) => (
                                     <Card
                                         key={pkg.id}
-                                        className="flex-shrink-0 bg-white rounded-xl overflow-hidden shadow-lg"
+                                        className="flex-shrink-0 rounded-[8px] bg-white shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] overflow-hidden max-w-[280px]"
                                         // style={{ width: `${100 / packages.length}%` }}
                                     >
                                         <div className="relative">
                                             <img
                                                 src={pkg.image || "/placeholder.svg"}
                                                 alt={pkg.title}
-                                                className="h-32 sm:h-40 md:h-48 object-cover"
+                                                className="h-32 sm:h-40 md:h-48 object-cover p-2"
                                             />
                                             {/* Price Badge */}
                                             <div className="absolute bottom-0 md:bottom-0 left-0 md:left-0 rounded-[0_8px_8px_0] bg-[#29A4C1] px-2 md:px-3 py-1 text-xs md:text-sm">

@@ -77,7 +77,7 @@ export function HelpCenterSection() {
                     {faqData.map((faq, index) => {
                         // const IconComponent = faq.icon
                         return (
-                            <Card key={index} className="group lg:max-w-[315px] bg-white border-0 shadow-sm">
+                            <Card key={index} className="group lg:max-w-[255px] bg-white border-0 shadow-sm">
                                 <CardContent className="p-6 text-center relative">
                                     <div className="w-[97px] h-[97px] absolute top-[-70px] left-[-70px] bg-orange-500 rounded-lg flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-600 transition-colors duration-200">
                                         <img src={faq.imgSrc} className="" />
