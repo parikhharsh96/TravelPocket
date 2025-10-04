@@ -12,7 +12,7 @@ export default function ContactOurExperts() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center max-w-7xl mx-auto">
           {/* Left Section - Hero Image with Speech Bubbles */}
           <div className="relative">
-            <div className="flex items-center justify-between py-10 relative mb-0 mt-2" style={{visibility: 'hidden'}}>
+            <div className="flex items-center justify-between py-10 relative mb-0 mt-2" style={{ visibility: 'hidden' }}>
               {/* Title with background circle */}
               <div className="relative flex-1 text-center">
                 {/* Circle background */}
@@ -110,66 +110,69 @@ export default function ContactOurExperts() {
 
                 <form className="space-y-6">
                   <div className="relative">
-                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#1a2f46] w-5 h-5" />
+                    <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#1a2f46] w-6 h-6" />
                     <Input
                       type="text"
                       placeholder="Your Name"
-                      className="pl-12 h-14 rounded-xl border-[#eaeaea] bg-white text-[#1c1b1f] placeholder:text-[#1c1b1f]/60 focus:border-[#1a2f46] focus:ring-[#1a2f46]"
+                      className="h-14 rounded-[8px] border border-[#BCCCF7] bg-white p-4 text-[#1A2F46] font-[Figtree] text-[14px] font-normal leading-normal placeholder:text-[#1A2F46]/60 pl-14 pr-4"
                     />
                   </div>
 
                   <div className="relative">
-                    <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#1a2f46] w-5 h-5" />
+                    <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-[#1a2f46] w-6 h-6" />
                     <Input
                       type="tel"
                       placeholder="Mobile Number"
-                      className="pl-12 h-14 rounded-xl border-[#eaeaea] bg-white text-[#1c1b1f] placeholder:text-[#1c1b1f]/60 focus:border-[#1a2f46] focus:ring-[#1a2f46]"
+                      className="h-14 rounded-[8px] border border-[#BCCCF7] bg-white p-4 text-[#1A2F46] font-[Figtree] text-[14px] font-normal leading-normal placeholder:text-[#1A2F46]/60 pl-14 pr-4"
                     />
                   </div>
 
-                  <Button
-                    type="submit"
-                    className="h-14 rounded-xl font-semibold text-lg transition-all duration-200 hover:scale-[1.02] "
-                    style={{ backgroundColor: "#e97737", color: "white" }}
-                  >
-                    ENQUIRE NOW
-                  </Button>
+                  <div className="flex justify-center">
+                    <Button
+                      type="submit"
+                      className="h-14 rounded-[8px] bg-[#E97737] p-4 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+                      style={{ backgroundColor: "#e97737" }}
+                    >
+                      <span className="text-white text-center font-[Figtree] text-[14px] font-semibold leading-normal">ENQUIRE NOW</span>
+                    </Button>
+                  </div>
                 </form>
 
                 <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
+                  {/* <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-[#eaeaea]"></div>
-                  </div>
+                  </div> */}
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-4 bg-white text-[#1c1b1f]/60 font-medium">OR</span>
+                    <span className="px-4 text-black text-center font-[Figtree] text-[14px] font-normal leading-normal">OR</span>
                   </div>
                 </div>
 
                 <Button
                   variant="outline"
-                  className="w-full h-14 rounded-xl border-2 border-[#64b161] text-[#64b161] hover:bg-[#64b161] hover:text-white font-semibold text-lg transition-all duration-200 hover:scale-[1.02] bg-transparent"
+                  className="w-full h-14 rounded-[8px] border border-[#E97737] p-4 transition-all duration-200 hover:scale-[1.02] cursor-pointer"
                 >
-                  <MessageCircle className="w-5 h-5 mr-3" />
-                  CHAT WITH US ON WHATSAPP
+                  {/* <MessageCircle className="w-5 h-5 mr-3" /> */}
+                  <span className="text-[#E97737] text-center font-[Figtree] text-[14px] font-semibold leading-normal">CHAT WITH US ON WHATSAPP</span>
+                  <img src="/images/contactus/whatsapp.svg" />
                 </Button>
 
                 {/* Available Agents */}
                 <div className="flex items-center justify-center space-x-3 pt-4">
                   <div className="flex -space-x-2">
                     <img
-                      src="/images/online1.svg"
+                      src="/images/contactus/Ellipse_1.svg"
                       alt="Agent 1"
                       className="w-10 h-10 rounded-full border-2 border-white shadow-md"
                     />
                     <img
-                      src="/images/online2"
+                      src="/images/contactus/Ellipse_2.svg"
                       alt="Agent 2"
                       className="w-10 h-10 rounded-full border-2 border-white shadow-md"
                     />
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-[#64b161] rounded-full animate-pulse"></div>
-                    <span className="text-sm font-medium text-[#1c1b1f]">Available now</span>
+                    <span className="text-black text-center font-[Figtree] text-[12px] font-semibold leading-normal">Available now</span>
                   </div>
                 </div>
               </div>
