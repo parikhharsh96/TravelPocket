@@ -48,10 +48,10 @@ export default function NepalTourSection() {
     ];
 
     const navItems = [
-        { name: "Muktinath Dham" },
-        { name: "Mount Everest View" },
-        { name: "Nepal Wildlife" },
-        { name: "Valleys of Nepal" },
+        { title: "Muktinath", subtitle: "Dham" },
+        { title: "Mount", subtitle: "Everest View" },
+        { title: "Nepal", subtitle: "Wildlife" },
+        { title: "Valleys of", subtitle: "Nepal" },
     ]
 
     const scrollRef = useRef<HTMLDivElement>(null);
@@ -67,7 +67,7 @@ export default function NepalTourSection() {
     };
 
     return (
-        <section className="relative max-w-[1920px] mx-auto mb-[50px] pb-[50px] mt-[75px] pt-[50px]">
+        <section className="relative max-w-[1920px] mx-auto mb-[50px] pb-[50px] mt-[75px] pt-[10px]">
             <div className="min-h-screen overflow-hidden">
                 {/* Hero Section */}
                 <div className="relative min-h-screen">
@@ -138,7 +138,7 @@ export default function NepalTourSection() {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-4 mb-12">
+                        <div className="flex items-center gap-4 mb-2">
                             {/* <Button variant="ghost" size="icon" className="text-[#333333] hover:bg-white/20">
                                 <ChevronLeft className="h-6 w-6" />
                             </Button> */}
@@ -155,10 +155,13 @@ export default function NepalTourSection() {
                                     {navItems.map((item, index) => (
                                         <div
                                             key={index}
-                                            className="rounded-[100px] bg-[#1A2F46] shadow-[0_14px_20px_0_rgba(0,0,0,0.25)] text-white px-6 py-4 flex flex-col items-center gap-2 min-w-[120px] cursor-pointer hover:bg-[#1a2f46]/90 transition-colors"
+                                            className="flex gap-4 w-[150px] h-[190px] rounded-[100px] bg-[#1A2F46] shadow-[0_14px_20px_0_rgba(0,0,0,0.25)] text-white px-6 py-4 flex flex-col items-center gap-2 cursor-pointer hover:bg-[#1a2f46]/90 transition-colors"
                                         >
-                                            <img src="/images/nepal-tour/find.svg" className="h-6 w-6" />
-                                            <span className="text-white text-center font-[Figtree] text-[20px] font-medium leading-[26px]">{item.name}</span>
+                                            <img src="/images/nepal-tour/find.svg" className="h-6 w-6 mt-4" />
+                                            <div className="w-[180px]">
+                                                <div className="text-white text-center font-[Figtree] text-[20px] font-medium">{item.title}</div>
+                                                <div className="text-white text-center font-[Figtree] text-[20px] font-medium">{item.subtitle}</div>
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -179,7 +182,7 @@ export default function NepalTourSection() {
 
                         {/* CTA Button */}
                         <Button
-                            className="relative mt-[50px] mb-12 sm:mb-16 lg:mb-20 w-full max-w-xs sm:w-auto group bg-[#E97737] rounded-[6px]"
+                            className="relative mt-[10px] mb-2 sm:mb-2 lg:mb-4 w-full max-w-xs sm:w-auto group rounded-[6px] border border-white bg-white cursor-pointer hover:scale-105"
                             style={{
                                 padding: "0 15px",
                                 border: "none",
@@ -187,7 +190,7 @@ export default function NepalTourSection() {
                             size="lg"
                         >
                             <span
-                                className="text-white font-['Figtree'] text-[14px] font-semibold leading-normal uppercase tracking-wide"
+                                className="text-[#E97737] font-['Figtree'] text-[14px] font-semibold leading-normal uppercase"
                             >
                                 <span className="hidden sm:inline">EXPLORE NEPAL TRIPS</span>
                                 <span className="sm:hidden">EXPLORE TRIPS</span>
@@ -208,7 +211,7 @@ export default function NepalTourSection() {
                     }}>
                     {/* Section heading typography */}
                     <h2
-                        className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-8 sm:mb-12 text-balance text-center"
+                        className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-2 sm:mb-2 text-balance text-center"
                     >
                         <span className="text-white text-center font-['Figtree'] text-[32px] font-semibold leading-normal">Most Popular in Nepal</span>
                     </h2>
