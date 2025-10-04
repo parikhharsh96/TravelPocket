@@ -66,28 +66,31 @@ export default function HomePage() {
                             Char Dham Yatra
                         </h1>
 
-                        <div className="space-y-3 sm:space-y-4 mb-6 lg:mb-8">
+                        <div className="flex flex-col space-y-3 sm:space-y-4 mb-6 lg:mb-8">
                             <Button
-                                className="w-full rounded-[10px] bg-[#E97737] flex items-center justify-between"
+                                className="flex-shrink-0 max-w-[300px] rounded-[10px] bg-[#E97737] flex items-center justify-between cursor-pointer hover:bg-[#C75414]"
                                 size="lg"
                             >
                                 <span className="text-white font-['Figtree'] text-[18px] font-semibold leading-normal uppercase">BY HELICOPTER</span>
-                                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                                {/* <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" /> */}
+                                <img src="/images/char-dham/Path_white.svg" alt="" className="w-4 h-4 ml-1"  />
                             </Button>
 
                             <Button
                                 variant="outline"
-                                className="w-full rounded-[10px] bg-[#fff] flex items-center justify-between"
+                                className="flex-shrink-0 max-w-[300px] rounded-[10px] bg-[#fff] flex items-center justify-between cursor-pointer hover:bg-gray-100"
                                 size="lg"
                             >
                                 <span className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal uppercase">BY ROAD</span>
-                                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#1A2F46]" />
+                                {/* <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#1A2F46]" /> */}
+                                <img src="/images/char-dham/Path72490.svg" alt="" className="w-4 h-4 ml-1"  />
                             </Button>
                         </div>
 
-                        <Button variant="outline" className="bg-transparent flex items-center rounded-[6px] border border-white">
+                        <Button variant="outline" className="bg-transparent flex items-center rounded-[6px] border border-white cursor-pointer hover:scale-105 transform transition duration-200">
                             <span className="text-white font-[Figtree] text-[14px] font-semibold leading-normal uppercase">VIEW ALL</span>
-                            <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-2" />
+                            {/* <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-2" /> */}
+                            <img src="/images/char-dham/arrow.svg" alt="" className="w-4 h-4 ml-1"  />
                         </Button>
                     </div>
                 </div>
@@ -166,9 +169,9 @@ function TravelPackageCard({
     imageQuery,
 }: TravelPackageCardProps) {
     return (
-        <Card className="overflow-hidden bg-white rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <Card className="overflow-hidden rounded-[8px] bg-white shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] hover:shadow-xl transition-shadow duration-300">
             <div className="relative">
-                <img src={imageUrl || "/placeholder.svg"} alt={imageQuery} className="w-full h-40 sm:h-48 object-cover" />
+                <img src={imageUrl || "/placeholder.svg"} alt={imageQuery} className="w-full h-40 sm:h-48 object-cover p-2" />
                 <div className="absolute bottom-0 left-0 sm:bottom-0 sm:left-0 bg-[#29a4c1] px-2 py-1 sm:px-3 sm:py-1 rounded-[0_8px_8px_0] bg-[#29A4C1] text-xs sm:text-sm">
                     <span className="text-white font-[Figtree] text-[14px] font-normal leading-[24px]">EMI starts from </span><span className="text-white font-[Figtree] text-[16px] font-semibold leading-[24px]">{price}</span>
                 </div>
