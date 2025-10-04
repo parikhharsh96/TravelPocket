@@ -141,7 +141,7 @@ export default function TestimonialCards() {
                                         {/* No video source - just using poster frame */}
                                     </video>
 
-                                    <div className="absolute left-0 right-0 bottom-0 sm:bottom-[-85px] md:bottom-[-100px] rounded-lg p-4 sm:p-6">
+                                    <div className="absolute lg:top-[160px] left-0 right-0 bottom-0 sm:bottom-[-85px] md:bottom-[-100px] rounded-lg p-4 sm:p-6">
                                         <div className="flex flex-col gap-2 bg-white shadow-[0px_8px_14px_rgba(0,0,0,0.12)] p-2 rounded-t-[8px] border-b-2 border-[#E97737]">
                                             <h2
                                                 className="font-semibold text-sm sm:text-base md:text-[20px] leading-tight text-black"
