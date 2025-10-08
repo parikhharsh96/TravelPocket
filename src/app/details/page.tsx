@@ -9,7 +9,7 @@ export default function DetailPage() {
     return (
         <>
         <Header />
-        {/* <DetailPackage /> */}
+        <DetailPackage />
         </>
     )
 }
