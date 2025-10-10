@@ -8,7 +8,9 @@ import {
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@/components/ui/accordion";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import React from "react";
 
 
 export default function DetailPackage() {
@@ -23,6 +25,10 @@ export default function DetailPackage() {
             sliderRef.current.scrollBy({ left: value, behavior: 'smooth' });
         }
     };
+
+    const tags = Array.from({ length: 50 }).map(
+        (_, i, a) => `v1.2.0-beta.${a.length - i}`
+    )
 
 
     return (
@@ -175,7 +181,7 @@ export default function DetailPackage() {
 
             <section className="max-w-[1920px] px-4 sm:px-6 lg:px-8 py-2">
 
-                <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_400px] gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_575px] gap-6">
                     {/**Left Section */}
                     <div>
                         <div className="flex flex-col gap-[60px]">
@@ -238,300 +244,21 @@ export default function DetailPackage() {
 
                             {/* Itinenary */}
                             <div className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
-                                <div className="flex flex-col gap-[14px] items-start">
-                                    <div className="flex flex-col lg:flex-row gap-[14px] justify-between items-center w-full">
-                                        <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">
-                                            Itinerary
-                                        </div>
-
-                                        <div className="rounded-[8px] bg-[#F4F4F4]" style={{ padding: "10px" }}>
-                                            <div className="flex flex-row gap-[20px]">
-                                                <div className="flex flex-col lg:flex-row items-center gap-[10px] lg:gap-[8px]">
-                                                    <img src="/images/detailpage/whatsapp.svg" />
-                                                    <div className="text-black text-center font-[Figtree] text-[11px] lg:text-[12px] font-normal leading-normal uppercase">
-                                                        Send Itinerary
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col lg:flex-row items-center gap-[10px] lg:gap-[8px]">
-                                                    <img src="/images/detailpage/download.svg" />
-                                                    <div className="text-black text-center font-[Figtree] text-[11px] lg:text-[12px] font-normal leading-normal uppercase">
-                                                        Download Itinerary
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col lg:flex-row items-center gap-[10px] lg:gap-[8px]">
-                                                    <img src="/images/detailpage/mail.svg" />
-                                                    <div className="text-black text-center font-[Figtree] text-[11px] lg:text-[12px] font-normal leading-normal uppercase">
-                                                        Email Itinerary
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col lg:flex-row items-center gap-[10px] lg:gap-[8px]">
-                                                    <img src="/images/detailpage/headset_mic.svg" />
-                                                    <div className="text-black text-center font-[Figtree] text-[11px] lg:text-[12px] font-normal leading-normal uppercase">
-                                                        Talk to Experts
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
-                                        <AccordionItem value="item-1">
-                                            <AccordionTrigger>
-                                                <div className="grid grid-cols-2 sm:grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-                                                    <div className="row-span-1">
-                                                        <div className="relative flex items-center">
-                                                            <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                                                            <div className="absolute text-[#E97737] font-[Figtree] text-[22px] font-bold leading-normal uppercase top-[8px] left-[25px]">
-                                                                Day 1
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/** Right Column: Heading */}
-                                                    <div className="flex flex-row justify-between items-center w-full">
-                                                        <div className="text-[#1A2F46] font-['Playfair_Display'] text-[16px] lg:text-[24px] font-semibold leading-normal">
-                                                            Arival In Lucknow
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </AccordionTrigger>
-                                            <AccordionContent>
-                                                <div className="grid grid-cols-2 sm:grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-                                                    <div className="row-span-1">
-                                                        <div className="relative flex items-center" style={{visibility: "hidden"}}>
-                                                            <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                                                            <div className="absolute text-[#E97737] font-[Figtree] text-[22px] font-bold leading-normal uppercase top-[8px] left-[25px]">
-                                                                Day 1
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/** Right Column: Heading */}
-                                                    <div className="flex flex-row justify-between items-center w-full">
-                                                        <div className="text-[#000] font-[Figtree] text-[14px] leading-relaxed space-y-3 mb-5">
-                                                <p>Welcome to Lucknow, the starting point of your sacred Kailash Mansarovar Yatra.</p>
-                                                <p>
-                                                    Our team will greet you at the Hotel Holiday Inn Lucknow / Lemon Tree Lucknow and assist you with hotel check-in.
-                                                    Take this day to relax, acclimatize, and prepare mentally and spiritually for the journey ahead.
-                                                </p>
-                                                <p>
-                                                    In the evening, join a briefing session with fellow yatris where we’ll share important travel guidelines,
-                                                    documents check, and a glimpse of the divine adventure that awaits.
-                                                </p>
-                                            </div>
-                                                    </div>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    </Accordion>
-
-                                    <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
-                                        <AccordionItem value="item-1">
-                                            <AccordionTrigger>
-                                                <div className="grid grid-cols-2 sm:grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-                                                    <div className="row-span-1">
-                                                        <div className="relative flex items-center">
-                                                            <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                                                            <div className="absolute text-[#E97737] font-[Figtree] text-[22px] font-bold leading-normal uppercase top-[8px] left-[25px]">
-                                                                Day 1
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/** Right Column: Heading */}
-                                                    <div className="flex flex-row justify-between items-center w-full">
-                                                        <div className="text-[#1A2F46] font-['Playfair_Display'] text-[16px] lg:text-[24px] font-semibold leading-normal">
-                                                            Arival In Lucknow
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </AccordionTrigger>
-                                            <AccordionContent>
-                                                <div className="grid grid-cols-2 sm:grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-                                                    <div className="row-span-1">
-                                                        <div className="relative flex items-center" style={{visibility: "hidden"}}>
-                                                            <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                                                            <div className="absolute text-[#E97737] font-[Figtree] text-[22px] font-bold leading-normal uppercase top-[8px] left-[25px]">
-                                                                Day 1
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/** Right Column: Heading */}
-                                                    <div className="flex flex-row justify-between items-center w-full">
-                                                        <div className="text-[#000] font-[Figtree] text-[14px] leading-relaxed space-y-3 mb-5">
-                                                <p>Welcome to Lucknow, the starting point of your sacred Kailash Mansarovar Yatra.</p>
-                                                <p>
-                                                    Our team will greet you at the Hotel Holiday Inn Lucknow / Lemon Tree Lucknow and assist you with hotel check-in.
-                                                    Take this day to relax, acclimatize, and prepare mentally and spiritually for the journey ahead.
-                                                </p>
-                                                <p>
-                                                    In the evening, join a briefing session with fellow yatris where we’ll share important travel guidelines,
-                                                    documents check, and a glimpse of the divine adventure that awaits.
-                                                </p>
-                                            </div>
-                                                    </div>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    </Accordion>
-
-
-                                    <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
-                                        <AccordionItem value="item-1">
-                                            <AccordionTrigger>
-                                                <div className="grid grid-cols-2 sm:grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-                                                    <div className="row-span-1">
-                                                        <div className="relative flex items-center">
-                                                            <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                                                            <div className="absolute text-[#E97737] font-[Figtree] text-[22px] font-bold leading-normal uppercase top-[8px] left-[25px]">
-                                                                Day 1
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/** Right Column: Heading */}
-                                                    <div className="flex flex-row justify-between items-center w-full">
-                                                        <div className="text-[#1A2F46] font-['Playfair_Display'] text-[16px] lg:text-[24px] font-semibold leading-normal">
-                                                            Arival In Lucknow
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </AccordionTrigger>
-                                            <AccordionContent>
-                                                <div className="grid grid-cols-2 sm:grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-                                                    <div className="row-span-1">
-                                                        <div className="relative flex items-center" style={{visibility: "hidden"}}>
-                                                            <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                                                            <div className="absolute text-[#E97737] font-[Figtree] text-[22px] font-bold leading-normal uppercase top-[8px] left-[25px]">
-                                                                Day 1
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/** Right Column: Heading */}
-                                                    <div className="flex flex-row justify-between items-center w-full">
-                                                        <div className="text-[#000] font-[Figtree] text-[14px] leading-relaxed space-y-3 mb-5">
-                                                <p>Welcome to Lucknow, the starting point of your sacred Kailash Mansarovar Yatra.</p>
-                                                <p>
-                                                    Our team will greet you at the Hotel Holiday Inn Lucknow / Lemon Tree Lucknow and assist you with hotel check-in.
-                                                    Take this day to relax, acclimatize, and prepare mentally and spiritually for the journey ahead.
-                                                </p>
-                                                <p>
-                                                    In the evening, join a briefing session with fellow yatris where we’ll share important travel guidelines,
-                                                    documents check, and a glimpse of the divine adventure that awaits.
-                                                </p>
-                                            </div>
-                                                    </div>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    </Accordion>
-
-
-                                    <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
-                                        <AccordionItem value="item-1">
-                                            <AccordionTrigger>
-                                                <div className="grid grid-cols-2 sm:grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-                                                    <div className="row-span-1">
-                                                        <div className="relative flex items-center">
-                                                            <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                                                            <div className="absolute text-[#E97737] font-[Figtree] text-[22px] font-bold leading-normal uppercase top-[8px] left-[25px]">
-                                                                Day 1
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/** Right Column: Heading */}
-                                                    <div className="flex flex-row justify-between items-center w-full">
-                                                        <div className="text-[#1A2F46] font-['Playfair_Display'] text-[16px] lg:text-[24px] font-semibold leading-normal">
-                                                            Arival In Lucknow
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </AccordionTrigger>
-                                            <AccordionContent>
-                                                <div className="grid grid-cols-2 sm:grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-                                                    <div className="row-span-1">
-                                                        <div className="relative flex items-center" style={{visibility: "hidden"}}>
-                                                            <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                                                            <div className="absolute text-[#E97737] font-[Figtree] text-[22px] font-bold leading-normal uppercase top-[8px] left-[25px]">
-                                                                Day 1
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/** Right Column: Heading */}
-                                                    <div className="flex flex-row justify-between items-center w-full">
-                                                        <div className="text-[#000] font-[Figtree] text-[14px] leading-relaxed space-y-3 mb-5">
-                                                <p>Welcome to Lucknow, the starting point of your sacred Kailash Mansarovar Yatra.</p>
-                                                <p>
-                                                    Our team will greet you at the Hotel Holiday Inn Lucknow / Lemon Tree Lucknow and assist you with hotel check-in.
-                                                    Take this day to relax, acclimatize, and prepare mentally and spiritually for the journey ahead.
-                                                </p>
-                                                <p>
-                                                    In the evening, join a briefing session with fellow yatris where we’ll share important travel guidelines,
-                                                    documents check, and a glimpse of the divine adventure that awaits.
-                                                </p>
-                                            </div>
-                                                    </div>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    </Accordion>
-
-                                    <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
-                                        <AccordionItem value="item-1">
-                                            <AccordionTrigger>
-                                                <div className="grid grid-cols-2 sm:grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-                                                    <div className="row-span-1">
-                                                        <div className="relative flex items-center">
-                                                            <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                                                            <div className="absolute text-[#E97737] font-[Figtree] text-[22px] font-bold leading-normal uppercase top-[8px] left-[25px]">
-                                                                Day 1
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/** Right Column: Heading */}
-                                                    <div className="flex flex-row justify-between items-center w-full">
-                                                        <div className="text-[#1A2F46] font-['Playfair_Display'] text-[16px] lg:text-[24px] font-semibold leading-normal">
-                                                            Arival In Lucknow
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </AccordionTrigger>
-                                            <AccordionContent>
-                                                <div className="grid grid-cols-2 sm:grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-                                                    <div className="row-span-1">
-                                                        <div className="relative flex items-center" style={{visibility: "hidden"}}>
-                                                            <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                                                            <div className="absolute text-[#E97737] font-[Figtree] text-[22px] font-bold leading-normal uppercase top-[8px] left-[25px]">
-                                                                Day 1
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/** Right Column: Heading */}
-                                                    <div className="flex flex-row justify-between items-center w-full">
-                                                        <div className="text-[#000] font-[Figtree] text-[14px] leading-relaxed space-y-3 mb-5">
-                                                <p>Welcome to Lucknow, the starting point of your sacred Kailash Mansarovar Yatra.</p>
-                                                <p>
-                                                    Our team will greet you at the Hotel Holiday Inn Lucknow / Lemon Tree Lucknow and assist you with hotel check-in.
-                                                    Take this day to relax, acclimatize, and prepare mentally and spiritually for the journey ahead.
-                                                </p>
-                                                <p>
-                                                    In the evening, join a briefing session with fellow yatris where we’ll share important travel guidelines,
-                                                    documents check, and a glimpse of the divine adventure that awaits.
-                                                </p>
-                                            </div>
-                                                    </div>
-                                                </div>
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    </Accordion>
-
-
+                                <ItineraryAccordion />
+                                <div className="w-full mb-4">
+                                    <Separator className="bg-[#E97737] border border-[#E97737]" />
+                                </div>
+                                <ItineraryAccordion />
+                                <div className="w-full mb-4">
+                                    <Separator className="bg-[#E97737] border border-[#E97737]" />
+                                </div>
+                                <ItineraryAccordion />
+                                <div className="w-full mb-4">
+                                    <Separator className="bg-[#E97737] border border-[#E97737]" />
+                                </div>
+                                <ItineraryAccordion />
+                                <div className="w-full mb-4">
+                                    <Separator className="bg-[#E97737] border border-[#E97737]" />
                                 </div>
                             </div>
 
@@ -760,83 +487,83 @@ export default function DetailPackage() {
                                         Information Links and Downloads
                                     </div>
 
-                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6 w-full">
+                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-6 w-full">
                                         <div className="rounded-[8px] border border-[#D2D8E4] cursor-pointer" style={{ padding: "14px 16px" }}>
-                                            <div className="flex flex-col items-start gap-[20px] lg:gap-[4px]">
+                                            <div className="flex flex-col items-start gap-3 lg:gap-[4px]">
                                                 <img src="/images/detailpage/info.svg" />
-                                                <div className="flex flex-row items-center gap-[1px]">
+                                                <div className="flex flex-row items-center gap-1 flex-wrap">
                                                     <div className="text-[#000] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Weather Info</div>
-                                                    <img src="/images/detailpage/arrow_outward.svg" />
+                                                    <img src="/images/detailpage/arrow_outward.svg" className="w-4 h-4" />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="rounded-[8px] border border-[#D2D8E4] cursor-pointer" style={{ padding: "14px 16px" }}>
-                                            <div className="flex flex-col items-start gap-[20px] lg:gap-[4px]">
+                                            <div className="flex flex-col items-start gap-3 lg:gap-[4px]">
                                                 <img src="/images/detailpage/info.svg" />
-                                                <div className="flex flex-row items-center gap-[1px]">
+                                                <div className="flex flex-row items-center gap-1 flex-wrap">
                                                     <div className="text-[#000] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Documents</div>
-                                                    <img src="/images/detailpage/arrow_outward.svg" />
+                                                    <img src="/images/detailpage/arrow_outward.svg" className="w-4 h-4" />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="rounded-[8px] border border-[#D2D8E4] cursor-pointer" style={{ padding: "14px 16px" }}>
-                                            <div className="flex flex-col items-start gap-[20px] lg:gap-[4px]">
+                                            <div className="flex flex-col items-start gap-3 lg:gap-[4px]">
                                                 <img src="/images/detailpage/info.svg" />
-                                                <div className="flex flex-row items-center gap-[1px]">
+                                                <div className="flex flex-row items-center gap-1 flex-wrap">
                                                     <div className="text-[#000] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Forms</div>
-                                                    <img src="/images/detailpage/arrow_outward.svg" />
+                                                    <img src="/images/detailpage/arrow_outward.svg" className="w-4 h-4" />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="rounded-[8px] border border-[#D2D8E4] cursor-pointer" style={{ padding: "14px 16px" }}>
-                                            <div className="flex flex-col items-start gap-[20px] lg:gap-[4px]">
+                                            <div className="flex flex-col items-start gap-3 lg:gap-[4px]">
                                                 <img src="/images/detailpage/info.svg" />
-                                                <div className="flex flex-row items-center gap-[1px]">
+                                                <div className="flex flex-row items-center gap-1 flex-wrap">
                                                     <div className="text-[#000] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Registration Process</div>
-                                                    <img src="/images/detailpage/arrow_outward.svg" />
+                                                    <img src="/images/detailpage/arrow_outward.svg" className="w-4 h-4" />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="rounded-[8px] border border-[#D2D8E4] cursor-pointer" style={{ padding: "14px 16px" }}>
-                                            <div className="flex flex-col items-start gap-[20px] lg:gap-[4px]">
+                                            <div className="flex flex-col items-start gap-3 lg:gap-[4px]">
                                                 <img src="/images/detailpage/info.svg" />
-                                                <div className="flex flex-row items-center gap-[1px]">
+                                                <div className="flex flex-row items-center gap-1 flex-wrap">
                                                     <div className="text-[#000] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Cancellation Policy</div>
-                                                    <img src="/images/detailpage/arrow_outward.svg" />
+                                                    <img src="/images/detailpage/arrow_outward.svg" className="w-4 h-4" />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="rounded-[8px] border border-[#D2D8E4] cursor-pointer" style={{ padding: "14px 16px" }}>
-                                            <div className="flex flex-col items-start gap-[20px] lg:gap-[4px]">
+                                            <div className="flex flex-col items-start gap-3 lg:gap-[4px]">
                                                 <img src="/images/detailpage/info.svg" />
-                                                <div className="flex flex-row items-center gap-[1px]">
+                                                <div className="flex flex-row items-center gap-1 flex-wrap">
                                                     <div className="text-[#000] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Payment Terms</div>
-                                                    <img src="/images/detailpage/arrow_outward.svg" />
+                                                    <img src="/images/detailpage/arrow_outward.svg" className="w-4 h-4" />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="rounded-[8px] border border-[#D2D8E4] cursor-pointer" style={{ padding: "14px 16px" }}>
-                                            <div className="flex flex-col items-start gap-[20px] lg:gap-[4px]">
+                                            <div className="flex flex-col items-start gap-3 lg:gap-[4px]">
                                                 <img src="/images/detailpage/info.svg" />
-                                                <div className="flex flex-row items-center gap-[1px]">
+                                                <div className="flex flex-row items-center gap-1 flex-wrap">
                                                     <div className="text-[#000] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Tour Manager Info</div>
-                                                    <img src="/images/detailpage/arrow_outward.svg" />
+                                                    <img src="/images/detailpage/arrow_outward.svg" className="w-4 h-4" />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div className="rounded-[8px] border border-[#D2D8E4] cursor-pointer" style={{ padding: "14px 16px" }}>
-                                            <div className="flex flex-col items-start gap-[20px] lg:gap-[4px]">
+                                            <div className="flex flex-col items-start gap-3 lg:gap-[4px]">
                                                 <img src="/images/detailpage/info.svg" />
-                                                <div className="flex flex-row items-center gap-[1px]">
+                                                <div className="flex flex-row items-center gap-1 flex-wrap">
                                                     <div className="text-[#000] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">FAQs</div>
-                                                    <img src="/images/detailpage/arrow_outward.svg" />
+                                                    <img src="/images/detailpage/arrow_outward.svg" className="w-4 h-4" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1125,13 +852,451 @@ export default function DetailPackage() {
                     {/**Left Section ends here */}
 
                     {/**Right Section */}
-                    <div>
+                    <div className="w-full">
+                        <div className="hidden lg:flex flex-col gap-[20px] items-start items-center">
+                            <div className="flex flex-col gap-[10px] items-start">
+                                <div className="text-black font-['Figtree'] text-[20px] not-italic font-semibold leading-none">Select Departure Month</div>
+                                <div className="flex gap-[14px] flex-wrap">
+                                    <div className="max-w-[50px] rounded-lg border border-[#D2D8E4] bg-white" style={{ padding: "12px 12px" }}>
+                                        <div className="flex flex-col items-center gap-[8px]">
+                                            <div className="text-[#4D4D4D] text-center font-['Figtree'] text-base not-italic font-normal leading-none">Aug</div>
+                                            <div className="text-[#4D4D4D] text-center font-['Figtree'] text-[12px] not-italic font-normal leading-none">2025</div>
+                                        </div>
+                                    </div>
+                                    <div className="max-w-[50px] rounded-lg border border-[#D2D8E4] bg-[#4D4D4D]" style={{ padding: "12px 12px" }}>
+                                        <div className="flex flex-col items-center gap-[8px]">
+                                            <div className="text-[#FFFFFF] text-center font-['Figtree'] text-base not-italic font-normal leading-none">Sep</div>
+                                            <div className="text-[#FFFFFF] text-center font-['Figtree'] text-[12px] not-italic font-normal leading-none">2025</div>
+                                        </div>
+                                    </div>
+                                    <div className="max-w-[50px] rounded-lg border border-[#D2D8E4] bg-white" style={{ padding: "12px 12px" }}>
+                                        <div className="flex flex-col items-center gap-[8px]">
+                                            <div className="text-[#4D4D4D] text-center font-['Figtree'] text-base not-italic font-normal leading-none">Oct</div>
+                                            <div className="text-[#4D4D4D] text-center font-['Figtree'] text-[12px] not-italic font-normal leading-none">2025</div>
+                                        </div>
+                                    </div>
+                                    <div className="max-w-[50px] rounded-lg border border-[#D2D8E4] bg-white" style={{ padding: "12px 12px" }}>
+                                        <div className="flex flex-col items-center gap-[8px]">
+                                            <div className="text-[#4D4D4D] text-center font-['Figtree'] text-base not-italic font-normal leading-none">Nov</div>
+                                            <div className="text-[#4D4D4D] text-center font-['Figtree'] text-[12px] not-italic font-normal leading-none">2025</div>
+                                        </div>
+                                    </div>
+                                    <div className="max-w-[50px] rounded-lg border border-[#D2D8E4] bg-white" style={{ padding: "12px 12px" }}>
+                                        <div className="flex flex-col items-center gap-[8px]">
+                                            <div className="text-[#4D4D4D] text-center font-['Figtree'] text-base not-italic font-normal leading-none">Dec</div>
+                                            <div className="text-[#4D4D4D] text-center font-['Figtree'] text-[12px] not-italic font-normal leading-none">2025</div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                {/** Departures */}
+                                <div className="rounded-lg bg-[#EBF5F7] w-full">
+                                    <div className="flex justify-between items-center" style={{ padding: "30px 20px" }}>
+                                        <div className="text-black font-['Figtree'] text-base not-italic font-semibold leading-none capitalize">Sept 2025 Departures</div>
+                                        <div className="text-black text-right font-['Figtree'] text-[12px] not-italic font-normal leading-none uppercase">3 dates </div>
+                                    </div>
+
+                                    {/**Scroll Area */}
+                                    <ScrollArea className="max-h-[550px]">
+                                        <div className="flex flex-col gap-[20px] max-h-[550px]" style={{ padding: "30px 20px" }}>
+                                            <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
+                                                <div className="flex flex-col gap-[12px]" style={{ padding: "10px 10px" }}>
+                                                    <div className="flex flex-col gap-[12px]">
+                                                        <div className="flex flex-row gap-[50px]">
+                                                            <div className="flex gap-[20px]">
+                                                                <div className="flex flex-gap[14px] items-center">
+                                                                    <div className="flex flex-col gap-[8px]">
+                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
+                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">02 Sep,Tue</div>
+                                                                    </div>
+                                                                    <img src="images/detailpage/arrow-right_1.svg" className="ml-4 mr-4" />
+                                                                    <div className="flex flex-col gap-[8px]">
+                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
+                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">13 Sep,Tue</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex flex-col items-start gap-[4px] justify-center">
+                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
+                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
+                                                                        <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">28</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
+                                                                <div className="flex flex-col gap-[10px]">
+                                                                    <div className="flex gap-[8px] items-center">
+                                                                        <img src="/images/detailpage/chat-bubble_1.svg" className="" />
+                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
+                                                                    </div>
+                                                                    <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                                    <div className="flex gap-[8px] items-center">
+                                                                        <img src="/images/detailpage/mail_1.svg" className="" />
+                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                        <div className="flex flex-col gap-[6px]">
+                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
+                                                            <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style={{ padding: "10px 10px" }}>
+                                                    <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                        <div className="flex items-center justify-center">
+                                                            <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
+                                                <div className="flex flex-col gap-[12px]" style={{ padding: "10px 10px" }}>
+                                                    <div className="flex flex-col gap-[12px]">
+                                                        <div className="flex flex-row gap-[50px]">
+                                                            <div className="flex gap-[20px]">
+                                                                <div className="flex flex-gap[14px] items-center">
+                                                                    <div className="flex flex-col gap-[8px]">
+                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
+                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">02 Sep,Tue</div>
+                                                                    </div>
+                                                                    <img src="images/detailpage/arrow-right_1.svg" className="ml-4 mr-4" />
+                                                                    <div className="flex flex-col gap-[8px]">
+                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
+                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">13 Sep,Tue</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex flex-col items-start gap-[4px] justify-center">
+                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
+                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
+                                                                        <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">28</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
+                                                                <div className="flex flex-col gap-[10px]">
+                                                                    <div className="flex gap-[8px] items-center">
+                                                                        <img src="/images/detailpage/chat-bubble_1.svg" className="" />
+                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
+                                                                    </div>
+                                                                    <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                                    <div className="flex gap-[8px] items-center">
+                                                                        <img src="/images/detailpage/mail_1.svg" className="" />
+                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                        <div className="flex flex-col gap-[6px]">
+                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
+                                                            <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style={{ padding: "10px 10px" }}>
+                                                    <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                        <div className="flex items-center justify-center">
+                                                            <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
+                                                <div className="flex flex-col gap-[12px]" style={{ padding: "10px 10px" }}>
+                                                    <div className="flex flex-col gap-[12px]">
+                                                        <div className="flex flex-row gap-[50px]">
+                                                            <div className="flex gap-[20px]">
+                                                                <div className="flex flex-gap[14px] items-center">
+                                                                    <div className="flex flex-col gap-[8px]">
+                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
+                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">02 Sep,Tue</div>
+                                                                    </div>
+                                                                    <img src="images/detailpage/arrow-right_1.svg" className="ml-4 mr-4" />
+                                                                    <div className="flex flex-col gap-[8px]">
+                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
+                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">13 Sep,Tue</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex flex-col items-start gap-[4px] justify-center">
+                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
+                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
+                                                                        <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">28</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
+                                                                <div className="flex flex-col gap-[10px]">
+                                                                    <div className="flex gap-[8px] items-center">
+                                                                        <img src="/images/detailpage/chat-bubble_1.svg" className="" />
+                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
+                                                                    </div>
+                                                                    <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                                    <div className="flex gap-[8px] items-center">
+                                                                        <img src="/images/detailpage/mail_1.svg" className="" />
+                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                        <div className="flex flex-col gap-[6px]">
+                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
+                                                            <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style={{ padding: "10px 10px" }}>
+                                                    <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                        <div className="flex items-center justify-center">
+                                                            <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
+                                                <div className="flex flex-col gap-[12px]" style={{ padding: "10px 10px" }}>
+                                                    <div className="flex flex-col gap-[12px]">
+                                                        <div className="flex flex-row gap-[50px]">
+                                                            <div className="flex gap-[20px]">
+                                                                <div className="flex flex-gap[14px] items-center">
+                                                                    <div className="flex flex-col gap-[8px]">
+                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
+                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">02 Sep,Tue</div>
+                                                                    </div>
+                                                                    <img src="images/detailpage/arrow-right_1.svg" className="ml-4 mr-4" />
+                                                                    <div className="flex flex-col gap-[8px]">
+                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
+                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">13 Sep,Tue</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="flex flex-col items-start gap-[4px] justify-center">
+                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
+                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
+                                                                        <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">28</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
+                                                                <div className="flex flex-col gap-[10px]">
+                                                                    <div className="flex gap-[8px] items-center">
+                                                                        <img src="/images/detailpage/chat-bubble_1.svg" className="" />
+                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
+                                                                    </div>
+                                                                    <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                                    <div className="flex gap-[8px] items-center">
+                                                                        <img src="/images/detailpage/mail_1.svg" className="" />
+                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                        <div className="flex flex-col gap-[6px]">
+                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
+                                                            <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style={{ padding: "10px 10px" }}>
+                                                    <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                        <div className="flex items-center justify-center">
+                                                            <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </ScrollArea>
+                                </div>
+                                {/**Ends here */}
+                            </div>
+
+                            <div className="rounded-[8px] bg-[#FFF7F2]" style={{padding: "10px 20px"}}>
+
+                            </div>
+
+                            <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
+
+                            <div className="flex flex-col justify-center items-center gap-[25px] w-full">
+                                <div className="text-black text-center font-['Figtree'] text-base not-italic font-semibold leading-none">Need help?</div>
+                                <div className="flex items-center gap-[40px]">
+                                    <div className="flex flex-col gap-[8px] items-center">
+                                        <img src="/images/detailpage/whatsapp_help.svg" className="w-[22px] h-[22px]" />
+                                        <div className="text-black text-center font-['Figtree'] text-[12px] not-italic font-normal leading-[16px] uppercase">send Itinerary</div>
+                                    </div>
+                                    <div className="flex flex-col gap-[8px] items-center">
+                                        <img src="/images/detailpage/download_help.svg" className="w-[22px] h-[22px]" />
+                                        <div className="text-black text-center font-['Figtree'] text-[12px] not-italic font-normal leading-[16px] uppercase">Download Itinerary</div>
+                                    </div>
+                                    <div className="flex flex-col gap-[8px] items-center">
+                                        <img src="/images/detailpage/mail_help.svg" className="w-[22px] h-[22px]" />
+                                        <div className="text-black text-center font-['Figtree'] text-[12px] not-italic font-normal leading-[16px] uppercase">Email Itinerary</div>
+                                    </div>
+                                    <div className="flex flex-col gap-[8px] items-center">
+                                        <img src="/images/detailpage/headset_mic_help.svg" className="w-[22px] h-[22px]" />
+                                        <div className="text-black text-center font-['Figtree'] text-[12px] not-italic font-normal leading-[16px] uppercase">Talk to Experts</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     {/**Ends here */}
                 </div>
 
             </section>
         </>
+    )
+}
+
+
+function ItineraryAccordion() {
+    return (
+        <div className="">
+            <div className="flex flex-row gap-3 sm:gap-8">
+                {/* Day Badge */}
+                <div className="relative flex items-center flex-shrink-0 self-start top-[-5px]">
+                    <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
+                    <div className="absolute text-[#E97737] font-[Figtree] text-[14px] lg:text-[22px] font-bold leading-normal uppercase lg:top-[8px] left-[25px]">
+                        Day 2
+                    </div>
+                </div>
+
+                {/* Right Column - Heading and all content */}
+                <div className="flex-1 min-w-0">
+                    <Accordion type="single" collapsible defaultValue="item-1" className="w-full">
+                        <AccordionItem value="item-1" className="">
+                            <AccordionTrigger className="hover:no-underline p-0 mb-4 sm:mb-6">
+                                <div className="text-[#1A2F46] font-[Figtree] text-[16px] lg:text-[24px] font-semibold leading-normal text-left pr-2">
+                                    Lucknow Drive to Nepalgunj
+                                </div>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                {/* Description */}
+                                <p className="text-[#333] font-['Figtree'] text-[14px] lg:text-base not-italic font-normal leading-6 mb-6 sm:mb-8">
+                                    Your spiritual journey to Kailash Mansarovar begins with a drive to Nepalgunj after breakfast. This
+                                    town, located near the India-Nepal border, serves as the official starting point for the yatra.
+                                </p>
+
+                                {/* Route Overview Section */}
+                                <div className="flex flex-col gap-[8px] mb-4">
+                                    <div className="text-[#29A4C1] font-['Figtree'] text-base not-italic font-semibold leading-6">Route Overview</div>
+                                    <div className="flex flex-row gap-[6px] items-center">
+                                        <img src="/images/detailpage/check_circle.svg" className="" />
+                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+                                            Drive Duration:
+                                            <span className="font-normal"> Approx. 4-5 hours</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row gap-[6px] items-center">
+                                        <img src="/images/detailpage/check_circle.svg" className="" />
+                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+                                            From:
+                                            <span className="font-normal"> Starting Point (Lucknow or similar)</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row gap-[6px] items-center">
+                                        <img src="/images/detailpage/check_circle.svg" className="" />
+                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+                                            To:
+                                            <span className="font-normal"> Nepalgunj (Altitude: 152 m)</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row gap-[6px] items-center">
+                                        <img src="/images/detailpage/check_circle.svg" className="" />
+                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+                                            Hotel:
+                                            <span className="font-normal"> Soaltee Westend Premier or similar</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Key Highlights Section */}
+                                <div className="flex flex-col gap-[8px] mb-4">
+                                    <div className="text-[#29A4C1] font-['Figtree'] text-base not-italic font-semibold leading-6">Key Highlights</div>
+                                    <div className="flex flex-row gap-[6px] items-center">
+                                        <img src="/images/detailpage/check_circle.svg" className="" />
+                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+                                            <span className="font-normal">Comfortable road trip with en-route refreshment break</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row gap-[6px] items-center">
+                                        <img src="/images/detailpage/check_circle.svg" className="" />
+                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+                                            <span className="font-normal">Check-in and rest at a premium hotel in Nepalgunj</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row gap-[6px] items-center">
+                                        <img src="/images/detailpage/check_circle.svg" className="" />
+                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+                                            Optional:
+                                            <span className="font-normal"> Visit Bageshwari Temple, a revered Shakti Peeth</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row gap-[6px] items-center">
+                                        <img src="/images/detailpage/check_circle.svg" className="" />
+                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+                                            <span className="font-normal">Evening </span>
+                                            Yatra Briefing Session
+                                            <span className="font-normal"> covering route, medical advice, and travel essentials</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-row gap-[6px] items-center">
+                                        <img src="/images/detailpage/check_circle.svg" className="" />
+                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+                                            <span className="font-normal">Prepare mentally and spiritually for the sacred journey ahead</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                {/* Feature Badges */}
+                                <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4">
+                                    <div className="rounded-lg bg-[#DDF9FF]" style={{ padding: "4px 12px" }}>
+                                        <div className="flex flex-row gap-[8px] items-center">
+                                            <img src="/images/detailpage/iconspace_3.svg" className="w-h h-4" />
+                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] not-italic font-semibold leading-[22px]">Check-in at a Premium Hotel</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="rounded-lg bg-[#DDF9FF]" style={{ padding: "4px 12px" }}>
+                                        <div className="flex flex-row gap-[8px] items-center">
+                                            <img src="/images/detailpage/iconspace_2.svg" className="w-h h-4" />
+                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] not-italic font-semibold leading-[22px]">Drive to Nepalgunj</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="rounded-lg bg-[#DDF9FF]" style={{ padding: "4px 12px" }}>
+                                        <div className="flex flex-row gap-[8px] items-center">
+                                            <img src="/images/detailpage/iconspace_1.svg" className="w-h h-4" />
+                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] not-italic font-semibold leading-[22px]">Breakfast, Lunch, Dinner</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Image Cards */}
+                                <div className="flex flex-row gap-[12px]">
+                                    <div className="flex flex-col gap-[8px] items-start flex-wrap max-w-[200px]">
+                                        <img src="/images/detailpage/iternary_img_1.png" className="w-[200px] h-[150px]" />
+                                        <div className="text-[#333] font-['Figtree'] text-[13px] not-italic font-normal leading-[24px]">Soaltee Westend Premier</div>
+                                    </div>
+                                    <div className="flex flex-col gap-[8px] items-start flex-wrap max-w-[200px]">
+                                        <img src="/images/detailpage/iternary_img_2.png" className="w-[200px] h-[150px]" />
+                                        <div className="text-[#333] font-['Figtree'] text-[13px] not-italic font-normal leading-[24px]">Bageshwari Temple, a revered Shakti Peeth</div>
+                                    </div>
+                                </div>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+                </div>
+            </div>
+        </div>
     )
 }
