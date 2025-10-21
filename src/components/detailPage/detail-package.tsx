@@ -2,7 +2,7 @@
 
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     Accordion,
     AccordionContent,
@@ -12,11 +12,69 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import React from "react";
 
+const sectionIds = [
+    "overview",
+    "highlights",
+    "itinerary",
+    "essentials",
+    "inclusions",
+    "info-links",
+    "gallery",
+    "reviews",
+];
+
 
 export default function DetailPackage() {
 
+    const [activeSection, setActiveSection] = useState("overview");
+
     const sliderRef = useRef<HTMLDivElement>(null);
     const scrollAmount = 320; // Match card width + margin
+
+    useEffect(() => {
+        const observerOptions = {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.1,
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActiveSection(entry.target.id);
+                }
+            });
+        }, observerOptions);
+
+        sectionIds.forEach((id) => {
+            const section = document.getElementById(id);
+            if (section) observer.observe(section);
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
+    const getTabClass = (id: string) =>
+        `rounded-sm ${activeSection === id
+            ? "bg-[#1A2F46]"
+            : ""
+        }`;
+
+    const getTabTextClass = (id: string) =>
+        `font-['Figtree'] text-sm font-semibold leading-6 capitalize ${activeSection === id
+            ? "text-white"
+            : "text-[#4D4D4D]"
+        }`;
+
+    const scrollToSection = (id: string) => {
+        // const section = document.getElementById(id);
+        // if (section) {
+        //     window.scrollTo({
+        //         top: section.offsetTop - 80, // Adjust offset for sticky header
+        //         behavior: "smooth",
+        //     });
+        // }
+    };
 
     const scroll = (direction: 'left' | 'right') => {
         console.log("cliecked");
@@ -184,9 +242,43 @@ export default function DetailPackage() {
                 <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_575px] gap-6">
                     {/**Left Section */}
                     <div>
+
+                        {/** Share Section */}
+                        
+
+                        {/** Fixed Section */}
+                        <div className="sticky top-0 z-50 rounded-lg bg-white shadow-[0_4px_10px_0_rgba(0,_0,_0,_0.16)] mb-4 overflow-x-auto whitespace-nowrap" style={{ padding: "10px 10px" }}>
+                            <div className="flex flex-row gap-4 items-center">
+                                <div className={getTabClass("overview")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("overview")}>
+                                    <span className={getTabTextClass("overview")}>Overview</span>
+                                </div>
+                                <div className={getTabClass("highlights")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("highlights")}>
+                                    <span className={getTabTextClass("highlights")}>Highlights</span>
+                                </div>
+                                <div className={getTabClass("itinerary")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("itinerary")}>
+                                    <span className={getTabTextClass("itinerary")}>Itinerary</span>
+                                </div>
+                                <div className={getTabClass("essentials")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("essentials")}>
+                                    <span className={getTabTextClass("essentials")}>Essentials</span>
+                                </div>
+                                <div className={getTabClass("inclusions")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("inclusions")}>
+                                    <span className={getTabTextClass("inclusions")}>Inclusions & Exclusions</span>
+                                </div>
+                                <div className={getTabClass("info-links")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("info-links")}>
+                                    <span className={getTabTextClass("info-links")}>Info Links and Downloads</span>
+                                </div>
+                                <div className={getTabClass("gallery")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("gallery")}>
+                                    <span className={getTabTextClass("gallery")}>Photo Gallery</span>
+                                </div>
+                                <div className={getTabClass("reviews")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("reviews")}>
+                                    <span className={getTabTextClass("reviews")}>Reviews</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="flex flex-col gap-[60px]">
                             {/* Overview */}
-                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
+                            <div id="overview" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
                                 <div className="flex flex-col gap-[14px] items-start">
                                     <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">
                                         Overview
@@ -195,7 +287,7 @@ export default function DetailPackage() {
                                     <p className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
                                         Organized by TravelPocket, this 9 Nights 10 Days Kailash Mansarovar Yatra by Helicopter from Lucknow offers a perfect blend of comfort and spirituality. It allows pilgrims to experience the divine power of Kailash Parvat and the serene beauty of Mansarovar Lake without the strenuous trek, making it accessible even for senior citizens and families.
 
-                                        Known as the ultimate Tirth Yatra, the Kailash Mansarovar journey is not just a tour—it's a life-transforming spiritual experience. Pilgrims from around the world undertake this yatra seeking peace, enlightenment, and inner awakening.
+                                        Known as the ultimate Tirth Yatra, the Kailash Mansarovar journey is not just a tour—it&apos;s a life-transforming spiritual experience. Pilgrims from around the world undertake this yatra seeking peace, enlightenment, and inner awakening.
 
                                         Whether you are a spiritual seeker, an adventurer, or a devotee of Lord Shiva, the Kailash Mansarovar Yatra by Helicopter is your calling. Let TravelPocket, a trusted name in spiritual travel, guide you through this once-in-a-lifetime journey with expert support, reliable services, and soulful hospitality.
                                     </p>
@@ -203,7 +295,7 @@ export default function DetailPackage() {
                             </div>
 
                             {/* Highlights */}
-                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
+                            <div id="highlights" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
                                 <div className="flex flex-col gap-[14px] items-start">
                                     <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">
                                         Highlights
@@ -243,27 +335,36 @@ export default function DetailPackage() {
                             </div>
 
                             {/* Itinenary */}
-                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
-                                <ItineraryAccordion />
-                                <div className="w-full mb-4">
-                                    <Separator className="bg-[#E97737] border border-[#E97737]" />
-                                </div>
-                                <ItineraryAccordion />
-                                <div className="w-full mb-4">
-                                    <Separator className="bg-[#E97737] border border-[#E97737]" />
-                                </div>
-                                <ItineraryAccordion />
-                                <div className="w-full mb-4">
-                                    <Separator className="bg-[#E97737] border border-[#E97737]" />
-                                </div>
-                                <ItineraryAccordion />
-                                <div className="w-full mb-4">
-                                    <Separator className="bg-[#E97737] border border-[#E97737]" />
+                            <div id="itinerary" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
+
+                                <div className="flex flex-col gap-[14px] items-start">
+                                    <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">
+                                        Itinerary
+                                    </div>
+
+                                    <div>
+                                        <ItineraryAccordion />
+                                        <div className="w-full mb-4">
+                                            <Separator className="bg-[#E97737] border border-[#E97737]" />
+                                        </div>
+                                        <ItineraryAccordion />
+                                        <div className="w-full mb-4">
+                                            <Separator className="bg-[#E97737] border border-[#E97737]" />
+                                        </div>
+                                        <ItineraryAccordion />
+                                        <div className="w-full mb-4">
+                                            <Separator className="bg-[#E97737] border border-[#E97737]" />
+                                        </div>
+                                        <ItineraryAccordion />
+                                        <div className="w-full mb-4">
+                                            <Separator className="bg-[#E97737] border border-[#E97737]" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Essentials */}
-                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
+                            <div id="essentials" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
                                 <div className="flex flex-col gap-[14px] items-start">
                                     <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">
                                         Essentials
@@ -391,7 +492,7 @@ export default function DetailPackage() {
                             </div>
 
                             {/* Inclusions | Exclusions */}
-                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
+                            <div id="inclusions" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
                                 <div className="flex flex-row gap-[30px]">
                                     <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">Inclusions</div>
                                     <div className="text-[#ADADAD] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">Exclusions</div>
@@ -481,7 +582,7 @@ export default function DetailPackage() {
                             </div>
 
                             {/* Information Links and Downloads */}
-                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
+                            <div id="info-links" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
                                 <div className="flex flex-col items-start gap-[14px]">
                                     <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">
                                         Information Links and Downloads
@@ -572,7 +673,7 @@ export default function DetailPackage() {
                             </div>
 
                             {/* Photo Gallery */}
-                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "25px 15px" }}>
+                            <div id="gallery" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "25px 15px" }}>
                                 <div className="flex flex-col items-start gap-[14px]">
                                     <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">
                                         Photo Gallery
@@ -611,7 +712,7 @@ export default function DetailPackage() {
                             </div>
 
                             {/* IReviews*/}
-                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
+                            <div id="reviews" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
 
                                 {/**contents */}
                                 <div className="flex flex-col items-start gap-[14px]">
@@ -1205,8 +1306,6 @@ export default function DetailPackage() {
                                     </div>
                                 </div>
                             </div>
-
-
 
                             <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
 

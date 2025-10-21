@@ -102,7 +102,7 @@ export function NewsletterSection() {
                             <div className="space-y-6 pt-4">
                                 {/* Header */}
                                 <div className="text-center space-y-2">
-                                    <h3 className="text-white text-center font-['Figtree'] text-[38px] font-bold leading-normal">Let's Stay Connected</h3>
+                                    <h3 className="text-white text-center font-['Figtree'] text-[38px] font-bold leading-normal">{"Let's Stay Connected"}</h3>
                                     <div className="flex flex-col gap-1">
                                         <p className="text-white text-center font-['Figtree'] text-[18px] font-normal leading-normal">
                                             Join our email list to keep up to date with all the current

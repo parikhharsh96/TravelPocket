@@ -128,7 +128,7 @@ export default function TestimonialCards() {
                         className="flex overflow-x-auto scroll-smooth snap-x snap-mandatory gap-6 px-4 scrollbar-hide no-scrollbar"
                     >
                         {packages.map((pkg) => (
-                            <div className="relative flex-shrink-0 w-full sm:h-[200px] sm:w-1/2 lg:w-1/3 xl:w-1/4 bg-white rounded-lg overflow-hidden snap-start" style={{height: "325px"}}>
+                            <div key={pkg.id} className="relative flex-shrink-0 w-full sm:h-[200px] sm:w-1/2 lg:w-1/3 xl:w-1/4 bg-white rounded-lg overflow-hidden snap-start" style={{height: "325px"}}>
                                 <div className="aspect-[4/3] w-full relative">
                                     <video
                                         poster="/images/testimonialCards/video_poster.png"
