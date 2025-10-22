@@ -12,6 +12,7 @@ const badgeVariants = cva(
         popular: "inline-flex px-[6px] py-[4px] gap-[4px] bg-[#FCD205] text-[#1A2F46]", // Popular badge
         registration:
           "px-[8px] py-[6px] gap-[6px] bg-[#DFF8F1]", // Registrations Open
+        warning: "px-[8px] py-[6px] gap-[6px] bg-[#FFFAE1]",
         outline: "border border-gray-300 text-gray-700",
       },
     },
@@ -24,6 +25,7 @@ const badgeVariants = cva(
 const badgeIconVariants: Record<string, string> = {
   popular: "w-[10px] h-[12px]",
   registration: "w-[6px] h-[6px]",
+  warning: "w-[6px] h-[6px]",
   default: "w-[12px] h-[12px]",
   outline: "w-[12px] h-[12px]",
 };

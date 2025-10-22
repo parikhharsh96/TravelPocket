@@ -10,7 +10,10 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import React from "react";
+import { DepartureDrawer } from "./departure-drawer";
+import { Badge } from "../ui/badge";
 
 const sectionIds = [
     "overview",
@@ -23,10 +26,25 @@ const sectionIds = [
     "reviews",
 ];
 
+const sliderImgs = [
+    { id: '0', imageSrc: '/images/detailpage/slideImg.png', alt: "Majestic snow-capped mountain peak", },
+    { id: '1', imageSrc: '/images/detailpage/slideImg1.png', alt: "Majestic snow-capped mountain peak", },
+    { id: '2', imageSrc: '/images/detailpage/slideImg2.png', alt: "Majestic snow-capped mountain peak", }
+];
+
+const months = [
+    { label: "Sep", year: "2025", active: true },
+    { label: "Oct", year: "2025", active: false },
+    { label: "Nov", year: "2025", active: false },
+    { label: "Dec", year: "2025", active: false },
+];
+
 
 export default function DetailPackage() {
 
     const [activeSection, setActiveSection] = useState("overview");
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [open, setOpen] = useState(false)
 
     const sliderRef = useRef<HTMLDivElement>(null);
     const scrollAmount = 320; // Match card width + margin
@@ -50,9 +68,33 @@ export default function DetailPackage() {
             const section = document.getElementById(id);
             if (section) observer.observe(section);
         });
+        // return () => clearInterval(interval);
 
-        return () => observer.disconnect();
+        return () => {
+            observer.disconnect();
+        }
     }, []);
+
+    // Auto-slide every 5 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            goToNext()
+        }, 5000)
+
+        return () => clearInterval(interval)
+    }, [currentIndex])
+
+    const goToSlide = (index: number) => {
+        setCurrentIndex(index)
+    }
+
+    const goToPrevious = () => {
+        setCurrentIndex((prevIndex) => (prevIndex === 0 ? sliderImgs.length - 1 : prevIndex - 1))
+    }
+
+    const goToNext = () => {
+        setCurrentIndex((prevIndex) => (prevIndex === sliderImgs.length - 1 ? 0 : prevIndex + 1))
+    }
 
     const getTabClass = (id: string) =>
         `rounded-sm ${activeSection === id
@@ -237,14 +279,154 @@ export default function DetailPackage() {
                 </div>
             </section>
 
+            {/**Fixed mobile select date section */}
+            <section className="max-w-[1920px] lg:hidden">
+                <div className="w-full fixed bottom-0 left-0 right-0 z-100">
+                    <div className="bg-[#E97737]" style={{ padding: "8px 16px" }}>
+                        <div className="flex flex-row justify-between">
+
+                            <div className="flex flex-col gap-[4px]">
+                                <div className="text-white font-['Figtree'] text-[12px] font-semibold leading-[16px] uppercase w-[170px]">
+                                    BOOK NOW OR reserve your seat*
+                                </div>
+                                <div className="flex flex-row gap-[6px] items-center">
+                                    <div className="flex flex-row gap-[4px] items-center">
+                                        <div className="text-white font-['Figtree'] text-[10px] font-semibold leading-[14px] line-through">2,85,000</div>
+                                        <div className="text-white font-['Figtree'] text-[10px] font-semibold leading-[14px]">2,75,000</div>
+                                    </div>
+                                    <Separator orientation="vertical" className="!h-[12px] bg-[#D2D8E4] border border-[#D2D8E4]" />
+                                    <div className="flex flex-row gap-[4px] items-center">
+                                        <div className="text-white font-['Figtree'] text-[10px] font-semibold leading-[14px]">EMI starts from</div>
+                                        <div className="text-white font-['Figtree'] text-[10px] font-semibold leading-[14px]">9,500</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="bg-white rounded-[6px] flex items-center cursor-pointer" style={{ padding: "10px 8px" }} onClick={() => setOpen(true)}>
+                                <div className="flex flex-row items-center justify-center gap-[6px]">
+                                    <div className="text-black font-['Figtree'] text-[14px] font-semibold leading-[normal] capitalize">Select Dates</div>
+                                    <img src="/images/detailpage/arrow-right_fd.svg" alt="" className="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="bg-[#D06225]" style={{ padding: "8px 16px" }}>
+                        <div className="flex flex-row justify-between">
+                            <div className="flex flex-row gap-[4px] shrink-0 items-center cursor-pointer">
+                                <img src="/images/detailpage/call_white.svg" alt="" className="" />
+                                <div className="text-white text-center font-['Figtree'] text-[13px] font-semibold leading-[normal] capitalize">
+                                    Request
+                                    <span className="lowercase"> a </span>
+                                    call back
+                                </div>
+                            </div>
+                            <div className="flex flex-row gap-[6px] shrink-0 items-center cursor-pointer">
+                                <div className="text-white font-['Figtree'] text-[13px] font-semibold leading-[normal] capitalize">Chat with us</div>
+                                <img src="/images/detailpage/whatsapp_white.svg" alt="" className="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <DepartureDrawer open={open} onOpenChange={setOpen} />
+
             <section className="max-w-[1920px] px-4 sm:px-6 lg:px-8 py-2">
 
                 <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_575px] gap-6">
                     {/**Left Section */}
                     <div>
 
+                        {/** Image Slider */}
+                        <div className="relative w-full overflow-hidden rounded-xl shadow-2xl mt-4 mb-4">
+                            <div className="relative aspect-[2/1] w-full">
+                                {sliderImgs.map((image, index) => (
+                                    <div
+                                        key={index}
+                                        className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === currentIndex ? "opacity-100" : "opacity-0"
+                                            }`}
+                                    >
+                                        <img src={image.imageSrc || "/placeholder.svg"} alt={image.alt} className="w-full h-full object-cover" />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="lg:hidden absolute left-1/2 top-[10px] -translate-x-1/2 -10 w-[90%] px-5 py-2.5 rounded-[6px] bg-[#FFF]" style={{ padding: "10px 20px" }}>
+                                <div className="flex flex-row justify-between items-center">
+                                    <div className="flex flex-row items-center gap-[6px] cursor-pointer">
+                                        <img src="/images/detailpage/share.svg" alt="" className="h-[18px] w-[18px]" />
+                                        <div className="text-[#5A5A5A] font-['Figtree'] text-[14px] font-semibold leading-[18px]">Share</div>
+                                    </div>
+                                    <div className="flex flex-row items-center gap-[6px] cursor-pointer">
+                                        <img src="/images/detailpage/contract.svg" alt="" className="h-[18px] w-[18px]" />
+                                        <div className="text-[#5A5A5A] font-['Figtree'] text-[14px] font-semibold leading-[18px]">Enquire Now</div>
+                                    </div>
+                                    <div className="flex flex-row items-center gap-[6px] cursor-pointer">
+                                        <img src="/images/detailpage/Vector.svg" alt="" className="h-[18px] w-[18px]" />
+                                        <div className="text-[#5A5A5A] font-['Figtree'] text-[14px] font-semibold leading-[18px]">Wishlist</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-center gap-3 mb-4">
+                            {sliderImgs.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => goToSlide(index)}
+                                    className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${index === currentIndex ? "bg-[#29A4C1] scale-125" : "bg-[#B3CAD0] hover:bg-[#93aeb5]"
+                                        }`}
+                                    aria-label={`Go to slide ${index + 1}`}
+                                />
+                            ))}
+                        </div>
+
                         {/** Share Section */}
-                        
+                        <div className="mb-3">
+                            <div className="hidden lg:flex lg:flex-row lg:justify-between lg:items-center w-full">
+                                <div className="flex flex-row gap-2 items-center">
+                                    <div className="text-[#000] font-['Figtree'] text-[16px] font-medium leading-[24px]">
+                                        Get our assistance for easy booking
+                                    </div>
+                                    <div className="rounded-[6px] bg-[#FFF0E8] cursor-pointer" style={{ padding: "4px 8px" }}>
+                                        <div className="flex flex-row items-center gap-[5px]">
+                                            <img src="/images/detailpage/call.svg" alt="" className="" />
+                                            <div className="text-[#E97737] font-['Figtree'] text-[12px] font-semibold leading-[24px] uppercase">Want us to call you?</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-row gap-[20px] items-center">
+                                    <div className="flex flex-row items-center gap-[8px] cursor-pointer">
+                                        <img src="/images/detailpage/share.svg" alt="" className="h-[24px] w-[24px]" />
+                                        <div className="text-[#5A5A5A] font-['Figtree'] text-[16px] font-semibold leading-[24px]">Share</div>
+                                    </div>
+                                    <div className="flex flex-row items-center gap-[8px] cursor-pointer">
+                                        <img src="/images/detailpage/contract.svg" alt="" className="h-[24px] w-[24px]" />
+                                        <div className="text-[#5A5A5A] font-['Figtree'] text-[16px] font-semibold leading-[24px]">Enquire Now</div>
+                                    </div>
+                                    <div className="flex flex-row items-center gap-[8px] cursor-pointer">
+                                        <img src="/images/detailpage/Vector.svg" alt="" className="h-[24px] w-[24px]" />
+                                        <div className="text-[#5A5A5A] font-['Figtree'] text-[16px] font-semibold leading-[24px]">Wishlist</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/** Mobile And Tablet Device */}
+                            <div className="flex flex-row justify-between items-center w-full lg:hidden">
+                                <div className="text-[#000] font-['Figtree'] text-[14px] font-medium leading-[19px] shrink-1">
+                                    Get our assistance for easy booking
+                                </div>
+                                <div className="rounded-[6px] bg-[#FFF0E8] cursor-pointer shrink-0" style={{ padding: "4px 8px" }}>
+                                    <div className="flex flex-row items-center gap-[5px]">
+                                        <img src="/images/detailpage/call.svg" alt="" className="" />
+                                        <div className="text-[#E97737] font-['Figtree'] text-[12px] font-semibold leading-[24px] uppercase">Want us to call you?</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
 
                         {/** Fixed Section */}
                         <div className="sticky top-0 z-50 rounded-lg bg-white shadow-[0_4px_10px_0_rgba(0,_0,_0,_0.16)] mb-4 overflow-x-auto whitespace-nowrap" style={{ padding: "10px 10px" }}>
@@ -1335,6 +1517,127 @@ export default function DetailPackage() {
                     {/**Ends here */}
                 </div>
 
+            </section>
+
+            <section className="max-w-[1920px] px-4 sm:px-6 lg:px-8 py-2 mt-[80px]">
+                <div className="relative flex-1 text-center">
+                    {/* Circle background */}
+                    <div className="absolute left-1/2 -translate-x-1/2 -top-6" style={{ top: '-40px' }}>
+                        <img
+                            src="/images/trendingpackages/titledesign.svg"
+                            alt="Title Circle"
+                            width={150}
+                            height={150}
+                            className="mx-auto"
+                        />
+                    </div>
+
+                    {/* Text */}
+                    <div className="relative">
+                        <p className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] md:text-[16px] font-semibold capitalize">Thoughtful Travel Gifts</p>
+                        <h2 className="text-[#1A2F46] text-center font-['Playfair Display'] text-[28px] md:text-[36px] font-semibold">
+                            Kailash Mansarovar Parikrama 2025 ( Tibet ) Gift Sets
+                        </h2>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 mb-4 mt-[50px]">
+                    <div className="flex flex-col gap-[10px]">
+                        <div className="relative inline-block">
+                            <img
+                                src="/images/detailpage/duffle_bag.png" // Replace with your image path
+                                alt="Travel Pocket"
+                                className="w-full h-[200px] object-contain rounded-[8px]"
+                            />
+                            {/* <span className="absolute top-2 left-2 text-yellow-500 bg-white px-2 py-1 text-xs font-semibold rounded-full">
+                                GIFT
+                            </span> */}
+                            <Badge
+                                variant="popular"
+                                icon="/images/detailpage/featured_seasonal_and_gifts.svg"
+                                className="absolute top-1 left-1 rounded-[4px] bg-[#FCD205]"
+                            >
+                                <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-medium leading-[14px] uppercase">Gift</span>
+                            </Badge>
+                        </div>
+                        <div className="flex flex-col gap-[6px]">
+                            <div className="text-[#333] font-['Figtree'] text-[20px] font-semibold leading-normal">Duffel Bag</div>
+                            <div className="text-[#333] font-['Figtree'] text-[16px] font-normal leading-[22px]">Spacious, durable & travel-ready.</div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-[10px]">
+                        <div className="relative inline-block">
+                            <img
+                                src="/images/detailpage/gift_1.png" // Replace with your image path
+                                alt="Travel Pocket"
+                                className="w-full h-[200px] object-contain rounded-[8px]"
+                            />
+                            {/* <span className="absolute top-2 left-2 text-yellow-500 bg-white px-2 py-1 text-xs font-semibold rounded-full">
+                                GIFT
+                            </span> */}
+                            <Badge
+                                variant="popular"
+                                icon="/images/detailpage/featured_seasonal_and_gifts.svg"
+                                className="absolute top-1 left-1 rounded-[4px] bg-[#FCD205]"
+                            >
+                                <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-medium leading-[14px] uppercase">Gift</span>
+                            </Badge>
+                        </div>
+                        <div className="flex flex-col gap-[6px]">
+                            <div className="text-[#333] font-['Figtree'] text-[20px] font-semibold leading-normal">Backpack</div>
+                            <div className="text-[#333] font-['Figtree'] text-[16px] font-normal leading-[22px]">Lightweight & handy for daily yatra use.</div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-[10px]">
+                        <div className="relative inline-block">
+                            <img
+                                src="/images/detailpage/gift_2.png" // Replace with your image path
+                                alt="Travel Pocket"
+                                className="w-full h-[200px] object-contain rounded-[8px]"
+                            />
+                            {/* <span className="absolute top-2 left-2 text-yellow-500 bg-white px-2 py-1 text-xs font-semibold rounded-full">
+                                GIFT
+                            </span> */}
+                            <Badge
+                                variant="popular"
+                                icon="/images/detailpage/featured_seasonal_and_gifts.svg"
+                                className="absolute top-1 left-1 rounded-[4px] bg-[#FCD205]"
+                            >
+                                <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-medium leading-[14px] uppercase">Gift</span>
+                            </Badge>
+                        </div>
+                        <div className="flex flex-col gap-[6px]">
+                            <div className="text-[#333] font-['Figtree'] text-[20px] font-semibold leading-normal">Jacket</div>
+                            <div className="text-[#333] font-['Figtree'] text-[16px] font-normal leading-[22px]">Keeps you warm at high altitudes.</div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-[10px]">
+                        <div className="relative inline-block">
+                            <img
+                                src="/images/detailpage/gift_3.png" // Replace with your image path
+                                alt="Travel Pocket"
+                                className="w-full h-[200px] object-contain rounded-[8px]"
+                            />
+                            {/* <span className="absolute top-2 left-2 text-yellow-500 bg-white px-2 py-1 text-xs font-semibold rounded-full">
+                                GIFT
+                            </span> */}
+                            <Badge
+                                variant="popular"
+                                icon="/images/detailpage/featured_seasonal_and_gifts.svg"
+                                className="absolute top-1 left-1 rounded-[4px] bg-[#FCD205]"
+                            >
+                                <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-medium leading-[14px] uppercase">Gift</span>
+                            </Badge>
+                        </div>
+                        <div className="flex flex-col gap-[6px]">
+                            <div className="text-[#333] font-['Figtree'] text-[20px] font-semibold leading-normal">Puja Samagri Kit</div>
+                            <div className="text-[#333] font-['Figtree'] text-[16px] font-normal leading-[22px]">Includes all essentials for spiritual rituals.</div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </>
     )
