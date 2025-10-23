@@ -84,6 +84,7 @@ export default function DetailPackage() {
     const [open, setOpen] = useState(false)
 
     const sliderRef = useRef<HTMLDivElement>(null);
+    const tabRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const scrollAmount = 320; // Match card width + margin
 
     useEffect(() => {
@@ -119,7 +120,18 @@ export default function DetailPackage() {
         }, 5000)
 
         return () => clearInterval(interval)
-    }, [currentIndex])
+    }, [currentIndex]);
+
+    useEffect(() => {
+        const activeTab = tabRefs.current[activeSection];
+        if (activeTab) {
+            activeTab.scrollIntoView({
+                behavior: "smooth",
+                inline: "center", // keeps it centered horizontally
+                block: "nearest",
+            });
+        }
+    }, [activeSection]);
 
     const goToSlide = (index: number) => {
         setCurrentIndex(index)
@@ -468,28 +480,45 @@ export default function DetailPackage() {
                         {/** Fixed Section */}
                         <div className="sticky top-0 z-50 rounded-lg bg-white shadow-[0_4px_10px_0_rgba(0,_0,_0,_0.16)] mb-4 overflow-x-auto whitespace-nowrap" style={{ padding: "10px 10px" }}>
                             <div className="flex flex-row gap-4 items-center">
-                                <div className={getTabClass("overview")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("overview")}>
+                                <div className={getTabClass("overview")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("overview")} ref={(el) => {
+                                    tabRefs.current["overview"] = el;
+                                }}>
                                     <span className={getTabTextClass("overview")}>Overview</span>
                                 </div>
-                                <div className={getTabClass("highlights")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("highlights")}>
+                                <div className={getTabClass("highlights")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("highlights")}
+                                    ref={(el) => {
+                                        tabRefs.current["highlights"] = el;
+                                    }}>
                                     <span className={getTabTextClass("highlights")}>Highlights</span>
                                 </div>
-                                <div className={getTabClass("itinerary")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("itinerary")}>
+                                <div className={getTabClass("itinerary")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("itinerary")} ref={(el) => {
+                                    tabRefs.current["itinerary"] = el;
+                                }}>
                                     <span className={getTabTextClass("itinerary")}>Itinerary</span>
                                 </div>
-                                <div className={getTabClass("essentials")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("essentials")}>
+                                <div className={getTabClass("essentials")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("essentials")} ref={(el) => {
+                                    tabRefs.current["essentials"] = el;
+                                }}>
                                     <span className={getTabTextClass("essentials")}>Essentials</span>
                                 </div>
-                                <div className={getTabClass("inclusions")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("inclusions")}>
+                                <div className={getTabClass("inclusions")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("inclusions")} ref={(el) => {
+                                    tabRefs.current["inclusions"] = el;
+                                }}>
                                     <span className={getTabTextClass("inclusions")}>Inclusions & Exclusions</span>
                                 </div>
-                                <div className={getTabClass("info-links")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("info-links")}>
+                                <div className={getTabClass("info-links")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("info-links")} ref={(el) => {
+                                    tabRefs.current["info-links"] = el;
+                                }}>
                                     <span className={getTabTextClass("info-links")}>Info Links and Downloads</span>
                                 </div>
-                                <div className={getTabClass("gallery")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("gallery")}>
+                                <div className={getTabClass("gallery")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("gallery")} ref={(el) => {
+                                    tabRefs.current["gallery"] = el;
+                                }}>
                                     <span className={getTabTextClass("gallery")}>Photo Gallery</span>
                                 </div>
-                                <div className={getTabClass("reviews")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("reviews")}>
+                                <div className={getTabClass("reviews")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("reviews")} ref={(el) => {
+                                    tabRefs.current["reviews"] = el;
+                                }}>
                                     <span className={getTabTextClass("reviews")}>Reviews</span>
                                 </div>
                             </div>
