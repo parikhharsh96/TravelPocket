@@ -15,6 +15,17 @@ import React from "react";
 import { DepartureDrawer } from "./departure-drawer";
 import { Badge } from "../ui/badge";
 
+interface GiftProduct {
+    id: number
+    name: string
+    description: string
+    image: string
+}
+
+interface GiftProductCardProps {
+    product: GiftProduct
+}
+
 const sectionIds = [
     "overview",
     "highlights",
@@ -39,6 +50,32 @@ const months = [
     { label: "Dec", year: "2025", active: false },
 ];
 
+const products = [
+    {
+        id: 1,
+        name: "Duffel Bag",
+        description: "Spacious, durable & travel-ready.",
+        image: "/images/detailpage/bag_img.png",
+    },
+    {
+        id: 2,
+        name: "Backpack",
+        description: "Lightweight & handy for daily yatra use.",
+        image: "/images/detailpage/bagpack_m.png",
+    },
+    {
+        id: 3,
+        name: "Jacket",
+        description: "Keeps you warm at high altitudes.",
+        image: "/images/detailpage/gift_jacket.png",
+    },
+    {
+        id: 4,
+        name: "Puja Samagri Kit",
+        description: "Includes all essentials for spiritual rituals.",
+        image: "/images/detailpage/gift-acc.png",
+    },
+]
 
 export default function DetailPackage() {
 
@@ -1520,9 +1557,8 @@ export default function DetailPackage() {
             </section>
 
             <section className="max-w-[1920px] px-4 sm:px-6 lg:px-8 py-2 mt-[80px]">
-                <div className="relative flex-1 text-center">
-                    {/* Circle background */}
-                    <div className="absolute left-1/2 -translate-x-1/2 -top-6" style={{ top: '-40px' }}>
+                <div className="flex flex-col justify-center items-center gap-8">
+                    <div className="relative w-full">
                         <img
                             src="/images/trendingpackages/titledesign.svg"
                             alt="Title Circle"
@@ -1530,28 +1566,30 @@ export default function DetailPackage() {
                             height={150}
                             className="mx-auto"
                         />
+                        <div className="absolute top-0 md:top-[30px] w-full">
+                            <p className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] md:text-[16px] font-semibold capitalize">Thoughtful Travel Gifts</p>
+                            <h2 className="text-[#1A2F46] text-center font-['Playfair Display'] text-[28px] md:text-[36px] font-semibold">
+                                Kailash Mansarovar Parikrama 2025 ( Tibet ) Gift Sets
+                            </h2>
+                        </div>
                     </div>
 
-                    {/* Text */}
-                    <div className="relative">
-                        <p className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] md:text-[16px] font-semibold capitalize">Thoughtful Travel Gifts</p>
-                        <h2 className="text-[#1A2F46] text-center font-['Playfair Display'] text-[28px] md:text-[36px] font-semibold">
-                            Kailash Mansarovar Parikrama 2025 ( Tibet ) Gift Sets
-                        </h2>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 lg:grid-cols-4 mb-4">
+                        {products.map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                        ))}
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 mb-4 mt-[50px]">
-                    <div className="flex flex-col gap-[10px]">
+                {/* <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 mb-4 mt-[50px]">
+                    <div className="flex flex-col gap-[10px] items-start">
                         <div className="relative inline-block">
                             <img
-                                src="/images/detailpage/duffle_bag.png" // Replace with your image path
+                                src="/images/detailpage/duffle_bag.png" 
                                 alt="Travel Pocket"
                                 className="w-full h-[200px] object-contain rounded-[8px]"
                             />
-                            {/* <span className="absolute top-2 left-2 text-yellow-500 bg-white px-2 py-1 text-xs font-semibold rounded-full">
-                                GIFT
-                            </span> */}
+                           
                             <Badge
                                 variant="popular"
                                 icon="/images/detailpage/featured_seasonal_and_gifts.svg"
@@ -1566,16 +1604,14 @@ export default function DetailPackage() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-[10px]">
+                    <div className="flex flex-col gap-[10px] items-start">
                         <div className="relative inline-block">
                             <img
-                                src="/images/detailpage/gift_1.png" // Replace with your image path
+                                src="/images/detailpage/gift_1.png"
                                 alt="Travel Pocket"
                                 className="w-full h-[200px] object-contain rounded-[8px]"
                             />
-                            {/* <span className="absolute top-2 left-2 text-yellow-500 bg-white px-2 py-1 text-xs font-semibold rounded-full">
-                                GIFT
-                            </span> */}
+                            
                             <Badge
                                 variant="popular"
                                 icon="/images/detailpage/featured_seasonal_and_gifts.svg"
@@ -1590,16 +1626,14 @@ export default function DetailPackage() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-[10px]">
+                    <div className="flex flex-col gap-[10px] items-start">
                         <div className="relative inline-block">
                             <img
-                                src="/images/detailpage/gift_2.png" // Replace with your image path
+                                src="/images/detailpage/gift_2.png"
                                 alt="Travel Pocket"
                                 className="w-full h-[200px] object-contain rounded-[8px]"
                             />
-                            {/* <span className="absolute top-2 left-2 text-yellow-500 bg-white px-2 py-1 text-xs font-semibold rounded-full">
-                                GIFT
-                            </span> */}
+                            
                             <Badge
                                 variant="popular"
                                 icon="/images/detailpage/featured_seasonal_and_gifts.svg"
@@ -1614,16 +1648,14 @@ export default function DetailPackage() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-[10px]">
+                    <div className="flex flex-col gap-[10px] items-start">
                         <div className="relative inline-block">
                             <img
-                                src="/images/detailpage/gift_3.png" // Replace with your image path
+                                src="/images/detailpage/gift_3.png" 
                                 alt="Travel Pocket"
                                 className="w-full h-[200px] object-contain rounded-[8px]"
                             />
-                            {/* <span className="absolute top-2 left-2 text-yellow-500 bg-white px-2 py-1 text-xs font-semibold rounded-full">
-                                GIFT
-                            </span> */}
+                            
                             <Badge
                                 variant="popular"
                                 icon="/images/detailpage/featured_seasonal_and_gifts.svg"
@@ -1637,12 +1669,41 @@ export default function DetailPackage() {
                             <div className="text-[#333] font-['Figtree'] text-[16px] font-normal leading-[22px]">Includes all essentials for spiritual rituals.</div>
                         </div>
                     </div>
-                </div>
+                </div> */}
+
+
             </section>
         </>
     )
 }
 
+function ProductCard({ product }: GiftProductCardProps) {
+    return (
+        <div className="flex flex-col gap-[10px] items-start">
+            <div className="relative">
+                <img
+                    src={product.image}
+                    alt={`product-`}
+                    className="object-contain rounded-lg border border-[#EAEAEA] bg-white"
+                />
+                {/* Gift Badge - positioned absolutely at top-left for all devices */}
+                <Badge
+                    variant="popular"
+                    icon="/images/detailpage/featured_seasonal_and_gifts.svg"
+                    className="absolute top-1 left-1 rounded-[4px] bg-[#FCD205]"
+                >
+                    <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-medium leading-[14px] uppercase">Gift</span>
+                </Badge>
+            </div>
+
+            {/* Product Info */}
+            <div className="flex flex-col gap-[6px]">
+                <h3 className="text-[#333] font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{product.name}</h3>
+                <p className="text-[#333] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[21px] md:leading-[22px]">{product.description}</p>
+            </div>
+        </div>
+    )
+}
 
 function ItineraryAccordion() {
     return (
