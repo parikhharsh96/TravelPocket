@@ -27,6 +27,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { SortByDrawer } from "./sort-by-drawer";
+import { FilterByDrawer } from "./filter-by-drawer";
 
 const packages = [
     {
@@ -167,7 +168,8 @@ const tourOptions: string[] = [
 export default function AllDestinations() {
 
     const [selected, setSelected] = useState<string[]>(['All']);
-     const [openSortDrawer, setOpenSortDrawer] = useState(false)
+    const [openSortDrawer, setOpenSortDrawer] = useState(false);
+    const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
 
     const toggleOption = (option: string): void => {
         setSelected((prevSelected) => {
@@ -466,7 +468,7 @@ export default function AllDestinations() {
                             <div className="px-3 py-3 w-full">
                                 <div className="flex flex-row gap-[6px] items-center justify-center cursor-pointer">
                                     <img src="/images/listingpage/settings-sliders.svg" className="" alt="" />
-                                    <div className="text-white text-center font-['Figtree'] text-[14px] font-semibold leading-normal">Filter</div>
+                                    <div className="text-white text-center font-['Figtree'] text-[14px] font-semibold leading-normal" onClick={() => setOpenFilterDrawer(true)}>Filter</div>
                                 </div>
                             </div>
                         </div>
@@ -477,6 +479,9 @@ export default function AllDestinations() {
 
             {/**SortBy Drawer */}
             <SortByDrawer open={openSortDrawer} onOpenChange={setOpenSortDrawer} />
+            {/**FilterBy Drawer */}
+            <FilterByDrawer open={openFilterDrawer} onOpenChange={setOpenFilterDrawer} />
+
         </>
     )
 

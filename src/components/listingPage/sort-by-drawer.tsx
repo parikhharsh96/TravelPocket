@@ -54,9 +54,9 @@ export function SortByDrawer({ open, onOpenChange, data }: SortByDrawerProps) {
                     <DrawerHeader className="pb-4">
                         <div className="flex flex-col gap-[10px]">
                             <div className="flex flex-row justify-between items-center w-full">
-                                <DrawerTitle className="text-black font-['Figtree'] text-[18px] font-semibold leading-[normal]">Sort By</DrawerTitle>
-                                <Button variant="ghost" size="icon" onClick={() => onOpenChange(false)} className="h-8 w-8 ml-auto">
-                                    <X className="h-5 w-5" />
+                                <DrawerTitle className="text-black font-['Figtree'] text-[20px] not-italic font-semibold leading-normal">Sort By</DrawerTitle>
+                                <Button variant="ghost" size="icon" onClick={() => onOpenChange(false)} className="!h-[24px] !w-[24px] ml-auto">
+                                    <X className="!h-[24px] !w-[24px]" />
                                 </Button>
                             </div>
                         </div>
