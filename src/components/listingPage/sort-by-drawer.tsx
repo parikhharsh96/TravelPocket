@@ -13,6 +13,39 @@ interface SortByDrawerProps {
     data?: any
 }
 
+const filterItems = [
+    {
+        id: "popularity",
+        iconSrc: "/images/listingpage/fire.svg",
+        text: "Popularity"
+    },
+    {
+        id: "latest",
+        iconSrc: "/images/listingpage/tag-icon.svg",
+        text: "Latest"
+    },
+    {
+        id: "featured",
+        iconSrc: "/images/listingpage/star.svg",
+        text: "Featured"
+    },
+    {
+        id: "price-low-to-high",
+        iconSrc: "/images/listingpage/down.svg",
+        text: "Price: Low to High"
+    },
+    {
+        id: "price-high-to-low",
+        iconSrc: "/images/listingpage/sort.svg",
+        text: "Price: High to Low"
+    },
+    {
+        id: "discount",
+        iconSrc: "/images/listingpage/discount.svg",
+        text: "Discount"
+    }
+];
+
 export function SortByDrawer({ open, onOpenChange, data }: SortByDrawerProps) {
     return (
         <Drawer open={open} onOpenChange={onOpenChange}>
@@ -21,39 +54,25 @@ export function SortByDrawer({ open, onOpenChange, data }: SortByDrawerProps) {
                     <DrawerHeader className="pb-4">
                         <div className="flex flex-col gap-[10px]">
                             <div className="flex flex-row justify-between items-center w-full">
-                                <DrawerTitle className="text-black font-['Figtree'] text-[18px] font-semibold leading-[normal]">Select Departure Month</DrawerTitle>
+                                <DrawerTitle className="text-black font-['Figtree'] text-[18px] font-semibold leading-[normal]">Sort By</DrawerTitle>
                                 <Button variant="ghost" size="icon" onClick={() => onOpenChange(false)} className="h-8 w-8 ml-auto">
                                     <X className="h-5 w-5" />
                                 </Button>
                             </div>
                         </div>
-                        <div className="flex flex-row gap-[8px] items-center flex-wrap">
-                            <div className="max-w-[50px] rounded-lg border border-[#D2D8E4] bg-[#1A2F46]" style={{ padding: "12px 12px" }}>
-                                <div className="flex flex-col items-center gap-[8px]">
-                                    <div className="text-white text-center font-['Figtree'] text-[14px] font-semibold leading-[normal]">Aug</div>
-                                    <div className="text-white text-center font-['Figtree'] text-[14px] font-semibold leading-[normal]">2025</div>
-                                </div>
-                            </div>
-                            <div className="max-w-[50px] rounded-lg border border-[#D2D8E4] bg-white" style={{ padding: "12px 12px" }}>
-                                <div className="flex flex-col items-center gap-[8px]">
-                                    <div className="text-[#4D4D4D] text-center font-['Figtree'] text-[14px] font-normal leading-[normal]">Oct</div>
-                                    <div className="text-[#4D4D4D] text-center font-['Figtree'] text-[14px] font-normal leading-[normal]">2025</div>
-                                </div>
-                            </div>
-                            <div className="max-w-[50px] rounded-lg border border-[#D2D8E4] bg-white" style={{ padding: "12px 12px" }}>
-                                <div className="flex flex-col items-center gap-[8px]">
-                                    <div className="text-[#4D4D4D] text-center font-['Figtree'] text-[14px] font-normal leading-[normal]">Nov</div>
-                                    <div className="text-[#4D4D4D] text-center font-['Figtree'] text-[14px] font-normal leading-[normal]">2025</div>
-                                </div>
-                            </div>
-                            <div className="max-w-[50px] rounded-lg border border-[#D2D8E4] bg-white" style={{ padding: "12px 12px" }}>
-                                <div className="flex flex-col items-center gap-[8px]">
-                                    <div className="text-[#4D4D4D] text-center font-['Figtree'] text-[14px] font-normal leading-[normal]">Dec</div>
-                                    <div className="text-[#4D4D4D] text-center font-['Figtree'] text-[14px] font-normal leading-[normal]">2025</div>
-                                </div>
-                            </div>
-                        </div>
                     </DrawerHeader>
+
+                    <div className="w-full bg-[#EBF5F7] px-5 py-4">
+                        <div className="flex flex-col items-start gap-[18px]">
+                            {filterItems.map((item) => (
+                                <div key={item.id} className="flex flex-row items-center gap-[12px] cursor-pointer">
+                                    <img src={item.iconSrc} alt={item.text} className="" />
+                                    <div className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">{item.text}</div>
+                                </div>
+
+                            ))}
+                        </div>
+                    </div>
                 </ScrollArea>
             </DrawerContent>
         </Drawer>
