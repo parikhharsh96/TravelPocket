@@ -445,6 +445,16 @@ export default function AllDestinations() {
                             {/**Banner Featured Strip ends here*/}
 
                         </div>
+
+                        {/**Load more btn */}
+                        <div className="w-full flex flex-row items-center justify-center mt-4 mb-4">
+                            <div className="rounded-[6px] border border-[#E97737] px-3 py-2 bg-[#E97737]">
+                                <div className="flex flex-row gap-[10px] items-center">
+                                    <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-normal uppercase">Load More</div>
+                                    <img src="/images/listingpage/loadMore_white.svg" alt="" className=""/>
+                                </div>
+                            </div>
+                        </div>
                     </main>
 
                 </div>
