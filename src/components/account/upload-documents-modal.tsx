@@ -60,13 +60,13 @@ export function UploadDocumentsModal({
       <div className="bg-white rounded-lg w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-[#e5e5e5] p-3 sm:p-4 md:p-6 flex items-center justify-between z-10">
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-[#1a2f46]">Upload Documents</h2>
+          <h2 className="ext-[#1A2F46] font-['Playfair_Display'] text-[24px] md:text-[28px] font-semibold leading-normal">Upload Documents</h2>
           <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors flex-shrink-0"
             aria-label="Close modal"
           >
-            <X className="w-5 h-5 text-[#5a5a5a]" />
+            <X className="w-5 h-5 text-[#5a5a5a] cursor-pointer" />
           </button>
         </div>
 
@@ -81,26 +81,31 @@ export function UploadDocumentsModal({
                 <button
                   key={travNum}
                   onClick={() => setActiveTraveller(travNum)}
-                  className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap text-sm sm:text-base ${
-                    isActive
-                      ? "bg-[#1a2f46] text-white"
-                      : "bg-white border-2 border-[#1a2f46] text-[#1a2f46] hover:bg-[#f5f5f5]"
-                  }`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-[6px] font-medium ${activeTraveller === index + 1
+                    ? "bg-[#1A2F46]"
+                    : "bg-white border-1 border-[#1A2F46]"
+                    }`}
                 >
-                  <User className="w-4 h-4" />
-                  Traveller {travNum}
+                  <div className="rounded-[4px] bg-[#EBF5F7] p-2 flex items-center justify-center flex-shrink-0">
+                    {/* <User className="w-6 h-6 text-white" /> */}
+                    <img src="/images/account/user2_blue.svg" alt="" className="w-[16px] h-[16px]" />
+                  </div>
+                  <span className={`font-['Figtree'] text-[14px] md:text-[16px] font-semibold leading-normal ${activeTraveller === index + 1
+                    ? "text-white"
+                    : "text-[#1A2F46]"
+                    }`}>Traveller {travNum}</span>
                 </button>
               )
             })}
           </div>
 
           {/* Traveller Name */}
-          <h3 className="text-base sm:text-lg font-bold text-[#1a2f46] mb-4 sm:mb-6">{travellerName}</h3>
+          <h3 className="text-black font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-normal mb-4 sm:mb-6">{travellerName}</h3>
 
           {/* Personal Documents Section */}
           <div className="mb-4 sm:mb-6">
-            <h4 className="text-xs sm:text-sm font-bold text-[#1a2f46] bg-[#fff7f2] px-3 sm:px-4 py-2 mb-3 sm:mb-4 uppercase tracking-wide">
-              Personal Documents
+            <h4 className="bg-[#FFF7F2] px-4 py-2 rounded-[2px] mb-3 sm:mb-4">
+              <span className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal uppercase">Personal Documents</span>
             </h4>
 
             <div className="space-y-3 sm:space-y-4">
@@ -121,8 +126,8 @@ export function UploadDocumentsModal({
 
           {/* Identification Documents Section */}
           <div className="mb-4 sm:mb-6">
-            <h4 className="text-xs sm:text-sm font-bold text-[#1a2f46] bg-[#fff7f2] px-3 sm:px-4 py-2 mb-3 sm:mb-4 uppercase tracking-wide">
-              Identification Documents
+            <h4 className="bg-[#FFF7F2] px-4 py-2 rounded-[2px] mb-3 sm:mb-4">
+              <span className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal uppercase">Identification Documents</span>
             </h4>
 
             <div className="space-y-3 sm:space-y-4">
@@ -133,7 +138,7 @@ export function UploadDocumentsModal({
                 onChange={(file) => handleFileChange("aadhaarFront", file)}
                 icon={
                   <Image
-                    src="/images/account/aadhaar-logo.jpg"
+                    src="/images/account/aadhaar_english_logo.svg"
                     alt="Aadhaar"
                     width={24}
                     height={24}
@@ -148,7 +153,7 @@ export function UploadDocumentsModal({
                 onChange={(file) => handleFileChange("aadhaarBack", file)}
                 icon={
                   <Image
-                    src="/images/account/aadhaar-logo.jpg"
+                    src="/images/account/aadhaar_english_logo.svg"
                     alt="Aadhaar"
                     width={24}
                     height={24}
@@ -162,8 +167,8 @@ export function UploadDocumentsModal({
           {/* Other Documents Section (Conditional) */}
           {isKailashYatra && (
             <div className="mb-4 sm:mb-6">
-              <h4 className="text-xs sm:text-sm font-bold text-[#1a2f46] bg-[#fff7f2] px-3 sm:px-4 py-2 mb-3 sm:mb-4 uppercase tracking-wide">
-                Other Documents (Applicable Only For Kailash Mansarovar Yatra)
+              <h4 className="bg-[#FFF7F2] px-4 py-2 rounded-[2px] mb-3 sm:mb-4">
+                <span className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal uppercase">Other Documents (Applicable Only For Kailash Mansarovar Yatra)</span>
               </h4>
 
               <div className="space-y-3 sm:space-y-4">
@@ -174,7 +179,7 @@ export function UploadDocumentsModal({
                   onChange={(file) => handleFileChange("panCard", file)}
                   icon={
                     <Image
-                      src="/images/account/pan-card-logo.jpg"
+                      src="/images/account/pan.svg"
                       alt="PAN Card"
                       width={24}
                       height={24}
@@ -189,7 +194,7 @@ export function UploadDocumentsModal({
                   onChange={(file) => handleFileChange("passportPhoto", file)}
                   icon={
                     <Image
-                      src="/images/account/passport-icon.png"
+                      src="/images/account/passport.png"
                       alt="Passport"
                       width={24}
                       height={24}
@@ -205,9 +210,9 @@ export function UploadDocumentsModal({
           <div className="flex justify-center mt-6 sm:mt-8">
             <button
               onClick={handleSave}
-              className="w-full sm:w-auto bg-[#e97737] hover:bg-[#d86830] text-white font-medium py-3 px-6 sm:px-8 rounded-lg transition-colors text-sm sm:text-base"
+              className="w-full sm:w-auto bg-[#e97737] hover:bg-[#d86830] py-3 px-6 sm:px-8 rounded-lg transition-colors cursor-pointer"
             >
-              SAVE ALL DOCUMENTS
+              <span className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">SAVE ALL DOCUMENTS</span>
             </button>
           </div>
         </div>
@@ -251,40 +256,44 @@ function FileUploadField({ label, required, file, onChange, icon }: FileUploadFi
     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start">
       {/* Label and File Input */}
       <div className="flex-1 w-full">
-        <label className="block text-xs sm:text-sm font-medium text-[#1a2f46] mb-2">
+        <label className="block text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal mb-2">
           {icon && <span className="inline-block mr-2 align-middle">{icon}</span>}
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-[#FF0000] ml-1">*</span>}
         </label>
         <div className="relative">
           <input
             id={`file-input-${label}`}
             type="file"
             onChange={handleFileChange}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer text-black font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal"
             accept="image/*,.pdf"
           />
           <div className="flex items-center gap-2 border border-[#e5e5e5] rounded-lg p-2 sm:p-3 bg-white">
             <button
               type="button"
-              className="bg-[#1c8ca7] hover:bg-[#157a92] text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded transition-colors whitespace-nowrap group cursor-pointer ${
+                file ? "bg-[#1C8CA7]" : "bg-[#EBF5F7]"
+              }`}
             >
-              Choose File
+              <span className={`font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[19px] group-hover:text-white ${
+                file ? "text-white" : "text-[#1C8CA7]"
+              }`}>Choose File</span>
             </button>
-            <span className="text-xs sm:text-sm text-[#5a5a5a] truncate">{file ? file.name : "No File Chosen"}</span>
+            <span className="text-black font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal truncate">{file ? file.name : "No File Chosen"}</span>
           </div>
         </div>
       </div>
 
       {/* Preview */}
       <div className="relative flex-shrink-0 self-center sm:self-start">
-        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-[#f5f5f5] border border-[#e5e5e5] rounded-lg flex items-center justify-center overflow-hidden">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 bg-[#F2F2F2] rounded-[4px] border border-[#D2D8E4] bg-[#F2F2F2] flex items-center justify-center overflow-hidden">
           {previewUrl ? (
             <img src={previewUrl || "/placeholder.svg"} alt={label} className="w-full h-full object-cover" />
           ) : (
             <div className="text-center">
               <User className="w-5 h-5 sm:w-6 sm:h-6 text-[#d9d9d9] mx-auto mb-1" />
-              <span className="text-[10px] sm:text-xs text-[#5a5a5a]">PHOTO</span>
+              <span className="text-black font-['Figtree'] text-[10px] md:text-[12px] font-normal leading-normal uppercase">PHOTO</span>
             </div>
           )}
         </div>

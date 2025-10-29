@@ -105,29 +105,34 @@ export function SavedTravellers() {
 
   return (
     <div className="space-y-4 md:space-y-6">
-      <h2 className="text-2xl md:text-3xl font-bold text-[#1a2f46]">Saved Travellers</h2>
+      <h2 className="text-black font-['Figtree'] text-[18px] md:text-[20px] font-semibold leading-normal">Saved Travellers</h2>
 
-      <div className="bg-white rounded-lg border border-[#e5e5e5] p-4 md:p-6">
+      <div className="bg-white rounded-lg border border-[#D2D8E4] p-4 md:p-6">
         {/* Header with Add Button */}
-        <div className="flex justify-end mb-6">
+        <div className="flex justify-between items-center mb-6">
+          <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] md:text-[22px] font-semibold leading-normal">Travellers List</div>
           <button
             onClick={handleAddTraveller}
-            className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-[#e97737] text-white rounded-lg font-medium hover:bg-[#d86629] transition-colors text-sm md:text-base"
+            className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-[#e97737] rounded-lg hover:bg-[#d86629] transition-colors"
           >
-            <Plus className="w-4 h-4 md:w-5 md:h-5" />
-            ADD NEW TRAVELLER
+            {/* <Plus className="w-4h-4 md:w-5 md:h-5" /> */}
+            <img src="/images/account/add_box.svg" className="h-[18px] w-[18px] lg:h-[20px] lg:w-[20px]" />
+            <span className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">ADD NEW TRAVELLER</span>
           </button>
         </div>
 
         {/* Desktop Table View */}
         <div className="hidden lg:block">
-          <div className="grid grid-cols-[2fr_1.5fr_1fr_1.5fr_2fr] gap-4 pb-4 mb-4 border-b border-[#e5e5e5]">
-            <div className="text-sm font-bold text-[#1a2f46] uppercase tracking-wide">NAME</div>
-            <div className="text-sm font-bold text-[#1a2f46] uppercase tracking-wide">D.O.B</div>
-            <div className="text-sm font-bold text-[#1a2f46] uppercase tracking-wide">GENDER</div>
-            <div className="text-sm font-bold text-[#1a2f46] uppercase tracking-wide">STATUS</div>
-            <div className="text-sm font-bold text-[#1a2f46] uppercase tracking-wide">ACTIONS</div>
+          <div className="rounded-[2px] bg-[#FFF7F2] border-b border-[#e5e5e5]">
+            <div className="grid grid-cols-[2fr_1.5fr_1fr_1.5fr_2fr] gap-4 pb-4 py-2">
+              <div className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal uppercase ml-4 text-start">NAME</div>
+              <div className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal text-start">D.O.B</div>
+              <div className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal text-start">GENDER</div>
+              <div className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal text-start">STATUS</div>
+              <div className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal text-start">ACTIONS</div>
+            </div>
           </div>
+
 
           <div className="space-y-4">
             {Object.entries(savedTravellers).map(([key, traveller]) => {
@@ -139,26 +144,27 @@ export function SavedTravellers() {
                 >
                   {/* Name */}
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-[#1c8ca7] flex items-center justify-center flex-shrink-0">
-                      <User className="w-6 h-6 text-white" />
+                    <div className="rounded-[4px] bg-[#EBF5F7] p-4 flex items-center justify-center flex-shrink-0">
+                      {/* <User className="w-6 h-6 text-white" /> */}
+                      <img src="/images/account/user2_blue.svg" alt="" className="" />
                     </div>
                     <div>
-                      <div className="font-bold text-[#1a2f46] underline">
+                      <div className="text-black font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-normal underline decoration-solid decoration-1 underline-offset-auto">
                         {traveller.firstName} {traveller.lastName}
                       </div>
-                      <div className="text-sm text-[#5a5a5a]">({traveller.type})</div>
+                      <div className="text-black font-['Figtree'] text-[10px] md:text-[11px] font-normal leading-normal">({traveller.type})</div>
                     </div>
                   </div>
 
                   {/* DOB */}
-                  <div className="text-[#1a2f46]">{traveller.dateOfBirth}</div>
+                  <div className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal">{traveller.dateOfBirth}</div>
 
                   {/* Gender */}
-                  <div className="text-[#1a2f46] uppercase">{traveller.gender}</div>
+                  <div className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal uppercase">{traveller.gender}</div>
 
                   {/* Status */}
-                  <div>
-                    <span className="inline-block px-4 py-2 bg-[#ddf9ff] text-[#1c8ca7] rounded-lg text-sm font-medium">
+                  <div className="px-4 py-2 rounded-[6px] bg-[#E3FAFF]">
+                    <span className="inline-block text-[#1C8CA7] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal">
                       Traveller updated
                     </span>
                   </div>
@@ -181,10 +187,10 @@ export function SavedTravellers() {
                     </button>
                     <button
                       onClick={() => handleViewDocuments(travellerNumber)}
-                      className="flex items-center gap-2 px-4 py-2 border-2 border-[#e97737] text-[#e97737] rounded-lg font-medium hover:bg-[#e97737] hover:text-white transition-colors"
+                      className="flex flex-col items-center gap-2 px-4 py-2 rounded-[8px] border border-[#E97737] bg-white group hover:bg-[#E97737]"
                     >
-                      <FileText className="w-4 h-4" />
-                      Your Documents
+                      <FileText className="w-4 h-4 text-[#E97737] group-hover:text-white" />
+                      <span className="text-[#E97737] text-center font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal group-hover:text-white">Your Documents</span>
                     </button>
                   </div>
                 </div>
@@ -201,15 +207,16 @@ export function SavedTravellers() {
               <div key={travellerNumber} className="bg-[#fff7f2] rounded-lg p-4 space-y-4">
                 {/* Traveller Info */}
                 <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-full bg-[#1c8ca7] flex items-center justify-center flex-shrink-0">
-                    <User className="w-6 h-6 text-white" />
+                  <div className="rounded-[4px] bg-[#EBF5F7] p-4 flex items-center justify-center flex-shrink-0">
+                    {/* <User className="w-6 h-6 text-white" /> */}
+                    <img src="/images/account/user2_blue.svg" alt="" className="" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-bold text-[#1a2f46] underline mb-1">
+                    <div className="text-black font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-normal underline decoration-solid decoration-1 underline-offset-auto mb-1">
                       {traveller.firstName} {traveller.lastName}
                     </div>
-                    <div className="text-sm text-[#5a5a5a] mb-2">({traveller.type})</div>
-                    <span className="inline-block px-3 py-1 bg-[#ddf9ff] text-[#1c8ca7] rounded-lg text-xs font-medium">
+                    <div className="text-black font-['Figtree'] text-[10px] md:text-[11px] font-normal leading-normal mb-2">({traveller.type})</div>
+                    <span className="inline-block px-4 py-2 rounded-[6px] bg-[#E3FAFF]  text-[#1C8CA7] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal">
                       Traveller updated
                     </span>
                   </div>
@@ -218,12 +225,12 @@ export function SavedTravellers() {
                 {/* Details Grid */}
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <div className="text-[#5a5a5a] mb-1">D.O.B</div>
-                    <div className="text-[#1a2f46] font-medium">{traveller.dateOfBirth}</div>
+                    <div className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal mb-1">D.O.B</div>
+                    <div className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal">{traveller.dateOfBirth}</div>
                   </div>
                   <div>
-                    <div className="text-[#5a5a5a] mb-1">GENDER</div>
-                    <div className="text-[#1a2f46] font-medium uppercase">{traveller.gender}</div>
+                    <div className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal mb-1">GENDER</div>
+                    <div className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal uppercase">{traveller.gender}</div>
                   </div>
                 </div>
 
@@ -231,24 +238,24 @@ export function SavedTravellers() {
                 <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => handleEditTraveller(travellerNumber)}
-                    className="flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2 border-2 border-[#1c8ca7] text-[#1c8ca7] rounded-lg font-medium hover:bg-[#1c8ca7] hover:text-white transition-colors text-sm"
+                    className="flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2 border border-[#1c8ca7] rounded-[8px] group transition-colors"
                   >
-                    <Edit2 className="w-4 h-4" />
-                    Edit
+                    <Edit2 className="w-4 h-4 text-[#1c8ca7] group-hover:text-white" />
+                    <span className="text-[#1c8ca7] text-center font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal group-hover:text-white uppercase">Edit</span>
                   </button>
                   <button
                     onClick={() => handleDeleteTraveller(travellerNumber)}
-                    className="flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2 border-2 border-[#1c8ca7] text-[#1c8ca7] rounded-lg font-medium hover:bg-[#1c8ca7] hover:text-white transition-colors text-sm"
+                    className="flex-1 min-w-[100px] flex items-center justify-center gap-2 px-4 py-2 border border-[#1c8ca7] rounded-[8px] group transition-colors"
                   >
-                    <Trash2 className="w-4 h-4" />
-                    Delete
+                    <Trash2 className="w-4 h-4 text-[#1c8ca7] group-hover:text-white" />
+                    <span className="text-[#1c8ca7] text-center font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal group-hover:text-white uppercase">Delete</span>
                   </button>
                   <button
                     onClick={() => handleViewDocuments(travellerNumber)}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-[#e97737] text-[#e97737] rounded-lg font-medium hover:bg-[#e97737] hover:text-white transition-colors text-sm"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-[8px] border border-[#E97737] group hover:bg-[#E97737]"
                   >
-                    <FileText className="w-4 h-4" />
-                    Your Documents
+                    <FileText className="w-4 h-4 text-[#E97737] group-hover:text-white" />
+                    <span className="text-[#E97737] text-center font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal group-hover:text-white">Your Documents</span>
                   </button>
                 </div>
               </div>
@@ -259,15 +266,20 @@ export function SavedTravellers() {
         {/* Empty State */}
         {Object.keys(savedTravellers).length === 0 && (
           <div className="text-center py-12">
-            <User className="w-16 h-16 text-[#d2d8e4] mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-[#1a2f46] mb-2">No Saved Travellers</h3>
-            <p className="text-[#5a5a5a] mb-6">Add travellers to save their details for future bookings</p>
+            {/* <div className="rounded-[4px] bg-[#EBF5F7] p-4 flex items-center justify-center flex-shrink-0">
+             
+              <img src="/images/account/user2_blue.svg" alt="" className="" />
+            </div> */}
+            <User className="w-16 h-16 text-[#1C8CA7] mx-auto mb-4 rounded-[4px] bg-[#EBF5F7] p-4" />
+            <h3 className="text-black font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-normal mb-2">No Saved Travellers</h3>
+            <p className="text-black font-['Figtree'] text-[10px] md:text-[11px] font-normal leading-normal mb-6">Add travellers to save their details for future bookings</p>
             <button
               onClick={handleAddTraveller}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#e97737] text-white rounded-lg font-medium hover:bg-[#d86629] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#e97737] rounded-lg hover:bg-[#d86629] transition-colors"
             >
-              <Plus className="w-5 h-5" />
-              ADD NEW TRAVELLER
+              {/* <Plus className="w-5 h-5" /> */}
+              <img src="/images/account/add_box.svg" className="h-[18px] w-[18px] lg:h-[20px] lg:w-[20px]" />
+              <span className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">ADD NEW TRAVELLER</span>
             </button>
           </div>
         )}

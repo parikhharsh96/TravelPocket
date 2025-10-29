@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState, useRef, type DragEvent, type ChangeEvent } from "react"
 import { X, Smile, ImagePlus } from "lucide-react"
+import { ScrollArea } from "../ui/scroll-area"
 
 interface AddTestimonialModalProps {
   isOpen: boolean
@@ -83,16 +84,16 @@ export default function AddTestimonialModal({ isOpen, onClose, onSubmit }: AddTe
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <ScrollArea className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#1a2f46]">Add New Testimonial</h2>
+          <h2 className="text-[#1A2F46] font-['Playfair_Display'] text-[24px] md:text-[28px] font-semibold leading-normal">Add New Testimonial</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 transition-colors"
             aria-label="Close modal"
           >
-            <X className="w-6 h-6" />
+            <X className="w-6 h-6 cursor-pointer" />
           </button>
         </div>
 
@@ -100,8 +101,8 @@ export default function AddTestimonialModal({ isOpen, onClose, onSubmit }: AddTe
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Rating */}
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-3">
-              Rate your Trip Experience <span className="text-red-500">*</span>
+            <label className="block text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal mb-3">
+              Rate your Trip Experience <span className="text-[#FF0000]">*</span>
             </label>
             <div className="flex gap-3">
               {[1, 2, 3, 4, 5].map((value) => (
@@ -109,10 +110,10 @@ export default function AddTestimonialModal({ isOpen, onClose, onSubmit }: AddTe
                   key={value}
                   type="button"
                   onClick={() => setRating(value)}
-                  className={`w-12 h-12 md:w-14 md:h-14 rounded-lg border-2 font-semibold text-lg transition-all ${
+                  className={`w-12 h-12 md:w-14 md:h-14 rounded-lg border-2 text-black font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal transition-all ${
                     rating === value
-                      ? "bg-green-600 border-green-600 text-white"
-                      : "bg-white border-green-600 text-green-600 hover:bg-green-50"
+                      ? "bg-[#15803D] border-[#15803D] text-white"
+                      : "bg-[#DCFCE7] border-[#15803D] text-[#000000] hover:bg-green-50"
                   }`}
                 >
                   {value === 5 && rating === 5 ? <Smile className="w-6 h-6 mx-auto" /> : value}
@@ -122,14 +123,14 @@ export default function AddTestimonialModal({ isOpen, onClose, onSubmit }: AddTe
           </div>
 
           {/* Select Trip */}
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Select your trip <span className="text-red-500">*</span>
+          <div className="">
+            <label className="block text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal mb-2">
+              Select your trip <span className="text-[#FF0000]">*</span>
             </label>
             <select
               value={selectedTrip}
               onChange={(e) => setSelectedTrip(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e97737] focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e97737] focus:border-transparent text-black font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal"
               required
             >
               <option value="kailash-mansarovar">Kailash Mansarovar Yatra</option>
@@ -140,37 +141,37 @@ export default function AddTestimonialModal({ isOpen, onClose, onSubmit }: AddTe
 
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Title of your review <span className="text-red-500">*</span>
+            <label className="block text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal mb-2">
+              Title of your review <span className="text-[#FF0000]">*</span>
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter the Subject for your Request"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e97737] focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e97737] focus:border-transparent text-[#5A5A5A] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[14px] placeholder:md:text-[16px] placeholder:font-normal leading-normal"
               required
             />
           </div>
 
           {/* Review */}
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Your Review <span className="text-red-500">*</span>
+            <label className="block text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal mb-2">
+              Your Review <span className="text-[#FF0000]">*</span>
             </label>
             <textarea
               value={review}
               onChange={(e) => setReview(e.target.value)}
               placeholder="Enter the Message for your Request"
               rows={6}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e97737] focus:border-transparent resize-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e97737] focus:border-transparent resize-none text-[#5A5A5A] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[14px] placeholder:md:text-[16px] placeholder:font-normal leading-normal"
               required
             />
           </div>
 
           {/* Upload Photos */}
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Upload your Photos</label>
+            <label className="block text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normals mb-2">Upload your Photos</label>
             <div
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -180,14 +181,14 @@ export default function AddTestimonialModal({ isOpen, onClose, onSubmit }: AddTe
               }`}
             >
               <ImagePlus className="w-12 h-12 md:w-16 md:h-16 mx-auto text-[#1c8ca7] mb-4" />
-              <p className="text-gray-600 text-sm md:text-base">
+              <p className="text-black font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal">
                 Drag and drop your files here or{" "}
                 <button
                   type="button"
                   onClick={handleChooseFile}
                   className="text-[#1c8ca7] underline hover:text-[#15758e] font-medium"
                 >
-                  choose file
+                  <span className="text-black font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal underline decoration-solid">choose file</span>
                 </button>
               </p>
               <input
@@ -210,13 +211,13 @@ export default function AddTestimonialModal({ isOpen, onClose, onSubmit }: AddTe
           <div className="flex justify-center pt-4">
             <button
               type="submit"
-              className="px-8 py-3 bg-[#e97737] text-white font-semibold rounded-lg hover:bg-[#d66a2e] transition-colors"
+              className="px-8 py-3 bg-[#e97737] text-white font-semibold rounded-lg hover:bg-[#d66a2e] transition-colors cursor-pointer"
             >
-              SUBMIT REVIEW
+              <span className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">SUBMIT REVIEW</span>
             </button>
           </div>
         </form>
-      </div>
+      </ScrollArea>
     </div>
   )
 }

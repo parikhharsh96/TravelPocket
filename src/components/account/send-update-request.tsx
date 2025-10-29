@@ -54,18 +54,20 @@ export function SendUpdateRequest() {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl md:text-2xl font-bold text-[#1a2f46]">Send Update Request</h2>
+      <h2 className="text-black font-['Figtree'] text-[18px] md:text-[20px] font-semibold leading-normal">Send Update Request</h2>
 
-      <div className="bg-white border border-[#e5e5e5] rounded-lg p-4 md:p-6 lg:p-8">
+      <div className="bg-white rounded-lg border border-[#D2D8E4] p-4 md:p-6 lg:p-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 md:mb-8">
-          <h3 className="text-lg md:text-xl font-bold text-[#1a2f46]">Request Status</h3>
+        <div className="flex justify-between items-center mb-6">
+          <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] md:text-[22px] font-semibold leading-normal">Request Status</div>
           <button
             onClick={handleCreateRequest}
-            className="bg-[#e97737] hover:bg-[#d86830] text-white font-medium py-3 px-4 md:px-6 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm md:text-base whitespace-nowrap"
+            className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-[#e97737] rounded-lg hover:bg-[#d86629] transition-colors cursor-pointer"
           >
-            <Plus className="w-5 h-5" />
-            CREATE NEW REQUEST
+            
+            {/* <Plus className="w-4h-4 md:w-5 md:h-5" /> */}
+            <img src="/images/account/add_box.svg" className="h-[18px] w-[18px] lg:h-[20px] lg:w-[20px]" />
+            <span className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">CREATE NEW REQUEST</span>
           </button>
         </div>
 
@@ -74,23 +76,23 @@ export function SendUpdateRequest() {
           <div className="inline-block min-w-full align-middle">
             <table className="min-w-full">
               <thead>
-                <tr className="border-b border-[#e5e5e5]">
-                  <th className="text-left py-3 px-3 md:px-4 text-xs md:text-sm font-semibold text-[#5a5a5a] uppercase tracking-wide">
+                <tr className="border-b border-[#e5e5e5] bg-[#FFF7F2]">
+                  <th className="text-left py-3 px-3 md:px-4 text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-semibold leading-normal uppercase">
                     SR. NO.
                   </th>
-                  <th className="text-left py-3 px-3 md:px-4 text-xs md:text-sm font-semibold text-[#5a5a5a] uppercase tracking-wide">
+                  <th className="text-left py-3 px-3 md:px-4 text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-semibold leading-normal uppercase">
                     BOOKING ID
                   </th>
-                  <th className="text-left py-3 px-3 md:px-4 text-xs md:text-sm font-semibold text-[#5a5a5a] uppercase tracking-wide">
+                  <th className="text-left py-3 px-3 md:px-4 text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-semibold leading-normal uppercase">
                     REQUESTED DATE
                   </th>
-                  <th className="text-left py-3 px-3 md:px-4 text-xs md:text-sm font-semibold text-[#5a5a5a] uppercase tracking-wide">
+                  <th className="text-left py-3 px-3 md:px-4 text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-semibold leading-normal uppercase">
                     SUBJECT
                   </th>
-                  <th className="text-left py-3 px-3 md:px-4 text-xs md:text-sm font-semibold text-[#5a5a5a] uppercase tracking-wide min-w-[200px]">
+                  <th className="text-left py-3 px-3 md:px-4 text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-semibold leading-normal uppercase min-w-[200px]">
                     MESSAGE
                   </th>
-                  <th className="text-left py-3 px-3 md:px-4 text-xs md:text-sm font-semibold text-[#5a5a5a] uppercase tracking-wide">
+                  <th className="text-left py-3 px-3 md:px-4 text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-semibold leading-normal uppercase">
                     ACTIONS
                   </th>
                 </tr>
@@ -98,18 +100,18 @@ export function SendUpdateRequest() {
               <tbody>
                 {requests.map((request, index) => (
                   <tr key={index} className="border-b border-[#e5e5e5] hover:bg-[#fff7f2] transition-colors">
-                    <td className="py-4 px-3 md:px-4 text-sm md:text-base text-[#1a2f46]">{request.srNo}</td>
-                    <td className="py-4 px-3 md:px-4 text-sm md:text-base text-[#1a2f46] font-medium">
+                    <td className="py-4 px-3 md:px-4 text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-normal">{request.srNo}</td>
+                    <td className="py-4 px-3 md:px-4 text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-normal">
                       {request.bookingId}
                     </td>
-                    <td className="py-4 px-3 md:px-4 text-sm md:text-base text-[#1a2f46] whitespace-nowrap">
+                    <td className="py-4 px-3 md:px-4 text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-normal whitespace-nowrap">
                       {request.requestedDate}
                     </td>
-                    <td className="py-4 px-3 md:px-4 text-sm md:text-base text-[#1a2f46]">{request.subject}</td>
-                    <td className="py-4 px-3 md:px-4 text-sm md:text-base text-[#5a5a5a]">{request.message}</td>
+                    <td className="py-4 px-3 md:px-4 text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-normal">{request.subject}</td>
+                    <td className="py-4 px-3 md:px-4 text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-normal">{request.message}</td>
                     <td className="py-4 px-3 md:px-4">
-                      <span className="inline-block bg-[#d0ffed] text-[#0a8b7c] px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium whitespace-nowrap">
-                        Submitted
+                      <span className="inline-block bg-[#D0FFED] px-3 md:px-4 py-1.5 md:py-2 rounded-lg whitespace-nowrap">
+                        <span className="text-[#0A8B7C] font-['Figtree'] text-[12px] font-semibold leading-normal">Submitted</span>
                       </span>
                     </td>
                   </tr>
