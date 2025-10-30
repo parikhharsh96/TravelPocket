@@ -49,18 +49,19 @@ export default function BookingPage() {
       <BreadcrumbNav />
 
       {/* Page Title */}
-      <div className="bg-white border-b border-border">
+      <div className="bg-[#EBF5F7]">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-center md:relative gap-4">
             <div className="text-center">
-              <h1 className="text-2xl md:text-3xl font-bold mb-2">Kailash Mansarovar Yatra</h1>
-              <p className="text-sm md:text-base text-muted-foreground">
+              <h1 className="text-black text-center font-['Figtree'] text-[22px] md:text-[26px] font-semibold leading-[24px] mb-2">Kailash Mansarovar Yatra</h1>
+              <p className="text-black text-center font-['Figtree'] text-[18px] md:text-[20px] font-normal leading-[24px]">
                 Charan Sparsh Outer Kora from Lucknow By Helicopter
               </p>
-            </div>
-            <div className="md:absolute md:right-0 flex items-center justify-center gap-2 bg-accent px-4 py-2 rounded-md">
-              <Calendar className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium">11 NIGHTS 12 DAYS</span>
+              <div className="flex items-center justify-center gap-2 px-4 py-2">
+                {/* <Calendar className="w-4 h-4 text-primary" /> */}
+                <img src="/images/booking/calendar_month.svg" alt="" className="" />
+                <span className="text-[#5A5A5A] font-['Figtree'] text-[11px] md:text-[13px] font-medium leading-[14px] uppercase">11 NIGHTS 12 DAYS</span>
+              </div>
             </div>
           </div>
         </div>
@@ -68,44 +69,46 @@ export default function BookingPage() {
 
       <BookingProgress currentStep={activeStep} />
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            <InfoNote />
-            <TripContactForm
-              isExpanded={activeStep === 1}
-              onToggle={() => setActiveStep(activeStep === 1 ? 0 : 1)}
-              onProceed={() => setActiveStep(2)}
-            />
-            <TravellersRoomsForm
-              isExpanded={activeStep === 2}
-              onToggle={() => setActiveStep(activeStep === 2 ? 0 : 2)}
-              onProceed={() => setActiveStep(3)}
-              adults={adults}
-              setAdults={setAdults}
-              children={children}
-              setChildren={setChildren}
-            />
-            <TravellerDetailsForm
-              isExpanded={activeStep === 3}
-              onToggle={() => setActiveStep(activeStep === 3 ? 0 : 3)}
-              onProceed={() => setActiveStep(4)}
-              travellerCount={adults + children}
-            />
-            <PanGstForm
-              isExpanded={activeStep === 4}
-              onToggle={() => setActiveStep(activeStep === 4 ? 0 : 4)}
-              onProceed={() => {
-                // This would typically navigate to payment page
-                alert("Proceeding to payment...")
-              }}
-            />
-          </div>
+      <div className="bg-[#EBF5F7]">
+        <div className="container mx-auto px-4 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-6">
+              <InfoNote />
+              <TripContactForm
+                isExpanded={activeStep === 1}
+                onToggle={() => setActiveStep(activeStep === 1 ? 0 : 1)}
+                onProceed={() => setActiveStep(2)}
+              />
+              <TravellersRoomsForm
+                isExpanded={activeStep === 2}
+                onToggle={() => setActiveStep(activeStep === 2 ? 0 : 2)}
+                onProceed={() => setActiveStep(3)}
+                adults={adults}
+                setAdults={setAdults}
+                children={children}
+                setChildren={setChildren}
+              />
+              <TravellerDetailsForm
+                isExpanded={activeStep === 3}
+                onToggle={() => setActiveStep(activeStep === 3 ? 0 : 3)}
+                onProceed={() => setActiveStep(4)}
+                travellerCount={adults + children}
+              />
+              <PanGstForm
+                isExpanded={activeStep === 4}
+                onToggle={() => setActiveStep(activeStep === 4 ? 0 : 4)}
+                onProceed={() => {
+                  // This would typically navigate to payment page
+                  alert("Proceeding to payment...")
+                }}
+              />
+            </div>
 
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <BookingSummary onPaymentSuccess={handlePaymentSuccess} />
+            {/* Sidebar */}
+            <div className="lg:col-span-1">
+              <BookingSummary onPaymentSuccess={handlePaymentSuccess} />
+            </div>
           </div>
         </div>
       </div>

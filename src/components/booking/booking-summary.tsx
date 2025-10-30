@@ -201,40 +201,40 @@ export function BookingSummary({ onPaymentSuccess }: BookingSummaryProps) {
     <>
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 
-      <div className="bg-white rounded-lg border border-[#d9d9d9] p-4 md:p-6 lg:sticky lg:top-4">
-        <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">Booking Summary</h2>
+      <div className="rounded-[8px] bg-white p-4 md:p-6">
+        <h2 className="text-black font-['Figtree'] text-[18px] md:text-[20px] font-semibold leading-normal mb-4 md:mb-6">Booking Summary</h2>
 
         <div className="space-y-3 mb-4">
-          <div className="flex justify-between text-sm">
-            <span className="text-[#5a5a5a] font-medium">PICK UP</span>
-            <span className="font-semibold text-[#1c1b1f]">Lucknow</span>
+          <div className="flex justify-between">
+            <span className="text-[#5A5A5A] font-['Figtree'] text-[12px] md:text-[14px] not-italic font-normal leading-normal uppercase">PICK UP</span>
+            <span className="text-black font-['Figtree'] text-[12px] md:text-[14px] not-italic font-semibold leading-normal">Lucknow</span>
           </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-[#5a5a5a] font-medium">DEPT. DATE</span>
-            <span className="font-semibold text-[#1c1b1f]">10 Sep 2025</span>
+          <div className="flex justify-between">
+            <span className="text-[#5A5A5A] font-['Figtree'] text-[12px] md:text-[14px] not-italic font-normal leading-normal uppercase">DEPT. DATE</span>
+            <span className="text-black font-['Figtree'] text-[12px] md:text-[14px] not-italic font-semibold leading-normal">10 Sep 2025</span>
           </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-[#5a5a5a] font-medium">TRAVELLERS</span>
-            <span className="font-semibold text-[#1c1b1f]">0 Adult(s) | 0 Child</span>
+          <div className="flex justify-between">
+            <span className="text-[#5A5A5A] font-['Figtree'] text-[12px] md:text-[14px] not-italic font-normal leading-normal uppercase">TRAVELLERS</span>
+            <span className="text-[#5A5A5A] font-['Figtree'] text-[12px] md:text-[14px] not-italic font-semibold leading-normal">0 Adult(s) | 0 Child</span>
           </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-[#5a5a5a] font-medium">ROOMS</span>
-            <span className="font-semibold text-[#1c1b1f]">0 Room(s)</span>
+          <div className="flex justify-between">
+            <span className="text-[#5A5A5A] font-['Figtree'] text-[12px] md:text-[14px] not-italic font-normal leading-normal uppercase">ROOMS</span>
+            <span className="text-[#5A5A5A] font-['Figtree'] text-[12px] md:text-[14px] not-italic font-semibold leading-normal">0 Room(s)</span>
           </div>
         </div>
 
-        <div className="border-t-2 border-dotted border-[#1c8ca7] pt-4 md:pt-6 mb-4 md:mb-6">
+        <div className="border-t-2 border-dotted border-[#1C8CA7] pt-4 md:pt-6 mb-4 md:mb-6">
           <div className="flex justify-between items-center mb-4">
-            <span className="text-sm font-semibold text-[#5a5a5a]">BASE PRICE</span>
-            <span className="text-2xl md:text-3xl font-bold text-[#1c1b1f]">₹2,75,000</span>
+            <span className="text-[#5A5A5A] font-['Figtree'] text-[18px] md:text-[20px] not-italic font-normal leading-normal uppercase">BASE PRICE</span>
+            <span className="text-[#333] text-right font-['Figtree'] text-[18px] md:text-[20px] not-italic font-semibold leading-[24px]">₹2,75,000</span>
           </div>
         </div>
 
         <div className="border-t-2 border-dotted border-[#1c8ca7] pt-4 md:pt-6 mb-4 md:mb-6">
-          <div className="bg-[#fff7f2] p-3 rounded-md mb-4 md:mb-6 flex items-center gap-2 text-xs md:text-sm">
-            <Crown className="w-4 h-4 md:w-5 md:h-5 text-[#e97737] fill-[#e97737] flex-shrink-0" />
-            <span className="text-[#1c1b1f]">
-              You will earn <span className="font-bold text-[#1c1b1f]">👑 2750</span> Reward points on this booking.
+          <div className="bg-[#FFF0E8] rounded-[4px] p-3 mb-4 md:mb-6 flex items-center gap-2 text-xs md:text-sm">
+            {/* <Crown className="w-4 h-4 md:w-5 md:h-5 text-[#e97737] fill-[#e97737] flex-shrink-0" /> */}
+            <span className="text-[#333] font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[18px]">
+              You will earn <span className="font-semibold text-[#1c1b1f]">👑 2750 Reward points</span> on this booking.
             </span>
           </div>
 
@@ -243,8 +243,8 @@ export function BookingSummary({ onPaymentSuccess }: BookingSummaryProps) {
               <RadioGroupItem value="booking-amount" id="booking-amount" className="border-[#1c8ca7] text-[#1c8ca7]" />
               <Label htmlFor="booking-amount" className="flex-1 cursor-pointer">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm md:text-base text-[#1c1b1f] font-medium">Booking Amount</span>
-                  <span className="text-sm md:text-base font-bold text-[#1c1b1f]">₹11,000</span>
+                  <span className="text-[#1A2F46] font-['Figtree'] text-[14px] md:text-[16px] font-semibold leading-normal">Booking Amount</span>
+                  <span className="text-[#333] text-right font-['Figtree'] text-[14px] md:text-[16px] not-italic font-semibold leading-[24px]">₹11,000</span>
                 </div>
               </Label>
             </div>
@@ -252,40 +252,40 @@ export function BookingSummary({ onPaymentSuccess }: BookingSummaryProps) {
               <RadioGroupItem value="full-amount" id="full-amount" className="border-[#1c8ca7] text-[#1c8ca7]" />
               <Label htmlFor="full-amount" className="flex-1 cursor-pointer">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm md:text-base text-[#1c1b1f] font-medium">Pay Full Amount Now</span>
-                  <span className="text-sm md:text-base font-bold text-[#1c1b1f]">₹2,75,000</span>
+                  <span className="text-[#1A2F46] font-['Figtree'] text-[14px] md:text-[16px] font-semibold leading-normal">Pay Full Amount Now</span>
+                  <span className="text-[#5A5A5A] text-right font-['Figtree'] text-[14px] md:text-[16px] not-italic font-semibold leading-[24px]">₹2,75,000</span>
                 </div>
               </Label>
             </div>
           </RadioGroup>
         </div>
 
-        <div className="border-t-2 border-dotted border-[#1c8ca7] pt-4 md:pt-6 mb-4 md:mb-6">
-          <h3 className="text-base md:text-lg font-bold mb-4 text-[#1c1b1f]">Booking Amount Breakup</h3>
-          <div className="space-y-3 text-sm">
+        <div className="border-t-2 border-dotted border-[#1C8CA7] pt-4 md:pt-6 mb-4 md:mb-6">
+          <h3 className="text-black font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-normal mb-4">Booking Amount Breakup</h3>
+          <div className="space-y-3">
             <div>
               <div className="flex justify-between mb-1">
-                <span className="text-[#1c1b1f] font-medium">Booking Amount</span>
-                <span className="font-bold text-[#1c1b1f]">₹22,000</span>
+                <span className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal capitalize">Booking Amount</span>
+                <span className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal">₹22,000</span>
               </div>
-              <div className="text-[#5a5a5a] text-xs">₹11,000 x 2 Travellers</div>
+              <div className="text-[#5A5A5A] font-['Figtree'] text-[10px] md:text-[12px] font-normal leading-normal">₹11,000 x 2 Travellers</div>
             </div>
 
-            <div className="border-t border-[#e0e0e0] pt-3">
+            <div className="border-t border-[#D2D8E4] pt-3">
               <div className="flex justify-between mb-1">
-                <span className="text-[#1c1b1f] font-medium">Convenience Fee</span>
-                <span className="font-bold text-[#1c1b1f]">₹550</span>
+                <span className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal capitalize">Convenience Fee</span>
+                <span className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal">₹550</span>
               </div>
-              <div className="flex justify-between text-[#5a5a5a] text-xs">
-                <span>GST 5 %</span>
-                <span>₹1100</span>
+              <div className="flex justify-between">
+                <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-normal leading-normal">GST 5 %</span>
+                <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-normal leading-normal">₹1100</span>
               </div>
             </div>
 
-            <div className="border-t border-[#e0e0e0] pt-3">
+            <div className="border-t border-[#D2D8E4] pt-3">
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
-                  <Checkbox
+                  {/* <Checkbox
                     id="reward-points"
                     checked={useRewardPoints}
                     onCheckedChange={(checked) => setUseRewardPoints(checked as boolean)}
@@ -293,29 +293,31 @@ export function BookingSummary({ onPaymentSuccess }: BookingSummaryProps) {
                   />
                   <Label htmlFor="reward-points" className="text-[#1c1b1f] font-medium cursor-pointer text-sm">
                     Use Reward Points
-                  </Label>
+                  </Label> */}
+                  <Checkbox id="reward-points" checked={useRewardPoints} onCheckedChange={(checked) => setUseRewardPoints(checked as boolean)} className="rounded-[2px] border border-[#D2D8E4] bg-white
+                                                                data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"/>
+                  <Label htmlFor="reward-points" className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal capitalize">Use Reward Points</Label>
                 </div>
-                <span className="font-bold text-[#15a809]">-₹32</span>
+                <span className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal">-₹32</span>
               </div>
-              <div className="text-[#5a5a5a] text-xs ml-6">
-                Your existing reward points
-                <br />
-                3200 Points
+              <div className="ml-6 flex justify-between">
+                <div className="text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-normal leading-normal">Your existing reward points</div>
+                <div className="text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-normal leading-normal">3200 Points</div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mb-4 md:mb-6">
+        <div className="mb-1 border-t border-[#D2D8E4] pt-3">
           <div className="flex justify-between items-center">
-            <span className="font-bold text-base md:text-lg text-[#1c1b1f]">Total Booking Amount</span>
-            <span className="text-2xl md:text-3xl font-bold text-[#1c1b1f]">₹{getTotalAmount().toLocaleString()}</span>
+            <span className="text-black font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-normal">Total Booking Amount</span>
+            <span className="ttext-black font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-normal uppercase">₹{getTotalAmount().toLocaleString()}</span>
           </div>
         </div>
-
-        <div className="mb-4">
-          <div className="flex items-start gap-2">
-            <Checkbox
+      </div>
+      <div className="mb-4 mt-4">
+          <div className="flex items-center gap-2">
+            {/* <Checkbox
               id="terms"
               checked={acceptTerms}
               onCheckedChange={(checked) => setAcceptTerms(checked as boolean)}
@@ -323,18 +325,20 @@ export function BookingSummary({ onPaymentSuccess }: BookingSummaryProps) {
             />
             <Label htmlFor="terms" className="text-xs text-[#1c1b1f] cursor-pointer leading-relaxed">
               I have read and accept the PERSONAL DECLARATION AND AGREEMENT, Cancellation Policy and Terms of Service
-            </Label>
+            </Label> */}
+            <Checkbox id="terms" checked={acceptTerms} onCheckedChange={(checked) => setAcceptTerms(checked as boolean)} className="rounded-[2px] border border-[#D2D8E4] bg-white
+                                                                data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"/>
+            <Label htmlFor="terms" className="text-black font-['Figtree'] text-[14px] font-normal leading-normal">I have read and accept the PERSONAL DECLARATION AND AGREEMENT, Cancellation Policy and Terms of Service</Label>
           </div>
         </div>
 
         <Button
-          className="w-full bg-[#fff0e8] hover:bg-[#ffe5d9] text-[#1c1b1f] font-bold text-sm h-12 rounded-md"
+          className="w-full bg-[#E97737] hover:bg-[#ffe5d9] h-12 rounded-lg cursor-pointer"
           disabled={!acceptTerms || isProcessing}
           onClick={handlePayment}
         >
-          {isProcessing ? "Processing..." : "PROCEED TO PAYMENT"}
+          <span className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">{isProcessing ? "Processing..." : "PROCEED TO PAYMENT"}</span>
         </Button>
-      </div>
     </>
   )
 }

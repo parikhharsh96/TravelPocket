@@ -11,7 +11,7 @@ export function BookingProgress({ currentStep }: BookingProgressProps) {
   ]
 
   return (
-    <div className="bg-[#1a2f46] text-white py-4 md:py-6">
+    <div className="bg-[#1A2F46] py-4 md:py-6">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between max-w-4xl mx-auto gap-3 md:gap-0">
           {steps.map((step, index) => (
@@ -20,17 +20,18 @@ export function BookingProgress({ currentStep }: BookingProgressProps) {
                 <div
                   className={`flex items-center gap-2 transition-all ${
                     currentStep === step.number
-                      ? "opacity-100 bg-white/10 px-3 py-1 rounded-md"
+                      ? "opacity-100"
                       : currentStep > step.number
                         ? "opacity-70"
                         : "opacity-50"
                   }`}
+                  // className="flex items-center gap-2 transition-all"
                 >
-                  <span className="text-base md:text-lg font-semibold">{step.number}.</span>
-                  <span className="text-xs md:text-sm">{step.title}</span>
+                  <span className="text-[#FFFFFF] font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[14px]">{step.number}.</span>
+                  <span className="text-[#FFFFFF] font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[14px]">{step.title}</span>
                 </div>
               </div>
-              {index < steps.length - 1 && <div className="hidden md:block flex-1 h-px bg-white/30 mx-4" />}
+              {index < steps.length - 1 && <div className="hidden md:block flex-1 h-px bg-[#BCCCF7] mx-4" />}
             </div>
           ))}
         </div>

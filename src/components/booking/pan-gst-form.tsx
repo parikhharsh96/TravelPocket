@@ -52,26 +52,29 @@ export function PanGstForm({ isExpanded: controlledExpanded, onToggle, onProceed
   }
 
   return (
-    <div className="bg-white rounded-lg border border-[#d9d9d9] overflow-hidden">
+    <div className="bg-white rounded-[8px] overflow-hidden">
       <button
         onClick={handleToggle}
         className="w-full flex items-center gap-3 md:gap-4 p-4 md:p-6 hover:bg-gray-50 transition-colors"
       >
-        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#e97737] flex items-center justify-center flex-shrink-0">
+        {/* <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#e97737] flex items-center justify-center flex-shrink-0">
           <span className="text-white text-lg md:text-xl font-bold">4</span>
+        </div> */}
+        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#e97737] flex items-center justify-center">
+          <span className="text-white text-center font-['Figtree'] font-semibold text-[21.333px] leading-[18.667px]">4</span>
         </div>
-        <h2 className="text-lg md:text-xl font-serif flex-1 text-left text-[#1c1b1f]">PAN and GST Details</h2>
+        <h2 className="text-[#1A2F46] font-['Playfair_Display'] text-[28px] font-semibold leading-normal flex-1 text-left">PAN and GST Details</h2>
         {isExpanded ? (
           <ChevronUp className="w-5 h-5 md:w-6 md:h-6 text-[#1c1b1f] flex-shrink-0" />
         ) : (
-          <ChevronDown className="w-5 h-5 md:w-6 md:h-6 text-[#1c1b1f] flex-shrink-0" />
+          <ChevronDown className="w-5 h-5 md:w-6 md:h-6 text-[#1C1B1F] flex-shrink-0" />
         )}
       </button>
 
       {isExpanded && (
         <form onSubmit={handleSubmit} className="p-4 md:p-6 pt-2 md:pt-4 space-y-4 md:space-y-6">
           {/* Information Text */}
-          <div className="text-xs md:text-sm text-[#5a5a5a] leading-relaxed space-y-1">
+          <div className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[22px] leading-relaxed space-y-1">
             <p>
               TCS Amount collected shall reflect in Form 26AS of the person of which PAN is provided which can be
               claimed while filling their Income tax return.
@@ -81,13 +84,16 @@ export function PanGstForm({ isExpanded: controlledExpanded, onToggle, onProceed
 
           {/* PAN Details Section */}
           <div className="space-y-3 md:space-y-4">
-            <div className="bg-[#fff7f2] px-4 py-2 -mx-4 md:-mx-6">
-              <h3 className="text-xs md:text-sm font-bold text-[#1c1b1f] tracking-wide">PAN DETAILS</h3>
+            <div className="bg-[#FFF7F2] px-4 py-2 rounded-[2px] mb-4">
+              <h3 className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold uppercase">PAN DETAILS</h3>
             </div>
+            {/* <div className="bg-[#fff7f2] px-4 py-2 -mx-4 md:-mx-6">
+              <h3 className="text-xs md:text-sm font-bold text-[#1c1b1f] tracking-wide">PAN DETAILS</h3>
+            </div> */}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
               <div>
-                <Label htmlFor="panName" className="text-xs md:text-sm text-[#1c1b1f] mb-2 block">
+                <Label htmlFor="panName" className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal mb-2 block">
                   Name
                 </Label>
                 <Input
@@ -96,13 +102,13 @@ export function PanGstForm({ isExpanded: controlledExpanded, onToggle, onProceed
                   placeholder="Name on PAN Card"
                   value={panName}
                   onChange={(e) => setPanName(e.target.value)}
-                  className="border-[#d9d9d9] h-11 md:h-12 text-sm md:text-base"
+                  className="border-[#d9d9d9] h-11 md:h-12 text-black font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[14px] placeholder:md:text-[16px] placeholder:font-normal placeholder:leading-normal"
                   required
                 />
               </div>
 
               <div>
-                <Label htmlFor="panNumber" className="text-xs md:text-sm text-[#1c1b1f] mb-2 block">
+                <Label htmlFor="panNumber" className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal mb-2 block">
                   PAN No.
                 </Label>
                 <Input
@@ -111,7 +117,7 @@ export function PanGstForm({ isExpanded: controlledExpanded, onToggle, onProceed
                   placeholder="PAN Card Number"
                   value={panNumber}
                   onChange={(e) => setPanNumber(e.target.value.toUpperCase())}
-                  className="border-[#d9d9d9] h-11 md:h-12 uppercase text-sm md:text-base"
+                  className="border-[#d9d9d9] h-11 md:h-12 uppercase text-black font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[14px] placeholder:md:text-[16px] placeholder:font-normal placeholder:leading-normal"
                   maxLength={10}
                   required
                 />
@@ -121,13 +127,16 @@ export function PanGstForm({ isExpanded: controlledExpanded, onToggle, onProceed
 
           {/* GST Details Section */}
           <div className="space-y-3 md:space-y-4">
-            <div className="bg-[#fff7f2] px-4 py-2 -mx-4 md:-mx-6">
+            {/* <div className="bg-[#fff7f2] px-4 py-2 -mx-4 md:-mx-6">
               <h3 className="text-xs md:text-sm font-bold text-[#1c1b1f] tracking-wide">GST DETAILS</h3>
+            </div> */}
+            <div className="bg-[#FFF7F2] px-4 py-2 rounded-[2px] mb-4">
+              <h3 className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[14px] font-semibold uppercase">GST DETAILS</h3>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
               <div>
-                <Label htmlFor="gstNumber" className="text-xs md:text-sm text-[#1c1b1f] mb-2 block">
+                <Label htmlFor="gstNumber" className="text-black font-['Figtree'] text-[12px] md:text-[14px] font-medium leading-normal mb-2 block">
                   GST No
                 </Label>
                 <Input
@@ -136,7 +145,7 @@ export function PanGstForm({ isExpanded: controlledExpanded, onToggle, onProceed
                   placeholder="Enter GST No."
                   value={gstNumber}
                   onChange={(e) => setGstNumber(e.target.value.toUpperCase())}
-                  className="border-[#d9d9d9] h-11 md:h-12 uppercase text-sm md:text-base"
+                  className="border-[#d9d9d9] h-11 md:h-12 uppercase text-black font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[14px] placeholder:md:text-[16px] placeholder:font-normal placeholder:leading-normal"
                   maxLength={15}
                 />
               </div>
@@ -147,9 +156,9 @@ export function PanGstForm({ isExpanded: controlledExpanded, onToggle, onProceed
           <div className="flex justify-center pt-2">
             <Button
               type="submit"
-              className="bg-[#e97737] hover:bg-[#d2661f] text-white font-semibold px-6 md:px-12 py-3 rounded-md text-sm md:text-base w-full sm:w-auto"
+              className="bg-[#e97737] hover:bg-[#d2661f] px-6 md:px-12 py-3 rounded-md w-full sm:w-auto"
             >
-              SAVE AND PROCEED TO PAY
+              <span className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">SAVE AND PROCEED</span>
             </Button>
           </div>
         </form>
