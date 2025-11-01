@@ -20,6 +20,8 @@ import { Logout } from "@/components/account/logout"
 import { Award } from "lucide-react"
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator"
+import Header from "@/components/shared/header"
+import NeedHelp from "@/components/shared/need-help"
 
 export default function AccountPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -42,6 +44,7 @@ export default function AccountPage() {
   return (
     <div className="min-h-screen bg-white">
       <DashboardHeader onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+      {/* <Header /> */}
 
       <main className="container mx-auto px-4 py-4 md:py-8">
         <div className="flex items-center gap-4 mb-6 md:mb-8 text-[#5a5a5a] pt-2"> {/**mb-6 md:mb-8 */}
@@ -151,6 +154,8 @@ export default function AccountPage() {
           </div>
         </div>
       </main>
+
+      <NeedHelp />
     </div>
   )
 }
