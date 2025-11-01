@@ -8,7 +8,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select1"
+} from "@/components/ui/select-footer"
 import { NewsletterSection } from "../home/news-letter"
 import { HelpCenterSection } from "../home/helpcenter"
 import WhatsAppBanner from "./whatsapp-banner"
