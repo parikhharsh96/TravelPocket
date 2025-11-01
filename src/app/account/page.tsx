@@ -18,6 +18,8 @@ import { MyTestimonials } from "@/components/account/my-testimonials"
 import { MyAddress } from "@/components/account/my-address"
 import { Logout } from "@/components/account/logout"
 import { Award } from "lucide-react"
+import Link from "next/link";
+import { Separator } from "@/components/ui/separator"
 
 export default function AccountPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -42,7 +44,25 @@ export default function AccountPage() {
       <DashboardHeader onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
 
       <main className="container mx-auto px-4 py-4 md:py-8">
-        <h1 className="text-[#1A2F46] font-['Playfair_Display'] text-[24px] lg:text-[32px] not-italic font-semibold leading-normal mb-4 md:mb-8">Your Account</h1>
+        <div className="flex items-center gap-4 mb-6 md:mb-8 text-[#5a5a5a] pt-2"> {/**mb-6 md:mb-8 */}
+          <Link href="/" className="flex items-center gap-2 hover:text-[#000000] transition-colors">
+            {/* <ArrowLeft className="w-5 h-5" /> */}
+            <img src="/images/detailpage/arrow_back.svg" width="14px" height="14px"
+              alt="Twitter" className="cursor-pointer" />
+            <span className="text-[#5A5A5A] font-['Figtree'] text-[10px] md:text-[12px] font-normal leading-[14px]">Back</span>
+          </Link>
+          {/* <span className="text-[#d9d9d9]">|</span> */}
+          <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+          <div className="flex items-center gap-2 text-base">
+            <Link href="/" className="hover:text-[#000000] transition-colors flex items-center">
+              <span className="text-[#5A5A5A] font-['Figtree'] text-[10px] md:text-[12px] font-normal leading-[14px]">Home</span>
+            </Link>
+            <img src="/images/detailpage/arrow-right.svg" width="12px" height="12px"
+              alt="Twitter" className="cursor-pointer" />
+            <span className="text-black font-['Figtree'] text-[10px] md:text-[12px] font-normal leading-[14px] cursor-pointer">My Account</span>
+          </div>
+        </div>
+        <h1 className="text-[#1A2F46] font-['Playfair_Display'] text-[24px] md:text-[32px] not-italic font-semibold leading-normal mb-4 md:mb-8">Your Account</h1>
 
         <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
           <AccountSidebar
