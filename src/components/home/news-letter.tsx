@@ -58,7 +58,7 @@ export function NewsletterSection() {
 
             {/* Content Container */}
             <div className="relative z-10 w-full mx-auto px-4 sm:px-6 lg:px-[50px]"> {/**max-w-7xl */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-16 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-16 items-center mb-4">
                     {/* Right Column - Journey Text (appears first on mobile) */}
                     <div className="order-1 lg:order-2 text-center lg:text-right">
                         <div className="space-y-4">
