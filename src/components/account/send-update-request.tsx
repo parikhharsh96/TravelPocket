@@ -1,6 +1,17 @@
 "use client"
 
 import { Plus } from "lucide-react"
+import CreateUpdateRequestModal from "./create-new-request-modal"
+import { useState } from "react"
+
+interface UpdateRequest {
+  srNo: number
+  bookingId: string
+  requestedDate: string
+  subject: string
+  message: string
+  status: "submitted" | "in-progress" | "resolved"
+}
 
 interface UpdateRequest {
   srNo: number
@@ -12,7 +23,7 @@ interface UpdateRequest {
 }
 
 export function SendUpdateRequest() {
-  const requests: UpdateRequest[] = [
+  const [requests, setRequests] = useState<UpdateRequest[]>([
     {
       srNo: 1,
       bookingId: "#2145638",
@@ -45,11 +56,65 @@ export function SendUpdateRequest() {
       message: "Lorem ipsum dolor sit amet consectetur.",
       status: "submitted",
     },
-  ]
+  ])
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  // const requests: UpdateRequest[] = [
+  //   {
+  //     srNo: 1,
+  //     bookingId: "#2145638",
+  //     requestedDate: "04 Aug 2024",
+  //     subject: "Date change request",
+  //     message: "Lorem ipsum dolor sit amet consectetur.",
+  //     status: "submitted",
+  //   },
+  //   {
+  //     srNo: 2,
+  //     bookingId: "#2145638",
+  //     requestedDate: "04 Aug 2024",
+  //     subject: "Date change request",
+  //     message: "Lorem ipsum dolor sit amet consectetur.",
+  //     status: "submitted",
+  //   },
+  //   {
+  //     srNo: 3,
+  //     bookingId: "#2145638",
+  //     requestedDate: "04 Aug 2024",
+  //     subject: "Date change request",
+  //     message: "Lorem ipsum dolor sit amet consectetur.",
+  //     status: "submitted",
+  //   },
+  //   {
+  //     srNo: 4,
+  //     bookingId: "#2145638",
+  //     requestedDate: "04 Aug 2024",
+  //     subject: "Date change request",
+  //     message: "Lorem ipsum dolor sit amet consectetur.",
+  //     status: "submitted",
+  //   },
+  // ]
 
   const handleCreateRequest = () => {
-    console.log("[v0] Create new request clicked")
-    // TODO: Open modal to create new request
+    setIsModalOpen(true)
+  }
+
+  const handleSubmitRequest = (data: { bookingId: string; subject: string; message: string }) => {
+    const newRequest: UpdateRequest = {
+      srNo: requests.length + 1,
+      bookingId: data.bookingId,
+      requestedDate: new Date().toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
+      subject: data.subject,
+      message: data.message,
+      status: "submitted",
+    }
+
+    // setRequests((prev) => [newRequest, ...prev])
+    setRequests((prev) => [...prev, newRequest])
+    setIsModalOpen(false)
   }
 
   return (
@@ -64,7 +129,7 @@ export function SendUpdateRequest() {
             onClick={handleCreateRequest}
             className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-[#e97737] rounded-lg hover:bg-[#d86629] transition-colors cursor-pointer"
           >
-            
+
             {/* <Plus className="w-4h-4 md:w-5 md:h-5" /> */}
             <img src="/images/account/add_box.svg" className="h-[18px] w-[18px] lg:h-[20px] lg:w-[20px]" />
             <span className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">CREATE NEW REQUEST</span>
@@ -121,6 +186,14 @@ export function SendUpdateRequest() {
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      <CreateUpdateRequestModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmitRequest}
+      />
+
     </div>
   )
 }
