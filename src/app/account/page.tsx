@@ -22,6 +22,7 @@ import Link from "next/link";
 import { Separator } from "@/components/ui/separator"
 import Header from "@/components/shared/header"
 import NeedHelp from "@/components/shared/need-help"
+import { Footer } from "@/components/shared/footer"
 
 export default function AccountPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -156,6 +157,7 @@ export default function AccountPage() {
       </main>
 
       <NeedHelp />
+      <Footer showSections={{ whatsapp: false, helpCenter: false, newsletter: true }} />
     </div>
   )
 }

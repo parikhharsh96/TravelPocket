@@ -14,6 +14,7 @@ import { InfoNote } from "@/components/booking/info-note"
 import { Calendar } from "lucide-react"
 import Header from "@/components/shared/header"
 import NeedHelp from "@/components/shared/need-help"
+import { Footer } from "@/components/shared/footer"
 
 export default function BookingPage() {
   const [activeStep, setActiveStep] = useState<number>(1)
@@ -120,6 +121,7 @@ export default function BookingPage() {
       </div>
 
       <NeedHelp />
+      <Footer showSections={{ whatsapp: false, helpCenter: false, newsletter: true }} />
     </>
 
   )

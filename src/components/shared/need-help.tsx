@@ -4,7 +4,7 @@
 export default function NeedHelp() {
 
     return (
-        <section className="container mx-auto px-4 py-4 md:py-8 mt-12">
+        <section className="container mx-auto px-4 py-4 md:py-8 mt-12 mb-8">
             <div className="w-full md:w-[50%] mx-auto"> {/* Added mx-auto to center */}
                 <div className="flex flex-col gap-4 justify-center items-center">
                     <img src="/images/account/help_ques.svg" alt="Help" className="" />

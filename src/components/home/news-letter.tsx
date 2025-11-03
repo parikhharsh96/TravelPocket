@@ -62,10 +62,10 @@ export function NewsletterSection() {
                     {/* Right Column - Journey Text (appears first on mobile) */}
                     <div className="order-1 lg:order-2 text-center lg:text-right">
                         <div className="space-y-4">
-                            <p className="text-[#365C85] text-center font-['Figtree'] text-[80px] font-normal leading-normal rotate-[-3.871deg]">
+                            <p className="text-[#365C85] text-center font-['Figtree'] text-[50px] md:text-[80px] font-normal leading-normal rotate-[-3.871deg]">
                                 Let The Journey Begin!
                             </p>
-                            <div className="rotate-[-5.94deg] absolute top-[105px] right-[80px]">
+                            <div className="rotate-[-5.94deg] absolute hidden lg:block top-[140px] right-[45px] md:top-[105px] md:right-[80px]">
                                 <img src="/images/newsletter/Vector_8.svg" className="w-[330px] h-[75px]" />
                             </div>
                             <div className="flex flex-col justify-end items-end p-4">
@@ -102,12 +102,12 @@ export function NewsletterSection() {
                             <div className="space-y-6 pt-4">
                                 {/* Header */}
                                 <div className="text-center space-y-2">
-                                    <h3 className="text-white text-center font-['Figtree'] text-[38px] font-bold leading-normal">{"Let's Stay Connected"}</h3>
+                                    <h3 className="text-white text-center font-['Figtree'] text-[26px] md:text-[38px] font-bold leading-normal whitespace-nowrap">{"Let's Stay Connected"}</h3>
                                     <div className="flex flex-col gap-1">
-                                        <p className="text-white text-center font-['Figtree'] text-[18px] font-normal leading-normal">
+                                        <p className="text-white text-center font-['Figtree'] text-[14px] md:text-[18px] font-normal leading-normal">
                                             Join our email list to keep up to date with all the current
                                         </p>
-                                        <p className="text-white text-center font-['Figtree'] text-[18px] font-normal leading-normal">
+                                        <p className="text-white text-center font-['Figtree'] text-[14px] md:text-[18px] font-normal leading-normal">
                                             trips and events
                                         </p>
                                     </div>
@@ -134,7 +134,7 @@ export function NewsletterSection() {
                                         />
                                         <Button
                                             type="submit"
-                                            className="w-full lg:w-auto bg-[#E97737] hover:bg-[#C75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg transition-colors duration-200"
+                                            className="w-full md:w-auto bg-[#E97737] hover:bg-[#C75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg transition-colors duration-200"
                                         >
                                             Submit
                                         </Button>
