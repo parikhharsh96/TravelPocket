@@ -6,7 +6,7 @@ import { Separator } from "../ui/separator"
 export function BreadcrumbNav() {
   return (
     <div className="bg-[#EBF5F7]">
-      <div className="container mx-auto px-4 py-3">
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-3"> {/** container mx-auto py-2 flex flex-wrap justify-between items-center gap-2 */}
         {/* <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Link href="/" className="flex items-center gap-1 hover:text-primary transition-colors">
             <ChevronLeft className="w-4 h-4" />
