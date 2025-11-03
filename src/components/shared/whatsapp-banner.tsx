@@ -19,26 +19,23 @@ export default function WhatsAppBanner() {
 
                 <div className="relative h-full p-4 sm:p-6 md:p-8">
                     {/* Small devices: Single column (icon top, text middle, button bottom) */}
-                    <div className="flex flex-col items-center justify-between h-full sm:hidden">
-                        {/* Icon at top */}
-                        <div className="flex-shrink-0">
-                            <img src="/images/whatsappstrip/icon.png" alt="Customer Support" className="w-28 h-28 xs:w-24 xs:h-18 object-contain" />
-                        </div>
+                    <div className="flex flex-col items-start justify-between h-full sm:hidden">
 
-                        {/* Text in middle */}
+                        {/* Text in Top */}
                         <div className="text-center font-['Inter']">
-                            <div className="font-bold text-black text-sm leading-normal">Yay! Now you can</div>
+                            <div className="font-bold text-black text-[16px] leading-normal">Yay! Now you can</div>
                             <div className="flex items-center justify-center gap-1 mt-1">
-                                <div className="font-bold text-[#39AE41] text-base leading-normal">WHATSAPP</div>
-                                <div className="text-[#323232] text-base leading-normal font-normal">TO</div>
+                                <div className="font-bold text-[#39AE41] text-[28px] leading-normal">WHATSAPP</div>
+                                <div className="text-[#323232] text-[28px] leading-normal font-normal">TO</div>
                             </div>
-                            <div className="font-bold text-[#323232] text-base leading-normal mt-1">BOOK YOUR TRIP</div>
+                            <div className="font-bold text-[#323232] text-[28px] leading-normal mt-1">BOOK YOUR TRIP</div>
                         </div>
 
-                        {/* Button at bottom */}
+
+                        {/* Button at Mddle */}
                         <button
                             onClick={handleWhatsAppClick}
-                            className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors duration-200 hover:opacity-90"
+                            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors duration-200 hover:opacity-90"
                             style={{
                                 background: "#1A2F46",
                                 color: "#FFFFFF",
@@ -47,6 +44,13 @@ export default function WhatsAppBanner() {
                             <span className="font-['Inter'] font-bold text-xs leading-normal whitespace-nowrap">WhatsApp</span>
                             <img src="/images/whatsappstrip/whatapp_icon.svg" className="inline" />
                         </button>
+
+                        
+
+                        {/* Icon at Bottom */}
+                        <div className="flex-shrink-0 flex flex-row w-full items-center justify-center">
+                            <img src="/images/whatsappstrip/icon.png" alt="Customer Support" className="w-28 h-28 xs:w-24 xs:h-18 object-contain" />
+                        </div>
                     </div>
 
                     {/* Medium devices: 2 columns (text+button left, icon right) */}
@@ -73,7 +77,7 @@ export default function WhatsAppBanner() {
                                 <span className="font-['Inter'] font-bold text-sm leading-normal whitespace-nowrap">
                                     WhatsApp @+91 78270-33601
                                 </span>
-                                <img src="/images/whatsappstrip/whatapp_icon.svg" className="inline"/>
+                                <img src="/images/whatsappstrip/whatapp_icon.svg" className="inline" />
                             </button>
                         </div>
 
@@ -107,7 +111,7 @@ export default function WhatsAppBanner() {
                             <span className="font-['Inter'] font-bold text-[18px] leading-normal whitespace-nowrap">
                                 WhatsApp @+91 78270-33601
                             </span>
-                            <img src="/images/whatsappstrip/whatapp_icon.svg" className="inline"/>
+                            <img src="/images/whatsappstrip/whatapp_icon.svg" className="inline" />
                         </button>
 
                         {/* Icon */}
