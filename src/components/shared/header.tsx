@@ -2,16 +2,92 @@
 
 import { useState } from "react";
 import { Separator } from "@radix-ui/react-separator";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import React from "react";
+import { ChevronDown } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/filters-accordion";
+import { ScrollArea } from "../ui/scroll-area";
+
+const whoWeAreOptions = [
+    { label: "About us", href: "/about-us" },
+    { label: "Testimonials", href: "/testimonials" },
+    { label: "Contact us", href: "/contact-us" },
+    { label: "Gallery/Media", href: "/gallery-media" },
+    { label: "Blogs", href: "/blogs" },
+    { label: "Careers", href: "/careers" },
+];
+
+const domesticDestinations = [
+    { label: "Kailash Mansarovar", url: "/destinations/kailash-mansarovar" },
+    { label: "Adi Kailash & Om Parvat", url: "/destinations/adi-kailash-om-parvat" },
+    { label: "Chardham", url: "/destinations/chardham" },
+    { label: "Do Dham", url: "/destinations/do-dham" },
+    { label: "Kedarnath", url: "/destinations/kedarnath" },
+    { label: "Himachal", url: "/destinations/himachal" },
+    { label: "Rajasthan", url: "/destinations/rajasthan" },
+    { label: "North India", url: "/destinations/north-india" }
+];
+
+const internationalDestinations = [
+    { label: "Nepal", url: "/destinations/nepal" },
+    { label: "Bali", url: "/destinations/bali" },
+    { label: "Bhutan", url: "/destinations/bhutan" },
+    { label: "Tibet", url: "/destinations/tibet" }
+];
+
+const destinationsList = [
+    { label: "Kailash Mansarovar", url: "/destinations/kailash-mansarovar" },
+    { label: "Adi Kailash", url: "/destinations/adi-kailash" },
+    { label: "Nepal", url: "/destinations/nepal" },
+    { label: "Kedarnath", url: "/destinations/kedarnath" }
+];
+
+const allDestinations = [
+    ...domesticDestinations.map((d) => ({ ...d, type: "Domestic" })),
+    ...internationalDestinations.map((d) => ({ ...d, type: "International" })),
+];
+
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
+    const [popoverOpen, setPopoverOpen] = useState(false);
 
     const navLinks = ["Kailash Mansarovar", "ADI Kailash", "All Destinations", "WHO WE ARE"];
-    const topLinks = ["Blogs", "JOIN POCKETCLUB", "OFFERS", "FAQs", "Contact"];
+    const topLinks = [
+        { label: "Blogs", href: "/blogs" },
+        { label: "JOIN POCKETCLUB", href: "/rewards" },
+        { label: "OFFERS", href: "/offers" },
+        { label: "FAQs", href: "/faqs" },
+        { label: "Contact", href: "/contact-us" },
+    ];
     const icons = ["magnifiying-glass", "wishlist", "cart", "user"];
 
     return (
-        <header className="w-full overflow-x-hidden relative">
+        <header className="w-full overflow-x-hidden relative bg-white rounded-md" style={{ boxShadow: "0 0 6px 0 rgba(0, 0, 0, 0.12)" }}>
             {/* Top Bar */}
             <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap justify-between items-center gap-2">
                 {/* Left Section */}
@@ -39,7 +115,15 @@ export default function Header() {
                 {/* Right Section */}
                 <div className="flex items-center flex-wrap gap-2 sm:gap-4">
                     {topLinks.map(link => (
-                        <a key={link} href="#" className={`text-[#333] font-[Figtree] text-[12px] md:text-[12px] lg:text-[14px] uppercase ${link !== "FAQs" ? "hidden lg:block" : ""}`}>{link}</a>
+                        // <a key={link} href="#" className={`text-[#333] font-[Figtree] text-[12px] md:text-[12px] lg:text-[14px] uppercase ${link !== "FAQs" ? "hidden lg:block" : ""}`}>{link}</a>
+                        <Link
+                            key={link.label}
+                            href={link.href}
+                            className={`text-[#333] font-['Figtree'] text-[12px] md:text-[12px] lg:text-[14px] uppercase ${link.label !== "FAQs" ? "hidden lg:block" : ""
+                                }`}
+                        >
+                            {link.label}
+                        </Link>
                     ))}
 
                     <Separator orientation="vertical" className="!h-4 w-px bg-[#BBB] hidden lg:block" />
@@ -72,12 +156,175 @@ export default function Header() {
 
                 {/* Navigation Links */}
                 <div className="hidden lg:flex items-center gap-4">
-                    {navLinks.map((item) => (
-                        <div key={item} className="flex items-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] font-semibold uppercase text-[#333]">
-                            <span>{item}</span>
-                            <img src="/images/header/path_up.svg" alt="" className="w-2 h-4 sm:w-3 sm:h-5" />
-                        </div>
-                    ))}
+                    {navLinks.map((item, index) => {
+                        if (item === "Kailash Mansarovar" || item === "ADI Kailash" || item === "WHO WE ARE") {
+                            return (
+                                <DropdownMenu
+                                    key={item}
+                                    open={openIndex === index}
+                                    onOpenChange={(isOpen) => setOpenIndex(isOpen ? index : null)}
+                                >
+                                    <DropdownMenuTrigger
+                                        asChild
+                                        onMouseEnter={() => setOpenIndex(index)}
+                                        onMouseLeave={() => setOpenIndex(null)}
+                                    >
+                                        <div className="flex items-center justify-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] font-semibold uppercase text-[#333] group hover:text-[#e97737] cursor-pointer">
+                                            <span>{item}</span>
+                                            <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" />
+                                        </div>
+                                    </DropdownMenuTrigger>
+
+                                    <DropdownMenuContent
+                                        className="w-56 rounded-[8px] bg-white shadow-[0_6px_9px_0_rgba(0,0,0,0.25)] border-none px-1"
+                                        align="start"
+                                        onMouseEnter={() => setOpenIndex(index)}
+                                        onMouseLeave={() => setOpenIndex(null)}
+                                    >
+                                        {item === "WHO WE ARE" && (
+                                            <>
+                                                {whoWeAreOptions.map((option, ind) => (
+                                                    <React.Fragment key={ind}>
+                                                        <DropdownMenuItem>
+                                                            <Link
+                                                                href={option.href || "/"}
+                                                                className="block px-3 py-2 text-[#1A2F46] font-['Figtree'] text-[16px] font-medium leading-[24px]"
+                                                            >
+                                                                {option.label}
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        {ind !== whoWeAreOptions.length - 1 && (
+                                                            <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
+                                                        )}
+                                                    </React.Fragment>
+                                                ))}
+                                            </>
+                                        )}
+
+                                        {(item === "Kailash Mansarovar" || item === "ADI Kailash") && (
+                                            <>
+                                                {destinationsList.map((option, ind) => (
+                                                    <React.Fragment key={ind}>
+                                                        <DropdownMenuItem>
+                                                            <Link
+                                                                href={option.url || "/"}
+                                                                className="block px-3 py-2 text-[#1A2F46] font-['Figtree'] text-[16px] font-medium leading-[24px]"
+                                                            >
+                                                                {option.label}
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                        {ind !== destinationsList.length - 1 && (
+                                                            <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
+                                                        )}
+                                                    </React.Fragment>
+                                                ))}
+                                            </>
+                                        )}
+
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            );
+                        }
+
+                        // For All Destination nav links, just Popover
+                        return (
+                            <Popover key={item} open={popoverOpen} onOpenChange={setPopoverOpen}>
+                                <PopoverTrigger asChild>
+                                    <div className="flex items-center justify-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] font-semibold uppercase text-[#333] group hover:text-[#e97737] cursor-pointer" onMouseEnter={() => setPopoverOpen(true)}
+                                        onMouseLeave={() => setPopoverOpen(false)}>
+                                        <span>{item}</span>
+                                        <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" />
+                                    </div>
+                                    {/* <Button
+                                        variant="outline"
+                                        onMouseEnter={() => setPopoverOpen(true)}
+                                        onMouseLeave={() => setPopoverOpen(false)}
+                                    >
+                                        Open popover
+                                    </Button> */}
+                                </PopoverTrigger>
+
+                                <PopoverContent
+                                    className="w-full !z-50 rounded-[8px] bg-white shadow-[0_6px_9px_0_rgba(0,0,0,0.25)] border-none"
+                                    onMouseEnter={() => setPopoverOpen(true)}
+                                    onMouseLeave={() => setPopoverOpen(false)}
+                                >
+                                    <div className="w-[800px] px-4 py-4">
+                                        <div className="flex justify-between items-center mb-4">
+                                            <div className="text-[24px] font-semibold leading-normal font-['Playfair_Display'] text-[#1A2F46]">Explore All Destinations</div>
+                                            <button className="rounded-[6px] border border-[#E97737] px-3 py-3 cursor-pointer" tabIndex={-1}>
+                                                <div className="flex flex-row gap-[10px] justify-center items-center">
+                                                    <div className="text-[#E97737] font-['Figtree'] text-[14px] font-semibold leading-normal uppercase">View all</div>
+                                                    <div className="">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                            <circle cx="10" cy="10" r="9.5" stroke="#E97737" />
+                                                            <path d="M12.8677 10.4H5.33333V9.6H12.8677L9.82973 6.562L10.4 6L14.4 10L10.4 14L9.82973 13.438L12.8677 10.4Z" fill="#E97737" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                        </div>
+
+                                        <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mb-4" />
+
+                                        <div className="grid grid-cols-[1fr_auto_1fr] gap-x-[40px]">
+                                            {/* Domestic Destinations */}
+                                            <div className="flex flex-col gap-[30px]">
+                                                <div className="text-[#E97737] font-['Playfair_Display'] text-[18px] font-semibold leading-normal mb-3">Domestic Destinations</div>
+                                                <div className="grid grid-cols-2 gap-x-[40px] gap-y-[30px]">
+                                                    {domesticDestinations.map((dest, index) => (
+                                                        // <div className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal">Adi Kailash & Om Parvat</div>
+                                                        <Link
+                                                            key={index}
+                                                            href={dest.url || "/"} // Replace with actual href
+                                                            className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal"
+                                                        >
+                                                            {dest.label}
+                                                        </Link>
+                                                    ))}
+                                                </div>
+
+                                                <img
+                                                    src="/images/header/domestic_img.jpg"
+                                                    alt="Domestic"
+                                                    className="mt-4 rounded-lg w-full object-cover h-36"
+                                                />
+                                            </div>
+
+                                            {/* Vertical Separator */}
+                                            <Separator orientation="vertical" className="h-full w-[1px] bg-[#E7E7E7]" />
+
+                                            {/* International Destinations */}
+                                            <div className="flex flex-col gap-[30px]">
+                                                <div className="text-[#E97737] font-['Playfair_Display'] text-[18px] font-semibold leading-normal mb-3">International Destinations</div>
+
+                                                <div className="grid grid-cols-1 gap-y-[40px]">
+                                                    {internationalDestinations.map((dest, index) => (
+                                                        // <div className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal">Adi Kailash & Om Parvat</div>
+                                                        <Link
+                                                            key={index}
+                                                            href={dest.url || "/"} // Replace with actual href
+                                                            className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal"
+                                                        >
+                                                            {dest.label}
+                                                        </Link>
+                                                    ))}
+                                                </div>
+
+                                                <img
+                                                    src="/images/header/international_trip.jpg"
+                                                    alt="International"
+                                                    className="mt-4 rounded-lg w-full object-cover h-36"
+                                                />
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
+                        );
+
+                    })}
                 </div>
 
                 {/* Icons */}
@@ -103,6 +350,19 @@ export default function Header() {
                 {/* Links */}
                 <nav className="flex flex-col gap-4 px-6 mt-4">
                     {topLinks.map((link) => (
+                        <Link
+                            key={link.label}
+                            href={link.href}
+                            className="text-[#1A2F46] font-[Figtree] text-[12px] md:text-[12px] font-semibold lg:text-[14px] uppercase hover:text-[#E97737] transition-colors"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
+
+                    <Separator orientation="horizontal" className="my-2 bg-[#E7E7E7] border border-[#E7E7E7]" />
+
+                    {/* {navLinks.map((link) => (
                         <a
                             key={link}
                             href="#"
@@ -111,30 +371,88 @@ export default function Header() {
                         >
                             {link}
                         </a>
-                    ))}
+                    ))} */}
 
-                    <Separator orientation="horizontal" className="my-2 bg-[#BBB] border border-[#BBB]" />
+                    {/**DestionList Accordion */}
+                    <Accordion type="single" collapsible className="w-full">
+                        <AccordionItem value="destinations">
+                            {/* Accordion Header */}
+                            <AccordionTrigger className="text-[#1A2F46] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1">
+                                All Destinations
+                            </AccordionTrigger>
 
-                    {navLinks.map((link) => (
-                        <a
-                            key={link}
-                            href="#"
-                            className="text-[#333] font-[Figtree] text-[12px] md:text-[12px] lg:text-[14px] uppercase"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            {link}
-                        </a>
-                    ))}
+                            {/* Accordion Content — contains all links */}
+                            <AccordionContent className="">
+                                <ScrollArea className="h-64 w-full">
+                                    <div className="flex flex-col gap-2 p-2">
+                                        {allDestinations.map((destination, index) => (
+                                            <div key={destination.label}>
+                                                <Link
+                                                    href={destination.url}
+                                                    className="block px-2 py-2 text-[#1A2F46] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
+                                                >
+                                                    {destination.label}
+                                                </Link>
+
+                                                {/* Separator below each link except the last one */}
+                                                {index !== allDestinations.length - 1 && (
+                                                    <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </ScrollArea>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+
+                    {/* <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" /> */}
+
+                    {/**Who are we accordion */}
+                    <Accordion type="single" collapsible className="w-full">
+                        <AccordionItem value="who-we-are">
+                            {/* Accordion Header */}
+                            <AccordionTrigger className="text-[#1A2F46] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1">
+                                Who We Are
+                            </AccordionTrigger>
+
+                            {/* Accordion Content — contains all links */}
+                            <AccordionContent className="">
+                                <ScrollArea className="h-64 w-full">
+                                    <div className="flex flex-col gap-2 p-2">
+                                        {whoWeAreOptions.map((option, index) => (
+                                            <div key={option.label}>
+                                                <Link
+                                                    href={option.href}
+                                                    className="block px-2 py-2 text-[#1A2F46] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
+                                                >
+                                                    {option.label}
+                                                </Link>
+
+                                                {/* Separator below each link except the last one */}
+                                                {index !== whoWeAreOptions.length - 1 && (
+                                                    <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mb-2" />
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </ScrollArea>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+
                 </nav>
             </div>
 
             {/* Overlay */}
-            {isMenuOpen && (
-                <div
-                    className="fixed inset-0 bg-opacity-30 z-40"
-                    onClick={() => setIsMenuOpen(false)}
-                />
-            )}
-        </header>
+            {
+                isMenuOpen && (
+                    <div
+                        className="fixed inset-0 bg-opacity-30 z-40"
+                        onClick={() => setIsMenuOpen(false)}
+                    />
+                )
+            }
+        </header >
     );
 }
