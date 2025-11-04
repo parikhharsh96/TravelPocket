@@ -14,6 +14,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/u
 import React from "react";
 import { DepartureDrawer } from "./departure-drawer";
 import { Badge } from "../ui/badge";
+import { itineraryList, ItineraryItem } from "@/data/detailpage";
 
 interface GiftProduct {
     id: number
@@ -24,6 +25,10 @@ interface GiftProduct {
 
 interface GiftProductCardProps {
     product: GiftProduct
+}
+
+interface ItineraryAccordionProps {
+    itinerary: ItineraryItem[];
 }
 
 const sectionIds = [
@@ -77,6 +82,49 @@ const products = [
     },
 ]
 
+interface EssentialItem {
+    text: string;
+}
+
+interface PackingListProps {
+    leftColumn: EssentialItem[];
+    rightColumn: EssentialItem[];
+}
+
+const leftColumnData: EssentialItem[] = [
+    { text: "Thermal innerwear (tops and bottoms)." },
+    { text: "Warm jackets and windcheaters (waterproof recommended)." },
+    { text: "Comfortable trekking pants and T-shirts (quick-dry preferred)." },
+    { text: "Woolen sweaters and fleece jackets." },
+    { text: "Gloves (woolen and waterproof)." },
+    { text: "Woolen cap, scarf, and balaclava." },
+    { text: "Multiple pairs of woolen and cotton socks." },
+    { text: "Lightweight raincoat or poncho." },
+    { text: "Comfortable walking shoes (waterproof with good grip)." },
+    { text: "Sunglasses (UV-protected) and sunscreen (SPF 50+)." },
+    { text: "Woolen mufflers and gaiters for extra warmth." },
+    { text: "Backpack (30-40 liters) with a rain cover." },
+    { text: "Daypack for essentials during treks." },
+    { text: "Daypack for essentials during treks." },
+];
+
+const rightColumnData: EssentialItem[] = [
+    { text: "Trekking pole(s) for added support." },
+    { text: "Personal toiletries (toothbrush, toothpaste, soap, shampoo, etc.)." },
+    { text: "Quick-dry towel and tissues." },
+    { text: "Moisturizer, lip balm (SPF protection), and antiseptic cream." },
+    { text: "Basic medicines (for altitude sickness, headaches, fever, etc.)." },
+    { text: "Reusable water bottle or hydration pack." },
+    { text: "Energy bars, dry fruits, and light snacks." },
+    { text: "Reusable water bottle or hydration pack." },
+    { text: "Energy bars, dry fruits, and light snacks." },
+    { text: "First-aid kit (basic items like band-aids, antiseptic wipes, etc.)." },
+    { text: "Passport (valid for at least 6 months)." },
+    { text: "Multiple passport-sized photographs." },
+    { text: "Photocopies of ID proof and travel documents." },
+    { text: "Travel insurance documents." },
+];
+
 export default function DetailPackage() {
 
     const [activeSection, setActiveSection] = useState("overview");
@@ -86,6 +134,33 @@ export default function DetailPackage() {
     const sliderRef = useRef<HTMLDivElement>(null);
     const tabRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const scrollAmount = 320; // Match card width + margin
+
+    const [showAll, setShowAll] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    const displayLimit = 14;
+    const halfLimit = displayLimit / 2;
+
+    // ✅ Detect screen size dynamically
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 1024); // lg breakpoint
+        };
+
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    // ✅ Decide what to display
+    const displayedLeft =
+        isMobile && !showAll ? leftColumnData.slice(0, halfLimit) : leftColumnData;
+
+    const displayedRight =
+        isMobile && !showAll ? rightColumnData.slice(0, halfLimit) : rightColumnData;
+
+    const hasExtraItems =
+        leftColumnData.length > halfLimit || rightColumnData.length > halfLimit;
 
     useEffect(() => {
         const observerOptions = {
@@ -586,11 +661,33 @@ export default function DetailPackage() {
                             <div id="itinerary" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
 
                                 <div className="flex flex-col gap-[14px] items-start">
-                                    <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">
-                                        Itinerary
+                                    <div className="flex flex-col gap-2 md:flex-row justify-between items-center w-full mb-2">
+                                        <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">
+                                            Itinerary
+                                        </div>
+                                        <div className="rounded-[8px] bg-[#F4F4F4] p-2">
+                                            <div className="flex flex-row gap-4 items-center">
+                                                <div className="flex flex-col md:flex-row gap-2 items-center justify-center">
+                                                    <img src="/images/detailpage/whatsapp.svg" alt="" className="" />
+                                                    <div className="text-black font-[Figtree] text-center text-[11px] md:text-[12px] font-normal leading-none uppercase">Send Itinerary</div>
+                                                </div>
+                                                <div className="flex flex-col md:flex-row gap-2 items-center">
+                                                    <img src="/images/detailpage/download.svg" alt="" className="" />
+                                                    <div className="text-black font-[Figtree] text-center text-[11px] md:text-[12px] font-normal leading-none uppercase">Download Itinerary</div>
+                                                </div>
+                                                <div className="flex flex-col md:flex-row gap-2 items-center">
+                                                    <img src="/images/detailpage/mail.svg" alt="" className="" />
+                                                    <div className="text-black font-[Figtree] text-center text-[11px] lg:text-[12px] font-normal leading-none uppercase">Email Itinerary</div>
+                                                </div>
+                                                <div className="flex flex-col md:flex-row gap-2 items-center">
+                                                    <img src="/images/detailpage/headset_mic.svg" alt="" className="" />
+                                                    <div className="text-black font-[Figtree] text-center text-[11px] lg:text-[12px] font-normal leading-none uppercase">Talk to Experts</div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div>
+                                    {/* <div className="w-full">
                                         <ItineraryAccordion />
                                         <div className="w-full mb-4">
                                             <Separator className="bg-[#E97737] border border-[#E97737]" />
@@ -607,6 +704,18 @@ export default function DetailPackage() {
                                         <div className="w-full mb-4">
                                             <Separator className="bg-[#E97737] border border-[#E97737]" />
                                         </div>
+                                    </div> */}
+                                    <div className="w-full flex flex-col">
+                                        {itineraryList.map((item, index) => (
+                                            <React.Fragment key={item.day}>
+                                                <ItineraryAccordion itinerary={[item]} /> {/* Pass single item as array */}
+                                                {index !== itineraryList.length - 1 && (
+                                                    <div className="w-full mb-4">
+                                                        <Separator className="bg-[#E97737] border border-[#E97737]" />
+                                                    </div>
+                                                )}
+                                            </React.Fragment>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -618,7 +727,7 @@ export default function DetailPackage() {
                                         Essentials
                                     </div>
 
-                                    <div className="flex justify-between lg:w-full">
+                                    {/* <div className="flex flex-col lg:flex-row justify-between lg:w-full">
                                         <div className="flex flex-col gap-[8px] items-start">
                                             <div className="flex gap-[8px] items-center">
                                                 <img src="/images/detailpage/arrow.svg" />
@@ -735,6 +844,52 @@ export default function DetailPackage() {
                                                 <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Travel insurance documents.</div>
                                             </div>
                                         </div>
+                                    </div> */}
+
+                                    <div className="w-full">
+                                        <div className="flex flex-col lg:flex-row justify-between lg:w-full">
+                                            {/* LEFT COLUMN */}
+                                            <div className="flex flex-col gap-[8px] items-start">
+                                                {displayedLeft.map((item, index) => (
+                                                    <div key={index} className="flex gap-[8px] items-center">
+                                                        <img src="/images/detailpage/arrow.svg" alt="" />
+                                                        <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
+                                                            {item.text}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            {/* RIGHT COLUMN */}
+                                            <div className="flex flex-col gap-[8px] items-start mt-4 lg:mt-0">
+                                                {displayedRight.map((item, index) => (
+                                                    <div key={index} className="flex gap-[8px] items-center">
+                                                        <img src="/images/detailpage/arrow.svg" alt="" />
+                                                        <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
+                                                            {item.text}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* View All / View Less for mobile only */}
+                                        {isMobile && hasExtraItems && (
+                                            <div className="flex mt-4 lg:hidden">
+                                                <div className="flex items-center gap-[8px] cursor-pointer rounded-[6px] border border-[#E97737] px-4 py-2" onClick={() => setShowAll(!showAll)}>
+                                                    <div className="text-[#E97737] font-figtree text-[14px] font-semibold leading-normal uppercase">
+                                                        {showAll ? "View Less" : "View All"}
+                                                    </div>
+                                                    <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
+                                                </div>
+                                                {/* <button
+                                                    onClick={() => setShowAll(!showAll)}
+                                                    className="rounded-[6px] border border-[#E97737] px-4 py-2 text-[#E97737] font-[Figtree] text-[14px] font-semibold uppercase"
+                                                >
+                                                    {showAll ? "View Less" : "View All"}
+                                                </button> */}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -1734,147 +1889,392 @@ function ProductCard({ product }: GiftProductCardProps) {
     )
 }
 
-function ItineraryAccordion() {
+function ItineraryAccordion({ itinerary }: ItineraryAccordionProps) {
     return (
-        <div className="">
-            <div className="flex flex-row gap-3 sm:gap-8">
-                {/* Day Badge */}
-                <div className="relative flex items-center flex-shrink-0 self-start top-[-5px]">
-                    <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
-                    <div className="absolute text-[#E97737] font-[Figtree] text-[14px] lg:text-[22px] font-bold leading-normal uppercase lg:top-[8px] left-[25px]">
-                        Day 2
-                    </div>
-                </div>
+        // <div className="w-full">
+        //     <div className="flex flex-row gap-3 sm:gap-8">
+        //         {/* Day Badge */}
+        //         <div className="relative flex items-center flex-shrink-0 self-start top-[-5px]">
+        //             <img src="/images/detailpage/Union.svg" className="w-[120px] h-[50px] object-contain" />
+        //             <div className="absolute text-[#E97737] font-[Figtree] text-[14px] lg:text-[22px] font-bold leading-normal uppercase lg:top-[8px] left-[25px]">
+        //                 Day 2
+        //             </div>
+        //         </div>
 
-                {/* Right Column - Heading and all content */}
-                <div className="flex-1 min-w-0">
-                    <Accordion type="single" collapsible defaultValue="item-1" className="w-full">
-                        <AccordionItem value="item-1" className="">
-                            <AccordionTrigger className="hover:no-underline p-0 mb-4 sm:mb-6">
-                                <div className="text-[#1A2F46] font-[Figtree] text-[16px] lg:text-[24px] font-semibold leading-normal text-left pr-2">
-                                    Lucknow Drive to Nepalgunj
+        //         {/* Right Column - Heading and all content */}
+        //         <div className="flex-1 min-w-0">
+        //             <Accordion type="single" collapsible defaultValue="item-1" className="w-full">
+        //                 <AccordionItem value="item-1" className="">
+        //                     <AccordionTrigger className="hover:no-underline p-0 mb-4 sm:mb-6">
+        //                         <div className="text-[#1A2F46] font-[Figtree] text-[16px] lg:text-[24px] font-semibold leading-normal text-left pr-2">
+        //                             Lucknow Drive to Nepalgunj
+        //                         </div>
+        //                     </AccordionTrigger>
+        //                     <AccordionContent>
+        //                         {/* Description */}
+        //                         <p className="text-[#333] font-['Figtree'] text-[14px] lg:text-base not-italic font-normal leading-6 mb-6 sm:mb-8">
+        //                             Your spiritual journey to Kailash Mansarovar begins with a drive to Nepalgunj after breakfast. This
+        //                             town, located near the India-Nepal border, serves as the official starting point for the yatra.
+        //                         </p>
+
+        //                         {/* Route Overview Section */}
+        //                         <div className="flex flex-col gap-[8px] mb-4">
+        //                             <div className="text-[#29A4C1] font-['Figtree'] text-base not-italic font-semibold leading-6">Route Overview</div>
+        //                             <div className="flex flex-row gap-[6px] items-center">
+        //                                 <img src="/images/detailpage/check_circle.svg" className="" />
+        //                                 <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+        //                                     Drive Duration:
+        //                                     <span className="font-normal"> Approx. 4-5 hours</span>
+        //                                 </div>
+        //                             </div>
+        //                             <div className="flex flex-row gap-[6px] items-center">
+        //                                 <img src="/images/detailpage/check_circle.svg" className="" />
+        //                                 <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+        //                                     From:
+        //                                     <span className="font-normal"> Starting Point (Lucknow or similar)</span>
+        //                                 </div>
+        //                             </div>
+        //                             <div className="flex flex-row gap-[6px] items-center">
+        //                                 <img src="/images/detailpage/check_circle.svg" className="" />
+        //                                 <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+        //                                     To:
+        //                                     <span className="font-normal"> Nepalgunj (Altitude: 152 m)</span>
+        //                                 </div>
+        //                             </div>
+        //                             <div className="flex flex-row gap-[6px] items-center">
+        //                                 <img src="/images/detailpage/check_circle.svg" className="" />
+        //                                 <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+        //                                     Hotel:
+        //                                     <span className="font-normal"> Soaltee Westend Premier or similar</span>
+        //                                 </div>
+        //                             </div>
+        //                         </div>
+
+        //                         {/* Key Highlights Section */}
+        //                         <div className="flex flex-col gap-[8px] mb-4">
+        //                             <div className="text-[#29A4C1] font-['Figtree'] text-base not-italic font-semibold leading-6">Key Highlights</div>
+        //                             <div className="flex flex-row gap-[6px] items-center">
+        //                                 <img src="/images/detailpage/check_circle.svg" className="" />
+        //                                 <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+        //                                     <span className="font-normal">Comfortable road trip with en-route refreshment break</span>
+        //                                 </div>
+        //                             </div>
+        //                             <div className="flex flex-row gap-[6px] items-center">
+        //                                 <img src="/images/detailpage/check_circle.svg" className="" />
+        //                                 <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+        //                                     <span className="font-normal">Check-in and rest at a premium hotel in Nepalgunj</span>
+        //                                 </div>
+        //                             </div>
+        //                             <div className="flex flex-row gap-[6px] items-center">
+        //                                 <img src="/images/detailpage/check_circle.svg" className="" />
+        //                                 <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+        //                                     Optional:
+        //                                     <span className="font-normal"> Visit Bageshwari Temple, a revered Shakti Peeth</span>
+        //                                 </div>
+        //                             </div>
+        //                             <div className="flex flex-row gap-[6px] items-center">
+        //                                 <img src="/images/detailpage/check_circle.svg" className="" />
+        //                                 <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+        //                                     <span className="font-normal">Evening </span>
+        //                                     Yatra Briefing Session
+        //                                     <span className="font-normal"> covering route, medical advice, and travel essentials</span>
+        //                                 </div>
+        //                             </div>
+        //                             <div className="flex flex-row gap-[6px] items-center">
+        //                                 <img src="/images/detailpage/check_circle.svg" className="" />
+        //                                 <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
+        //                                     <span className="font-normal">Prepare mentally and spiritually for the sacred journey ahead</span>
+        //                                 </div>
+        //                             </div>
+        //                         </div>
+
+
+
+        //                         {/* Feature Badges */}
+        //                         <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4">
+        //                             <div className="rounded-lg bg-[#DDF9FF]" style={{ padding: "4px 12px" }}>
+        //                                 <div className="flex flex-row gap-[8px] items-center">
+        //                                     <img src="/images/detailpage/iconspace_3.svg" className="w-h h-4" />
+        //                                     <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] not-italic font-semibold leading-[22px]">Check-in at a Premium Hotel</div>
+        //                                 </div>
+        //                             </div>
+
+        //                             <div className="rounded-lg bg-[#DDF9FF]" style={{ padding: "4px 12px" }}>
+        //                                 <div className="flex flex-row gap-[8px] items-center">
+        //                                     <img src="/images/detailpage/iconspace_2.svg" className="w-h h-4" />
+        //                                     <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] not-italic font-semibold leading-[22px]">Drive to Nepalgunj</div>
+        //                                 </div>
+        //                             </div>
+
+        //                             <div className="rounded-lg bg-[#DDF9FF]" style={{ padding: "4px 12px" }}>
+        //                                 <div className="flex flex-row gap-[8px] items-center">
+        //                                     <img src="/images/detailpage/iconspace_1.svg" className="w-h h-4" />
+        //                                     <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] not-italic font-semibold leading-[22px]">Breakfast, Lunch, Dinner</div>
+        //                                 </div>
+        //                             </div>
+        //                         </div>
+
+        //                         {/* Image Cards */}
+        //                         <div className="flex flex-row gap-[12px]">
+        //                             <div className="flex flex-col gap-[8px] items-start flex-wrap max-w-[200px]">
+        //                                 <img src="/images/detailpage/iternary_img_1.png" className="w-[200px] h-[150px]" />
+        //                                 <div className="text-[#333] font-['Figtree'] text-[13px] not-italic font-normal leading-[24px]">Soaltee Westend Premier</div>
+        //                             </div>
+        //                             <div className="flex flex-col gap-[8px] items-start flex-wrap max-w-[200px]">
+        //                                 <img src="/images/detailpage/iternary_img_2.png" className="w-[200px] h-[150px]" />
+        //                                 <div className="text-[#333] font-['Figtree'] text-[13px] not-italic font-normal leading-[24px]">Bageshwari Temple, a revered Shakti Peeth</div>
+        //                             </div>
+        //                         </div>
+        //                     </AccordionContent>
+        //                 </AccordionItem>
+        //             </Accordion>
+        //         </div>
+        //     </div>
+        // </div>
+
+        <div className="w-full flex flex-col gap-6">
+            {itinerary.map((item, index) => (
+                <div
+                    key={index}
+                    className="flex flex-col sm:flex-row gap-3 sm:gap-8 w-full"
+                >
+                    {/* For mobile: Day + title + accordion icon inline */}
+                    <Accordion
+                        type="single"
+                        collapsible
+                        defaultValue={`item-${index + 1}`}
+                        className="w-full sm:hidden"
+                    >
+                        <AccordionItem value={`item-${index + 1}`}>
+                            <AccordionTrigger className="hover:no-underline p-0 mb-4 sm:mb-6 flex items-center gap-3">
+                                {/* Day Badge (mobile inline) */}
+                                <div className="relative flex items-center flex-shrink-0">
+                                    <img
+                                        src="/images/detailpage/Union.svg"
+                                        className="w-[100px] h-[40px] object-contain"
+                                    />
+                                    <div className="absolute text-[#E97737] font-[Figtree] text-[14px] font-bold uppercase top-[5px] left-[20px]">
+                                        Day {item.day}
+                                    </div>
+                                </div>
+                                {/* Title */}
+                                <div className="text-[#1A2F46] font-[Figtree] text-[16px] font-semibold leading-normal text-left">
+                                    {item.title}
                                 </div>
                             </AccordionTrigger>
+
                             <AccordionContent>
-                                {/* Description */}
-                                <p className="text-[#333] font-['Figtree'] text-[14px] lg:text-base not-italic font-normal leading-6 mb-6 sm:mb-8">
-                                    Your spiritual journey to Kailash Mansarovar begins with a drive to Nepalgunj after breakfast. This
-                                    town, located near the India-Nepal border, serves as the official starting point for the yatra.
+                                <p className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8 pl-4">
+                                    {item.description}
                                 </p>
 
-                                {/* Route Overview Section */}
-                                <div className="flex flex-col gap-[8px] mb-4">
-                                    <div className="text-[#29A4C1] font-['Figtree'] text-base not-italic font-semibold leading-6">Route Overview</div>
-                                    <div className="flex flex-row gap-[6px] items-center">
-                                        <img src="/images/detailpage/check_circle.svg" className="" />
-                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
-                                            Drive Duration:
-                                            <span className="font-normal"> Approx. 4-5 hours</span>
+                                {/* Route Overview */}
+                                {item.routeOverview && item.routeOverview?.length > 0 && (
+                                    <div className="flex flex-col gap-[8px] mb-4 pl-4">
+                                        <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
+                                            Route Overview
                                         </div>
+                                        {item.routeOverview.map((route, idx) => (
+                                            <div
+                                                key={idx}
+                                                className="flex flex-row gap-[6px] items-center"
+                                            >
+                                                <img src="/images/detailpage/check_circle.svg" alt="" />
+                                                <div className="text-black font-['Figtree'] text-[14px] font-semibold leading-[24px]">
+                                                    {route.label}:{" "}
+                                                    <span className="font-normal">{route.value}</span>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                    <div className="flex flex-row gap-[6px] items-center">
-                                        <img src="/images/detailpage/check_circle.svg" className="" />
-                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
-                                            From:
-                                            <span className="font-normal"> Starting Point (Lucknow or similar)</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-row gap-[6px] items-center">
-                                        <img src="/images/detailpage/check_circle.svg" className="" />
-                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
-                                            To:
-                                            <span className="font-normal"> Nepalgunj (Altitude: 152 m)</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-row gap-[6px] items-center">
-                                        <img src="/images/detailpage/check_circle.svg" className="" />
-                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
-                                            Hotel:
-                                            <span className="font-normal"> Soaltee Westend Premier or similar</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                )}
 
-                                {/* Key Highlights Section */}
-                                <div className="flex flex-col gap-[8px] mb-4">
-                                    <div className="text-[#29A4C1] font-['Figtree'] text-base not-italic font-semibold leading-6">Key Highlights</div>
-                                    <div className="flex flex-row gap-[6px] items-center">
-                                        <img src="/images/detailpage/check_circle.svg" className="" />
-                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
-                                            <span className="font-normal">Comfortable road trip with en-route refreshment break</span>
+                                {/* Key Highlights */}
+                                {item.keyHighlights && item.keyHighlights?.length > 0 && (
+                                    <div className="flex flex-col gap-[8px] mb-4 pl-4">
+                                        <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
+                                            Key Highlights
                                         </div>
+                                        {item.keyHighlights.map((highlight, idx) => (
+                                            <div
+                                                key={idx}
+                                                className="flex flex-row gap-[6px] items-center"
+                                            >
+                                                <img src="/images/detailpage/check_circle.svg" alt="" />
+                                                <div className="text-black font-['Figtree'] text-[14px] font-semibold leading-[24px]">
+                                                    <span className="font-normal">{highlight}</span>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                    <div className="flex flex-row gap-[6px] items-center">
-                                        <img src="/images/detailpage/check_circle.svg" className="" />
-                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
-                                            <span className="font-normal">Check-in and rest at a premium hotel in Nepalgunj</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-row gap-[6px] items-center">
-                                        <img src="/images/detailpage/check_circle.svg" className="" />
-                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
-                                            Optional:
-                                            <span className="font-normal"> Visit Bageshwari Temple, a revered Shakti Peeth</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-row gap-[6px] items-center">
-                                        <img src="/images/detailpage/check_circle.svg" className="" />
-                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
-                                            <span className="font-normal">Evening </span>
-                                            Yatra Briefing Session
-                                            <span className="font-normal"> covering route, medical advice, and travel essentials</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-row gap-[6px] items-center">
-                                        <img src="/images/detailpage/check_circle.svg" className="" />
-                                        <div className="text-black font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px]">
-                                            <span className="font-normal">Prepare mentally and spiritually for the sacred journey ahead</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-
+                                )}
 
                                 {/* Feature Badges */}
-                                <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4">
-                                    <div className="rounded-lg bg-[#DDF9FF]" style={{ padding: "4px 12px" }}>
-                                        <div className="flex flex-row gap-[8px] items-center">
-                                            <img src="/images/detailpage/iconspace_3.svg" className="w-h h-4" />
-                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] not-italic font-semibold leading-[22px]">Check-in at a Premium Hotel</div>
-                                        </div>
+                                {item.featureBadges && item.featureBadges?.length > 0 && (
+                                    <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4 pl-4">
+                                        {item.featureBadges.map((badge, idx) => (
+                                            <div
+                                                key={idx}
+                                                className="rounded-lg bg-[#DDF9FF]"
+                                                style={{ padding: "4px 12px" }}
+                                            >
+                                                <div className="flex flex-row gap-[8px] items-center">
+                                                    <img src={badge.icon} alt="" className="w-h h-4" />
+                                                    <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] font-semibold leading-[22px]">
+                                                        {badge.text}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
+                                )}
 
-                                    <div className="rounded-lg bg-[#DDF9FF]" style={{ padding: "4px 12px" }}>
-                                        <div className="flex flex-row gap-[8px] items-center">
-                                            <img src="/images/detailpage/iconspace_2.svg" className="w-h h-4" />
-                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] not-italic font-semibold leading-[22px]">Drive to Nepalgunj</div>
-                                        </div>
+                                {/* Images */}
+                                {item.images && item.images?.length > 0 && (
+                                    <div className="flex flex-row gap-[12px] flex-wrap pl-4">
+                                        {item.images.map((img, idx) => (
+                                            <div
+                                                key={idx}
+                                                className="flex flex-col gap-[8px] items-start max-w-[200px]"
+                                            >
+                                                <img
+                                                    src={img.src}
+                                                    alt={img.alt}
+                                                    className="w-[200px] h-[150px]"
+                                                />
+                                                <div className="text-[#333] font-['Figtree'] text-[13px] font-normal leading-[24px]">
+                                                    {img.caption}
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-
-                                    <div className="rounded-lg bg-[#DDF9FF]" style={{ padding: "4px 12px" }}>
-                                        <div className="flex flex-row gap-[8px] items-center">
-                                            <img src="/images/detailpage/iconspace_1.svg" className="w-h h-4" />
-                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] not-italic font-semibold leading-[22px]">Breakfast, Lunch, Dinner</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Image Cards */}
-                                <div className="flex flex-row gap-[12px]">
-                                    <div className="flex flex-col gap-[8px] items-start flex-wrap max-w-[200px]">
-                                        <img src="/images/detailpage/iternary_img_1.png" className="w-[200px] h-[150px]" />
-                                        <div className="text-[#333] font-['Figtree'] text-[13px] not-italic font-normal leading-[24px]">Soaltee Westend Premier</div>
-                                    </div>
-                                    <div className="flex flex-col gap-[8px] items-start flex-wrap max-w-[200px]">
-                                        <img src="/images/detailpage/iternary_img_2.png" className="w-[200px] h-[150px]" />
-                                        <div className="text-[#333] font-['Figtree'] text-[13px] not-italic font-normal leading-[24px]">Bageshwari Temple, a revered Shakti Peeth</div>
-                                    </div>
-                                </div>
+                                )}
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>
+
+                    {/* Desktop layout (unchanged) */}
+                    <div className="hidden sm:flex flex-row gap-3 sm:gap-8 w-full">
+                        {/* Day Badge */}
+                        <div className="relative flex items-center flex-shrink-0 self-start top-[-5px]">
+                            <img
+                                src="/images/detailpage/Union.svg"
+                                className="w-[120px] h-[50px] object-contain"
+                            />
+                            <div className="absolute text-[#E97737] font-[Figtree] text-[14px] lg:text-[22px] font-bold leading-normal uppercase lg:top-[8px] left-[25px]">
+                                Day {item.day}
+                            </div>
+                        </div>
+
+                        {/* Accordion */}
+                        <div className="flex-1 min-w-0">
+                            <Accordion
+                                type="single"
+                                collapsible
+                                defaultValue={`item-${index + 1}`}
+                                className="w-full"
+                            >
+                                <AccordionItem value={`item-${index + 1}`}>
+                                    <AccordionTrigger className="hover:no-underline p-0 mb-4 sm:mb-6">
+                                        <div className="text-[#1A2F46] font-[Figtree] text-[16px] lg:text-[24px] font-semibold leading-normal text-left pr-2">
+                                            {item.title}
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                        <p className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8">
+                                            {item.description}
+                                        </p>
+
+                                        {/* Route Overview */}
+                                        {item.routeOverview && item.routeOverview?.length > 0 && (
+                                            <div className="flex flex-col gap-[8px] mb-4">
+                                                <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
+                                                    Route Overview
+                                                </div>
+                                                {item.routeOverview.map((route, idx) => (
+                                                    <div
+                                                        key={idx}
+                                                        className="flex flex-row gap-[6px] items-center"
+                                                    >
+                                                        <img src="/images/detailpage/check_circle.svg" alt="" />
+                                                        <div className="text-black font-['Figtree'] text-[14px] font-semibold leading-[24px]">
+                                                            {route.label}:{" "}
+                                                            <span className="font-normal">{route.value}</span>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Key Highlights */}
+                                        {item.keyHighlights && item.keyHighlights?.length > 0 && (
+                                            <div className="flex flex-col gap-[8px] mb-4">
+                                                <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
+                                                    Key Highlights
+                                                </div>
+                                                {item.keyHighlights.map((highlight, idx) => (
+                                                    <div
+                                                        key={idx}
+                                                        className="flex flex-row gap-[6px] items-center"
+                                                    >
+                                                        <img src="/images/detailpage/check_circle.svg" alt="" />
+                                                        <div className="text-black font-['Figtree'] text-[14px] font-semibold leading-[24px]">
+                                                            <span className="font-normal">{highlight}</span>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Feature Badges */}
+                                        {item.featureBadges && item.featureBadges?.length > 0 && (
+                                            <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4">
+                                                {item.featureBadges.map((badge, idx) => (
+                                                    <div
+                                                        key={idx}
+                                                        className="rounded-lg bg-[#DDF9FF]"
+                                                        style={{ padding: "4px 12px" }}
+                                                    >
+                                                        <div className="flex flex-row gap-[8px] items-center">
+                                                            <img src={badge.icon} alt="" className="w-h h-4" />
+                                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] font-semibold leading-[22px]">
+                                                                {badge.text}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Images */}
+                                        {item.images && item.images?.length > 0 && (
+                                            <div className="flex flex-row gap-[12px] flex-wrap">
+                                                {item.images.map((img, idx) => (
+                                                    <div
+                                                        key={idx}
+                                                        className="flex flex-col gap-[8px] items-start max-w-[200px]"
+                                                    >
+                                                        <img
+                                                            src={img.src}
+                                                            alt={img.alt}
+                                                            className="w-[200px] h-[150px]"
+                                                        />
+                                                        <div className="text-[#333] font-['Figtree'] text-[13px] font-normal leading-[24px]">
+                                                            {img.caption}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            ))}
         </div>
+
+
     )
 }
