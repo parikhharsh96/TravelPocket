@@ -129,7 +129,8 @@ export default function DetailPackage() {
 
     const [activeSection, setActiveSection] = useState("overview");
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
+    const [activeTab, setActiveTab] = useState("inclusions");
 
     const sliderRef = useRef<HTMLDivElement>(null);
     const tabRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -897,91 +898,106 @@ export default function DetailPackage() {
                             {/* Inclusions | Exclusions */}
                             <div id="inclusions" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
                                 <div className="flex flex-row gap-[30px]">
-                                    <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">Inclusions</div>
-                                    <div className="text-[#ADADAD] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">Exclusions</div>
+                                    <div onClick={() => setActiveTab("inclusions")}
+                                        className={`font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal transition-colors duration-200 ${activeTab === "inclusions"
+                                            ? "text-[#1A2F46]"
+                                            : "text-[#ADADAD] hover:text-[#1A2F46]"
+                                            }`}>Inclusions</div>
+                                    <div onClick={() => setActiveTab("exclusions")}
+                                        className={`font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal transition-colors duration-200 ${activeTab === "exclusions"
+                                            ? "text-[#1A2F46]"
+                                            : "text-[#ADADAD] hover:text-[#1A2F46]"
+                                            }`}>Exclusions</div>
                                 </div>
                                 <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB] mt-[20px] mb-[20px]" />
 
-                                <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/Frame_1.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Tibet & Kailash Permits: All necessary entry permissions and group visas
-                                        </p>
+                                {activeTab === "inclusions" ? (
+                                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/Frame_1.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Tibet & Kailash Permits: All necessary entry permissions and group visas
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/Frame_1.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Chinese Visa Fee: Included in the package.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/Frame_1.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Transportation: Lucknow–Nepalgunj by coach, Nepalgunj–Simikot by aircraft, Simikot–Hilsa by helicopter, and Tibet by luxury coach.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/Frame_3.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Accommodation: Hotel stay in Nepalgunj and guesthouses in Tibet.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/Frame_1.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Permits: Upper Humla permit fee included.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/cutlery.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Support Services: Support truck for kitchen equipment and food supplies
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/svg4089.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Meals: All vegetarian meals throughout the journey.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/bus.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Overland transfer in Tibet by luxury coach.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/winter-jacket.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Gear: Complimentary duffle bag, day pack, and down jacket
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/tent.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Camping Equipment: Tents, utensils, and other essentials for camping.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/tour-guide.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Guides: Expert Tibetan guide from FEC.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/capa.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Health & Safety: Oxygen cylinders provided for the group.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-col items-start gap-[9px]">
+                                            <img src="/images/detailpage/rupee.svg" />
+                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                Entrance fees in Tibet
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/Frame_1.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Chinese Visa Fee: Included in the package.
-                                        </p>
+                                ) : (
+                                    <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] italic">
+                                        Exclusion details will be added soon...
                                     </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/Frame_1.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Transportation: Lucknow–Nepalgunj by coach, Nepalgunj–Simikot by aircraft, Simikot–Hilsa by helicopter, and Tibet by luxury coach.
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/Frame_3.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Accommodation: Hotel stay in Nepalgunj and guesthouses in Tibet.
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/Frame_1.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Permits: Upper Humla permit fee included.
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/cutlery.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Support Services: Support truck for kitchen equipment and food supplies
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/svg4089.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Meals: All vegetarian meals throughout the journey.
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/bus.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Overland transfer in Tibet by luxury coach.
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/winter-jacket.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Gear: Complimentary duffle bag, day pack, and down jacket
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/tent.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Camping Equipment: Tents, utensils, and other essentials for camping.
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/tour-guide.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Guides: Expert Tibetan guide from FEC.
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/capa.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Health & Safety: Oxygen cylinders provided for the group.
-                                        </p>
-                                    </div>
-                                    <div className="flex flex-col items-start gap-[9px]">
-                                        <img src="/images/detailpage/rupee.svg" />
-                                        <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                            Entrance fees in Tibet
-                                        </p>
-                                    </div>
-                                </div>
+                                )}
+
                             </div>
 
                             {/* Information Links and Downloads */}
