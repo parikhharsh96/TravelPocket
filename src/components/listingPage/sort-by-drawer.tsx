@@ -10,6 +10,7 @@ import { Separator } from "@radix-ui/react-separator"
 interface SortByDrawerProps {
     open: boolean
     onOpenChange: (open: boolean) => void
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data?: any
 }
 

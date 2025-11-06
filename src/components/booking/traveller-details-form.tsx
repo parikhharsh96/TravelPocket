@@ -22,6 +22,8 @@ interface TravellerDetailsFormProps {
   travellerCount?: number
 }
 
+const addTravellerBtnLbl = `Add Traveller's Details`;
+
 // interface TravellerData {
 //   firstName: string
 //   lastName: string
@@ -149,7 +151,7 @@ export function TravellerDetailsForm({
         <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#e97737] flex items-center justify-center">
           <span className="text-white text-center font-['Figtree'] font-semibold text-[21.333px] leading-[18.667px]">3</span>
         </div>
-        <h2 className="text-[#1A2F46] font-['Playfair_Display'] text-[28px] font-semibold leading-normal flex-1 text-left">Add Traveller's Details</h2>
+        <h2 className="text-[#1A2F46] font-['Playfair_Display'] text-[28px] font-semibold leading-normal flex-1 text-left">{addTravellerBtnLbl}</h2>
         {isExpanded ? (
           <ChevronUp className="w-5 h-5 md:w-6 md:h-6 text-[#1c1b1f] flex-shrink-0" />
         ) : (
