@@ -14,7 +14,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/filters-accordion";
-import { filterGroups, sortOptions } from "@/data/filters";
+import { FilterGroup, filterGroups, FilterOption, sortOptions } from "@/data/filters";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import {
@@ -28,6 +28,8 @@ import {
 } from "@/components/ui/select";
 import { SortByDrawer } from "./sort-by-drawer";
 import { FilterByDrawer } from "./filter-by-drawer";
+import { Destination, destinations } from "@/data/destinations";
+import React from "react";
 
 const packages = [
     {
@@ -170,6 +172,13 @@ export default function AllDestinations() {
     const [selected, setSelected] = useState<string[]>(['All']);
     const [openSortDrawer, setOpenSortDrawer] = useState(false);
     const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
+    const [visibleCount, setVisibleCount] = useState(6); // initial 6 items
+
+    const handleLoadMore = () => {
+        setVisibleCount((prev) => prev + 6);
+    };
+
+    const allLoaded = visibleCount >= destinations.length;
 
     const toggleOption = (option: string): void => {
         setSelected((prevSelected) => {
@@ -190,7 +199,7 @@ export default function AllDestinations() {
 
     return (
         <>
-            <section className="max-w-[1920px] mx-auto">
+            <section className="container mx-auto"> {/**max-w-[1920px] */}
                 <div className="relative rounded-[0_0_30px_30px] bg-[#EBF5F7] w-full">
                     <div className="p-4 md:p-6 lg:p-8 lg:pb-[100px]">
                         <div className="flex items-center gap-4 mb-6 md:mb-8 text-[#5a5a5a] pt-2">
@@ -198,27 +207,27 @@ export default function AllDestinations() {
                                 {/* <ArrowLeft className="w-5 h-5" /> */}
                                 <img src="/images/detailpage/arrow_back.svg" width="14px" height="14px"
                                     alt="Twitter" className="cursor-pointer" />
-                                <span className="text-[#5A5A5A] font-['Figtree'] text-[11px] lg:text-[12px] font-normal leading-[14px]">Back</span>
+                                <span className="text-[#5A5A5A] font-['Figtree'] text-[11px] md:text-[12px] font-normal leading-[14px]">Back</span>
                             </Link>
                             {/* <span className="text-[#d9d9d9]">|</span> */}
                             <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
                             <div className="flex items-center gap-2 text-base">
                                 <Link href="/" className="hover:text-[#000000] transition-colors flex items-center">
-                                    <span className="text-[#5A5A5A] font-['Figtree'] text-[11px] lg:text-[12px] font-normal leading-[14px]">Home</span>
+                                    <span className="text-[#5A5A5A] font-['Figtree'] text-[11px] md:text-[12px] font-normal leading-[14px]">Home</span>
                                 </Link>
                                 <img src="/images/detailpage/arrow-right.svg" width="12px" height="12px"
                                     alt="Twitter" className="cursor-pointer" />
-                                <span className="text-black font-['Figtree'] text-[11px] lg:text-[12px] font-normal leading-[14px] cursor-pointer">All Destinations</span>
+                                <span className="text-black font-['Figtree'] text-[11px] md:text-[12px] font-normal leading-[14px] cursor-pointer">All Destinations</span>
                             </div>
                         </div>
 
                         <div className="flex flex-col md:flex-col lg:flex-row items-start justify-between gap-8">
-                            <div className="flex flex-col gap-[15px] flex-1 w-full lg:max-w-[55%]">
-                                <div className="text-[#1A2F46] font-['Playfair_Display'] text-[28px] lg:text-[36px] not-italic font-semibold leading-normal">Explore All Destinations</div>
-                                <div className="text-[#333] font-['Figtree'] text-[14px] lg:text-[16px] not-italic font-normal leading-[22px]">Lorem ipsum dolor sit amet consectetur. Adipiscing placerat urna eu arcu. Iaculis tortor platea cursus dignissim augue. Amet diam mattis nunc turpis sapien nibh malesuada nibh. Aliquam nunc ac diam pharetra pulvinar. Lorem ipsum dolor sit amet consectetur. Adipiscing placerat urna eu arcu. Iaculis tortor platea cursus dignissim augue. Amet diam mattis nunc turpis sapien nibh malesuada nibh. Aliquam nunc ac diam pharetra pulvinar.</div>
+                            <div className="flex flex-col gap-[15px] flex-1 w-full md:max-w-[55%]">
+                                <div className="text-[#1A2F46] font-['Playfair_Display'] text-[28px] md:text-[36px] not-italic font-semibold leading-normal">Explore All Destinations</div>
+                                <div className="text-[#333] font-['Figtree'] text-[14px] md:text-[16px] not-italic font-normal leading-[22px]">Lorem ipsum dolor sit amet consectetur. Adipiscing placerat urna eu arcu. Iaculis tortor platea cursus dignissim augue. Amet diam mattis nunc turpis sapien nibh malesuada nibh. Aliquam nunc ac diam pharetra pulvinar. Lorem ipsum dolor sit amet consectetur. Adipiscing placerat urna eu arcu. Iaculis tortor platea cursus dignissim augue. Amet diam mattis nunc turpis sapien nibh malesuada nibh. Aliquam nunc ac diam pharetra pulvinar.</div>
                             </div>
                             <div className="flex flex-row gap-[10px] items-center">
-                                <div className="flex-1 text-black font-['Figtree'] text-[14px] lg:text-[16px] not-italic font-medium leading-6">Get our assistance for easy booking</div>
+                                <div className="flex-1 text-black font-['Figtree'] text-[14px] md:text-[16px] not-italic font-medium leading-6">Get our assistance for easy booking</div>
                                 <div className="lg:flex-1">
                                     <div className="rounded-[6px] bg-[#FFF0E8] cursor-pointer py-2 px-2 cursor-pointer">
                                         <div className="flex flex-row items-center gap-[5px]">
@@ -240,7 +249,7 @@ export default function AllDestinations() {
                 </div>
             </section>
 
-            <section className="max-w-[1920px] mx-auto mt-4 lg:mt-[250px]">
+            <section className="container mx-auto mt-4 lg:mt-[250px]"> {/**max-w-[1920px] */}
                 <div className="p-0 md:p-6 lg:p-8">
                     <div className="rounded-[8px] bg-[#EBF5F7] w-full px-6 py-4.5 overflow-x-auto scroll-px-6">
                         <div className="flex flex-row lg:flex-wrap gap-[12px]">
@@ -251,7 +260,7 @@ export default function AllDestinations() {
                                         ${isActive ? "bg-[#1A2F46] border-[#1A2F46]" : "bg-white border-[#D2D8E4]"}
                                                 `}>
                                         <div className="flex items-start w-full">
-                                            <div className={`font-['Figtree'] text-[14px] lg:text-base font-normal leading-normal capitalize shrink-0
+                                            <div className={`font-['Figtree'] text-[14px] md:text-base font-normal leading-normal capitalize shrink-0
                                                 ${isActive ? "text-[#FFFFFF]" : "text-[#1A2F46]"}
                                                 `}>{option}</div>
                                         </div>
@@ -266,7 +275,7 @@ export default function AllDestinations() {
             </section>
 
             {/**Main Section with side bar */}
-            <section className="max-w-[1920px] mx-auto">
+            <section className="container mx-auto"> {/**max-w-[1920px]  */}
                 <div className="flex flex-row gap-6">
 
                     {/* sidebar content - filter */}
@@ -278,8 +287,8 @@ export default function AllDestinations() {
                                     <div className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-normal not-italic cursor-pointer">Clear all</div>
                                 </div>
 
-                                <Accordion type="multiple" defaultValue={filterGroups.map((g: any) => g.key)}>
-                                    {filterGroups.map((group: any) => (
+                                <Accordion type="multiple" defaultValue={filterGroups.map((g: FilterGroup) => g.key)}>
+                                    {filterGroups.map((group: FilterGroup) => (
                                         <AccordionItem key={group.key} value={group.key}>
                                             <AccordionTrigger className="text-black font-['Figtree'] text-[16px] font-semibold leading-normal">
                                                 {group.title}
@@ -292,7 +301,7 @@ export default function AllDestinations() {
                                                         name={group.key}
                                                     >
                                                         <option value="">Select {group.title}</option>
-                                                        {group.options.map((opt: any) => (
+                                                        {group.options.map((opt: FilterOption) => (
                                                             <option key={opt.value} value={opt.value}>
                                                                 {opt.label}
                                                             </option>
@@ -300,7 +309,7 @@ export default function AllDestinations() {
                                                     </select>
                                                 ) : group.type === "label" ? (
                                                     <div className="flex flex-row gap-[16px] flex-wrap items-center">
-                                                        {group.options.map((option: any) => (
+                                                        {group.options.map((option: FilterOption) => (
                                                             <div key={option.value} className="rounded-[8px] border border-[#D2D8E4] bg-white px-3 py-3">
                                                                 <div className="flex items-center">
                                                                     <div className="text-[#1A2F46] font-['Figtree'] text-[14px] font-normal leading-normal">{option.label}</div>
@@ -311,7 +320,7 @@ export default function AllDestinations() {
                                                 ) : (
                                                     // Checkbox
                                                     <div className="flex flex-col gap-[16px]">
-                                                        {group.options.map((opt: any) => (
+                                                        {group.options.map((opt: FilterOption) => (
                                                             <div key={opt.value} className="flex flex-row gap-[10px] items-center">
                                                                 <Checkbox id={opt.value} className="rounded-[2px] border border-[#D2D8E4] bg-white
                                                                 data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"/>
@@ -335,7 +344,7 @@ export default function AllDestinations() {
                             <div className="flex flex-row flex-wrap gap-[12px]">
                                 <div className="rounded-[8px] border border-[#1C8CA7] px-3 py-1.5">
                                     <div className="flex flex-row gap-[10px] items-center">
-                                        <div className="shrink-0 text-[#1C8CA7] font-['Figtree'] text-[14px] font-semibold leading-normal">₹2,00,000 & Above</div>
+                                        <div className="shrink-0 text-[#1C8CA7] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal">₹2,00,000 & Above</div>
                                         <img src="/images/listingpage/close_brand.svg" alt="close" className="w-[11px] h-[11px] cursor-pointer" />
                                     </div>
                                 </div>
@@ -366,99 +375,152 @@ export default function AllDestinations() {
                         </div>
 
                         {/* <div className="flex flex-wrap flex-row gap-[40px]"> */}
-                        <div className="grid grid-cols-1 justify-center sm:justify-center sm:grid-cols-2 lg:flex lg:flex-wrap lg:justify-start lg:flex-row gap-8">
-                            {packages.map((pkg) => (
-                                <Card key={pkg.id} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl">
-                                    <div className="relative">
-                                        <img
-                                            src={pkg.image}
-                                            alt={pkg.title}
-                                            className="w-full h-48 object-cover rounded-t-xl"
-                                        />
-                                        <Badge
-                                            variant="popular"
-                                            icon="/images/trendingpackages/local_fire_department.svg"
-                                            className="absolute top-0.5 left-0.5 rounded-[4px] bg-[#FCD205]"
+                        <div className="grid grid-cols-1 justify-center sm:justify-center sm:flex sm:flex-row sm:flex-wrap lg:flex lg:flex-wrap lg:justify-start lg:flex-row gap-8">
+                            {/* {destinations.map((pkg, index) => ( */}
+                            {destinations.slice(0, visibleCount).map((pkg, index) => (
+                                <React.Fragment key={pkg.id}>
+                                    <Card className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl">
+                                        <div className="relative">
+                                            <img
+                                                src={pkg.images[0]}
+                                                alt={pkg.title}
+                                                className="w-full h-48 object-cover rounded-t-xl"
+                                            />
+                                            {pkg.isPopular && (
+                                                <Badge
+                                                    variant="popular"
+                                                    icon="/images/trendingpackages/local_fire_department.svg"
+                                                    className="absolute top-0.5 left-0.5 rounded-[4px] bg-[#FCD205]"
+                                                >
+                                                    <span className="text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-medium leading-[14px] uppercase">Popular</span>
+                                                </Badge>
+                                            )}
+
+                                        </div>
+                                        <CardContent className="py-0 space-y-2">
+                                            {/* Registrations Open Badge */}
+                                            {pkg.status === "Registrations Open" && (
+                                                <Badge variant="registration" icon="/images/trendingpackages/Ellipse6306.svg" className="rounded-[4px] bg-[#DFF8F1]">
+                                                    <span className="text-[#00A53F] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
+                                                        Registrations Open
+                                                    </span>
+                                                </Badge>
+                                            )}
+                                            <div className="flex flex-col items-start gap-[12px] h-[155px]">
+                                                <div className="flex flex-col items-start gap-[10px]">
+                                                    <h3 className="text-[#333] font-['Figtree'] text-[18px] md:text-[20px] font-semibold leading-normal">{pkg.title}</h3>
+                                                    <p className="text-[#333] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[22px]">{pkg.description}{pkg.description}</p>
+                                                </div>
+
+                                                <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
+                                                    {/* Info Row */}
+                                                    <div className="flex flex-row gap-1 items-center"><Calendar className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span></div>
+                                                    {/* <Calendar className="h-4 w-4" /> {pkg.duration} */}
+                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                    <div className="flex flex-row gap-1 items-center"><CheckCircle className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusionsCount} Inclusions</span></div>
+                                                    {/* <CheckCircle className="h-4 w-4" /> {pkg.inclusionsCount} */}
+                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                    <div className="flex flex-row gap-1 items-center"><MapPin className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">Pick up: {pkg.pickUp}</span></div>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-[6px] mt-4 pt-4">
+                                                <p className="text-[#333333] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[24px]">
+                                                    EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-[24px]">₹{pkg.price}</span>
+                                                </p>
+                                            </div>
+                                        </CardContent>
+                                        {/* <CardFooter> */}
+                                        {/* Buttons */}
+                                        <div className="flex flex-col md:flex-row lg:flex-row gap-4">
+                                            <Button variant="outline" className="flex-1 shrink-0">
+                                                <span className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">View Details</span>
+                                            </Button>
+                                            <Button variant="outline" className="flex-1 shrink-0">
+                                                <span className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">Book Now</span>
+                                            </Button>
+                                        </div>
+                                        {/* </CardFooter> */}
+                                    </Card>
+
+                                    {/** Banner Display Login */}
+                                    {((index === 2 && destinations.length > 2) || destinations.length <= 2) && (
+
+                                        <div className="wave-pattern rounded-[8px] overflow-hidden mt-6 mb-2"
+                                            style={{
+                                                backgroundImage: "url('/images/listingpage/banner_strip_bg.png')",
+                                                backgroundSize: "cover",
+                                                backgroundPosition: "center",
+                                            }}
                                         >
-                                            <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-medium leading-[14px] uppercase">Popular</span>
-                                        </Badge>
+                                            <div className="flex flex-row md:flex-row items-center justify-between w-full px-6 py-6 md:py-8">
+                                                {/* Left content */}
+                                                <div className="flex flex-col gap-4 text-white font-['Figtree'] md:max-w-[70%]">
+                                                    <div className="text-[14px] md:text-[26px] font-normal leading-snug">
+                                                        Registrations Now Open for{" "}
+                                                        <span className="font-bold">Kailash Mansarovar Yatra 2025 Parikrama!</span>{" "}
+                                                        Secure your seat today!
+                                                    </div>
 
-                                    </div>
-                                    <CardContent className="py-0 space-y-2">
-                                        <Badge variant="registration" icon="/images/trendingpackages/Ellipse6306.svg" className="rounded-[4px] bg-[#DFF8F1]">
-                                            <span className="text-[#00A53F] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                Registrations Open
-                                            </span>
-                                        </Badge>
-                                        <div className="flex flex-col items-start gap-[12px] h-[165px]">
-                                            <div className="flex flex-col items-start gap-[10px]">
-                                                <h3 className="text-[#333] font-['Figtree'] text-[20px] font-semibold leading-normal">{pkg.title}</h3>
-                                                <p className="text-[#333] font-['Figtree'] text-[16px] font-normal leading-[22px]">{pkg.description}</p>
-                                            </div>
+                                                    <button className="flex items-center justify-center gap-2 border border-white bg-white text-[#E97737] rounded-[6px] py-2 px-6 text-[12px] md:text-[14px] font-semibold uppercase hover:bg-[#fff3ec] transition w-fit">
+                                                        Register Now
+                                                        <img src="/images/listingpage/arror_icon_orange.svg" alt="arrow" />
+                                                    </button>
+                                                </div>
 
-                                            <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
-                                                {/* Info Row */}
-                                                <Calendar className="h-4 w-4" /> {pkg.duration}
-                                                <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                <CheckCircle className="h-4 w-4" /> {pkg.inclusions}
-                                                <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                <MapPin className="h-4 w-4" /> {pkg.pickup}
-                                            </div>
-                                        </div>
-                                        <div className="flex items-start gap-[6px]">
-                                            <p className="text-[#333333] font-['Figtree'] text-[16px] font-normal leading-[24px]">
-                                                EMI starts from <span className="text-[#333333] font-['Figtree'] text-[22px] font-semibold leading-[24px]">{pkg.price}</span>
-                                            </p>
-                                        </div>
-                                    </CardContent>
-                                    {/* <CardFooter> */}
-                                    {/* Buttons */}
-                                    <div className="flex flex-col md:flex-row lg:flex-row gap-4">
-                                        <Button variant="outline" className="flex-1 shrink-0">
-                                            <span className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">View Details</span>
-                                        </Button>
-                                        <Button variant="outline" className="flex-1 shrink-0">
-                                            <span className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">Book Now</span>
-                                        </Button>
-                                    </div>
-                                    {/* </CardFooter> */}
-                                </Card>
-                            ))}
-
-                            {/**Banner Featured Strip */}
-                            <div className="hidden lg:flex flex-row w-full">
-                                <div className="relative">
-                                    <img src="/images/listingpage/Featured-Banner-Strip.png" className="" alt="" />
-                                    <div className="absolute top-[30px] left-[60px]">
-                                        <div className="flex flex-col gap-[10px] max-w-[80%]">
-                                            <div className="text-white font-['Figtree'] text-[26px] font-normal leading-normal">Registrations Now Open for <span className="ont-bold">Kailash Mansarovar Yatra 2025 Parikrama!</span> Secure your seat today!</div>
-                                            <div className="rounded-[6px] border border-white bg-white py-2 px-4 max-w-[160px]">
-                                                <div className="flex flex-row items-center gap-[10px] cursor-pointer">
-                                                    <div className="text-[#E97737] font-['Figtree'] text-[14px] font-semibold leading-normal uppercase shrink-0">Register NOW</div>
-                                                    <img src="/images/listingpage/arror_icon_orange.svg" alt="" className="" />
+                                                {/* Right image */}
+                                                <div className="mt-6 md:mt-0 md:ml-6 flex-shrink-0 ml-4 md:ml-0">
+                                                    <img
+                                                        src="/images/listingpage/feature_img.png"
+                                                        alt="Kailash"
+                                                        className="w-[150px] h-[100px] md:w-[220px] md:h-[120px] rounded-[6px] object-cover"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/**Banner Featured Strip ends here*/}
-
+                                    )}
+                                </React.Fragment>
+                            ))}
                         </div>
 
                         {/**Load more btn */}
-                        <div className="w-full flex flex-row items-center justify-center mt-4 mb-4">
+                        {/* <div className="w-full flex flex-row items-center justify-center mt-4 mb-4">
                             <div className="rounded-[6px] border border-[#E97737] px-3 py-2 bg-[#E97737]">
                                 <div className="flex flex-row gap-[10px] items-center">
                                     <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-normal uppercase">Load More</div>
-                                    <img src="/images/listingpage/loadMore_white.svg" alt="" className=""/>
+                                    <img src="/images/listingpage/loadMore_white.svg" alt="" className="" />
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
+
+                        {!allLoaded && (
+                            <div className="w-full flex justify-center mt-4 mb-4">
+                                <button
+                                    onClick={handleLoadMore}
+                                    className="rounded-[6px] border border-[#E97737] px-3 py-2 bg-[#E97737] flex items-center gap-2"
+                                >
+                                    <span className="text-white font-['Figtree'] text-[14px] font-semibold uppercase leading-normal">
+                                        Load More
+                                    </span>
+                                    <img src="/images/listingpage/loadMore_white.svg" alt="Load more" />
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Optional: Disabled button if all loaded */}
+                        {allLoaded && (
+                            <div className="w-full flex justify-center mt-4 mb-4 opacity-50 cursor-not-allowed">
+                                <div className="rounded-[6px] border border-[#E97737] px-3 py-2 bg-[#E97737] flex items-center gap-2">
+                                    <span className="text-white font-['Figtree'] text-[14px] font-semibold uppercase leading-normal">
+                                        All Loaded
+                                    </span>
+                                    <img src="/images/listingpage/loadMore_white.svg" alt="All loaded" />
+                                </div>
+                            </div>
+                        )}
                     </main>
 
-                </div>
-            </section>
+                </div >
+            </section >
             {/** Ends here */}
 
             {/** sort by & Filter sticky section starts here */}
