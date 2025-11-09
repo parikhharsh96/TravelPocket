@@ -258,7 +258,7 @@ export default function DetailPackage() {
 
     return (
         <>
-            <section className="max-w-[1920px] mx-auto">
+            <section className="container mx-auto"> {/**max-w-[1920px] */}
                 <div className="rounded-[0_0_30px_30px] bg-[#EBF5F7] w-full">
                     <div className="p-4 md:p-6 lg:p-8">
                         <div className="flex items-center gap-4 mb-6 md:mb-8 text-[#5a5a5a] pt-2">
@@ -405,7 +405,7 @@ export default function DetailPackage() {
             </section>
 
             {/**Fixed mobile select date section */}
-            <section className="max-w-[1920px] lg:hidden">
+            <section className="container mx-auto lg:hidden"> {/**max-w-[1920px] */}
                 <div className="w-full fixed bottom-0 left-0 right-0 z-100">
                     <div className="bg-[#E97737]" style={{ padding: "8px 16px" }}>
                         <div className="flex flex-row justify-between">
@@ -457,7 +457,7 @@ export default function DetailPackage() {
 
             <DepartureDrawer open={open} onOpenChange={setOpen} />
 
-            <section className="max-w-[1920px] px-4 sm:px-6 lg:px-8 py-2">
+            <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-2"> {/**max-w-[1920px] */}
 
                 <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_575px] gap-6">
                     {/**Left Section */}
@@ -1756,7 +1756,7 @@ export default function DetailPackage() {
 
             </section>
 
-            <section className="max-w-[1920px] px-4 sm:px-6 lg:px-8 py-2 mt-[80px]">
+            <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 mt-[80px]"> {/**max-w-[1920px] */}
                 <div className="flex flex-col justify-center items-center gap-8">
                     <div className="relative w-full">
                         <img
@@ -2058,7 +2058,8 @@ function ItineraryAccordion({ itinerary }: ItineraryAccordionProps) {
                     <Accordion
                         type="single"
                         collapsible
-                        defaultValue={`item-${index + 1}`}
+                        // defaultValue={index === 0 ? `item-${index + 1}` : undefined}
+                        defaultValue="item-1"
                         className="w-full sm:hidden"
                     >
                         <AccordionItem value={`item-${index + 1}`}>
@@ -2187,7 +2188,8 @@ function ItineraryAccordion({ itinerary }: ItineraryAccordionProps) {
                             <Accordion
                                 type="single"
                                 collapsible
-                                defaultValue={`item-${index + 1}`}
+                                defaultValue="item-1"
+                                //defaultValue={index === 0 ? `item-${index + 1}` : undefined}
                                 className="w-full"
                             >
                                 <AccordionItem value={`item-${index + 1}`}>
