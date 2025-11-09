@@ -234,13 +234,13 @@ export default function DetailPackage() {
         }`;
 
     const scrollToSection = (id: string) => {
-        // const section = document.getElementById(id);
-        // if (section) {
-        //     window.scrollTo({
-        //         top: section.offsetTop - 80, // Adjust offset for sticky header
-        //         behavior: "smooth",
-        //     });
-        // }
+        const section = document.getElementById(id);
+        if (section) {
+            window.scrollTo({
+                top: section.offsetTop - 80, // Adjust offset for sticky header
+                behavior: "smooth",
+            });
+        }
     };
 
     const scroll = (direction: 'left' | 'right') => {
@@ -554,7 +554,7 @@ export default function DetailPackage() {
                         </div>
 
                         {/** Fixed Section */}
-                        <div className="sticky top-0 z-50 rounded-lg bg-white shadow-[0_4px_10px_0_rgba(0,_0,_0,_0.16)] mb-4 overflow-x-auto whitespace-nowrap" style={{ padding: "10px 10px" }}>
+                        <div className="sticky top-0 z-50 rounded-lg bg-white shadow-[0_4px_10px_0_rgba(0,_0,_0,_0.16)] mb-4 overflow-x-auto whitespace-nowrap scrollbar-hide" style={{ padding: "10px 10px" }}>
                             <div className="flex flex-row gap-4 items-center">
                                 <div className={getTabClass("overview")} style={{ padding: "10px 20px", cursor: "pointer" }} onClick={() => scrollToSection("overview")} ref={(el) => {
                                     tabRefs.current["overview"] = el;
