@@ -17,9 +17,9 @@ const destinations = [
 
 export default function DestinationFlexLayout() {
     return (
-        <section className="max-w-[1920px] mx-auto px-4 pb-[25px] sm:px-6 md:px-8 lg:px-[50px]">
+        <section className="container mx-auto px-4 pb-[25px] sm:px-6 md:px-8 lg:px-[50px] mt-8 mb-4">
             {/* Header */}
-            <div className="flex items-center justify-between py-10 relative mb-0 mt-2">
+            <div className="flex items-center justify-between py-10 relative md:mb-4 md:mt-2">
                 {/* Title with background circle */}
                 <div className="relative flex-1 text-center">
                     {/* Circle background */}
@@ -35,94 +35,94 @@ export default function DestinationFlexLayout() {
 
                     {/* Text */}
                     <div className="relative">
-                        <p className="text-[#1A2F46] text-center font-['Figtree']  text-[16px] font-semibold leading-normal capitalize">Explore our destinations</p>
-                        <h2 className="text-[#1A2F46] text-center font-['Playfair_Display']r text-[36px] font-semibold leading-normal">
+                        <p className="text-[#1A2F46] text-center font-['Figtree']  text-[14px] md:text-[16px] font-semibold leading-normal capitalize">Explore our destinations</p>
+                        <h2 className="text-[#1A2F46] text-center font-['Playfair_Display'] text-[28px] md:text-[36px] font-semibold leading-normal">
                             Destinations That Stay With You
                         </h2>
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 grid-rows-auto lg:grid-cols-6 lg:grid-rows-2 gap-[15px]">
+            <div className="grid grid-cols-2 gap-[10px] grid-rows-[auto_auto_auto_auto_auto_auto] lg:grid-cols-6 lg:grid-rows-2 lg:gap-[15px] ">
                 {/* 1st image (big, 2 cols) */}
-                <div className="relative lg:col-span-2 lg:row-span-1 spect-[4/3] h-[250px]">
+                <div className="relative col-span-2 row-span-1 lg:col-span-2 lg:row-span-1 spect-[4/3] h-[250px]">
                     <Link href={''}>
                         <Image src={destinations[0].image} alt={destinations[0].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-['Figtree'] text-[20px] font-semibold leading-normal">{destinations[0].title}</h3>
-                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[0].price}</p>
+                            <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[0].title}</h3>
+                            <p className="font-['Figtree']  text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[0].price}</p>
                         </div>
                     </Link>
                 </div>
 
                 {/* 2nd image (big vertical span) */}
-                <div className="relative lg:row-start-1 lg:col-start-3 lg:col-span-2 lg:row-span-2 lg:h-[518px] h-[250px]">
+                <div className="relative col-span-1 row-span-1 lg:row-start-1 lg:col-start-3 lg:col-span-2 lg:row-span-2 lg:h-[518px] h-[250px]">
                     <Link href={''}>
                         <Image src={destinations[1].image} alt={destinations[1].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[1].title}</h3>
-                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[1].price}</p>
+                            <h3 className="font-['Figtree']  text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[1].title}</h3>
+                            <p className="font-['Figtree']  text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[1].price}</p>
                         </div>
                     </Link>
                 </div>
 
                 {/* Remaining images one by one */}
-                <div className="relative h-[250px]">
+                <div className="relative col-span-1 row-span-1 h-[250px]">
                     <Link href={''}>
                         <Image src={destinations[2].image} alt={destinations[2].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[2].title}</h3>
-                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[2].price}</p>
+                            <h3 className="font-['Figtree']  text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[2].title}</h3>
+                            <p className="font-['Figtree']  text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[2].price}</p>
                         </div>
                     </Link>
                 </div>
 
-                <div className="relative h-[250px]">
+                <div className="relative col-span-2 row-span-2 lg:col-span-1 lg:row-span-1 h-[250px]">
                     <Link href={''}>
                         <Image src={destinations[3].image} alt={destinations[3].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[3].title}</h3>
-                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[3].price}</p>
+                            <h3 className="font-['Figtree']  text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[3].title}</h3>
+                            <p className="font-['Figtree']  text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[3].price}</p>
                         </div>
                     </Link>
                 </div>
 
-                <div className="relative h-[250px]">
+                <div className="relative col-span-1 row-span-1 h-[250px]">
                     <Link href={''}>
                         <Image src={destinations[4].image} alt={destinations[4].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[4].title}</h3>
-                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[4].price}</p>
+                            <h3 className="font-['Figtree']  text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[4].title}</h3>
+                            <p className="font-['Figtree']  text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[4].price}</p>
                         </div>
                     </Link>
                 </div>
 
-                <div className="relative h-[250px]">
+                <div className="relative col-span-1 row-span-1 h-[250px]">
                     <Link href={''}>
                         <Image src={destinations[5].image} alt={destinations[5].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[5].title}</h3>
-                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[5].price}</p>
+                            <h3 className="font-['Figtree']  text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[5].title}</h3>
+                            <p className="font-['Figtree']  text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[5].price}</p>
                         </div>
                     </Link>
                 </div>
 
-                <div className="relative h-[250px]">
+                <div className="relative col-span-1 row-span-1 h-[250px]">
                     <Link href={''}>
                         <Image src={destinations[6].image} alt={destinations[6].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[6].title}</h3>
-                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[6].price}</p>
+                            <h3 className="font-['Figtree']  text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[6].title}</h3>
+                            <p className="font-['Figtree']  text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[6].price}</p>
                         </div>
                     </Link>
                 </div>
 
-                <div className="relative h-[250px]">
+                <div className="relative col-span-1 row-span-1 h-[250px]">
                     <Link href={''}>
                         <Image src={destinations[7].image} alt={destinations[7].title} fill className="object-cover rounded-lg cursor-pointer hover:scale-105 transform transition duration-200" />
                         <div className="absolute bottom-3 left-3 text-white">
-                            <h3 className="font-['Figtree']  text-[20px] font-semibold leading-normal">{destinations[7].title}</h3>
-                            <p className="font-['Figtree']  text-[14px] font-normal leading-normal uppercase">{destinations[7].price}</p>
+                            <h3 className="font-['Figtree']  text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[7].title}</h3>
+                            <p className="font-['Figtree']  text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[7].price}</p>
                         </div>
                     </Link>
                 </div>
