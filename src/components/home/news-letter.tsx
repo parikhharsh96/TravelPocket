@@ -57,7 +57,7 @@ export function NewsletterSection() {
             <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 via-transparent to-blue-900/30" />
 
             {/* Content Container */}
-            <div className="relative z-10 w-full mx-auto px-4 sm:px-6 lg:px-[50px]"> {/**max-w-7xl */}
+            <div className="container mx-auto relative z-10 w-full mx-auto px-4 sm:px-6 lg:px-[50px]"> {/**max-w-7xl */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-16 items-center mb-4">
                     {/* Right Column - Journey Text (appears first on mobile) */}
                     <div className="order-1 lg:order-2 text-center lg:text-right">

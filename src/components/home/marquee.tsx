@@ -7,36 +7,32 @@ export default function Marquee() {
         <>
             <section className="w-full bg-[linear-gradient(180deg,#F3F8FC_0%,#D0E0EE_50.73%,rgba(238,245,251,0)_100%)]">
                 {/* <div className="w-full bg-[url('/images/marquee/24bc226117abfea57056d1a3d4d4cbbfdb2af8f7.jpg')] bg-cover bg-center"> */}
-                <div className="max-w-[1920px] mx-auto">
-                    <div className="flex items-center gap-[50px] flex-col md:flex-row">
+                <div className="container mx-auto px-2 py-1"> {/**max-w-[1920px] */}
+                    <div className="flex items-center gap-[50px] flex-row md:flex-row overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar">
                         <div className="border-[#5A6C9C] px-2 py-1 inline-block">
-                            <span className="font-['Figtree'] text-[74px] font-bold leading-normal tracking-[1.48px] uppercase text-stroke">Travel</span>
+                            <span className="font-['Figtree'] text-[44px] md:text-[74px] font-bold leading-normal tracking-[1.48px] uppercase text-stroke">Travel</span>
                         </div>
-                        <div className="dvdr-wrpr">
-                            <img src="/images/marquee/divider.svg"
-                                alt="Marquee Divider" />
-                        </div>
+
+                        <img src="/images/marquee/divider.svg"
+                            alt="Marquee Divider" />
+
                         <div className="border-[#5A6C9C] px-2 py-1 inline-block">
-                            <span className="font-['Figtree'] text-[74px] font-bold leading-normal tracking-[1.48px] uppercase text-stroke">Himalayas</span>
+                            <span className="font-['Figtree'] text-[44px] md:text-[74px] font-bold leading-normal tracking-[1.48px] uppercase text-stroke">Himalayas</span>
                         </div>
-                        <div className="dvdr-wrpr">
-                            <img src="/images/marquee/divider.svg"
-                                alt="Marquee Divider" />
-                        </div>
+
+                        <img src="/images/marquee/divider.svg"
+                            alt="Marquee Divider" />
+
                         <div className="border-[#5A6C9C] px-2 py-1 inline-block">
-                            <span className="font-['Figtree'] text-[74px] font-bold leading-normal tracking-[1.48px] uppercase text-stroke">India</span>
+                            <span className="font-['Figtree'] text-[44px] md:text-[74px] font-bold leading-normal tracking-[1.48px] uppercase text-stroke">India</span>
                         </div>
-                        <div className="dvdr-wrpr">
-                            <img src="/images/marquee/divider.svg"
-                                alt="Marquee Divider" />
-                        </div>
+
+                        <img src="/images/marquee/divider.svg"
+                            alt="Marquee Divider" />
+
                         <div className="border-[#5A6C9C] px-2 py-1 inline-block">
-                            <span className="font-['Figtree'] text-[74px] font-bold leading-normal tracking-[1.48px] uppercase text-stroke">Adventure</span>
+                            <span className="font-['Figtree'] text-[44px] md:text-[74px] font-bold leading-normal tracking-[1.48px] uppercase text-stroke">Adventure</span>
                         </div>
-                        {/* <div className="dvdr-wrpr">
-                    <img src="/images/marquee/divider.svg"
-                        alt="Marquee Divider" />
-                </div> */}
                     </div>
                 </div>
             </section>
@@ -109,19 +105,19 @@ export default function Marquee() {
                     backgroundImage: `linear-gradient(270deg, rgba(102, 102, 102, 0.00) 0.39%, rgba(0, 0, 0, 0.60) 65.95%), url('/images/marquee/24bc226117abfea57056d1a3d4d4cbbfdb2af8f7.jpg')`
                 }}
             >
-                <div className="mx-auto px-6 py-16 h-full min-h-screen max-w-[1920px]">
+                <div className="container mx-auto px-6 py-16 h-full min-h-screen">
                     <div className="flex flex-col lg:flex-row justify-between items-start h-full min-h-[80vh] gap-8 lg:gap-16">
                         {/* Left Column - Content */}
                         <div className="flex-1 text-white space-y-6 max-w-lg">
                             <div className="space-y-2">
-                                <p className="text-white font-['Figtree'] text-[16px] font-semibold leading-normal">Get to know us</p>
-                                <h1 className="text-white font-['Playfair_Display'] text-[36px] font-semibold leading-normal">
+                                <p className="text-white font-['Figtree'] text-[14px] md:text-[16px] font-semibold leading-normal">Get to know us</p>
+                                <h1 className="text-white font-['Playfair_Display'] text-[28px] md:text-[36px] font-semibold leading-normal">
                                     Our Purpose,<br />
                                     Our Journey
                                 </h1>
                             </div>
 
-                            <p className="text-white font-['Figtree'] text-[18px] font-light leading-[30px]">
+                            <p className="text-white font-['Figtree'] text-[14px] md:text-[18px] font-light leading-[30px]">
                                 Travel Racket is a team of passionate travelers and spiritual
                                 seekers who believe every journey should be meaningful, soulful,
                                 and soul-stirring. With over a decade of experience, we
@@ -135,15 +131,19 @@ export default function Marquee() {
                                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                     </svg>
+                                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <circle cx="10" cy="10" r="9.5" fill="white" stroke="white" />
+                                        <path d="M12.2717 8.16084L6.94403 13.4885L6.37835 12.9228L11.706 7.59516L7.40959 7.59516L7.41544 6.79452L13.0723 6.79452L13.0723 12.4514L12.2717 12.4572V8.16084Z" fill="#E97737" />
+                                    </svg> */}
                                 </div>
                             </button>
 
                             {/* Bottom Left Stat */}
                             <div className="mt-16 lg:mt-24">
-                                <div className="h-[300px] w-[300px] p-6 bg-black/60 rounded-full p-6 border border-gray-700/50">
-                                    <div className="text-[#E97737] text-center font-['Figtree'] text-[84px] font-bold leading-normal mt-3">25K+</div>
-                                    <div className="text-white text-center font-['Figtree']text-[26px] font-light leading-normal mb-1">Travellers Served</div>
-                                    <div className="text-white text-center font-['Figtree'] text-[14px] font-normal leading-normal">Across solo trips, families, and corporate groups</div>
+                                <div className="h-[170px] w-[170px] md:h-[300px] md:w-[300px] p-6 bg-black/60 rounded-full p-6 border border-gray-700/50">
+                                    <div className="text-[#E97737] text-center font-['Figtree'] text-[42px] md:text-[84px] font-bold leading-normal mt-3">25K+</div>
+                                    <div className="text-white text-center font-['Figtree'] text-[13px] md:text-[26px] font-light leading-normal mb-1">Travellers Served</div>
+                                    <div className="text-white text-center font-['Figtree'] text-[7px] md:text-[14px] font-normal leading-normal">Across solo trips, families, and corporate groups</div>
                                 </div>
                             </div>
                         </div>
@@ -151,26 +151,26 @@ export default function Marquee() {
                         {/* Right Column - Stats */}
                         <div className="flex-1 text-white space-y-6 lg:max-w-sm lg:ml-auto">
                             <div className="bg-black/60 backdrop-blur-sm rounded-lg p-6 border border-gray-700/50">
-                                <div className="text-[#E97737] font-['Figtree'] text-[40px] font-bold leading-[21px] mb-2 p-6">#TravelWithSoul</div>
+                                <div className="text-[#E97737] font-['Figtree'] text-[24px] md:text-[40px] font-bold leading-[21px] mb-2 p-6">#TravelWithSoul</div>
                                 <div className="space-y-4">
-                                <div className="p-6">
-                                    <div className="text-[#E97737] font-['Figtree'] text-[70px] font-light leading-normal mb-2">10+</div>
-                                    <div className="text-white font-['Figtree'] text-[26px] font-light leading-normal mb-1">Years of Experience</div>
-                                    <div className="text-white font-['Figtree'] text-[14px] font-normal leading-normal">In pilgrimage and experiential travel planning</div>
-                                </div>
+                                    <div className="p-6">
+                                        <div className="text-[#E97737] font-['Figtree'] text-[44px] md:text-[70px] font-light leading-normal mb-2">10+</div>
+                                        <div className="text-white font-['Figtree'] text:[16px] md:text-[26px] font-light leading-normal mb-1">Years of Experience</div>
+                                        <div className="hidden md:block text-white font-['Figtree'] text-[14px] font-normal leading-normal">In pilgrimage and experiential travel planning</div>
+                                    </div>
 
-                                <div className="p-6">
-                                    <div className="text-[#E97737] font-['Figtree'] text-[70px] font-light leading-normal mb-2">30+</div>
-                                    <div className="text-white font-['Figtree'] text-[26px] font-light leading-normal mb-1">Destinations Covered</div>
-                                    <div className="text-white font-['Figtree'] text-[14px] font-normal leading-normal">Across India, Nepal, Tibet, Bhutan and South Asia</div>
-                                </div>
+                                    <div className="p-6">
+                                        <div className="text-[#E97737] font-['Figtree'] text-[44px] md:text-[70px] font-light leading-normal mb-2">30+</div>
+                                        <div className="text-white font-['Figtree'] text:[16px] md:text-[26px] font-light leading-normal mb-1">Destinations Covered</div>
+                                        <div className="hidden md:block text-white font-['Figtree'] text-[14px] font-normal leading-normal">Across India, Nepal, Tibet, Bhutan and South Asia</div>
+                                    </div>
 
-                                <div className="p-6">
-                                    <div className="text-[#E97737] font-['Figtree'] text-[70px] font-light leading-normal mb-2">4.9</div>
-                                    <div className="text-white font-['Figtree'] text-[26px] font-light leading-normal mb-1">Happy Customer Rating</div>
-                                    <div className="text-white font-['Figtree'] text-[14px] font-normal leading-normal">Based on authentic feedback and return journeys</div>
+                                    <div className="p-6">
+                                        <div className="text-[#E97737] font-['Figtree'] text-[44px] md:text-[70px] font-light leading-normal mb-2">4.9</div>
+                                        <div className="text-white font-['Figtree'] text:[16px] md:text-[26px] font-light leading-normal mb-1">Happy Customer Rating</div>
+                                        <div className="hidden md:block text-white font-['Figtree'] text-[14px] font-normal leading-normal">Based on authentic feedback and return journeys</div>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>

@@ -103,9 +103,9 @@ export default function KailashMansarovarPage() {
 
                                 {/* Text */}
                                 <div className="relative">
-                                    <p className="text-[var(--Primary-Blue,#1A2F46)] text-center font-['Figtree'] text-[16px] font-semibold leading-normal capitalize">Most Popular</p>
-                                    <h2 className="text-[var(--Primary-Blue,#1A2F46)] text-center font-['Playfair_Display'] text-[36px] font-semibold leading-normal">
-                                        Trending Packages of 2025
+                                    <p className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] md:text-[16px] font-semibold leading-normal capitalize">Walk the Sacred Circle</p>
+                                    <h2 className="text-[#1A2F46] text-center font-['Playfair_Display'] text-[28px] md:text-[36px] font-semibold leading-normal">
+                                        Kailash Mansarovar: The Journey of a Lifetime
                                     </h2>
                                 </div>
                             </div>
@@ -148,93 +148,95 @@ export default function KailashMansarovarPage() {
                     </h2>
 
                     {/* Package Cards Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-                        {packages.map((pkg) => (
-                            <Card
-                                key={pkg.id}
-                                className="overflow-hidden transition-all duration-300 transform hover:-translate-y-1"
-                                style={{
-                                    borderRadius: "8px",
-                                    border: "none",
-                                }}
-                            >
-                                <div className="relative">
-                                    {/* Popular Badge */}
-                                    <Badge
-                                        variant="popular"
-                                        icon="/images/trendingpackages/local_fire_department.svg"
-                                        className="rounded-[4px] bg-[#FCD205] absolute top-[0.5px] left-[2px] z-10 px-3 py-1"
-                                    >
-                                        <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-medium leading-[14px] uppercase">Popular</span>
-                                    </Badge>
+                    <div className="slider-wrp">
+                        <div className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"> {/**grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 */}
+                            {packages.map((pkg) => (
+                                <Card
+                                    key={pkg.id}
+                                    className="overflow-hidden transition-all duration-300 transform hover:-translate-y-1"
+                                    style={{
+                                        borderRadius: "8px",
+                                        border: "none",
+                                    }}
+                                >
+                                    <div className="relative">
+                                        {/* Popular Badge */}
+                                        <Badge
+                                            variant="popular"
+                                            icon="/images/trendingpackages/local_fire_department.svg"
+                                            className="rounded-[4px] bg-[#FCD205] absolute top-[0.5px] left-[2px] z-10 px-3 py-1"
+                                        >
+                                            <span className="text-[#1A2F46] font-['Figtree'] text-[12px] font-medium leading-[14px] uppercase">Popular</span>
+                                        </Badge>
 
-                                    {/* Package Image */}
-                                    <div
-                                        className="h-40 sm:h-48 bg-cover bg-center"
-                                        style={{
-                                            backgroundImage: `url('/images/kailash-mansarovar/Mount-Kailash.png')`,
-                                        }}
-                                    />
-                                </div>
+                                        {/* Package Image */}
+                                        <div
+                                            className="h-40 sm:h-48 bg-cover bg-center"
+                                            style={{
+                                                backgroundImage: `url('/images/kailash-mansarovar/Mount-Kailash.png')`,
+                                            }}
+                                        />
+                                    </div>
 
-                                <CardContent className="py-3 px-0 sm:py-4 relative">
-                                    <Badge variant="registration" icon="/images/trendingpackages/Ellipse6306.svg" className="absolute top-[0.5px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
-                                        <span className="text-[#00A53F] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                            Registrations Open
-                                        </span>
-                                    </Badge>
+                                    <CardContent className="py-3 px-0 sm:py-4 relative">
+                                        <Badge variant="registration" icon="/images/trendingpackages/Ellipse6306.svg" className="absolute top-[0.5px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
+                                            <span className="text-[#00A53F] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
+                                                Registrations Open
+                                            </span>
+                                        </Badge>
 
-                                    {/* Package Title */}
-                                    <h3 className="text-[#333] font-['Figtree'] text-[20px] font-semibold leading-normal mt-2 mb-1">
-                                        {pkg.title}
-                                    </h3>
+                                        {/* Package Title */}
+                                        <h3 className="text-[#333] font-['Figtree'] text-[20px] font-semibold leading-normal mt-2 mb-1">
+                                            {pkg.title}
+                                        </h3>
 
-                                    {/* Package Description */}
-                                    <p className="text-[#333] font-['Figtree'] text-[16px] font-normal leading-[22px] mt-1 mb-4">
-                                        {pkg.description}
-                                    </p>
+                                        {/* Package Description */}
+                                        <p className="text-[#333] font-['Figtree'] text-[16px] font-normal leading-[22px] mt-1 mb-4">
+                                            {pkg.description}
+                                        </p>
 
-                                    {/* Package Details */}
-                                    <div className="space-y-2 mb-4 mt-2">
-                                        <div className="flex items-center text-xs flex-wrap">
-                                            <Calendar className="h-4 w-4 mr-2" /> {pkg.duration}
-                                            <Separator orientation="vertical" className="ml-2 mr-2 !h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                            <CheckCircle className="h-4 w-4 mr-2" /> {pkg.inclusions}
-                                            <Separator orientation="vertical" className="ml-2 mr-2 !h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                            <MapPin className="h-4 w-4 mr-2 mt-1" /> <span className="mt-1">{pkg.pickup}</span>
+                                        {/* Package Details */}
+                                        <div className="space-y-2 mb-4 mt-2">
+                                            <div className="flex items-center text-xs flex-wrap">
+                                                <Calendar className="h-4 w-4 mr-2" /> {pkg.duration}
+                                                <Separator orientation="vertical" className="ml-2 mr-2 !h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                <CheckCircle className="h-4 w-4 mr-2" /> {pkg.inclusions}
+                                                <Separator orientation="vertical" className="ml-2 mr-2 !h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                <MapPin className="h-4 w-4 mr-2 mt-1" /> <span className="mt-1">{pkg.pickup}</span>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    {/* Price */}
-                                    <div className="mb-4">
-                                        <span className="text-[#333333] font-['Figtree'] text-[16px] font-normal leading-[24px]">
-                                            EMI starts from{" "}
-                                        </span>
-                                        <span className="text-[#333333] font-['Figtree'] text-[22px] font-semibold leading-[24px]">
-                                            {pkg.price}
-                                        </span>
-                                    </div>
+                                        {/* Price */}
+                                        <div className="mb-4">
+                                            <span className="text-[#333333] font-['Figtree'] text-[16px] font-normal leading-[24px]">
+                                                EMI starts from{" "}
+                                            </span>
+                                            <span className="text-[#333333] font-['Figtree'] text-[22px] font-semibold leading-[24px]">
+                                                {pkg.price}
+                                            </span>
+                                        </div>
 
-                                    {/* Action Buttons */}
-                                    <div className="flex flex-col sm:flex-row gap-2">
-                                        <Button
-                                            variant="outline"
-                                            className="flex-1"
-                                            size="sm"
-                                        >
-                                            <span className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">VIEW DETAILS</span>
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            className="flex-1"
-                                            size="sm"
-                                        >
-                                            <span className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">BOOK NOW</span>
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ))}
+                                        {/* Action Buttons */}
+                                        <div className="flex flex-col sm:flex-row gap-2">
+                                            <Button
+                                                variant="outline"
+                                                className="flex-1"
+                                                size="sm"
+                                            >
+                                                <span className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">VIEW DETAILS</span>
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                className="flex-1"
+                                                size="sm"
+                                            >
+                                                <span className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">BOOK NOW</span>
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className="h-96 sm:h-[700px] lg:h-[400px]" />
