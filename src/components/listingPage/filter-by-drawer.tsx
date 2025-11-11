@@ -81,8 +81,8 @@ export function FilterByDrawer({ open, onOpenChange, data }: FilterByDrawerProps
 
     return (
         <Drawer open={open} onOpenChange={onOpenChange}>
-            <DrawerContent className="max-h-[90vh] overflow-hidden">
-                <ScrollArea className="max-h-[550px] overflow-y-auto">
+            <DrawerContent heightClass="data-[vaul-drawer-direction=bottom]:max-h-screen" className="h-screen overflow-hidden">
+                <ScrollArea className="max-h-screen overflow-y-auto">
                     <DrawerHeader className="pb-4">
                         <div className="flex flex-col gap-[10px]">
                             <div className="flex flex-row justify-between items-center w-full">
@@ -122,7 +122,7 @@ export function FilterByDrawer({ open, onOpenChange, data }: FilterByDrawerProps
                         </div>
 
                         {/* Right Section */}
-                        <div className="flex-1 bg-[#EBF5F7] border-y border-[#E1EAED] p-4">
+                        <div className="flex-1 h-screen bg-[#EBF5F7] border-y border-[#E1EAED] p-4">
                             {activeGroup.type === "datepicker" ? (
                                 <select
                                     className="w-full border border-gray-300 rounded px-2 py-1 text-[#464646] font-['Figtree'] text-[14px] font-normal leading-normal"
@@ -159,29 +159,41 @@ export function FilterByDrawer({ open, onOpenChange, data }: FilterByDrawerProps
                                     {activeGroup.options.map((opt) => {
                                         const checked =
                                             selectedValues[activeGroup.key]?.has(opt.value) ?? false;
-                                        return (
-                                            <div
-                                                key={opt.value}
+                                         return (
+                                             <div
+                                                 key={opt.value}
                                                 className="flex flex-row gap-[10px] items-center"
-                                            >
-                                                <Checkbox
-                                                    id={opt.value}
-                                                    checked={checked}
+                                             >
+                                                 <Checkbox
+                                                     id={opt.value}
+                                                     checked={checked}
                                                     onChange={() =>
                                                         toggleCheckbox(activeGroup.key, opt.value)
                                                     }
-                                                    className="rounded-[2px] border border-[#D2D8E4] bg-white
-                                                                data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"
-                                                />
-                                                <Label htmlFor={opt.value} className="text-black font-['Figtree'] text-[14px] font-normal leading-normal">{opt.label}</Label>
-                                            </div>
-                                        );
-                                    })}
+                                                     className="rounded-[2px] border border-[#D2D8E4] bg-white
+                                                                 data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"
+                                                 />
+                                                 <Label htmlFor={opt.value} className="text-black font-['Figtree'] text-[14px] font-normal leading-normal">{opt.label}</Label>
+                                             </div>
+                                         );
+                                     })}
                                 </div>
                             )}
                         </div>
                     </div>
                 </ScrollArea>
+                <div className="bg-white shadow-[0_-4px_14px_0_rgba(0,0,0,0.10)] flex flex-row items-center gap-2 justify-between px-4 py-3">
+                    <Button type="button" variant="outline" className="bg-[#DDF9FF] rounded-[8px] border border-[#DDF9FF] cursor-pointer">
+                        <div className="flex flex-row items-center px-2">
+                            <span className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] font-semibold leading-normal">Clear all</span>
+                        </div>
+                    </Button>
+                    <Button type="button" variant="outline" className="bg-[#1A2F46] rounded-[8px] border border-[#DDF9FF] cursor-pointer">
+                        <div className="flex flex-row items-center px-2">
+                            <span className="text-white text-center font-['Figtree'] text-[14px] font-semibold leading-normal">Apply</span>
+                        </div>
+                    </Button>
+                </div>
             </DrawerContent>
         </Drawer>
     )

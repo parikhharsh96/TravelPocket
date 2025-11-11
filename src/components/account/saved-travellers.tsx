@@ -296,7 +296,17 @@ export function SavedTravellers() {
         totalTravellers={Object.keys(savedTravellers).length + 1}
         bookingTitle="Saved Traveller"
         onSave={handleSaveTraveller}
-        initialData={editingTraveller ? savedTravellers[editingTraveller] : undefined}
+        initialData={
+          editingTraveller
+            ? {
+                // copy existing saved data and provide missing fields expected by AddTravellerModal
+                ...(savedTravellers[editingTraveller] as any),
+                mobileCountryCode: (savedTravellers[editingTraveller] as any)?.mobileCountryCode ?? "",
+                passportNo: (savedTravellers[editingTraveller] as any)?.passportNo ?? "",
+                placeOfIssue: (savedTravellers[editingTraveller] as any)?.placeOfIssue ?? "",
+              }
+            : undefined
+        }
       />
 
       {/* Upload Documents Modal */}

@@ -15,6 +15,73 @@ import React from "react";
 import { DepartureDrawer } from "./departure-drawer";
 import { Badge } from "../ui/badge";
 import { itineraryList, ItineraryItem } from "@/data/detailpage";
+import ContactOurExperts from "../home/contact-our-experts";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight, Calendar, CheckCircle, MapPin } from "lucide-react";
+
+const packages = [
+    {
+        id: 1,
+        title: "Kailash Mansarovar Yatra",
+        description: "Charan Sparsh Outer Kora from Lucknow By Helicopter",
+        image: "/images/trendingpackages/dummy_card_img.png",
+        duration: "11 Nights 12 Days",
+        inclusions: "20+ Inclusions",
+        pickup: "Lucknow",
+        price: "₹9500",
+    },
+    {
+        id: 2,
+        title: "Kedarnath, Tungnath and Badrinath Yatra",
+        description: "Uttarakhand’s most revered temples",
+        image: "/images/trendingpackages/dummy_card_img.png",
+        duration: "11 Nights 12 Days",
+        inclusions: "20+ Inclusions",
+        pickup: "Lucknow",
+        price: "₹9500",
+    },
+    {
+        id: 3,
+        title: "Adi Kailash Om Parvat Yatra",
+        description: "via Lipu Pass | Pithoragarh",
+        image: "/images/trendingpackages/dummy_card_img.png",
+        duration: "11 Nights 12 Days",
+        inclusions: "20+ Inclusions",
+        pickup: "Lucknow",
+        price: "₹9500",
+    },
+    {
+        id: 4,
+        title: "Char Dham Yatra with Helicopter",
+        description: "Visit the four sacred Dhams by Helicopter",
+        image: "/images/trendingpackages/dummy_card_img.png",
+        duration: "11 Nights 12 Days",
+        inclusions: "20+ Inclusions",
+        pickup: "Lucknow",
+        price: "₹9500",
+    },
+    {
+        id: 5,
+        title: "Char Dham Yatra with Helicopter",
+        description: "Visit the four sacred Dhams by Helicopter",
+        image: "/images/trendingpackages/dummy_card_img.png",
+        duration: "11 Nights 12 Days",
+        inclusions: "20+ Inclusions",
+        pickup: "Lucknow",
+        price: "₹9500",
+    },
+    {
+        id: 6,
+        title: "Kailash Mansarovar Yatra",
+        description: "Charan Sparsh Outer Kora from Lucknow By Helicopter",
+        image: "/images/trendingpackages/dummy_card_img.png",
+        duration: "11 Nights 12 Days",
+        inclusions: "20+ Inclusions",
+        pickup: "Lucknow",
+        price: "₹9500",
+    }
+];
 
 interface GiftProduct {
     id: number
@@ -457,7 +524,7 @@ export default function DetailPackage() {
 
             <DepartureDrawer open={open} onOpenChange={setOpen} />
 
-            <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-2"> {/**max-w-[1920px] */}
+            <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 mb-4 md:mb-8"> {/**max-w-[1920px] */}
 
                 <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_575px] gap-6">
                     {/**Left Section */}
@@ -1420,7 +1487,14 @@ export default function DetailPackage() {
                                     <ScrollArea className="max-h-[550px]">
                                         <div className="flex flex-col gap-[20px] max-h-[550px]" style={{ padding: "30px 20px" }}>
                                             <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                                <div className="flex flex-col gap-[12px]" style={{ padding: "10px 10px" }}>
+                                                <div className="relative">
+                                                    <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
+                                                        <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
+                                                            Available
+                                                        </span>
+                                                    </Badge>
+                                                </div>
+                                                <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
                                                     <div className="flex flex-col gap-[12px]">
                                                         <div className="flex flex-row gap-[50px]">
                                                             <div className="flex gap-[20px]">
@@ -1473,7 +1547,14 @@ export default function DetailPackage() {
                                             </div>
 
                                             <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                                <div className="flex flex-col gap-[12px]" style={{ padding: "10px 10px" }}>
+                                                <div className="relative">
+                                                    <Badge variant="warning" icon="/images/detailpage/dot_brown.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#FFFAE1]">
+                                                        <span className="text-[#853C04] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
+                                                            Filling Fast
+                                                        </span>
+                                                    </Badge>
+                                                </div>
+                                                <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
                                                     <div className="flex flex-col gap-[12px]">
                                                         <div className="flex flex-row gap-[50px]">
                                                             <div className="flex gap-[20px]">
@@ -1526,7 +1607,14 @@ export default function DetailPackage() {
                                             </div>
 
                                             <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                                <div className="flex flex-col gap-[12px]" style={{ padding: "10px 10px" }}>
+                                                <div className="relative">
+                                                    <Badge variant="warning" icon="/images/detailpage/dot_brown.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#FFFAE1]">
+                                                        <span className="text-[#853C04] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
+                                                            Filling Fast
+                                                        </span>
+                                                    </Badge>
+                                                </div>
+                                                <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
                                                     <div className="flex flex-col gap-[12px]">
                                                         <div className="flex flex-row gap-[50px]">
                                                             <div className="flex gap-[20px]">
@@ -1579,7 +1667,14 @@ export default function DetailPackage() {
                                             </div>
 
                                             <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                                <div className="flex flex-col gap-[12px]" style={{ padding: "10px 10px" }}>
+                                                <div className="relative">
+                                                    <Badge variant="warning" icon="/images/detailpage/dot_brown.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#FFFAE1]">
+                                                        <span className="text-[#853C04] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
+                                                            Filling Fast
+                                                        </span>
+                                                    </Badge>
+                                                </div>
+                                                <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
                                                     <div className="flex flex-col gap-[12px]">
                                                         <div className="flex flex-row gap-[50px]">
                                                             <div className="flex gap-[20px]">
@@ -1756,6 +1851,8 @@ export default function DetailPackage() {
 
             </section>
 
+            <ContactOurExperts />
+
             <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 mt-[80px]"> {/**max-w-[1920px] */}
                 <div className="flex flex-col justify-center items-center gap-8">
                     <div className="relative w-full">
@@ -1873,6 +1970,7 @@ export default function DetailPackage() {
 
 
             </section>
+            <RelatedPackages />
         </>
     )
 }
@@ -2295,4 +2393,227 @@ function ItineraryAccordion({ itinerary }: ItineraryAccordionProps) {
 
 
     )
+}
+
+function RelatedPackages() {
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: "left" | "right") => {
+        if (scrollRef.current) {
+            const { clientWidth } = scrollRef.current;
+            scrollRef.current.scrollBy({
+                left: direction === "left" ? -clientWidth : clientWidth,
+                behavior: "smooth",
+            });
+        }
+    };
+
+    return (
+        <section className="container mx-auto px-6 pb-[25px] sm:px-6 md:px-8 lg:px-[50px] mt-8 mb-4"> {/**max-w-[1920px] */}
+            {/* Header */}
+            <div className="flex flex-col md:flex-row items-center justify-between py-10 relative md:mb-4 md:mt-2">
+                {/* Title with background circle */}
+                <div className="relative flex-1 text-center">
+                    {/* Circle background */}
+                    <div className="absolute left-1/2 -translate-x-1/2 -top-6" style={{ top: '-40px' }}>
+                        <img
+                            src="/images/trendingpackages/titledesign.svg"
+                            alt="Title Circle"
+                            width={150}
+                            height={150}
+                            className="mx-auto"
+                        />
+                    </div>
+
+                    {/* Text */}
+                    <div className="relative">
+                        <p className="text-[var(--Primary-Blue,#1A2F46)] text-center font-['Figtree'] text-[14px] md:text-[16px] font-semibold leading-normal capitalize">Most Popular</p>
+                        <h2 className="text-[var(--Primary-Blue,#1A2F46)] text-center font-['Playfair_Display'] text-[28px] md:text-[36px] font-semibold leading-normal">
+                            Related Packages
+                        </h2>
+                    </div>
+                </div>
+
+                {/* View All button (aligned right) */}
+                <Button variant="outline" className="hidden md:block rounded-[6px] border border-[#E97737] ml-0 mt-6 md:ml-6 md:mt-0 cursor-pointer hover:scale-115 transform transition duration-200">
+                    <div className="flex flex-row gap-2 items-center">
+                        <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase">View All</span>
+                        <img
+                            src="/images/trendingpackages/Group1000007348.svg"
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="mx-auto"
+                        />
+                    </div>
+                </Button>
+            </div>
+            {/* Slider */}
+            <div className="hidden md:block relative px-[50px]">
+                {/* Left Arrow */}
+                <button
+                    onClick={() => scroll("left")}
+                    className="hidden md:block absolute left-[0px] top-1/2 -translate-y-1/2 shadow-md rounded-full p-2 z-10"
+                    style={{ background: '#E3E6EE' }}
+                >
+                    <ArrowLeft className="h-5 w-5 cursor-pointer" />
+                </button>
+
+                <div className="slider-wrp">
+                    {/* Cards */}
+                    <div
+                        ref={scrollRef}
+                        className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"
+                    >
+                        {packages.map((pkg) => (
+                            <Card key={pkg.id} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl">
+                                <div className="relative">
+                                    <img
+                                        src={pkg.image}
+                                        alt={pkg.title}
+                                        className="w-full h-48 object-cover rounded-t-xl"
+                                    />
+                                    <Badge
+                                        variant="popular"
+                                        icon="/images/trendingpackages/local_fire_department.svg"
+                                        className="absolute top-0.5 left-0.5 rounded-[4px] bg-[#FCD205]"
+                                    >
+                                        <span className="text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-medium leading-[14px] uppercase">Popular</span>
+                                    </Badge>
+
+                                </div>
+                                <CardContent className="py-0 space-y-2">
+                                    <Badge variant="registration" icon="/images/trendingpackages/Ellipse6306.svg" className="rounded-[4px] bg-[#DFF8F1]">
+                                        <span className="text-[#00A53F] font-['Figtree'] text-[11px] md:text-[12px] font-semibold leading-[14px] uppercase">
+                                            Registrations Open
+                                        </span>
+                                    </Badge>
+                                    <div className="flex flex-col items-start gap-[12px] h-[165px]">
+                                        <div className="flex flex-col items-start gap-[10px]">
+                                            <h3 className="text-[#333] font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{pkg.title}</h3>
+                                            <p className="text-[#333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[22px]">{pkg.description}</p>
+                                        </div>
+
+                                        <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
+                                            {/* Info Row */}
+                                            <Calendar className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span>
+                                            <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                            <CheckCircle className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusions}</span>
+                                            <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                            <MapPin className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.pickup}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-[6px]">
+                                        <p className="text-[#333333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[24px]">
+                                            EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">{pkg.price}</span>
+                                        </p>
+                                    </div>
+                                </CardContent>
+                                {/* <CardFooter> */}
+                                {/* Buttons */}
+                                <div className="flex flex-col md:flex-row lg:flex-row gap-4">
+                                    <Button variant="outline" className="flex-1 shrink-0">
+                                        <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">View Details</span>
+                                    </Button>
+                                    <Button variant="outline" className="flex-1 shrink-0">
+                                        <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">Book Now</span>
+                                    </Button>
+                                </div>
+                                {/* </CardFooter> */}
+                            </Card>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Right Arrow */}
+                <Button
+                    onClick={() => scroll("right")}
+                    className="hidden md:block absolute right-[0px] top-1/2 -translate-y-1/2 shadow-md rounded-full p-2 z-10 cursor-pointer"
+                    style={{ background: '#E3E6EE' }}
+                >
+                    <ArrowRight className="h-5 w-5" />
+                </Button>
+            </div>
+
+            {/** Mobile Layout */}
+            <div className="md:hidden">
+                {/* Cards */}
+                <div
+                    className="flex gap-6 items-center overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"
+                >
+                    {packages.map((pkg) => (
+                        <Card key={pkg.id} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl">
+                            <div className="relative">
+                                <img
+                                    src={pkg.image}
+                                    alt={pkg.title}
+                                    className="w-full h-48 object-cover rounded-t-xl"
+                                />
+                                <Badge
+                                    variant="popular"
+                                    icon="/images/trendingpackages/local_fire_department.svg"
+                                    className="absolute top-0.5 left-0.5 rounded-[4px] bg-[#FCD205]"
+                                >
+                                    <span className="text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-medium leading-[14px] uppercase">Popular</span>
+                                </Badge>
+
+                            </div>
+                            <CardContent className="py-0 space-y-2">
+                                <Badge variant="registration" icon="/images/trendingpackages/Ellipse6306.svg" className="rounded-[4px] bg-[#DFF8F1]">
+                                    <span className="text-[#00A53F] font-['Figtree'] text-[11px] md:text-[12px] font-semibold leading-[14px] uppercase">
+                                        Registrations Open
+                                    </span>
+                                </Badge>
+                                <div className="flex flex-col items-start gap-[12px] h-[135px]">
+                                    <div className="flex flex-col items-start gap-[10px]">
+                                        <h3 className="text-[#333] font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{pkg.title}</h3>
+                                        <p className="text-[#333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[22px]">{pkg.description}</p>
+                                    </div>
+
+                                    <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
+                                        {/* Info Row */}
+                                        <Calendar className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span>
+                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                        <CheckCircle className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusions}</span>
+                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                        <MapPin className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.pickup}</span>
+                                    </div>
+                                </div>
+                                <div className="flex items-start gap-[6px]">
+                                    <p className="text-[#333333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[24px]">
+                                        EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">{pkg.price}</span>
+                                    </p>
+                                </div>
+                            </CardContent>
+                            {/* <CardFooter> */}
+                            {/* Buttons */}
+                            <div className="flex flex-col md:flex-row lg:flex-row gap-4">
+                                <Button variant="outline" className="flex-1 shrink-0">
+                                    <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">View Details</span>
+                                </Button>
+                                <Button variant="outline" className="flex-1 shrink-0">
+                                    <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">Book Now</span>
+                                </Button>
+                            </div>
+                            {/* </CardFooter> */}
+                        </Card>
+                    ))}
+                </div>
+            </div>
+
+            {/* View All button Mobile view */}
+            <div className="flex items-center justify-center gap-2 md:hidden">
+                <Button variant="outline" className="rounded-[6px] border border-[var(--Primary,#E97737)] mt-6 cursor-pointer hover:scale-115 transform transition duration-200">
+                    <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase">View All</span>
+                    <img
+                        src="/images/trendingpackages/Group1000007348.svg"
+                        alt=""
+                        width={20}
+                        height={20}
+                        className="mx-auto"
+                    />
+                </Button>
+            </div>
+        </section>
+    );
 }

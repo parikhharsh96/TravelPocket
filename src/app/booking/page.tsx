@@ -92,7 +92,7 @@ export default function BookingPage() {
                   onProceed={() => setActiveStep(3)}
                   adults={adults}
                   setAdults={setAdults}
-                  children={children}
+                  childrenCount={children}
                   setChildren={setChildren}
                 />
                 <TravellerDetailsForm

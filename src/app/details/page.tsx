@@ -12,7 +12,7 @@ export default function DetailPage() {
         <>
             <Header />
             <DetailPackage />
-            <ContactOurExperts />
+            {/* <ContactOurExperts /> */}
             <Footer showSections={{ whatsapp: true, helpCenter: true, newsletter: true }} />
         </>
     )

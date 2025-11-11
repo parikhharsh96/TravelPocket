@@ -184,7 +184,8 @@ export function TripContactForm({ isExpanded: controlledExpanded, onToggle, onPr
                         onSelect={setDateOfBirth}
                         initialFocus
                         defaultMonth={new Date(1990, 0)}
-                        captionLayout="dropdown-buttons"
+                        // captionLayout="dropdown-buttons"
+                        captionLayout="dropdown"
                         fromYear={1940}
                         toYear={2010}
                       />
