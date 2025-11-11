@@ -17,7 +17,7 @@ const destinations = [
 
 export default function DestinationFlexLayout() {
     return (
-        <section className="container mx-auto px-4 pb-[25px] sm:px-6 md:px-8 lg:px-[50px] mt-8 mb-4">
+        <section className="container mx-auto px-6 pb-[25px] sm:px-6 md:px-8 lg:px-[50px] mt-8 mb-4">
             {/* Header */}
             <div className="flex items-center justify-between py-10 relative md:mb-4 md:mt-2">
                 {/* Title with background circle */}
