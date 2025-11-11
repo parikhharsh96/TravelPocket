@@ -433,7 +433,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                     </div>
 
                     {/* Bottom Section mobile */}
-                    <div className="flex flex-col justify-center items-center gap-6 md:hidden mt-4">
+                    <div className="flex flex-col justify-center items-center gap-6 md:hidden mt-4 pb-[65px]">
                         <div className="flex flex-col  gap-6">
                             <div className="flex flex-col justify-center items-center gap-4">
                                 <p className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">Follow us on</p>

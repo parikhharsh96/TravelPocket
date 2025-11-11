@@ -12,7 +12,7 @@ interface TravellersRoomsFormProps {
   onProceed?: () => void // Added onProceed prop to handle moving to next step
   adults?: number
   setAdults?: (value: number) => void
-  children?: number
+  childrenCount?: number
   setChildren?: (value: number) => void
 }
 
@@ -22,7 +22,7 @@ export function TravellersRoomsForm({
   onProceed,
   adults: controlledAdults = 2,
   setAdults: setControlledAdults,
-  children: controlledChildren = 0,
+  childrenCount: controlledChildren = 0,
   setChildren: setControlledChildren,
 }: TravellersRoomsFormProps) {
   const [internalExpanded, setInternalExpanded] = useState(false)
