@@ -1,5 +1,6 @@
 'use client'
 
+const message = `Whether you have questions or need assistance with online booking procedures, our experts are just a call away. Reach out to us, and we'll ensure a smooth and hassle-free booking experience for you. Your satisfaction is our priority.`;
 
 export default function NeedHelp() {
 
@@ -14,7 +15,8 @@ export default function NeedHelp() {
                     </div>
 
                     <p className="text-[#000] text-center font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[20px]">
-                        Whether you have questions or need assistance with online booking procedures, our experts are just a call away. Reach out to us, and we'll ensure a smooth and hassle-free booking experience for you. Your satisfaction is our priority.
+                        {/* Whether you have questions or need assistance with online booking procedures, our experts are just a call away. Reach out to us, and we'll ensure a smooth and hassle-free booking experience for you. Your satisfaction is our priority. */}
+                        {message}
                     </p>
 
                     <div className="text-black text-center font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-normal">
