@@ -134,7 +134,11 @@ export function NewsletterSection() {
                                         />
                                         <Button
                                             type="submit"
-                                            className="w-full md:w-auto bg-[#E97737] hover:bg-[#C75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg transition-colors duration-200"
+                                            className="w-full md:w-auto bg-[#E97737] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg cursor-pointer 
+                                            bg-[linear-gradient(90deg,_#C75414_0%,_#C75414_50%,_transparent_50%)] 
+             bg-[length:200%_100%] bg-[position:100%_0] 
+             transition-[background-position] duration-300 ease-out
+             hover:bg-[position:0_0]"
                                         >
                                             Submit
                                         </Button>

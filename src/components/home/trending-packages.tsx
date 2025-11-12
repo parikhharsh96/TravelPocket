@@ -110,16 +110,24 @@ export default function TrendingPackages() {
                 </div>
 
                 {/* View All button (aligned right) */}
-                <Button variant="outline" className="hidden md:block rounded-[6px] border border-[#E97737] ml-0 mt-6 md:ml-6 md:mt-0 cursor-pointer hover:scale-115 transform transition duration-200">
+                <Button variant="outline" className="group hidden md:block rounded-[6px] border border-[#E97737] ml-0 mt-6 md:ml-6 md:mt-0 cursor-pointer
+                    bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             bg-[length:200%_100%] bg-[position:100%_0] 
+             transition-[background-position] duration-300 ease-out
+             hover:bg-[position:0_0]">
                     <div className="flex flex-row gap-2 items-center">
-                        <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase">View All</span>
-                        <img
+                        <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
+                        {/* <img
                             src="/images/trendingpackages/Group1000007348.svg"
                             alt=""
                             width={20}
                             height={20}
                             className="mx-auto"
-                        />
+                        /> */}
+                        <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                            <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                            <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
+                        </svg>
                     </div>
                 </Button>
             </div>
@@ -141,12 +149,12 @@ export default function TrendingPackages() {
                         className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"
                     >
                         {packages.map((pkg) => (
-                            <Card key={pkg.id} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl">
-                                <div className="relative">
+                            <Card key={pkg.id} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl group">
+                                <div className="relative overflow-hidden rounded-t-xl h-48">
                                     <img
                                         src={pkg.image}
                                         alt={pkg.title}
-                                        className="w-full h-48 object-cover rounded-t-xl"
+                                        className="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-110"
                                     />
                                     <Badge
                                         variant="popular"
@@ -187,11 +195,19 @@ export default function TrendingPackages() {
                                 {/* <CardFooter> */}
                                 {/* Buttons */}
                                 <div className="flex flex-col md:flex-row lg:flex-row gap-4">
-                                    <Button variant="outline" className="flex-1 shrink-0">
-                                        <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">View Details</span>
+                                    <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                    group-hover:bg-[linear-gradient(90deg,_#1A2F46_0%,_#1A2F46_50%,_transparent_50%)] 
+             group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
+             group-hover:transition-[background-position] duration-300 ease-out
+             group-hover:bg-[position:0_0]">
+                                        <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">View Details</span>
                                     </Button>
-                                    <Button variant="outline" className="flex-1 shrink-0">
-                                        <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">Book Now</span>
+                                    <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                    group-hover:bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
+             group-hover:transition-[background-position] duration-300 ease-out
+             group-hover:bg-[position:0_0]">
+                                        <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">Book Now</span>
                                     </Button>
                                 </div>
                                 {/* </CardFooter> */}
@@ -278,15 +294,23 @@ export default function TrendingPackages() {
 
             {/* View All button Mobile view */}
             <div className="flex items-center justify-center gap-2 md:hidden">
-                <Button variant="outline" className="rounded-[6px] border border-[var(--Primary,#E97737)] mt-6 cursor-pointer hover:scale-115 transform transition duration-200">
-                    <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase">View All</span>
-                    <img
+                <Button variant="outline" className="group relative rounded-[6px] border border-[#E97737] mt-1 cursor-pointer
+                    bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             bg-[length:200%_100%] bg-[position:100%_0] 
+             transition-[background-position] duration-300 ease-out
+             hover:bg-[position:0_0]">
+                    <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
+                    {/* <img
                         src="/images/trendingpackages/Group1000007348.svg"
                         alt=""
                         width={20}
                         height={20}
                         className="mx-auto"
-                    />
+                    /> */}
+                    <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                        <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                        <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
+                    </svg>
                 </Button>
             </div>
         </section>
