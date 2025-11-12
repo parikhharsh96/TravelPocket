@@ -211,7 +211,7 @@ export default function TrendingPackages() {
             </div>
 
             {/** Mobile Layout */}
-            <div className="md:hidden">
+            <div className="md:hidden py-4">
                 {/* Cards */}
                 <div
                     className="flex gap-6 items-center overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"
