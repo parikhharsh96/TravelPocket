@@ -54,7 +54,11 @@ export function HelpCenterSection() {
                     </div>
 
                     {/* View All button (aligned right) */}
-                    <Button variant="outline" className="hidden md:block group relative right-[40px] rounded-[6px] border border-[#E97737] ml-0 mt-6 md:mt-0 cursor-pointer bg-transparent transition-all duration-300 hover:bg-[#E97737] hover:border-[#E97737]">
+                    <Button variant="outline" className="hidden md:block group relative rounded-[6px] border border-[#E97737] ml-0 mt-6 md:mt-0 cursor-pointer
+                    bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             bg-[length:200%_100%] bg-[position:100%_0] 
+             transition-[background-position] duration-300 ease-out
+             hover:bg-[position:0_0]">
                         {/* <span className="text-[#E97737] font-['Figtree'] text-sm font-semibold uppercase">View All</span>
                                 <img
                                     src="/images/trendingpackages/Group1000007348.svg"
@@ -63,11 +67,15 @@ export function HelpCenterSection() {
                                     height={20}
                                     className="mx-auto"
                                 /> */}
-                        <div className="group flex items-center gap-2 cursor-pointer">
-                            <p className="text-[#E97737] font-['Figtree'] text-sm font-semibold uppercase group-hover:text-white">
-                                View All
+                        <div className="flex items-center gap-2 cursor-pointer">
+                            <p className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">
+                                View all FAQs
                             </p>
-                            <ArrowCircleIcon className="w-6 h-6 text-[#E97737] group-hover:text-white" />
+                            {/* <ArrowCircleIcon className="w-6 h-6 text-[#E97737] group-hover:text-white" /> */}
+                            <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                                <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
+                            </svg>
                         </div>
                     </Button>
                 </div>
@@ -126,12 +134,16 @@ export function HelpCenterSection() {
                                 {/* Action Button */}
                                 <Button
                                     variant="ghost"
-                                    className="group p-0 h-auto flex items-center flex-wrap flex-row gap-1 underline-offset-4 text-[#1A2F46] font-['Figtree'] text-[14px] md:text-[16px] font-bold leading-normal underline hover:scale-105 transition transform"
+                                    className="group p-0 h-auto flex items-center flex-wrap flex-row gap-1 underline-offset-4 text-[#1A2F46] font-['Figtree'] text-[14px] md:text-[16px] font-bold leading-normal underline cursor-pointer"
                                 >
-                                    <span className="inline-flex items-center gap-1">
-                                        {faq.action}
-                                        <ArrowCircleIcon className="w-4 h-4 rounded-[18px] text-[#1A2F46]" />
-                                    </span>
+                                    <div className="flex items-center gap-1">
+                                        <span>{faq.action}</span>
+                                        {/* <ArrowCircleIcon className="w-4 h-4 rounded-[18px] text-[#1A2F46]" /> */}
+                                        <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#1A2F46] group-hover:-rotate-45 group-hover:bg-[#1A2F46] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
+                                            <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                            <path d="M11.581 9.3599H4.80006V8.6399H11.581L8.84682 5.9057L9.36006 5.3999L12.9601 8.9999L9.36006 12.5999L8.84682 12.0941L11.581 9.3599Z" fill="currentColor" />
+                                        </svg>
+                                    </div>
 
                                     {/* <ArrowCircleIcon className="w-4 h-4 rounded-[18px] text-[#1A2F46]" /> */}
                                 </Button>

@@ -106,8 +106,9 @@ export function Footer({ showSections = {} }: FooterProps) {
                                             alt="Location"
                                             width="14px"
                                             height="14px"
-                                            className="relative top-[4px] cursor-pointer transition-transform hover:scale-140"
+                                            className="relative top-[4px]"
                                         />
+                                         {/**cursor-pointer transition-transform hover:scale-140 */}
                                         <p className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-medium leading-[20px] mt-1">
                                             302, 3rd floor Wing - Plot No. A - 34 - Kunj Tower, Near HDFC Bank Saroopganj Road, Ahinaiya Circle,
                                             Ahinaiya Vikas Yojana, Jodhpur Rajasthan 342003
@@ -122,7 +123,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                                         alt="Phone"
                                         width="14px"
                                         height="14px"
-                                        className="cursor-pointer transition-transform hover:scale-140"
+                                        // className="cursor-pointer transition-transform hover:scale-140"
                                     />
                                     <span className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-medium leading-normal">+91 78270-33801</span>
                                 </div>
@@ -134,7 +135,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                                         alt="Mail"
                                         width="14px"
                                         height="14px"
-                                        className="cursor-pointer transition-transform hover:scale-140"
+                                        // className="cursor-pointer transition-transform hover:scale-140"
                                     />
                                     <span className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-medium leading-normal">info@travelpocket.in</span>
                                 </div>
@@ -146,7 +147,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                                             <p className="text-[#1A2F46] font-['Figtree'] text-[10px] font-medium leading-normal uppercase">CHAT WITH US ON</p>
                                             <span className="text-[#1A2F46] font-['Figtree'] text-[30px] font-light leading-normal capitalize">WhatsApp</span>
                                         </div>
-                                        <div className="relative top-[15px] cursor-pointer transition-transform hover:scale-110">
+                                        <div className="relative top-[15px]">{/** cursor-pointer transition-transform hover:scale-110 */}
                                             <img
                                                 src="/images/footer/Ellipse-6284.svg"
                                                 alt="Instagram"
@@ -177,8 +178,9 @@ export function Footer({ showSections = {} }: FooterProps) {
                                             alt="Instagram"
                                             width="50px"
                                             height="50px"
-                                            className="relative top-[-1px] transition-transform hover:scale-110 cursor-pointer"
+                                            className="relative top-[-1px]"
                                         />
+                                        {/**transition-transform hover:scale-110 cursor-pointer */}
                                     </div>
                                 </div>
                             </div>
@@ -197,8 +199,9 @@ export function Footer({ showSections = {} }: FooterProps) {
                                                 alt="Location"
                                                 width="14px"
                                                 height="14px"
-                                                className="relative top-[4px] cursor-pointer transition-transform hover:scale-140"
+                                                className="relative top-[4px]"
                                             />
+                                             {/**cursor-pointer transition-transform hover:scale-140 */}
                                             <p className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-medium leading-[20px] mt-1">
                                                 302, 3rd floor Wing - Plot No. A - 34 - Kunj Tower, Near HDFC Bank Saroopganj Road, Ahinaiya Circle,
                                                 Ahinaiya Vikas Yojana, Jodhpur Rajasthan 342003
@@ -213,7 +216,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                                             alt="Phone"
                                             width="14px"
                                             height="14px"
-                                            className="cursor-pointer transition-transform hover:scale-140"
+                                            // className="cursor-pointer transition-transform hover:scale-140"
                                         />
                                         <span className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-medium leading-normal">+91 78270-33801</span>
                                     </div>
@@ -225,7 +228,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                                             alt="Mail"
                                             width="14px"
                                             height="14px"
-                                            className="cursor-pointer transition-transform hover:scale-140"
+                                            // className="cursor-pointer transition-transform hover:scale-140"
                                         />
                                         <span className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-medium leading-normal">info@travelpocket.in</span>
                                     </div>
@@ -237,7 +240,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                                                 <p className="text-[#1A2F46] font-['Figtree'] text-[10px] font-medium leading-normal uppercase">CHAT WITH US ON</p>
                                                 <span className="text-[#1A2F46] font-['Figtree'] text-[30px] font-light leading-normal capitalize">WhatsApp</span>
                                             </div>
-                                            <div className="relative top-[15px] cursor-pointer transition-transform hover:scale-110">
+                                            <div className="relative top-[15px]">{/**cursor-pointer transition-transform hover:scale-110 */}
                                                 <img
                                                     src="/images/footer/Ellipse-6284.svg"
                                                     alt="Instagram"
@@ -268,8 +271,9 @@ export function Footer({ showSections = {} }: FooterProps) {
                                                 alt="Instagram"
                                                 width="50px"
                                                 height="50px"
-                                                className="relative top-[-1px] transition-transform hover:scale-110 cursor-pointer"
+                                                className="relative top-[-1px]"
                                             />
+                                            {/**transition-transform hover:scale-110 cursor-pointer */}
                                         </div>
                                     </div>
                                 </div>
@@ -303,7 +307,11 @@ export function Footer({ showSections = {} }: FooterProps) {
                                     </SelectContent>
                                 </Select>
                                 <Textarea placeholder="Your Message" className="rounded-[6px] border border-[#9FCADC] bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal min-h-[80px]" />
-                                <Button className="w-[35%] self-center md:self-start rounded-[6px] bg-[#1A2F46] cursor-pointer hover:scale-110 text-white">SUBMIT</Button>
+                                <Button className="w-[35%] self-center md:self-start rounded-[6px] bg-[#1A2F46] cursor-pointer text-white
+                    bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             bg-[length:200%_100%] bg-[position:100%_0] 
+             transition-[background-position] duration-300 ease-out
+             hover:bg-[position:0_0]">SUBMIT</Button>
                             </div>
                         </div>
                     </div>
@@ -487,7 +495,6 @@ export function Footer({ showSections = {} }: FooterProps) {
                         </div>
                     </div>
                     {/* Bottom Section mobile ends here */}
-
                 </div>
             </footer>
         </section>
