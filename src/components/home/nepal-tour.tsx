@@ -95,7 +95,7 @@ export default function NepalTourSection() {
                     />
 
                     {/* Content */}
-                    <div className="flex flex-col md:flex-row items-center justify-between py-10 relative mb-4 mt-2">
+                    <div className="container mx-auto flex flex-col md:flex-row items-center justify-between py-10 relative mb-4 mt-2">
                         {/* Title with background circle */}
                         <div className="relative flex-1 text-center">
                             {/* Circle background */}
@@ -119,7 +119,7 @@ export default function NepalTourSection() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col items-center gap-8">
+                    <div className="container mx-auto flex flex-col items-center gap-8">
                         <div className="flex items-center gap-4 mb-12 relative">
                             <button
                                 onClick={() => scroll("left")}
@@ -226,7 +226,7 @@ export default function NepalTourSection() {
                                                 Registrations Open
                                             </span>
                                         </Badge>
-                                        <div className="flex flex-col items-start gap-[12px] h-[165px]">
+                                        <div className="flex flex-col items-start gap-[12px] h-[135px] md:h-[165px]">
                                             <div className="flex flex-col items-start gap-[10px]">
                                                 <h3 className="text-[#333] font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{pkg.title}</h3>
                                                 <p className="text-[#333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[22px]">{pkg.description}</p>
@@ -243,7 +243,7 @@ export default function NepalTourSection() {
                                         </div>
                                         <div className="flex items-start gap-[6px]">
                                             <p className="text-[#333333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[24px]">
-                                                EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">{pkg.price}</span>
+                                                EMI starts from <span className="text-[#333333] font-['Figtree'] text-[14px] md:text-[22px] font-semibold leading-[24px]">{pkg.price}</span>
                                             </p>
                                         </div>
                                     </CardContent>
