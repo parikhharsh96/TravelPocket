@@ -42,28 +42,28 @@ const whoWeAreOptions = [
 ];
 
 const domesticDestinations = [
-    { label: "Kailash Mansarovar", url: "/destinations/kailash-mansarovar" },
-    { label: "Adi Kailash & Om Parvat", url: "/destinations/adi-kailash-om-parvat" },
-    { label: "Chardham", url: "/destinations/chardham" },
-    { label: "Do Dham", url: "/destinations/do-dham" },
-    { label: "Kedarnath", url: "/destinations/kedarnath" },
-    { label: "Himachal", url: "/destinations/himachal" },
-    { label: "Rajasthan", url: "/destinations/rajasthan" },
-    { label: "North India", url: "/destinations/north-india" }
+    { label: "Kailash Mansarovar", url: "/details" },
+    { label: "Adi Kailash & Om Parvat", url: "/details" },
+    { label: "Chardham", url: "/details" },
+    { label: "Do Dham", url: "/details" },
+    { label: "Kedarnath", url: "/details" },
+    { label: "Himachal", url: "/details" },
+    { label: "Rajasthan", url: "/details" },
+    { label: "North India", url: "/details" }
 ];
 
 const internationalDestinations = [
-    { label: "Nepal", url: "/destinations/nepal" },
-    { label: "Bali", url: "/destinations/bali" },
-    { label: "Bhutan", url: "/destinations/bhutan" },
-    { label: "Tibet", url: "/destinations/tibet" }
+    { label: "Nepal", url: "/details" },
+    { label: "Bali", url: "/details" },
+    { label: "Bhutan", url: "/details" },
+    { label: "Tibet", url: "/details" }
 ];
 
 const destinationsList = [
-    { label: "Kailash Mansarovar", url: "/destinations/kailash-mansarovar" },
-    { label: "Adi Kailash", url: "/destinations/adi-kailash" },
-    { label: "Nepal", url: "/destinations/nepal" },
-    { label: "Kedarnath", url: "/destinations/kedarnath" }
+    { label: "Kailash Mansarovar", url: "/details" },
+    { label: "Adi Kailash", url: "/details" },
+    { label: "Nepal", url: "/details" },
+    { label: "Kedarnath", url: "/details" }
 ];
 
 const allDestinations = [
@@ -102,6 +102,14 @@ export default function Header() {
 
         router.push(route)
     }
+
+    const navigateToHome = () => {
+        router.push("/");
+    };
+
+    const navigateToPackages = () => {
+        router.push("/listing");
+    };
 
     return (
         <header className="w-full overflow-x-hidden relative bg-white rounded-md" style={{ boxShadow: "0 0 6px 0 rgba(0, 0, 0, 0.12)" }}>
@@ -166,7 +174,7 @@ export default function Header() {
                     </button>
 
                     {/* Logo */}
-                    <div className="flex-shrink-0">
+                    <div className="flex-shrink-0 cursor-pointer" onClick={navigateToHome}>
                         <img src="/images/footer/logo_design_travel_pocket.svg" alt="Logo" className="w-[100px] sm:w-[119px] h-auto" />
                     </div>
                 </div>
@@ -269,13 +277,21 @@ export default function Header() {
                                     <div className="w-[800px] px-4 py-4">
                                         <div className="flex justify-between items-center mb-4">
                                             <div className="text-[24px] font-semibold leading-normal font-['Playfair_Display'] text-[#1A2F46]">Explore All Destinations</div>
-                                            <button className="rounded-[6px] border border-[#E97737] px-3 py-3 cursor-pointer" tabIndex={-1}>
+                                            <button className="group rounded-[6px] border border-[#E97737] px-3 py-3 cursor-pointer
+                    bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             bg-[length:200%_100%] bg-[position:100%_0] 
+             transition-[background-position] duration-300 ease-out
+             hover:bg-[position:0_0]" onClick={navigateToPackages}tabIndex={-1}>
                                                 <div className="flex flex-row gap-[10px] justify-center items-center">
-                                                    <div className="text-[#E97737] font-['Figtree'] text-[14px] font-semibold leading-normal uppercase">View all</div>
+                                                    <div className="text-[#E97737] font-['Figtree'] text-[14px] font-semibold leading-normal uppercase group-hover:text-white">View all</div>
                                                     <div className="">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                        {/* <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                             <circle cx="10" cy="10" r="9.5" stroke="#E97737" />
                                                             <path d="M12.8677 10.4H5.33333V9.6H12.8677L9.82973 6.562L10.4 6L14.4 10L10.4 14L9.82973 13.438L12.8677 10.4Z" fill="#E97737" />
+                                                        </svg> */}
+                                                        <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                                                            <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                            <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
                                                         </svg>
                                                     </div>
                                                 </div>
