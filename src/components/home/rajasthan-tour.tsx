@@ -4,11 +4,17 @@ import { useRef, useState } from "react"
 import { ChevronLeft, ChevronRight, Calendar, CheckCircle, ArrowLeft, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { useRouter } from "next/navigation"
 
 export default function RajasthanTourSection() {
     const [currentSlide, setCurrentSlide] = useState(0)
 
     const scrollRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
+
+    const navigateToPackages = () => {
+        router.push("/listing"); //need to add dynamic routing later
+    };
 
     const scroll = (direction: "left" | "right") => {
         if (scrollRef.current) {
@@ -128,7 +134,8 @@ export default function RajasthanTourSection() {
                                     {packages.map((pkg) => (
                                         <Card
                                             key={pkg.id}
-                                            className="flex-shrink-0 bg-white rounded-xl overflow-hidden shadow-lg"
+                                            className="flex-shrink-0 bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer"
+                                            onClick={navigateToPackages}
                                         >
                                             <div className="relative p-2">
                                                 <img

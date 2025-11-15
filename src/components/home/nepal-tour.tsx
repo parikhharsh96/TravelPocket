@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, ArrowRight, Calendar, CheckCircle, ChevronLeft, ChevronRight, MapPin } from "lucide-react"
 import { Separator } from "@radix-ui/react-separator"
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
 export default function NepalTourSection() {
     const packages = [
@@ -57,6 +58,16 @@ export default function NepalTourSection() {
         { name: "Nepal Wildlife" },
         { name: "Valleys of Nepal" },
     ]
+
+    const router = useRouter();
+
+    const navigateToPackages = () => {
+        router.push("/listing"); //need to add dynamic routing later
+    };
+
+    const navigateToPackageDetails = () => {
+        router.push("/details"); //need to add dynamic routing later
+    };
 
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -167,7 +178,7 @@ export default function NepalTourSection() {
                                 padding: "0 15px",
                                 border: "none",
                             }}
-                            size="lg"
+                            size="lg" onClick={navigateToPackages}
                         >
                             <span
                                 className="text-[#E97737] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal uppercase tracking-wide group-hover:text-white"
@@ -254,14 +265,14 @@ export default function NepalTourSection() {
                     group-hover:bg-[linear-gradient(90deg,_#1A2F46_0%,_#1A2F46_50%,_transparent_50%)] 
              group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
              group-hover:transition-[background-position] duration-300 ease-out
-             group-hover:bg-[position:0_0]">
+             group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
                                             <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">View Details</span>
                                         </Button>
                                         <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
                     group-hover:bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
              group-hover:transition-[background-position] duration-300 ease-out
-             group-hover:bg-[position:0_0]">
+             group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
                                             <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">Book Now</span>
                                         </Button>
                                     </div>

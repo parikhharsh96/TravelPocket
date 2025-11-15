@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight, CreditCard, FileText, Heart, HelpCircle } from "lucide-react"
 import { ArrowCircleIcon } from "../shared/ArrowCircleIcon"
+import { useRouter } from "next/navigation"
 
 const faqData = [
     {
@@ -27,6 +28,12 @@ const faqData = [
 ]
 
 export function HelpCenterSection() {
+
+    const router = useRouter();
+
+    const navigateToFaqs = () => {
+        router.push("/faqs"); //need to add dynamic routing later
+    };
     return (
         <section className="py-16 bg-[#FFF]">
             <div className="container mx-auto px-4 pb-[25px] sm:px-6 md:px-8 lg:px-[50px]"> {/*max-w-6xl*/}
@@ -58,7 +65,7 @@ export function HelpCenterSection() {
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">
+             hover:bg-[position:0_0]" onClick={navigateToFaqs}>
                         {/* <span className="text-[#E97737] font-['Figtree'] text-sm font-semibold uppercase">View All</span>
                                 <img
                                     src="/images/trendingpackages/Group1000007348.svg"

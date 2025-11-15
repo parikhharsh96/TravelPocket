@@ -430,7 +430,7 @@ export default function DetailPackage() {
                                             </div>
                                         </div>
                                         <div className="hidden lg:flex flex-col gap-[6px]">
-                                            <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px;" }}>
+                                            <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
                                                 <div className="flex flex-row gap-[3px] items-center">
                                                     <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">4.9</div>
                                                     <div>
@@ -444,7 +444,7 @@ export default function DetailPackage() {
                                         </div>
                                     </div>
                                     <div className="flex flex-row">
-                                        <div className="rounded-[4px] bg-[#FFF7F2]" style={{ padding: "8px 14px;" }}>
+                                        <div className="rounded-[4px] bg-[#FFF7F2]" style={{ padding: "8px 14px" }}>
                                             <span className="text-black font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal">Earn </span>
                                             <img src="/images/detailpage/24-Crowns.png" className="inline mr-1" />
                                             <span className="text-[#000] font-[Figtree] text-[12px] lg:text-[14px] font-bold leading-normal">50 Reward Points</span>
@@ -452,7 +452,7 @@ export default function DetailPackage() {
                                         </div>
                                     </div>
                                     <div className="lg:hidden flex flex-row gap-[8px] items-center">
-                                        <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px;" }}>
+                                        <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
                                             <div className="flex flex-row gap-[3px] items-center">
                                                 <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">4.9</div>
                                                 <div>

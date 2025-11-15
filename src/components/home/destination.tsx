@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 const destinations = [
     { id: 1, title: "Kailash Mansarovar", price: "Starting from ₹99,000", image: "/images/destinations/19258d7685b00892b6dc1014baa2968860d17aee.jpg", href: "/destinations/kailash" },
@@ -16,6 +17,12 @@ const destinations = [
 ];
 
 export default function DestinationFlexLayout() {
+    const router = useRouter();
+
+    const goToDestination = () => {
+        router.push("/details"); //need to add dynamic routing later
+    };
+
     return (
         <section className="container mx-auto px-6 pb-[25px] sm:px-6 md:px-8 lg:px-[50px] mt-8 mb-4">
             {/* Header */}
@@ -56,8 +63,9 @@ export default function DestinationFlexLayout() {
                 </div> */}
 
                 <div className="relative col-span-2 row-span-1 lg:col-span-2 lg:row-span-1 h-[250px] overflow-hidden rounded-lg group">
-                    <Link href={destinations[0].href}>
-                        {/* Image zoom on hover */}
+                    {/* <Link href={destinations[0].href}> */}
+                    {/* Image zoom on hover */}
+                    <div>
                         <Image
                             src={destinations[0].image}
                             alt={destinations[0].title}
@@ -90,17 +98,18 @@ export default function DestinationFlexLayout() {
                                     </svg>
                                 </div>
                             </div> */}
-                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2">
+                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2 cursor-pointer" onClick={goToDestination}>
                                 View Packages
                             </span>
                         </div>
-                    </Link>
+                        {/* </Link> */}
+                    </div>
                 </div>
 
 
                 {/* 2nd image (big vertical span) */}
                 <div className="relative col-span-1 row-span-1 lg:row-start-1 lg:col-start-3 lg:col-span-2 lg:row-span-2 lg:h-[518px] h-[250px] overflow-hidden rounded-lg group">
-                    <Link href={''}>
+                    {/* <Link href={''}> */}
                         <Image src={destinations[1].image} alt={destinations[1].title} fill className="object-cover rounded-lg cursor-pointer transition-transform duration-300 ease-in-out group-hover:scale-105" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
@@ -127,7 +136,7 @@ export default function DestinationFlexLayout() {
                                     </svg>
                                 </div>
                             </div> */}
-                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2">
+                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2 cursor-pointer" onClick={goToDestination}>
                                 View Packages
                             </span>
                         </div>
@@ -135,12 +144,12 @@ export default function DestinationFlexLayout() {
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[1].title}</h3>
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[1].price}</p>
                         </div> */}
-                    </Link>
+                    {/* </Link> */}
                 </div>
 
                 {/* Remaining images one by one */}
                 <div className="relative col-span-1 row-span-1 h-[250px] overflow-hidden rounded-lg group">
-                    <Link href={''}>
+                    {/* <Link href={''}> */}
                         <Image src={destinations[2].image} alt={destinations[2].title} fill className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
@@ -167,7 +176,7 @@ export default function DestinationFlexLayout() {
                                     </svg>
                                 </div>
                             </div> */}
-                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2">
+                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2 cursor-pointer" onClick={goToDestination}>
                                 View Packages
                             </span>
                         </div>
@@ -175,11 +184,11 @@ export default function DestinationFlexLayout() {
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[2].title}</h3>
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[2].price}</p>
                         </div> */}
-                    </Link>
+                    {/* </Link> */}
                 </div>
 
                 <div className="relative col-span-2 row-span-2 lg:col-span-1 lg:row-span-1 h-[250px] overflow-hidden rounded-lg group">
-                    <Link href={''}>
+                    {/* <Link href={''}> */}
                         <Image src={destinations[3].image} alt={destinations[3].title} fill className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
@@ -206,7 +215,7 @@ export default function DestinationFlexLayout() {
                                     </svg>
                                 </div>
                             </div> */}
-                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2">
+                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2 cursor-pointer" onClick={goToDestination}>
                                 View Packages
                             </span>
                         </div>
@@ -214,11 +223,11 @@ export default function DestinationFlexLayout() {
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[3].title}</h3>
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[3].price}</p>
                         </div> */}
-                    </Link>
+                    {/* </Link> */}
                 </div>
 
                 <div className="relative col-span-1 row-span-1 h-[250px] overflow-hidden rounded-lg group">
-                    <Link href={''}>
+                    {/* <Link href={''}> */}
                         <Image src={destinations[4].image} alt={destinations[4].title} fill className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
@@ -245,7 +254,7 @@ export default function DestinationFlexLayout() {
                                     </svg>
                                 </div>
                             </div> */}
-                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2">
+                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2 cursor-pointer" onClick={goToDestination}>
                                 View Packages
                             </span>
                         </div>
@@ -253,11 +262,11 @@ export default function DestinationFlexLayout() {
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[4].title}</h3>
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[4].price}</p>
                         </div> */}
-                    </Link>
+                    {/* </Link> */}
                 </div>
 
                 <div className="relative col-span-1 row-span-1 h-[250px] overflow-hidden rounded-lg group">
-                    <Link href={''}>
+                    {/* <Link href={''}> */}
                         <Image src={destinations[5].image} alt={destinations[5].title} fill className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
@@ -284,7 +293,7 @@ export default function DestinationFlexLayout() {
                                     </svg>
                                 </div>
                             </div> */}
-                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2">
+                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2 cursor-pointer" onClick={goToDestination}>
                                 View Packages
                             </span>
                         </div>
@@ -292,11 +301,11 @@ export default function DestinationFlexLayout() {
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[5].title}</h3>
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[5].price}</p>
                         </div> */}
-                    </Link>
+                    {/* </Link> */}
                 </div>
 
                 <div className="relative col-span-1 row-span-1 h-[250px] overflow-hidden rounded-lg group">
-                    <Link href={''}>
+                    {/* <Link href={''}> */}
                         <Image src={destinations[6].image} alt={destinations[6].title} fill className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
@@ -323,7 +332,7 @@ export default function DestinationFlexLayout() {
                                     </svg>
                                 </div>
                             </div> */}
-                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2">
+                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2 cursor-pointer" onClick={goToDestination}>
                                 View Packages
                             </span>
                         </div>
@@ -331,11 +340,11 @@ export default function DestinationFlexLayout() {
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[6].title}</h3>
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[6].price}</p>
                         </div> */}
-                    </Link>
+                    {/* </Link> */}
                 </div>
 
                 <div className="relative col-span-1 row-span-1 h-[250px] overflow-hidden rounded-lg group">
-                    <Link href={''}>
+                    {/* <Link href={''}> */}
                         <Image src={destinations[7].image} alt={destinations[7].title} fill className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
@@ -362,7 +371,7 @@ export default function DestinationFlexLayout() {
                                     </svg>
                                 </div>
                             </div> */}
-                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2">
+                            <span className="opacity-0 text-[12px] md:text-[14px] font-normal leading-normal transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 -translate-y-2 cursor-pointer" onClick={goToDestination}>
                                 View Packages
                             </span>
                         </div>
@@ -370,7 +379,7 @@ export default function DestinationFlexLayout() {
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal">{destinations[7].title}</h3>
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase">{destinations[7].price}</p>
                         </div> */}
-                    </Link>
+                    {/* </Link> */}
                 </div>
             </div>
         </section>

@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Instagram } from "lucide-react"
 import { ArrowCircleIcon } from "../shared/ArrowCircleIcon"
+import { useRouter } from "next/navigation"
 
 interface Photo {
   src: string
@@ -110,6 +111,12 @@ export default function TravelGallery() {
     },
   ]
 
+  const router = useRouter();
+
+    const navigateToGallery = () => {
+        router.push("/gallery"); //need to add dynamic routing later
+    };
+
   const travelGalleryPhotos = (photos: Photo[]): RestructuredPhoto[] => {
     const newList: RestructuredPhoto[] = [];
 
@@ -213,7 +220,7 @@ export default function TravelGallery() {
            bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">
+             hover:bg-[position:0_0]" onClick={navigateToGallery}>
             <div className="group flex items-center gap-2 cursor-pointer">
               <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
               {/* <ArrowCircleIcon className="w-6 h-6 text-[#E97737] group-hover:text-white" /> */}

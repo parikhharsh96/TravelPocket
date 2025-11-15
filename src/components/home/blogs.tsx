@@ -3,6 +3,7 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowCircleIcon } from "@/components/shared/ArrowCircleIcon";
+import { useRouter } from "next/navigation";
 
 const packages = [
     {
@@ -49,6 +50,12 @@ const packages = [
 
 export default function Blogs() {
 
+    const router = useRouter();
+
+    const navigateToBlogs = () => {
+        router.push("/blogs"); //need to add dynamic routing later
+    };
+
 
     return (
         <section className="container mx-auto px-6 pb-[25px] sm:px-6 md:px-8 lg:px-[50px] mt-8 mb-4 bg-[#FFFFF]">
@@ -84,7 +91,7 @@ export default function Blogs() {
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">
+             hover:bg-[position:0_0]" onClick={navigateToBlogs}>
                         <div className="flex flex-row gap-2 items-center">
                             <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
                             {/* <img
@@ -166,7 +173,7 @@ export default function Blogs() {
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">
+             hover:bg-[position:0_0]" onClick={navigateToBlogs}>
                         <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
                         {/* <img
                             src="/images/trendingpackages/Group1000007348.svg"
