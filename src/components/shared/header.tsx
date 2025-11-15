@@ -30,6 +30,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/filters-accordion";
 import { ScrollArea } from "../ui/scroll-area";
+import { useRouter } from "next/navigation";
 
 const whoWeAreOptions = [
     { label: "About us", href: "/about-us" },
@@ -70,11 +71,19 @@ const allDestinations = [
     ...internationalDestinations.map((d) => ({ ...d, type: "International" })),
 ];
 
+const iconRoutes: Record<string, string> = {
+    "magnifiying-glass": "/search",
+    "wishlist": "/wishlist",
+    "cart": "/cart",
+    "user": "/account",
+}
+
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [openIndex, setOpenIndex] = useState<number | null>(null);
     const [popoverOpen, setPopoverOpen] = useState(false);
+    const router = useRouter();
 
     const navLinks = ["Kailash Mansarovar", "ADI Kailash", "All Destinations", "WHO WE ARE"];
     const topLinks = [
@@ -85,6 +94,14 @@ export default function Header() {
         { label: "Contact", href: "/contact-us" },
     ];
     const icons = ["magnifiying-glass", "wishlist", "cart", "user"];
+
+    const handleIconClick = (icon: string) => {
+        const route = iconRoutes[icon]
+
+        if (!route) return // ignore if no route
+
+        router.push(route)
+    }
 
     return (
         <header className="w-full overflow-x-hidden relative bg-white rounded-md" style={{ boxShadow: "0 0 6px 0 rgba(0, 0, 0, 0.12)" }}>
@@ -330,7 +347,9 @@ export default function Header() {
                 {/* Icons */}
                 <div className="flex items-center gap-2 sm:gap-4">
                     {icons.map((icon) => (
-                        <img key={icon} src={`/images/header/${icon}.svg`} alt={icon} className={`w-5 h-5 sm:w-6 sm:h-6 ${icon === "wishlist" ? "hidden sm:block" : ""}`} />
+                        <div key={icon} className="cursor-pointer" onClick={() => handleIconClick(icon)}>
+                            <img src={`/images/header/${icon}.svg`} alt={icon} className={`w-5 h-5 sm:w-6 sm:h-6 ${icon === "wishlist" ? "hidden sm:block" : ""}`} />
+                        </div>
                     ))}
                 </div>
             </div>
