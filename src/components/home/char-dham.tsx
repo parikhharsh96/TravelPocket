@@ -76,7 +76,7 @@ export default function HomePage() {
                                         <span className="text-white font-['Figtree'] text-[14px] md:text-[18px] font-semibold leading-normal uppercase">BY HELICOPTER</span>
                                         {/* <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" /> */}
                                         <svg className="hidden lg:block w-3 h-3 md:w-4 md:h-4 lg:w-6 lg:h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 19" fill="none">
-                                            <path d="M1.05325 1.06799L9.16525 9.06799L1.05325 17.068" stroke="currentColor" strokeWidth="3" stroke-miterlimit="10" />
+                                            <path d="M1.05325 1.06799L9.16525 9.06799L1.05325 17.068" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" />
                                         </svg>
                                     </Button>
 
@@ -92,7 +92,7 @@ export default function HomePage() {
                                         <span className="text-[#1A2F46] font-['Figtree'] text-[14px] md:text-[18px] font-medium leading-normal uppercase group-hover:text-white group-hover:scale-102 transform transition-transform duration-300 ease-out">BY ROAD</span>
                                         {/* <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#1A2F46]" /> */}
                                         <svg className="hidden lg:block w-3 h-3 md:w-4 md:h-4 lg:w-6 lg:h-6 group-hover:text-white text-[#1A2F46] transform transition-transform duration-300 ease-out group-hover:translate-x-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 19" fill="none">
-                                            <path d="M1.05325 1.06799L9.16525 9.06799L1.05325 17.068" stroke="currentColor" strokeWidth="3" stroke-miterlimit="10" />
+                                            <path d="M1.05325 1.06799L9.16525 9.06799L1.05325 17.068" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" />
                                         </svg>
                                     </Button>
                                 </div>
