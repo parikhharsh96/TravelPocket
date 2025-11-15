@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ArrowRight, Calendar, CheckCircle, MapPin } from "lucide-react";
 import { Separator } from "@/components/ui/separator"
+import { useRouter } from "next/navigation";
 
 const packages = [
     {
@@ -72,6 +73,16 @@ const packages = [
 
 export default function TrendingPackages() {
     const scrollRef = useRef<HTMLDivElement>(null);
+    const router = useRouter()
+
+    const navigateToAllDestinations = () => {
+        router.push("/listing");
+    }
+
+    const navigateToPackageDetails = () => {
+        console.log("Navigating to package details...");
+        router.push("/details");
+    }
 
     const scroll = (direction: "left" | "right") => {
         if (scrollRef.current) {
@@ -114,7 +125,7 @@ export default function TrendingPackages() {
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">
+             hover:bg-[position:0_0]" onClick={navigateToAllDestinations}>
                     <div className="flex flex-row gap-2 items-center">
                         <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
                         {/* <img
@@ -199,14 +210,14 @@ export default function TrendingPackages() {
                     group-hover:bg-[linear-gradient(90deg,_#1A2F46_0%,_#1A2F46_50%,_transparent_50%)] 
              group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
              group-hover:transition-[background-position] duration-300 ease-out
-             group-hover:bg-[position:0_0]">
+             group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
                                         <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">View Details</span>
                                     </Button>
                                     <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
                     group-hover:bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
              group-hover:transition-[background-position] duration-300 ease-out
-             group-hover:bg-[position:0_0]">
+             group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
                                         <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">Book Now</span>
                                     </Button>
                                 </div>
@@ -279,10 +290,10 @@ export default function TrendingPackages() {
                             {/* <CardFooter> */}
                             {/* Buttons */}
                             <div className="flex flex-col md:flex-row lg:flex-row gap-4">
-                                <Button variant="outline" className="flex-1 shrink-0">
+                                <Button variant="outline" className="flex-1 shrink-0 cursor-pointer" onClick={navigateToPackageDetails}>
                                     <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">View Details</span>
                                 </Button>
-                                <Button variant="outline" className="flex-1 shrink-0">
+                                <Button variant="outline" className="flex-1 shrink-0 cursor-pointer" onClick={navigateToPackageDetails}>
                                     <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">Book Now</span>
                                 </Button>
                             </div>
@@ -298,7 +309,7 @@ export default function TrendingPackages() {
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">
+             hover:bg-[position:0_0]" onClick={navigateToAllDestinations}>
                     <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
                     {/* <img
                         src="/images/trendingpackages/Group1000007348.svg"

@@ -19,6 +19,7 @@ import ContactOurExperts from "../home/contact-our-experts";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Calendar, CheckCircle, MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const packages = [
     {
@@ -201,6 +202,9 @@ export default function DetailPackage() {
 
     const sliderRef = useRef<HTMLDivElement>(null);
     const tabRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+    const router = useRouter();
+
     const scrollAmount = 320; // Match card width + margin
 
     const [showAll, setShowAll] = useState(false);
@@ -208,6 +212,22 @@ export default function DetailPackage() {
 
     const displayLimit = 14;
     const halfLimit = displayLimit / 2;
+
+    const handleBack = () => {
+        if (document.referrer !== "") {
+            router.back()
+        } else {
+            router.push("/")   // fallback
+        }
+    }
+
+    const navigateToTestimonials = () => {
+        router.push("/testimonials");
+    };
+
+    const nagivateToBooking = () => {
+        router.push("/booking");
+    };
 
     // ✅ Detect screen size dynamically
     useEffect(() => {
@@ -329,12 +349,14 @@ export default function DetailPackage() {
                 <div className="rounded-[0_0_30px_30px] bg-[#EBF5F7] w-full">
                     <div className="p-4 md:p-6 lg:p-8">
                         <div className="flex items-center gap-4 mb-6 md:mb-8 text-[#5a5a5a] pt-2">
-                            <Link href="/" className="flex items-center gap-2 hover:text-[#000000] transition-colors">
+                            <div className="flex items-center gap-2 hover:text-[#000000] transition-colors cursor-pointer" onClick={handleBack}>
+                                {/* <Link href="/" className="flex items-center gap-2 hover:text-[#000000] transition-colors"> */}
                                 {/* <ArrowLeft className="w-5 h-5" /> */}
                                 <img src="/images/detailpage/arrow_back.svg" width="14px" height="14px"
                                     alt="Twitter" className="cursor-pointer" />
                                 <span className="text-[#5A5A5A] font-['Figtree'] text-[11px] lg:text-[12px] font-normal leading-[14px]">Back</span>
-                            </Link>
+                                {/* </Link> */}
+                            </div>
                             {/* <span className="text-[#d9d9d9]">|</span> */}
                             <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
                             <div className="flex items-center gap-2 text-base">
@@ -430,7 +452,7 @@ export default function DetailPackage() {
                                             </div>
                                         </div>
                                         <div className="hidden lg:flex flex-col gap-[6px]">
-                                            <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px;" }}>
+                                            <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
                                                 <div className="flex flex-row gap-[3px] items-center">
                                                     <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">4.9</div>
                                                     <div>
@@ -444,7 +466,7 @@ export default function DetailPackage() {
                                         </div>
                                     </div>
                                     <div className="flex flex-row">
-                                        <div className="rounded-[4px] bg-[#FFF7F2]" style={{ padding: "8px 14px;" }}>
+                                        <div className="rounded-[4px] bg-[#FFF7F2]" style={{ padding: "8px 14px" }}>
                                             <span className="text-black font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal">Earn </span>
                                             <img src="/images/detailpage/24-Crowns.png" className="inline mr-1" />
                                             <span className="text-[#000] font-[Figtree] text-[12px] lg:text-[14px] font-bold leading-normal">50 Reward Points</span>
@@ -452,7 +474,7 @@ export default function DetailPackage() {
                                         </div>
                                     </div>
                                     <div className="lg:hidden flex flex-row gap-[8px] items-center">
-                                        <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px;" }}>
+                                        <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
                                             <div className="flex flex-row gap-[3px] items-center">
                                                 <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">4.9</div>
                                                 <div>
@@ -1208,14 +1230,28 @@ export default function DetailPackage() {
                                             Reviews
                                         </div>
 
-                                        <div className="hidden md:block rounded-[6px] border border-[#E97737]" style={{ padding: "10px 15px" }}>
+                                        {/* <div className="hidden md:block rounded-[6px] border border-[#E97737]" style={{ padding: "10px 15px" }}>
                                             <div className="flex items-center gap-[8px] cursor-pointer">
                                                 <div className="text-[#E97737] font-figtree text-[14px] font-semibold leading-normal uppercase">
                                                     View all
                                                 </div>
                                                 <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
                                             </div>
-                                        </div>
+                                        </div> */}
+                                        <Button variant="outline" className="group hidden md:block rounded-[6px] border border-[#E97737] cursor-pointer
+                    bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             bg-[length:200%_100%] bg-[position:100%_0] 
+             transition-[background-position] duration-300 ease-out
+             hover:bg-[position:0_0]" onClick={navigateToTestimonials}>
+                                            <div className="flex flex-row gap-2 items-center">
+                                                <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
+
+                                                <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                                                    <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                    <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
+                                                </svg>
+                                            </div>
+                                        </Button>
                                     </div>
 
                                     {/**Review Cards with scroller for tablet and larger device */}
@@ -1234,9 +1270,13 @@ export default function DetailPackage() {
                                                                 <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
                                                                 <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
                                                             </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                                <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
+                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
+                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
+                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
+                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
+                                                                </svg>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1252,9 +1292,13 @@ export default function DetailPackage() {
                                                                 <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
                                                                 <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
                                                             </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                                <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
+                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
+                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
+                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
+                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
+                                                                </svg>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1270,9 +1314,13 @@ export default function DetailPackage() {
                                                                 <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
                                                                 <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
                                                             </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                                <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
+                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
+                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
+                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
+                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
+                                                                </svg>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1288,9 +1336,13 @@ export default function DetailPackage() {
                                                                 <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
                                                                 <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
                                                             </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                                <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
+                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
+                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
+                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
+                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
+                                                                </svg>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1306,9 +1358,13 @@ export default function DetailPackage() {
                                                                 <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
                                                                 <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
                                                             </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                                <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
+                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
+                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
+                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
+                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
+                                                                </svg>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1324,9 +1380,13 @@ export default function DetailPackage() {
                                                                 <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
                                                                 <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
                                                             </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                                <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
+                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
+                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
+                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
+                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
+                                                                </svg>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1342,9 +1402,13 @@ export default function DetailPackage() {
                                                                 <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
                                                                 <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
                                                             </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                                <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
+                                                           <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
+                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
+                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
+                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
+                                                                </svg>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1415,14 +1479,29 @@ export default function DetailPackage() {
                                     {/**ends here */}
 
                                     {/**View All mobile device */}
-                                    <div className="md:hidden rounded-[6px] border border-[#E97737]" style={{ padding: "10px 15px" }}>
+                                    {/* <div className="md:hidden rounded-[6px] border border-[#E97737]" style={{ padding: "10px 15px" }}>
                                         <div className="flex items-center gap-[8px] cursor-pointer">
                                             <div className="text-[#E97737] font-figtree text-[14px] font-semibold leading-normal uppercase">
                                                 View all
                                             </div>
                                             <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
                                         </div>
-                                    </div>
+                                    </div> */}
+                                    <Button variant="outline" className="group md:hidden  rounded-[6px] border border-[#E97737] cursor-pointer
+                    bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             bg-[length:200%_100%] bg-[position:100%_0] 
+             transition-[background-position] duration-300 ease-out
+             hover:bg-[position:0_0]" onClick={navigateToTestimonials}>
+                                        <div className="flex flex-row gap-2 items-center">
+                                            <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
+
+                                            <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                                                <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
+                                            </svg>
+                                        </div>
+                                    </Button>
+
                                     {/** ends here */}
 
                                 </div>
@@ -1538,7 +1617,7 @@ export default function DetailPackage() {
                                                     </div>
                                                 </div>
                                                 <div style={{ padding: "10px 10px" }}>
-                                                    <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                    <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
                                                         <div className="flex items-center justify-center">
                                                             <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                         </div>
@@ -1598,7 +1677,7 @@ export default function DetailPackage() {
                                                     </div>
                                                 </div>
                                                 <div style={{ padding: "10px 10px" }}>
-                                                    <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                    <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
                                                         <div className="flex items-center justify-center">
                                                             <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                         </div>
@@ -1658,7 +1737,7 @@ export default function DetailPackage() {
                                                     </div>
                                                 </div>
                                                 <div style={{ padding: "10px 10px" }}>
-                                                    <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                    <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
                                                         <div className="flex items-center justify-center">
                                                             <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                         </div>
@@ -1718,7 +1797,7 @@ export default function DetailPackage() {
                                                     </div>
                                                 </div>
                                                 <div style={{ padding: "10px 10px" }}>
-                                                    <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                    <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
                                                         <div className="flex items-center justify-center">
                                                             <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                         </div>
@@ -2397,6 +2476,16 @@ function ItineraryAccordion({ itinerary }: ItineraryAccordionProps) {
 
 function RelatedPackages() {
     const scrollRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
+
+    const navigateToPackages = () => {
+        router.push("/listing");
+    };
+
+    const navigateToPackageDetails = () => {
+        console.log("Navigating to package details...");
+        router.push("/details");
+    }
 
     const scroll = (direction: "left" | "right") => {
         if (scrollRef.current) {
@@ -2435,7 +2524,7 @@ function RelatedPackages() {
                 </div>
 
                 {/* View All button (aligned right) */}
-                <Button variant="outline" className="hidden md:block rounded-[6px] border border-[#E97737] ml-0 mt-6 md:ml-6 md:mt-0 cursor-pointer hover:scale-115 transform transition duration-200">
+                {/* <Button variant="outline" className="hidden md:block rounded-[6px] border border-[#E97737] ml-0 mt-6 md:ml-6 md:mt-0 cursor-pointer hover:scale-115 transform transition duration-200" onClick={navigateToPackages}>
                     <div className="flex flex-row gap-2 items-center">
                         <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase">View All</span>
                         <img
@@ -2445,6 +2534,26 @@ function RelatedPackages() {
                             height={20}
                             className="mx-auto"
                         />
+                    </div>
+                </Button> */}
+                <Button variant="outline" className="group hidden md:block rounded-[6px] border border-[#E97737] ml-0 mt-6 md:ml-6 md:mt-0 cursor-pointer
+                    bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             bg-[length:200%_100%] bg-[position:100%_0] 
+             transition-[background-position] duration-300 ease-out
+             hover:bg-[position:0_0]" onClick={navigateToPackages}>
+                    <div className="flex flex-row gap-2 items-center">
+                        <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
+                        {/* <img
+                            src="/images/trendingpackages/Group1000007348.svg"
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="mx-auto"
+                        /> */}
+                        <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                            <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                            <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
+                        </svg>
                     </div>
                 </Button>
             </div>
@@ -2466,12 +2575,12 @@ function RelatedPackages() {
                         className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"
                     >
                         {packages.map((pkg) => (
-                            <Card key={pkg.id} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl">
-                                <div className="relative">
+                            <Card key={pkg.id} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl group">
+                                <div className="relative overflow-hidden rounded-t-xl h-48">
                                     <img
                                         src={pkg.image}
                                         alt={pkg.title}
-                                        className="w-full h-48 object-cover rounded-t-xl"
+                                        className="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-110"
                                     />
                                     <Badge
                                         variant="popular"
@@ -2512,11 +2621,19 @@ function RelatedPackages() {
                                 {/* <CardFooter> */}
                                 {/* Buttons */}
                                 <div className="flex flex-col md:flex-row lg:flex-row gap-4">
-                                    <Button variant="outline" className="flex-1 shrink-0">
-                                        <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">View Details</span>
+                                    <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                    group-hover:bg-[linear-gradient(90deg,_#1A2F46_0%,_#1A2F46_50%,_transparent_50%)] 
+             group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
+             group-hover:transition-[background-position] duration-300 ease-out
+             group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
+                                        <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">View Details</span>
                                     </Button>
-                                    <Button variant="outline" className="flex-1 shrink-0">
-                                        <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">Book Now</span>
+                                    <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                    group-hover:bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
+             group-hover:transition-[background-position] duration-300 ease-out
+             group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
+                                        <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">Book Now</span>
                                     </Button>
                                 </div>
                                 {/* </CardFooter> */}
@@ -2542,12 +2659,12 @@ function RelatedPackages() {
                     className="flex gap-6 items-center overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"
                 >
                     {packages.map((pkg) => (
-                        <Card key={pkg.id} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl">
-                            <div className="relative">
+                        <Card key={pkg.id} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl group">
+                            <div className="relative overflow-hidden rounded-t-xl h-48">
                                 <img
                                     src={pkg.image}
                                     alt={pkg.title}
-                                    className="w-full h-48 object-cover rounded-t-xl"
+                                    className="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-110"
                                 />
                                 <Badge
                                     variant="popular"
@@ -2588,11 +2705,19 @@ function RelatedPackages() {
                             {/* <CardFooter> */}
                             {/* Buttons */}
                             <div className="flex flex-col md:flex-row lg:flex-row gap-4">
-                                <Button variant="outline" className="flex-1 shrink-0">
-                                    <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">View Details</span>
+                                <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                    group-hover:bg-[linear-gradient(90deg,_#1A2F46_0%,_#1A2F46_50%,_transparent_50%)] 
+             group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
+             group-hover:transition-[background-position] duration-300 ease-out
+             group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
+                                    <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">View Details</span>
                                 </Button>
-                                <Button variant="outline" className="flex-1 shrink-0">
-                                    <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">Book Now</span>
+                                <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                    group-hover:bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
+             group-hover:transition-[background-position] duration-300 ease-out
+             group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
+                                    <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">Book Now</span>
                                 </Button>
                             </div>
                             {/* </CardFooter> */}
@@ -2603,7 +2728,7 @@ function RelatedPackages() {
 
             {/* View All button Mobile view */}
             <div className="flex items-center justify-center gap-2 md:hidden">
-                <Button variant="outline" className="rounded-[6px] border border-[var(--Primary,#E97737)] mt-6 cursor-pointer hover:scale-115 transform transition duration-200">
+                {/* <Button variant="outline" className="rounded-[6px] border border-[var(--Primary,#E97737)] mt-6 cursor-pointer hover:scale-115 transform transition duration-200" onClick={navigateToPackages}>
                     <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase">View All</span>
                     <img
                         src="/images/trendingpackages/Group1000007348.svg"
@@ -2612,6 +2737,17 @@ function RelatedPackages() {
                         height={20}
                         className="mx-auto"
                     />
+                </Button> */}
+                <Button variant="outline" className="group relative rounded-[6px] border border-[#E97737] mt-6 cursor-pointer
+                    bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             bg-[length:200%_100%] bg-[position:100%_0] 
+             transition-[background-position] duration-300 ease-out
+             hover:bg-[position:0_0]" onClick={navigateToPackages}>
+                    <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
+                    <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                        <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                        <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
+                    </svg>
                 </Button>
             </div>
         </section>

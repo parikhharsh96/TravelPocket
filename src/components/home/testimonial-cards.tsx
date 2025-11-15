@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ArrowRight, Calendar, CheckCircle, MapPin, Play } from "lucide-react";
 import { Separator } from "@/components/ui/separator"
+import { useRouter } from "next/navigation";
 
 const packages = [
     {
@@ -72,6 +73,11 @@ const packages = [
 
 export default function TestimonialCards() {
     const scrollRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
+
+    const navigateToTravelVideos = () => {
+        router.push("/videos"); //need to add dynamic routing later
+    };
 
     const CARD_WIDTH = 400;
     const scroll = (direction: "left" | "right") => {
@@ -105,7 +111,7 @@ export default function TestimonialCards() {
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">
+             hover:bg-[position:0_0]" onClick={navigateToTravelVideos}>
                         <div className="flex flex-row gap-2 items-center">
                             <span className="text-[#E97737] font-['Figtree'] text-[12px] md:text-[14px] font-semibold uppercase group-hover:text-white">View All</span>
                             {/* <img
@@ -203,7 +209,7 @@ export default function TestimonialCards() {
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">
+             hover:bg-[position:0_0]" onClick={navigateToTravelVideos}>
                         <span className="text-[#E97737] font-['Figtree'] text-[12px] md:text-[14px] font-semibold uppercase group-hover:text-white">View All</span>
                         {/* <img
                         src="/images/trendingpackages/Group1000007348.svg"

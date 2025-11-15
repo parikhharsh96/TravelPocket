@@ -30,6 +30,7 @@ import { SortByDrawer } from "./sort-by-drawer";
 import { FilterByDrawer } from "./filter-by-drawer";
 import { Destination, destinations } from "@/data/destinations";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const packages = [
     {
@@ -173,6 +174,19 @@ export default function AllDestinations() {
     const [openSortDrawer, setOpenSortDrawer] = useState(false);
     const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
     const [visibleCount, setVisibleCount] = useState(6); // initial 6 items
+    const router = useRouter();
+
+    const navigateToPackageDetails = () => {
+        router.push("/details"); //need to add dynamic routing later
+    };
+
+    const handleBack = () => {
+        if (document.referrer !== "") {
+            router.back()
+        } else {
+            router.push("/")   // fallback
+        }
+    }
 
     const handleLoadMore = () => {
         setVisibleCount((prev) => prev + 6);
@@ -203,12 +217,14 @@ export default function AllDestinations() {
                 <div className="relative rounded-[0_0_30px_30px] bg-[#EBF5F7] w-full">
                     <div className="p-4 md:p-6 lg:p-8 lg:pb-[100px]">
                         <div className="flex items-center gap-4 mb-6 md:mb-8 text-[#5a5a5a] pt-2">
-                            <Link href="/" className="flex items-center gap-2 hover:text-[#000000] transition-colors">
+                            <div className="flex items-center gap-2 hover:text-[#000000] transition-colors cursor-pointer" onClick={handleBack}>
+                                {/* <Link href="/" className="flex items-center gap-2 hover:text-[#000000] transition-colors"> */}
                                 {/* <ArrowLeft className="w-5 h-5" /> */}
                                 <img src="/images/detailpage/arrow_back.svg" width="14px" height="14px"
                                     alt="Twitter" className="cursor-pointer" />
                                 <span className="text-[#5A5A5A] font-['Figtree'] text-[11px] md:text-[12px] font-normal leading-[14px]">Back</span>
-                            </Link>
+                                {/* </Link> */}
+                            </div>
                             {/* <span className="text-[#d9d9d9]">|</span> */}
                             <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
                             <div className="flex items-center gap-2 text-base">
@@ -379,12 +395,12 @@ export default function AllDestinations() {
                             {/* {destinations.map((pkg, index) => ( */}
                             {destinations.slice(0, visibleCount).map((pkg, index) => (
                                 <React.Fragment key={pkg.id}>
-                                    <Card className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl">
-                                        <div className="relative">
+                                    <Card className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl group">
+                                        <div className="relative overflow-hidden rounded-t-xl h-48">
                                             <img
                                                 src={pkg.images[0]}
                                                 alt={pkg.title}
-                                                className="w-full h-48 object-cover rounded-t-xl"
+                                                className="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-110"
                                             />
                                             {pkg.isPopular && (
                                                 <Badge
@@ -432,11 +448,19 @@ export default function AllDestinations() {
                                         {/* <CardFooter> */}
                                         {/* Buttons */}
                                         <div className="flex flex-col md:flex-row lg:flex-row gap-4">
-                                            <Button variant="outline" className="flex-1 shrink-0">
-                                                <span className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">View Details</span>
+                                            <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                    group-hover:bg-[linear-gradient(90deg,_#1A2F46_0%,_#1A2F46_50%,_transparent_50%)] 
+             group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
+             group-hover:transition-[background-position] duration-300 ease-out
+             group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
+                                                <span className="ttext-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">View Details</span>
                                             </Button>
-                                            <Button variant="outline" className="flex-1 shrink-0">
-                                                <span className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-medium uppercase leading-normal">Book Now</span>
+                                            <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                    group-hover:bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+             group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
+             group-hover:transition-[background-position] duration-300 ease-out
+             group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
+                                                <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">Book Now</span>
                                             </Button>
                                         </div>
                                         {/* </CardFooter> */}

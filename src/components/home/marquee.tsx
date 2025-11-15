@@ -1,9 +1,16 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { useEffect } from "react"
 
 export default function Marquee() {
+
+    const router = useRouter();
+
+    const goToAboutUs = () => {
+        router.push("/about-us");
+    };
 
     // Auto-scroll logic: scrolls right continuously and loops back to start.
     useEffect(() => {
@@ -139,7 +146,7 @@ export default function Marquee() {
                             <Button variant="outline" className="group rounded-[6px] border border-[#FFFFFF] hover:border-[#E97737] bg-transparent md:mt-0 px-6 py-3 bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">
+             hover:bg-[position:0_0]" onClick={goToAboutUs}>
                                 {/* <span className="text-white font-['Figtree'] text-[14px] font-semibold leading-normal uppercase">ABOUT US</span> */}
                                 <div className="group flex items-center gap-2 cursor-pointer">
                                     <span className="text-white font-['Figtree'] text-[14px] font-semibold leading-normal uppercase">ABOUT US</span>

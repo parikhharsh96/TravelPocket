@@ -1,8 +1,11 @@
+"use client"
+
 import { ArrowRight } from "lucide-react"
 import { Calendar, MapPin, CheckCircle } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@radix-ui/react-separator"
+import { useRouter } from "next/navigation"
 
 export default function HomePage() {
     const packages = [
@@ -43,6 +46,16 @@ export default function HomePage() {
             imageQuery: "mountain road with snow peaks and pilgrimage tents",
         },
     ]
+
+    const router = useRouter();
+
+    const navigateToPackages = () => {
+        router.push("/listing"); //need to add dynamic routing later
+    };
+
+    const navigateToPackageDetails = () => {
+        router.push("/details"); //need to add dynamic routing later
+    };
 
     return (
         <div
@@ -105,7 +118,7 @@ export default function HomePage() {
     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
     bg-[length:200%_100%] bg-[position:100%_0] 
     transition-[background-position] duration-300 ease-out
-    hover:bg-[position:0_0]"
+    hover:bg-[position:0_0]" onClick={navigateToPackages}
                                 >
                                     <div className="flex flex-row gap-2 items-center">
                                         <span className="text-white font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">
@@ -152,6 +165,7 @@ export default function HomePage() {
                                 pickup={packages[0].pickup}
                                 imageUrl={packages[0].imageUrl}
                                 imageQuery={packages[0].imageQuery}
+                                onClick={navigateToPackageDetails}
                             />
                             <TravelPackageCard
                                 title={packages[2].title}
@@ -161,6 +175,7 @@ export default function HomePage() {
                                 pickup={packages[2].pickup}
                                 imageUrl={packages[2].imageUrl}
                                 imageQuery={packages[2].imageQuery}
+                                onClick={navigateToPackageDetails}
                             />
                         </div>
 
@@ -174,6 +189,7 @@ export default function HomePage() {
                                 pickup={packages[1].pickup}
                                 imageUrl={packages[1].imageUrl}
                                 imageQuery={packages[1].imageQuery}
+                                onClick={navigateToPackageDetails}
                             />
                             <TravelPackageCard
                                 title={packages[3].title}
@@ -183,6 +199,7 @@ export default function HomePage() {
                                 pickup={packages[3].pickup}
                                 imageUrl={packages[3].imageUrl}
                                 imageQuery={packages[3].imageQuery}
+                                onClick={navigateToPackageDetails}
                             />
                         </div>
                     </div>
@@ -194,7 +211,7 @@ export default function HomePage() {
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">
+             hover:bg-[position:0_0]" onClick={navigateToPackages}>
                         <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
                         <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
                             <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
@@ -216,6 +233,7 @@ interface TravelPackageCardProps {
     pickup: string
     imageUrl: string
     imageQuery: string
+    onClick?: () => void 
 }
 
 function TravelPackageCard({
@@ -226,9 +244,10 @@ function TravelPackageCard({
     pickup,
     imageUrl,
     imageQuery,
+    onClick
 }: TravelPackageCardProps) {
     return (
-        <Card className="h-auto md:h-auto lg:h-auto overflow-hidden bg-white rounded-lg md:rounded-xl shadow-lg transition-shadow duration-300 gap-1 sm:gap-2 md:gap-3 group cursor-pointer"> {/**h-[220px] sm:h-[280px] md:h-[380px] */}
+        <Card className="h-auto md:h-auto lg:h-auto overflow-hidden bg-white rounded-lg md:rounded-xl shadow-lg transition-shadow duration-300 gap-1 sm:gap-2 md:gap-3 group cursor-pointer" onClick={onClick}> {/**h-[220px] sm:h-[280px] md:h-[380px] */}
             <div className="relative p-1 md:p-2">
                 <img src={imageUrl || "/placeholder.svg"} alt={imageQuery} className="w-full h-[90px] sm:h-[120px] md:h-[260px] object-cover rounded-[4px] md:rounded-xl" />
                 <div className="absolute bottom-0 left-0 sm:bottom-0 sm:left-0 bg-[#29a4c1] px-2 py-1 sm:px-2 sm:py-1 rounded-[0_8px_8px_0] bg-[#29A4C1]">
