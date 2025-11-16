@@ -1,3 +1,5 @@
+'use client';
+
 import ContactOurExperts from "@/components/home/contact-our-experts";
 import DestinationGrid from "@/components/home/destination";
 import HomeHeroSection from "@/components/home/hero-section";
@@ -14,14 +16,39 @@ import CharDhamSection from "@/components/home/char-dham";
 import NepalTourSection from "@/components/home/nepal-tour";
 import RajasthanTourSection from "@/components/home/rajasthan-tour";
 
+import { useApi } from '@/lib/use-api';
+import { api } from '@/lib/api-client';
+import { useEffect } from "react";
+
+interface User {
+  userId: number;
+  userName: string;
+  role: string;
+}
+
 export default function Home() {
+
+  const { data, loading, error, execute } = useApi<User[]>();
+
+  useEffect(() => {
+    // Set token when component mounts (or get from auth system)
+    const token = localStorage.getItem('auth_token');
+    // if (token) {
+    //   api.setToken(token);
+    // }
+  }, []);
+
+  // useEffect(() => {
+  //   execute('https://api.crmtravelpocket.cloud/api/CustomerHome/blogs?userid=0&pageno=1&pagesize=10', 'GET');
+  // }, []);
+
   return (
     <div className="">
       <HomeHeroSection />
       <TrendingPackages />
-      <DestinationGrid/>
+      <DestinationGrid />
       <Marquee />
-      <KailashMansarovarPage/>
+      <KailashMansarovarPage />
       <ContactOurExperts />
       <TravelGoalsSection />
       <CharDhamSection />

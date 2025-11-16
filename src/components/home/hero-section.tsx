@@ -87,6 +87,36 @@ const destinationsList = [
   { label: "Kedarnath", url: "/details" }
 ];
 
+const destinations = [
+  { label: "KAILASH MANSAROVAR", value: "kailash-mansarovar" },
+  { label: "ADI KAILASH & OM PARVAT", value: "adi-kailash-om-parvat" },
+  { label: "CHAR DHAM", value: "char-dham" },
+  { label: "KEDARNATH", value: "kedarnath" },
+  { label: "RAJASTHAN", value: "rajasthan" },
+];
+
+const tripTypes = [
+  { label: "BY ROAD", value: "by-road" },
+  { label: "BY HELICOPTER", value: "by-helicopter" },
+];
+
+const tripDurations = [
+  { label: "5 NIGHT 6 DAYS", value: "5-night-6-days" },
+  { label: "7 NIGHT 8 DAYS", value: "7-night-8-days" },
+  { label: "6 NIGHT 7 DAYS", value: "6-night-7-days" },
+  { label: "8 NIGHT / 9 DAYS", value: "8-night-9-days" },
+  { label: "13 NIGHT 14 DAYS", value: "13-night-14-days" },
+];
+
+const travellers = [
+  { label: "1", value: "1" },
+  { label: "2", value: "2" },
+  { label: "3", value: "3" },
+  { label: "4", value: "4" },
+  { label: "5", value: "5" },
+];
+
+
 const allDestinations = [
   ...domesticDestinations.map((d) => ({ ...d, type: "Domestic" })),
   ...internationalDestinations.map((d) => ({ ...d, type: "International" })),
@@ -524,22 +554,22 @@ export default function HomeHeroSection() {
               {/* Main Content */}
               <div className="lg:col-span-2">
                 <div className="mb-8 rounded-lg p-4 sm:p-8">
-                  <h1 className="text-white font-['Playfair_Display'] text-[86px] font-bold leading-[90px] mb-4">
+                  <h1 className="text-white font-['Playfair_Display'] text-[36px] lg:text-[86px] font-bold leading-[42px] lg:leading-[90px] mb-4">
                     Kailash
                     <br />
                     Mansarovar
                   </h1>
-                  <div className="text-white font-['Figtree'] text-[36px] font-semibold leading-normal mb-6">
+                  <div className="text-white font-['Figtree'] text-[22px] lg:text-[36px] font-semibold leading-normal mb-6">
                     Yatra with{" "}
                     <span className="bg-[#e97737] text-[#ffffff] px-2 sm:px-3 py-1 rounded">Charan Sparsh</span>
                   </div>
-                  <p className="text-white font-['Figtree'] text-[20px] font-semibold leading-normal mb-8">Touch the Divine. Awaken your Soul.</p>
+                  <p className="text-white font-['Figtree'] text-[14px] lg:text-[20px] font-semibold leading-normal mb-8">Touch the Divine. Awaken your Soul.</p>
                   <Button className="group rounded-[6px] border border-white bg-transparent px-6 sm:px-8 py-4 cursor-pointer hover:border-none
                     bg-[linear-gradient(90deg,_#ffffff_0%,_#ffffff_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
              hover:bg-[position:0_0]">
-                    <span className="text-white font-['Figtree'] text-[16px] font-semibold leading-normal uppercase group-hover:text-[#1A2F46]">Book Now</span>
+                    <span className="text-white font-['Figtree'] text-[13px] lg:text-[16px] font-semibold leading-normal uppercase group-hover:text-[#1A2F46]">Book Now</span>
                     <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-white group-hover:text-white group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fill="none">
                       <circle className="group-hover:[stroke-width:0]" cx="15" cy="15" r="14.5" stroke="currentColor" strokeWidth="1" fill="none" />
                       <path d="M19.634 15.6H8V14.4H19.634L14.943 9.843L15.8235 9L22 15L15.8235 21L14.943 20.157L19.634 15.6Z" fill="currentColor" />
@@ -550,7 +580,7 @@ export default function HomeHeroSection() {
 
               {/* Inclusions Sidebar */}
               <div className="rounded-[8px] bg-[rgba(0,0,0,0.20)] backdrop-blur-[4px] p-4 sm:p-6 h-fit max-w-sm mx-auto lg:mx-0">
-                <h3 className="text-white text-center font-['Figtree'] text-[20px] font-medium leading-normal mb-4 sm:mb-6">Inclusions</h3>
+                <h3 className="text-white text-center font-['Figtree'] text-[14px] lg:text-[20px] font-medium leading-normal mb-4 sm:mb-6">Inclusions</h3>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
                   <div className="text-center flex flex-col gap-2 items-center">
@@ -587,7 +617,7 @@ export default function HomeHeroSection() {
                         </defs>
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[14px] font-medium leading-normal">
+                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">
                       Vegetarian
                       <br />
                       Meals
@@ -606,7 +636,7 @@ export default function HomeHeroSection() {
                         </g>
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[14px] font-medium leading-normal">Tibet & Kailash Permits</p>
+                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">Tibet & Kailash Permits</p>
                   </div>
 
                   <div className="text-center flex flex-col gap-2 items-center">
@@ -621,7 +651,7 @@ export default function HomeHeroSection() {
                         </g>
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[14px] font-medium leading-normal">Modes of Transportation</p>
+                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">Modes of Transportation</p>
                   </div>
 
                   <div className="text-center flex flex-col gap-2 items-center">
@@ -636,7 +666,7 @@ export default function HomeHeroSection() {
                         </g>
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[14px] font-medium leading-normal">
+                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">
                       Hotel
                       <br />
                       Stays
@@ -658,7 +688,7 @@ export default function HomeHeroSection() {
                         <path d="M29.2597 4.67969V8.88916" stroke="white" strokeWidth="2" strokeMiterlimit="10" />
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[14px] font-medium leading-normal">
+                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">
                       Oxygen
                       <br />
                       cylinders
@@ -677,7 +707,7 @@ export default function HomeHeroSection() {
                         </g>
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[14px] font-medium leading-normal">+10 More</p>
+                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">+10 More</p>
                   </div>
                 </div>
 
@@ -703,7 +733,7 @@ export default function HomeHeroSection() {
             {/* Search Section */}
             <div className="mt-12 sm:mt-24 py-8">
               <div className="mx-auto">
-                <h2 className="text-white text-center font-['Figtree'] text-[20px] font-semibold leading-normal mb-6 sm:mb-8 py-4">
+                <h2 className="text-white text-center font-['Figtree'] text-[18px] lg:text-[20px] font-semibold leading-normal mb-6 sm:mb-8 py-4">
                   Where Will You Go Next?
                 </h2>
 
@@ -712,53 +742,116 @@ export default function HomeHeroSection() {
                     <div className="flex flex-col md:flex-row items-center">
                       <div className="flex-1 border-b md:border-b-0 md:border-r border-[#e4e4e4]">
                         <Select>
-                          <SelectTrigger className="w-full h-12 md:h-16 border-0 rounded-none bg-transparent text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[24px] uppercase px-3 flex items-center justify-center">
+                          <SelectTrigger className="w-full !h-12 md:!h-16 border-0 rounded-none bg-transparent text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[24px] uppercase px-3 flex items-center justify-center
+                          focus:border-0 focus:ring-0 focus:ring-transparent
+      focus-visible:ring-0 focus-visible:ring-transparent 
+      focus-visible:border-0 outline-none data-[placeholder]:text-[#1A2F46]
+      data-[placeholder]:font-medium
+      data-[placeholder]:text-[16px]
+      data-[placeholder]:leading-[24px] data-[placeholder]:uppercase data-[placeholder]:font-['Figtree']">
                             <SelectValue placeholder="DESTINATION" />
                           </SelectTrigger>
-                          <SelectContent className="w-full bg-white border-0">
-                            <SelectItem value="kailash">Kailash Mansarovar</SelectItem>
-                            <SelectItem value="adi">Adi Kailash</SelectItem>
-                            <SelectItem value="other">Other Destinations</SelectItem>
+                          <SelectContent className="w-full bg-white border-0 px-2 py-2">
+                            {destinations.map((item, index) => (
+                              <React.Fragment key={item.value}>
+                                <SelectItem
+                                  value={item.value}
+                                  className="text-black font-['Figtree'] text-[14px] font-normal leading-[24px] uppercase"
+                                >
+                                  {item.label}
+                                </SelectItem>
+                                {index !== destinations.length - 1 && (
+                                  <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mt-1 mb-1" />
+                                )}
+                              </React.Fragment>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
 
                       <div className="flex-1 border-b md:border-b-0 md:border-r border-[#e4e4e4]">
                         <Select>
-                          <SelectTrigger className="w-full h-12 md:h-16 border-0 rounded-none bg-transparent text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[24px] uppercase px-3 flex items-center justify-center">
+                          <SelectTrigger className="w-full !h-12 md:!h-16 border-0 rounded-none bg-transparent text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[24px] uppercase px-3 flex items-center justify-center
+                          focus:border-0 focus:ring-0 focus:ring-transparent
+      focus-visible:ring-0 focus-visible:ring-transparent 
+      focus-visible:border-0 outline-none data-[placeholder]:text-[#1A2F46]
+      data-[placeholder]:font-medium
+      data-[placeholder]:text-[16px]
+      data-[placeholder]:leading-[24px] data-[placeholder]:uppercase data-[placeholder]:font-['Figtree']">
                             <SelectValue placeholder="TYPE OF TRIP" />
                           </SelectTrigger>
-                          <SelectContent className="w-full bg-white border-0">
-                            <SelectItem value="pilgrimage">Pilgrimage</SelectItem>
-                            <SelectItem value="adventure">Adventure</SelectItem>
-                            <SelectItem value="cultural">Cultural</SelectItem>
+                          <SelectContent className="w-full bg-white border-0 px-2 py-2">
+                            {tripTypes.map((item, index) => (
+                              <React.Fragment key={item.value}>
+                                <SelectItem
+                                  value={item.value}
+                                  className="text-black font-['Figtree'] text-[14px] font-normal leading-[24px] uppercase"
+                                >
+                                  {item.label}
+                                </SelectItem>
+                                {index !== tripTypes.length - 1 && (
+                                  <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mt-1 mb-1" />
+                                )}
+                              </React.Fragment>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
 
                       <div className="flex-1 border-b md:border-b-0 md:border-r border-[#e4e4e4]">
                         <Select>
-                          <SelectTrigger className="w-full h-12 md:h-16 border-0 rounded-none bg-transparent text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[24px] uppercase px-3 flex items-center justify-center">
+                          <SelectTrigger className="w-full !h-12 md:!h-16 border-0 rounded-none bg-transparent text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[24px] uppercase px-3 flex items-center justify-center
+                          focus:border-0 focus:ring-0 focus:ring-transparent
+      focus-visible:ring-0 focus-visible:ring-transparent 
+      focus-visible:border-0 outline-none data-[placeholder]:text-[#1A2F46]
+      data-[placeholder]:font-medium
+      data-[placeholder]:text-[16px]
+      data-[placeholder]:leading-[24px] data-[placeholder]:uppercase data-[placeholder]:font-['Figtree']">
                             <SelectValue placeholder="TRIP DURATION" />
                           </SelectTrigger>
-                          <SelectContent className="w-full bg-white border-0">
-                            <SelectItem value="7days">7 Days</SelectItem>
-                            <SelectItem value="14days">14 Days</SelectItem>
-                            <SelectItem value="21days">21 Days</SelectItem>
+                          <SelectContent className="w-full bg-white border-0 px-2 py-2">
+                            {tripDurations.map((item, index) => (
+                              <React.Fragment key={item.value}>
+                                <SelectItem
+                                  value={item.value}
+                                  className="text-black font-['Figtree'] text-[14px] font-normal leading-[24px] uppercase"
+                                >
+                                  {item.label}
+                                </SelectItem>
+                                {index !== tripDurations.length - 1 && (
+                                  <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mt-1 mb-1" />
+                                )}
+                              </React.Fragment>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
 
                       <div className="flex-1 border-b md:border-b-0 md:border-r border-[#e4e4e4]">
                         <Select>
-                          <SelectTrigger className="w-full h-12 md:h-16 border-0 rounded-none bg-transparent text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[24px] uppercase px-3 flex items-center justify-center">
+                          <SelectTrigger className="w-full !h-12 md:!h-16 border-0 rounded-none bg-transparent text-black font-['Figtree'] text-[12px] md:text-[14px] font-normal leading-[24px] uppercase px-3 flex items-center justify-center
+                          focus:border-0 focus:ring-0 focus:ring-transparent
+      focus-visible:ring-0 focus-visible:ring-transparent 
+      focus-visible:border-0 outline-none data-[placeholder]:text-[#1A2F46]
+      data-[placeholder]:font-medium
+      data-[placeholder]:text-[16px]
+      data-[placeholder]:leading-[24px] data-[placeholder]:uppercase data-[placeholder]:font-['Figtree']">
                             <SelectValue placeholder="NO. OF TRAVELLERS" />
                           </SelectTrigger>
-                          <SelectContent className="w-full bg-white border-0">
-                            <SelectItem value="1">1 Traveller</SelectItem>
-                            <SelectItem value="2">2 Travellers</SelectItem>
-                            <SelectItem value="3-5">3-5 Travellers</SelectItem>
-                            <SelectItem value="group">Group (6+)</SelectItem>
+                          <SelectContent className="w-full bg-white border-0 p-2">
+                            {travellers.map((item, index) => (
+                              <React.Fragment key={item.value}>
+                                <SelectItem
+                                  value={item.value}
+                                  className="text-black font-['Figtree'] text-[14px] font-normal leading-[24px] uppercase"
+                                >
+                                  {item.label}
+                                </SelectItem>
+                                {index !== travellers.length - 1 && (
+                                  <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mt-1 mb-1" />
+                                )}
+                              </React.Fragment>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
