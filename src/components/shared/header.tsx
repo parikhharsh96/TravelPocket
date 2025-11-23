@@ -406,21 +406,22 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
                 </div>
 
                 {/* Links */}
-                <nav className="flex flex-col gap-4 px-6 mt-4">
-                    {topLinks.map((link) => (
-                        <Link
-                            key={link.label}
-                            href={link.href}
-                            className="text-[#1A2F46] font-[Figtree] text-[12px] md:text-[12px] font-semibold lg:text-[14px] uppercase hover:text-[#E97737] transition-colors"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
+                <ScrollArea className="h-[calc(100%-64px)] px-6 pb-6">
+                    <nav className="flex flex-col gap-4 mt-4">
+                        {topLinks.map((link) => (
+                            <Link
+                                key={link.label}
+                                href={link.href}
+                                className="text-[#1A2F46] font-[Figtree] text-[12px] md:text-[12px] font-semibold lg:text-[14px] uppercase hover:text-[#E97737] transition-colors"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
 
-                    <Separator orientation="horizontal" className="my-2 bg-[#E7E7E7] border border-[#E7E7E7]" />
+                        <Separator orientation="horizontal" className="my-2 bg-[#E7E7E7] border border-[#E7E7E7]" />
 
-                    {/* {navLinks.map((link) => (
+                        {/* {navLinks.map((link) => (
                         <a
                             key={link}
                             href="#"
@@ -431,75 +432,77 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
                         </a>
                     ))} */}
 
-                    {/**DestionList Accordion */}
-                    <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value="destinations">
-                            {/* Accordion Header */}
-                            <AccordionTrigger className="text-[#1A2F46] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1">
-                                All Destinations
-                            </AccordionTrigger>
+                        {/**DestionList Accordion */}
+                        <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="destinations">
+                                {/* Accordion Header */}
+                                <AccordionTrigger className="text-[#1A2F46] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1">
+                                    All Destinations
+                                </AccordionTrigger>
 
-                            {/* Accordion Content — contains all links */}
-                            <AccordionContent className="">
-                                <ScrollArea className="h-64 w-full">
-                                    <div className="flex flex-col gap-2 p-2">
-                                        {allDestinations.map((destination, index) => (
-                                            <div key={destination.label}>
-                                                <Link
-                                                    href={destination.url}
-                                                    className="block px-2 py-2 text-[#1A2F46] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
-                                                >
-                                                    {destination.label}
-                                                </Link>
+                                {/* Accordion Content — contains all links */}
+                                <AccordionContent className="">
+                                    <ScrollArea className="h-64 w-full">
+                                        <div className="flex flex-col gap-2 p-2">
+                                            {allDestinations.map((destination, index) => (
+                                                <div key={destination.label}>
+                                                    <Link
+                                                        href={destination.url}
+                                                        className="block px-2 py-2 text-[#1A2F46] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
+                                                    >
+                                                        {destination.label}
+                                                    </Link>
 
-                                                {/* Separator below each link except the last one */}
-                                                {index !== allDestinations.length - 1 && (
-                                                    <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </ScrollArea>
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
+                                                    {/* Separator below each link except the last one */}
+                                                    {index !== allDestinations.length - 1 && (
+                                                        <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </ScrollArea>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
 
-                    {/* <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" /> */}
+                        {/* <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" /> */}
 
-                    {/**Who are we accordion */}
-                    <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value="who-we-are">
-                            {/* Accordion Header */}
-                            <AccordionTrigger className="text-[#1A2F46] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1">
-                                Who We Are
-                            </AccordionTrigger>
+                        {/**Who are we accordion */}
+                        <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="who-we-are">
+                                {/* Accordion Header */}
+                                <AccordionTrigger className="text-[#1A2F46] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1">
+                                    Who We Are
+                                </AccordionTrigger>
 
-                            {/* Accordion Content — contains all links */}
-                            <AccordionContent className="">
-                                <ScrollArea className="h-64 w-full">
-                                    <div className="flex flex-col gap-2 p-2">
-                                        {whoWeAreOptions.map((option, index) => (
-                                            <div key={option.label}>
-                                                <Link
-                                                    href={option.href}
-                                                    className="block px-2 py-2 text-[#1A2F46] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
-                                                >
-                                                    {option.label}
-                                                </Link>
+                                {/* Accordion Content — contains all links */}
+                                <AccordionContent className="">
+                                    <ScrollArea className="h-64 w-full">
+                                        <div className="flex flex-col gap-2 p-2">
+                                            {whoWeAreOptions.map((option, index) => (
+                                                <div key={option.label}>
+                                                    <Link
+                                                        href={option.href}
+                                                        className="block px-2 py-2 text-[#1A2F46] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
+                                                    >
+                                                        {option.label}
+                                                    </Link>
 
-                                                {/* Separator below each link except the last one */}
-                                                {index !== whoWeAreOptions.length - 1 && (
-                                                    <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mb-2" />
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </ScrollArea>
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
-
-                </nav>
+                                                    {/* Separator below each link except the last one */}
+                                                    {index !== whoWeAreOptions.length - 1 && (
+                                                        <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mb-2" />
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </ScrollArea>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                        {/* Extra spacing at the bottom */}
+                        <div className="h-6" />
+                    </nav>
+                </ScrollArea>
             </div>
 
             {/* Overlay */}

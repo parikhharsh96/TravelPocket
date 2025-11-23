@@ -549,7 +549,7 @@ export default function AllDestinations() {
 
             {/** sort by & Filter sticky section starts here */}
             <section className="lg:hidden">
-                <div className="w-full fixed bottom-0 left-0 right-0 z-100">
+                <div className="w-full fixed bottom-0 left-0 right-0 z-[9999] pb-safe">
                     <div className="rounded-t-[6px] bg-[#1A2F46] shadow-[0_-4px_4px_0_rgba(0,0,0,0.25)] py-2 px-5">
                         <div className="flex flex-row gap-4 items-center justify-center">
                             <div className="px-3 py-3 w-full">
