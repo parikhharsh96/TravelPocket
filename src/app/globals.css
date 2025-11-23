@@ -52,3 +52,7 @@ body {
     color: transparent;
   }
 }
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
