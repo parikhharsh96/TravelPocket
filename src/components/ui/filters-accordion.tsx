@@ -6,6 +6,11 @@ import { ChevronDownIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+interface AccordionTriggerProps
+  extends React.ComponentProps<typeof AccordionPrimitive.Trigger> {
+  iconColor?: string; // pass any tailwind color class (e.g., "text-white")
+}
+
 function Accordion({
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
@@ -26,26 +31,57 @@ function AccordionItem({
   )
 }
 
+// function AccordionTrigger({
+//   className,
+//   children,
+//   ...props
+// }: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
+//   return (
+//     <AccordionPrimitive.Header className="flex">
+//       <AccordionPrimitive.Trigger
+//         data-slot="accordion-trigger"
+//         className={cn(
+//           "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start items-center justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180", //hover:underline
+//           className
+//         )}
+//         {...props}
+//       >
+//         {children}
+//         <ChevronDownIcon className="text-[#292D32] pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+//       </AccordionPrimitive.Trigger>
+//     </AccordionPrimitive.Header>
+//   )
+// }
+
+
 function AccordionTrigger({
   className,
   children,
+  iconColor, // optional
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Trigger>) {
+}: AccordionTriggerProps) {
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start items-center justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180", //hover:underline
+          "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start items-center justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180",
           className
         )}
         {...props}
       >
         {children}
-        <ChevronDownIcon className="text-[#292D32] pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200" />
+
+        {/* Chevron Icon */}
+        <ChevronDownIcon
+          className={cn(
+            "pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200",
+            iconColor ? iconColor : "text-[#292D32]" // default old color
+          )}
+        />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
-  )
+  );
 }
 
 function AccordionContent({

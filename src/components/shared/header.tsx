@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import React from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -29,8 +29,22 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/filters-accordion";
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupButton,
+    InputGroupInput,
+    InputGroupText,
+    InputGroupTextarea,
+} from "@/components/ui/input-group"
 import { ScrollArea } from "../ui/scroll-area";
 import { useRouter } from "next/navigation";
+
+interface HeaderProps {
+    bgColor?: string; // pass tailwind background class
+    rounded?: string;
+    showSearch?: boolean;
+}
 
 const whoWeAreOptions = [
     { label: "About us", href: "/about-us" },
@@ -79,7 +93,7 @@ const iconRoutes: Record<string, string> = {
 }
 
 
-export default function Header() {
+export default function Header({ bgColor, rounded, showSearch = false }: HeaderProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [openIndex, setOpenIndex] = useState<number | null>(null);
     const [popoverOpen, setPopoverOpen] = useState(false);
@@ -93,7 +107,12 @@ export default function Header() {
         { label: "FAQs", href: "/faqs" },
         { label: "Contact", href: "/contact-us" },
     ];
-    const icons = ["magnifiying-glass", "wishlist", "cart", "user"];
+    const icons = [
+        ...(!showSearch ? ["magnifiying-glass"] : []),
+        "wishlist",
+        "cart",
+        "user"
+    ];
 
     const handleIconClick = (icon: string) => {
         const route = iconRoutes[icon]
@@ -112,7 +131,11 @@ export default function Header() {
     };
 
     return (
-        <header className="w-full overflow-x-hidden relative bg-white rounded-md" style={{ boxShadow: "0 0 6px 0 rgba(0, 0, 0, 0.12)" }}>
+        // <header className="w-full overflow-x-hidden relative bg-white rounded-md" style={{ boxShadow: "0 0 6px 0 rgba(0, 0, 0, 0.12)" }}>
+        <header
+            className={`w-full overflow-x-hidden relative ${rounded ?? "rounded-md"} ${bgColor ?? "bg-white"}`}
+            style={{ boxShadow: "0 0 6px 0 rgba(0, 0, 0, 0.12)" }}
+        >
             {/* Top Bar */}
             <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap justify-between items-center gap-2">
                 {/* Left Section */}
@@ -160,7 +183,7 @@ export default function Header() {
                 </div>
             </div>
 
-            <Separator orientation="horizontal" className="bg-[#BBB] my-1" />
+            <Separator orientation="horizontal" className="bg-[#BBB] my-1 h-[1px]" />
 
             {/* Bottom Bar */}
             <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-2 py-2">
@@ -281,7 +304,7 @@ export default function Header() {
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]" onClick={navigateToPackages}tabIndex={-1}>
+             hover:bg-[position:0_0]" onClick={navigateToPackages} tabIndex={-1}>
                                                 <div className="flex flex-row gap-[10px] justify-center items-center">
                                                     <div className="text-[#E97737] font-['Figtree'] text-[14px] font-semibold leading-normal uppercase group-hover:text-white">View all</div>
                                                     <div className="">
@@ -486,6 +509,24 @@ export default function Header() {
                         className="fixed inset-0 bg-opacity-30 z-40"
                         onClick={() => setIsMenuOpen(false)}
                     />
+                )
+            }
+
+            {
+                showSearch && (
+                    <div className="px-6 pb-4 pt-1">
+                        <InputGroup
+                            className="[&[data-slot=input-group]]:border-0 [&[data-slot=input-group]]:shadow-none [&[data-slot=input-group]]:bg-[#DDF9FF] [&[data-slot=input-group]]:focus-within:ring-0 text-[#000000] placeholder-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-normal"
+                        >
+                            <InputGroupInput
+                                placeholder="Search..."
+                                className="bg-[#DDF9FF] !border-0 !shadow-none !focus:ring-0 !outline-none text-[#000000] placeholder-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-normal"
+                            />
+                            <InputGroupAddon className="bg-[#DDF9FF]">
+                                <Search className="w-4 h-4 text-[#1A2F46]" />
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
                 )
             }
         </header >

@@ -38,9 +38,17 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/filters-accordion";
 import { ChevronDown } from "lucide-react";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import React from "react"
+import { ScrollArea } from "../ui/scroll-area"
+import Header from "../shared/header"
 
 
 const topLinks = [
@@ -157,18 +165,18 @@ export default function HomeHeroSection() {
     <div className="min-h-screen bg-[#ffffff]">
       {/* Top Banner */}
       <div className="bg-[#242A3A] py-2 px-4 text-center">
-        <div className="flex flex-col sm:inline-flex sm:flex-row items-center gap-2">
+        <div className="flex flex-col sm:inline-flex sm:flex-row items-center gap-1 lg:gap-2">
           <div className="flex items-center gap-2">
             <img src="/images/microphone.gif" alt="Announcement" className="w-6 h-6" />
-            <span className="text-white font-['Figtree'] text-[14px] font-normal leading-normal">Registrations Now Open for <span className="font-semibold">Kailash Mansarovar Yatra 2025 Parikrama!</span> Secure your seat
+            <span className="text-white font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal">Registrations Now Open for <span className="font-semibold">Kailash Mansarovar Yatra 2025 Parikrama!</span> Secure your seat
               today!</span>
           </div>
           <Button
             variant="link"
             size="sm"
-            className="mt-2 sm:mt-0 bg-transparent px-1"
+            className="mt-0 lg:mt-2 sm:mt-0 bg-transparent px-0 lg:px-1"
           >
-            <span className="text-white font-['Figtree'] text-[14px] font-semibold leading-normal underline underline-offset-auto decoration-solid uppercase">REGISTER NOW</span>
+            <span className="text-white font-['Figtree'] text-[12px] lg:text-[14px] font-semibold leading-normal underline underline-offset-auto decoration-solid uppercase">REGISTER NOW</span>
           </Button>
         </div>
       </div>
@@ -184,30 +192,11 @@ export default function HomeHeroSection() {
         <div className="absolute inset-0 bg-black/30"></div>
 
         {/* Content with relative positioning */}
-        <div className="relative z-10 px-2 sm:px-4">
+        <div className="relative z-10">
           {/* Header */}
-          <header className="border-b border-[#ffffff]/20 py-3">
-            <div className="mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+          <header className="hidden lg:block border-b border-[#]/20 py-3 px-2 sm:px-4">
+            <div className="mx-auto flex flex-col lg:flex-row items-center justify-between gap-4 pr-4">
               {/* Social Links & Contact */}
-              {/* <div className="flex items-center gap-4 text-sm text-[#ffffff]">
-                <div className="flex gap-2 pr-4 border-r border-[#ffffff]/20">
-                  <img src="/images/header/facebook.svg" alt="Facebook" className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer" />
-                  <img src="/images/header/logo_51.svg" alt="Logo" className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer" />
-                  <img src="/images/header/instagram.svg" alt="Instagram" className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer" />
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="flex items-center gap-1 pr-4 border-r border-[#ffffff]/20">
-                    <Calendar className="w-4 h-4 text-[#ffffff]" />
-                    <span className="hidden sm:inline">2025 CALENDAR</span>
-                    <span className="sm:hidden">CALENDAR</span>
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Phone className="w-4 h-4 text-[#ffffff]" />
-                    <span className="hidden sm:inline">+91 78270-33601</span>
-                    <span className="sm:hidden">CALL</span>
-                  </span>
-                </div>
-              </div> */}
 
               <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                 <div className="flex items-center gap-2 sm:gap-4">
@@ -233,21 +222,6 @@ export default function HomeHeroSection() {
 
               {/* Top Navigation - Desktop */}
               <nav className="hidden lg:flex items-center gap-6 text-sm text-[#ffffff]">
-                {/* <a href="#" className="hover:text-[#e97737]">
-                  BLOGS
-                </a>
-                <a href="#" className="hover:text-[#e97737]">
-                  JOIN POCKETCLUB
-                </a>
-                <a href="#" className="hover:text-[#e97737]">
-                  OFFERS
-                </a>
-                <a href="#" className="hover:text-[#e97737]">
-                  FAQS
-                </a>
-                <a href="#" className="hover:text-[#e97737]">
-                  CONTACT
-                </a> */}
                 {topLinks.map(link => (
                   // <a key={link} href="#" className={`text-[#333] font-[Figtree] text-[12px] md:text-[12px] lg:text-[14px] uppercase ${link !== "FAQs" ? "hidden lg:block" : ""}`}>{link}</a>
                   <Link
@@ -275,9 +249,11 @@ export default function HomeHeroSection() {
             </div>
           </header>
 
+          <div className="lg:hidden"><Header bgColor="bg-[#ffffff]" rounded="rounded-none" showSearch={true} /></div>
+
           {/* Mobile Menu Overlay */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden fixed top-0 left-0 right-0 bottom-0 bg-[#1a2f46]/95 backdrop-blur-sm z-50">
+            <div className="hidden lg:hidden fixed top-0 left-0 right-0 bottom-0 bg-[#1a2f46]/95 backdrop-blur-sm z-50">
               <div className="flex justify-end p-4">
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -290,44 +266,97 @@ export default function HomeHeroSection() {
               <div className="px-4 py-6 space-y-4">
                 {/* Top Navigation Links */}
                 <div className="space-y-3">
-                  <a href="#" className="block text-[#ffffff] hover:text-[#e97737] py-2 text-sm font-medium">
-                    BLOGS
-                  </a>
-                  <a href="#" className="block text-[#ffffff] hover:text-[#e97737] py-2 text-sm font-medium">
-                    JOIN POCKETCLUB
-                  </a>
-                  <a href="#" className="block text-[#ffffff] hover:text-[#e97737] py-2 text-sm font-medium">
-                    OFFERS
-                  </a>
-                  <a href="#" className="block text-[#ffffff] hover:text-[#e97737] py-2 text-sm font-medium">
-                    FAQS
-                  </a>
-                  <a href="#" className="block text-[#ffffff] hover:text-[#e97737] py-2 text-sm font-medium">
-                    CONTACT
-                  </a>
-                </div>
+                  <nav className="flex flex-col gap-4 px-6 mt-4">
+                    {topLinks.map((link) => (
+                      <Link
+                        key={link.label}
+                        href={link.href}
+                        className="text-[#FFFFFF] font-['Figtree'] text-[12px] md:text-[12px] font-semibold lg:text-[14px] uppercase hover:text-[#E97737] transition-colors"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
 
-                <div className="border-t border-[#ffffff]/20 pt-4 space-y-3">
-                  <a href="#" className="block text-[#ffffff] hover:text-[#e97737] py-2 text-sm font-medium">
-                    KAILASH MANSAROVAR
-                  </a>
-                  <a href="#" className="block text-[#ffffff] hover:text-[#e97737] py-2 text-sm font-medium">
-                    ADI KAILASH
-                  </a>
-                  <a href="#" className="block text-[#ffffff] hover:text-[#e97737] py-2 text-sm font-medium">
-                    ALL DESTINATIONS
-                  </a>
-                  <a href="#" className="block text-[#ffffff] hover:text-[#e97737] py-2 text-sm font-medium">
-                    WHO WE ARE
-                  </a>
+                    <Separator orientation="horizontal" className="my-2 bg-[#E7E7E7] border border-[#E7E7E7]" />
+
+                    {/**DestionList Accordion */}
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value="destinations">
+                        {/* Accordion Header */}
+                        <AccordionTrigger className="text-[#FFFFFF] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1" iconColor="text-[#FFFFFF]">
+                          All Destinations
+                        </AccordionTrigger>
+
+                        {/* Accordion Content — contains all links */}
+                        <AccordionContent className="">
+                          <ScrollArea className="h-64 w-full">
+                            <div className="flex flex-col gap-2 p-2">
+                              {allDestinations.map((destination, index) => (
+                                <div key={destination.label}>
+                                  <Link
+                                    href={destination.url}
+                                    className="block px-2 py-2 text-[#FFFFFF] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
+                                  >
+                                    {destination.label}
+                                  </Link>
+
+                                  {/* Separator below each link except the last one */}
+                                  {index !== allDestinations.length - 1 && (
+                                    <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </ScrollArea>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+
+                    {/* <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" /> */}
+
+                    {/**Who are we accordion */}
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value="who-we-are">
+                        {/* Accordion Header */}
+                        <AccordionTrigger iconColor="text-[#FFFFFF]" className="text-[#FFFFFF] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1">
+                          Who We Are
+                        </AccordionTrigger>
+
+                        {/* Accordion Content — contains all links */}
+                        <AccordionContent className="">
+                          <ScrollArea className="h-64 w-full">
+                            <div className="flex flex-col gap-2 p-2">
+                              {whoWeAreOptions.map((option, index) => (
+                                <div key={option.label}>
+                                  <Link
+                                    href={option.href}
+                                    className="block px-2 py-2 text-[#FFFFFF] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
+                                  >
+                                    {option.label}
+                                  </Link>
+
+                                  {/* Separator below each link except the last one */}
+                                  {index !== whoWeAreOptions.length - 1 && (
+                                    <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mb-2" />
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </ScrollArea>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+
+                  </nav>
                 </div>
               </div>
             </div>
           )}
 
           {/* Main Navigation */}
-          <nav className="py-4">
-            <div className="mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+          <nav className="py-4 px-2 sm:px-4 hidden lg:block">
+            <div className="mx-auto flex flex-col lg:flex-row items-center justify-between gap-4 pr-4">
               {/* Logo */}
               <div className="flex items-center">
                 <div className="flex-shrink-0 cursor-pointer" onClick={navigateToHome}>
@@ -549,10 +578,10 @@ export default function HomeHeroSection() {
           </nav>
 
           {/* Hero Section */}
-          <main className="mx-auto py-8 sm:py-16">
+          <main className="mx-auto py-8 sm:py-16 px-2 sm:px-4">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content */}
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-2 text-center lg:text-left">
                 <div className="mb-8 rounded-lg p-4 sm:p-8">
                   <h1 className="text-white font-['Playfair_Display'] text-[36px] lg:text-[86px] font-bold leading-[42px] lg:leading-[90px] mb-4">
                     Kailash
@@ -582,7 +611,7 @@ export default function HomeHeroSection() {
               <div className="rounded-[8px] bg-[rgba(0,0,0,0.20)] backdrop-blur-[4px] p-4 sm:p-6 h-fit max-w-sm mx-auto lg:mx-0">
                 <h3 className="text-white text-center font-['Figtree'] text-[14px] lg:text-[20px] font-medium leading-normal mb-4 sm:mb-6">Inclusions</h3>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
                   <div className="text-center flex flex-col gap-2 items-center">
                     <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center">
                       {/* <Utensils className="w-5 sm:w-6 h-5 sm:h-6 text-[#ffffff]" /> */}
@@ -654,7 +683,7 @@ export default function HomeHeroSection() {
                     <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">Modes of Transportation</p>
                   </div>
 
-                  <div className="text-center flex flex-col gap-2 items-center">
+                  <div className="text-center hidden lg:flex flex-col gap-2 items-center">
                     <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center mx-auto">
                       {/* <Building className="w-5 sm:w-6 h-5 sm:h-6 text-[#ffffff]" /> */}
                       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="52" viewBox="0 0 50 52" fill="none">
@@ -673,7 +702,7 @@ export default function HomeHeroSection() {
                     </p>
                   </div>
 
-                  <div className="text-center flex flex-col gap-2 items-center">
+                  <div className="text-center hidden lg:flex flex-col gap-2 items-center">
                     <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center">
                       {/* <Wind className="w-5 sm:w-6 h-5 sm:h-6 text-[#ffffff]" /> */}
                       <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
@@ -695,7 +724,7 @@ export default function HomeHeroSection() {
                     </p>
                   </div>
 
-                  <div className="text-center flex flex-col gap-2 items-center">
+                  <div className="text-center hidden lg:flex flex-col gap-2 items-center">
                     <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center">
                       {/* <MoreHorizontal className="w-5 sm:w-6 h-5 sm:h-6 text-[#ffffff]" /> */}
                       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
@@ -731,7 +760,7 @@ export default function HomeHeroSection() {
             </div>
 
             {/* Search Section */}
-            <div className="mt-12 sm:mt-24 py-8">
+            <div className="mt-12 sm:mt-24 py-8 hidden lg:block">
               <div className="mx-auto">
                 <h2 className="text-white text-center font-['Figtree'] text-[18px] lg:text-[20px] font-semibold leading-normal mb-6 sm:mb-8 py-4">
                   Where Will You Go Next?
@@ -878,6 +907,27 @@ export default function HomeHeroSection() {
           </main>
         </div>
       </div>
+
+      <section className="container mx-auto lg:hidden"> {/**max-w-[1920px] */}
+        <div className="w-full fixed bottom-0 left-0 right-0 z-100">
+          <div className="bg-[#D06225] px-4 py-3">
+            <div className="flex flex-row justify-between">
+              <div className="flex flex-row gap-[4px] shrink-0 items-center cursor-pointer">
+                <img src="/images/detailpage/call_white.svg" alt="" className="" />
+                <div className="text-white text-center font-['Figtree'] text-[13px] font-semibold leading-[normal] capitalize">
+                  Request
+                  <span className="lowercase"> a </span>
+                  call back
+                </div>
+              </div>
+              <div className="flex flex-row gap-[6px] shrink-0 items-center cursor-pointer">
+                <div className="text-white font-['Figtree'] text-[13px] font-semibold leading-[normal] capitalize">Chat with us</div>
+                <img src="/images/detailpage/whatsapp_white.svg" alt="" className="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

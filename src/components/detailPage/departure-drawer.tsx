@@ -6,6 +6,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/u
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@radix-ui/react-separator"
+import { useRouter } from "next/navigation";
 
 interface DepartureDrawerProps {
     open: boolean
@@ -59,6 +60,13 @@ const departures = [
 ]
 
 export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
+
+    const router = useRouter();
+
+    const nagivateToBooking = () => {
+        router.push("/booking");
+    };
+
     return (
         <Drawer open={open} onOpenChange={onOpenChange}>
             {/* open drawer to 90% of viewport height */}
@@ -181,7 +189,7 @@ export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
                                                     </div>
 
                                                     <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
                                                             <div className="flex items-center justify-center">
                                                                 <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                             </div>
@@ -262,7 +270,7 @@ export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
                                                     </div>
 
                                                     <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
                                                             <div className="flex items-center justify-center">
                                                                 <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                             </div>
@@ -343,7 +351,7 @@ export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
                                                     </div>
 
                                                     <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
                                                             <div className="flex items-center justify-center">
                                                                 <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                             </div>
@@ -424,7 +432,7 @@ export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
                                                     </div>
 
                                                     <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
                                                             <div className="flex items-center justify-center">
                                                                 <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                             </div>
@@ -505,7 +513,7 @@ export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
                                                     </div>
 
                                                     <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }}>
+                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
                                                             <div className="flex items-center justify-center">
                                                                 <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                             </div>
@@ -586,7 +594,7 @@ export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
                                                     </div>
 
                                                     <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" style={{ padding: "10px 10px" }}>
+                                                        <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
                                                             <div className="flex items-center justify-center">
                                                                 <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                             </div>
@@ -667,7 +675,7 @@ export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
                                                     </div>
 
                                                     <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" style={{ padding: "10px 10px" }}>
+                                                        <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
                                                             <div className="flex items-center justify-center">
                                                                 <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                             </div>
