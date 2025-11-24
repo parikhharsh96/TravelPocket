@@ -100,10 +100,21 @@ async function apiCall<T = unknown>(
       headers['Authorization'] = `Bearer ${token}`;
     }
 
-    // Make the request
+    const method = (options.method || 'GET').toUpperCase();
+    console.info('[API] Request start', {
+      method,
+      endpoint,
+    });
+
     const response = await fetch(endpoint, {
       ...options,
       headers,
+    });
+
+    console.info('[API] Response received', {
+      method,
+      endpoint,
+      status: response.status,
     });
 
     if (response.status === 401) {
@@ -120,6 +131,12 @@ async function apiCall<T = unknown>(
           ...options,
           headers: retryHeaders,
           body: options.body,
+        });
+
+        console.info('[API] Retry response received', {
+          method,
+          endpoint,
+          status: retryResponse.status,
         });
 
         if (!retryResponse.ok) {
