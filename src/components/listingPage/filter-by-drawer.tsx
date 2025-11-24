@@ -8,10 +8,14 @@ import { filterGroups } from "@/data/filters";
 import { useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
+import { FilterState } from "@/lib/filter-utils";
 
 interface FilterByDrawerProps {
     open: boolean
     onOpenChange: (open: boolean) => void
+    filters: FilterState
+    onFilterChange: (groupKey: keyof FilterState, value: string, checked?: boolean) => void
+    onClearAll: () => void
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data?: any
 }
@@ -54,28 +58,9 @@ const filterOptions: Record<FilterCategory, FilterOption[]> = {
     ],
 };
 
-export function FilterByDrawer({ open, onOpenChange, data }: FilterByDrawerProps) {
+export function FilterByDrawer({ open, onOpenChange, filters, onFilterChange, onClearAll, data }: FilterByDrawerProps) {
 
     const [activeKey, setActiveKey] = useState<string>(filterGroups[0].key);
-    // Track selected checkboxes per group key and multiple selections
-    const [selectedValues, setSelectedValues] = useState<Record<string, Set<string>>>(
-        {}
-    );
-
-    const toggleCheckbox = (groupKey: string, value: string) => {
-        setSelectedValues((prev) => {
-            const currentSet = prev[groupKey] ?? new Set<string>();
-            const newSet = new Set(currentSet);
-
-            if (newSet.has(value)) {
-                newSet.delete(value);
-            } else {
-                newSet.add(value);
-            }
-
-            return { ...prev, [groupKey]: newSet };
-        });
-    };
 
     const activeGroup = filterGroups.find((g) => g.key === activeKey)!;
 
@@ -127,11 +112,10 @@ export function FilterByDrawer({ open, onOpenChange, data }: FilterByDrawerProps
                                 <select
                                     className="w-full border border-gray-300 rounded px-2 py-1 text-[#464646] font-['Figtree'] text-[14px] font-normal leading-normal"
                                     name={activeGroup.key}
-                                    defaultValue=""
+                                    value={filters.month || ""}
+                                    onChange={(e) => onFilterChange("month", e.target.value, !!e.target.value)}
                                 >
-                                    <option value="" disabled>
-                                        Select {activeGroup.title}
-                                    </option>
+                                    <option value="">Select {activeGroup.title}</option>
                                     {activeGroup.options.map((opt) => (
                                         <option key={opt.value} value={opt.value}>
                                             {opt.label}
@@ -140,40 +124,52 @@ export function FilterByDrawer({ open, onOpenChange, data }: FilterByDrawerProps
                                 </select>
                             ) : activeGroup.type === "label" ? (
                                 <div className="flex flex-row gap-[16px] flex-wrap items-center">
-                                    {activeGroup.options.map((option) => (
-                                        <div
-                                            key={option.value}
-                                            className="rounded-[8px] border border-[#D2D8E4] bg-white px-3 py-3"
-                                        >
-                                            <div className="flex items-center">
-                                                <div className="text-[#1A2F46] font-['Figtree'] text-[14px] font-normal leading-normal">
-                                                    {option.label}
+                                    {activeGroup.options.map((option) => {
+                                        const isSelected = filters.packageType === option.value;
+                                        return (
+                                            <div
+                                                key={option.value}
+                                                className={`rounded-[8px] border px-3 py-3 cursor-pointer transition-colors ${
+                                                    isSelected
+                                                        ? "border-[#1C8CA7] bg-[#1C8CA7]"
+                                                        : "border-[#D2D8E4] bg-white"
+                                                }`}
+                                                onClick={() => onFilterChange("packageType", option.value, !isSelected)}
+                                            >
+                                                <div className="flex items-center">
+                                                    <div className={`font-['Figtree'] text-[14px] font-normal leading-normal ${
+                                                        isSelected ? "text-white" : "text-[#1A2F46]"
+                                                    }`}>
+                                                        {option.label}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             ) : (
                                 // Checkbox group
                                 <div className="flex flex-col gap-[16px]">
                                     {activeGroup.options.map((opt) => {
-                                        const checked =
-                                            selectedValues[activeGroup.key]?.has(opt.value) ?? false;
+                                        const filterKey = activeGroup.key as keyof FilterState;
+                                        const isChecked = filterKey === "price" || filterKey === "duration" || filterKey === "destinations"
+                                            ? (filters[filterKey] as Set<string>).has(opt.value)
+                                            : false;
                                          return (
                                              <div
                                                  key={opt.value}
                                                 className="flex flex-row gap-[10px] items-center"
                                              >
                                                  <Checkbox
-                                                     id={opt.value}
-                                                     checked={checked}
-                                                    onChange={() =>
-                                                        toggleCheckbox(activeGroup.key, opt.value)
+                                                     id={`drawer-${filterKey}-${opt.value}`}
+                                                     checked={isChecked}
+                                                    onCheckedChange={(checked) =>
+                                                        onFilterChange(filterKey, opt.value, checked === true)
                                                     }
                                                      className="rounded-[2px] border border-[#D2D8E4] bg-white
                                                                  data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"
                                                  />
-                                                 <Label htmlFor={opt.value} className="text-black font-['Figtree'] text-[14px] font-normal leading-normal">{opt.label}</Label>
+                                                 <Label htmlFor={`drawer-${filterKey}-${opt.value}`} className="text-black font-['Figtree'] text-[14px] font-normal leading-normal cursor-pointer">{opt.label}</Label>
                                              </div>
                                          );
                                      })}
@@ -183,12 +179,22 @@ export function FilterByDrawer({ open, onOpenChange, data }: FilterByDrawerProps
                     </div>
                 </ScrollArea>
                 <div className="bg-white shadow-[0_-4px_14px_0_rgba(0,0,0,0.10)] flex flex-row items-center gap-2 justify-between px-4 py-3">
-                    <Button type="button" variant="outline" className="bg-[#DDF9FF] rounded-[8px] border border-[#DDF9FF] cursor-pointer">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="bg-[#DDF9FF] rounded-[8px] border border-[#DDF9FF] cursor-pointer"
+                        onClick={onClearAll}
+                    >
                         <div className="flex flex-row items-center px-2">
                             <span className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] font-semibold leading-normal">Clear all</span>
                         </div>
                     </Button>
-                    <Button type="button" variant="outline" className="bg-[#1A2F46] rounded-[8px] border border-[#DDF9FF] cursor-pointer">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="bg-[#1A2F46] rounded-[8px] border border-[#DDF9FF] cursor-pointer"
+                        onClick={() => onOpenChange(false)}
+                    >
                         <div className="flex flex-row items-center px-2">
                             <span className="text-white text-center font-['Figtree'] text-[14px] font-semibold leading-normal">Apply</span>
                         </div>
