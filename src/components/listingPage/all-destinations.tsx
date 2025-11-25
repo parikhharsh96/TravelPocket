@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 import { Separator } from "@radix-ui/react-separator";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ArrowRight, Calendar, CheckCircle, MapPin } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, CheckCircle, MapPin, X } from "lucide-react";
 import Link from "next/link";
 import {
     Accordion,
@@ -31,6 +31,15 @@ import { FilterByDrawer } from "./filter-by-drawer";
 import { Destination, destinations } from "@/data/destinations";
 import React from "react";
 import { useRouter } from "next/navigation";
+import {
+    FilterState,
+    initialFilterState,
+    applyFilters,
+    getFilterLabel,
+    hasActiveFilters,
+    clearAllFilters,
+} from "@/lib/filter-utils";
+import { applySort, SortOption, DEFAULT_SORT } from "@/lib/sort-utils";
 
 const packages = [
     {
@@ -174,7 +183,79 @@ export default function AllDestinations() {
     const [openSortDrawer, setOpenSortDrawer] = useState(false);
     const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
     const [visibleCount, setVisibleCount] = useState(6); // initial 6 items
+    const [filters, setFilters] = useState<FilterState>(initialFilterState);
+    const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_SORT);
     const router = useRouter();
+
+    // Map tour options to destination keywords
+    const getTourOptionKeywords = (option: string): string[] => {
+        const optionMap: Record<string, string[]> = {
+            "All": [],
+            "Most Popular": [],
+            "Adi Kailash & Om Parvat Yatra": ["adi kailash", "om parvat"],
+            "Kailash Mansarover Darshan": ["kailash mansarovar", "kailash mansarover"],
+            "Kailash Mansarover Aerial Darshan": ["kailash", "helicopter"],
+            "Nepal: Land Of Gods & Monasteries": ["nepal", "muktinath", "pashupatinath"],
+            "Chardham Yatra": ["char dham", "chardham"],
+            "Kedarnath": ["kedarnath"],
+        };
+        return optionMap[option] || [];
+    };
+
+    // Apply tour option filters
+    const applyTourOptionFilters = (dests: Destination[]): Destination[] => {
+        // If "All" is selected, show all destinations
+        const hasAll = selected.includes("All");
+        const otherOptions = selected.filter(opt => opt !== "All");
+        
+        if (hasAll) {
+            // "All" is selected, show everything
+            return dests;
+        }
+
+        // If no options selected, show all (shouldn't happen as "All" is default)
+        if (otherOptions.length === 0) {
+            return dests;
+        }
+
+        // Filter by selected options
+        return dests.filter((dest) => {
+            const titleLower = dest.title.toLowerCase();
+            const descriptionLower = dest.description.toLowerCase();
+            const combinedText = `${titleLower} ${descriptionLower}`;
+
+            // Check if destination matches any selected option
+            return otherOptions.some((option) => {
+                // Handle "Most Popular" separately
+                if (option === "Most Popular") {
+                    return dest.isPopular;
+                }
+
+                // Handle destination keyword filters
+                const keywords = getTourOptionKeywords(option);
+                if (keywords.length === 0) return false;
+                return keywords.some((keyword) =>
+                    combinedText.includes(keyword.toLowerCase())
+                );
+            });
+        });
+    };
+
+    // Apply filters to destinations
+    const filteredDestinations = useMemo(() => {
+        const filtered = applyFilters(destinations, filters);
+        return applyTourOptionFilters(filtered);
+    }, [filters, selected]);
+
+    // Apply sorting to filtered destinations
+    const sortedAndFilteredDestinations = useMemo(() => {
+        return applySort(filteredDestinations, sortBy);
+    }, [filteredDestinations, sortBy]);
+
+    // Reset visible count when filters, sort, or tour options change
+    React.useEffect(() => {
+        setVisibleCount(6);
+    }, [filters, sortBy, selected]);
 
     const navigateToPackageDetails = () => {
         router.push("/details"); //need to add dynamic routing later
@@ -192,22 +273,132 @@ export default function AllDestinations() {
         setVisibleCount((prev) => prev + 6);
     };
 
-    const allLoaded = visibleCount >= destinations.length;
+    const allLoaded = visibleCount >= sortedAndFilteredDestinations.length;
+
+    // Sort handler
+    const handleSortChange = (newSort: SortOption) => {
+        setSortBy(newSort);
+        setOpenSortDrawer(false);
+    };
+
+    // Filter handlers
+    const handleFilterChange = (groupKey: keyof FilterState, value: string, checked?: boolean) => {
+        setFilters((prev) => {
+            const newFilters = { ...prev };
+
+            if (groupKey === "month" || groupKey === "packageType") {
+                // Single select
+                newFilters[groupKey] = checked ? value : null;
+            } else {
+                // Multi-select (Set)
+                const newSet = new Set(newFilters[groupKey] as Set<string>);
+                if (checked) {
+                    newSet.add(value);
+                } else {
+                    newSet.delete(value);
+                }
+                newFilters[groupKey] = newSet as any;
+            }
+
+            return newFilters;
+        });
+    };
+
+    const handleClearAllFilters = () => {
+        setFilters(clearAllFilters());
+    };
+
+    const handleRemoveFilter = (groupKey: keyof FilterState, value: string) => {
+        setFilters((prev) => {
+            const newFilters = { ...prev };
+
+            if (groupKey === "month" || groupKey === "packageType") {
+                newFilters[groupKey] = null;
+            } else {
+                const newSet = new Set(newFilters[groupKey] as Set<string>);
+                newSet.delete(value);
+                newFilters[groupKey] = newSet as any;
+            }
+
+            return newFilters;
+        });
+    };
+
+    // Get active filter chips for display
+    const getActiveFilterChips = () => {
+        const chips: Array<{ groupKey: keyof FilterState; value: string; label: string }> = [];
+
+        // Price filters
+        filters.price.forEach((value) => {
+            chips.push({ groupKey: "price", value, label: getFilterLabel("price", value) });
+        });
+
+        // Duration filters
+        filters.duration.forEach((value) => {
+            chips.push({ groupKey: "duration", value, label: getFilterLabel("duration", value) });
+        });
+
+        // Month filter
+        if (filters.month) {
+            chips.push({ groupKey: "month", value: filters.month, label: getFilterLabel("month", filters.month) });
+        }
+
+        // Package type filter
+        if (filters.packageType && filters.packageType !== "all") {
+            chips.push({ groupKey: "packageType", value: filters.packageType, label: getFilterLabel("packageType", filters.packageType) });
+        }
+
+        // Destination filters
+        filters.destinations.forEach((value) => {
+            chips.push({ groupKey: "destinations", value, label: getFilterLabel("destinations", value) });
+        });
+
+        return chips;
+    };
 
     const toggleOption = (option: string): void => {
         setSelected((prevSelected) => {
-            console.log(prevSelected);
-            if (prevSelected.includes(option)) {
-                // Remove the option
-                return prevSelected.filter((item) => item !== option);
+            const otherOptions = tourOptions.filter(opt => opt !== "All");
+            
+            if (option === "All") {
+                // If "All" is clicked
+                if (prevSelected.includes("All")) {
+                    // If "All" is already selected, deselect it
+                    return prevSelected.filter((item) => item !== "All");
+                } else {
+                    // If "All" is not selected, select "All" (which means all options)
+                    return ["All", ...otherOptions];
+                }
             } else {
-                // Add the option
-                return [...prevSelected, option];
+                // For other options
+                if (prevSelected.includes(option)) {
+                    // Remove the option
+                    const newSelected = prevSelected.filter((item) => item !== option && item !== "All");
+                    
+                    // If no options left, select "All"
+                    if (newSelected.length === 0) {
+                        return ["All"];
+                    }
+                    
+                    // Check if all other options are still selected
+                    const allSelected = otherOptions.every(opt => 
+                        opt === option || newSelected.includes(opt)
+                    );
+                    
+                    // If all are selected, add "All", otherwise don't include "All"
+                    return allSelected ? ["All", ...newSelected] : newSelected;
+                } else {
+                    // Add the option
+                    const newSelected = [...prevSelected.filter((item) => item !== "All"), option];
+                    
+                    // Check if all options are now selected
+                    const allSelected = otherOptions.every(opt => newSelected.includes(opt));
+                    
+                    // If all options are selected, include "All"
+                    return allSelected ? ["All", ...newSelected] : newSelected;
+                }
             }
         });
-
-        console.log(selected);
-        console.log(option);
     };
 
 
@@ -300,7 +491,16 @@ export default function AllDestinations() {
                             <div className="flex flex-col gap-4 w-full">
                                 <div className="flex flex-row justify-between items-center">
                                     <div className="text-black font-['Figtree'] text-[20px] font-semibold leading-normal not-italic">Filter by</div>
-                                    <div className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-normal not-italic cursor-pointer">Clear all</div>
+                                    <div
+                                        className={`font-['Figtree'] text-[14px] font-normal leading-normal not-italic ${
+                                            hasActiveFilters(filters)
+                                                ? "text-[#4D4D4D] cursor-pointer hover:text-[#1A2F46]"
+                                                : "text-[#4D4D4D] opacity-50 cursor-not-allowed"
+                                        }`}
+                                        onClick={hasActiveFilters(filters) ? handleClearAllFilters : undefined}
+                                    >
+                                        Clear all
+                                    </div>
                                 </div>
 
                                 <Accordion type="multiple" defaultValue={filterGroups.map((g: FilterGroup) => g.key)}>
@@ -315,6 +515,8 @@ export default function AllDestinations() {
                                                     <select
                                                         className="w-full border border-gray-300 rounded px-2 py-1"
                                                         name={group.key}
+                                                        value={filters.month || ""}
+                                                        onChange={(e) => handleFilterChange("month", e.target.value, !!e.target.value)}
                                                     >
                                                         <option value="">Select {group.title}</option>
                                                         {group.options.map((opt: FilterOption) => (
@@ -325,24 +527,52 @@ export default function AllDestinations() {
                                                     </select>
                                                 ) : group.type === "label" ? (
                                                     <div className="flex flex-row gap-[16px] flex-wrap items-center">
-                                                        {group.options.map((option: FilterOption) => (
-                                                            <div key={option.value} className="rounded-[8px] border border-[#D2D8E4] bg-white px-3 py-3">
-                                                                <div className="flex items-center">
-                                                                    <div className="text-[#1A2F46] font-['Figtree'] text-[14px] font-normal leading-normal">{option.label}</div>
+                                                        {group.options.map((option: FilterOption) => {
+                                                            const isSelected = filters.packageType === option.value;
+                                                            return (
+                                                                <div
+                                                                    key={option.value}
+                                                                    className={`rounded-[8px] border px-3 py-3 cursor-pointer transition-colors ${
+                                                                        isSelected
+                                                                            ? "border-[#1C8CA7] bg-[#1C8CA7]"
+                                                                            : "border-[#D2D8E4] bg-white"
+                                                                    }`}
+                                                                    onClick={() => handleFilterChange("packageType", option.value, !isSelected)}
+                                                                >
+                                                                    <div className="flex items-center">
+                                                                        <div className={`font-['Figtree'] text-[14px] font-normal leading-normal ${
+                                                                            isSelected ? "text-white" : "text-[#1A2F46]"
+                                                                        }`}>
+                                                                            {option.label}
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        ))}
+                                                            );
+                                                        })}
                                                     </div>
                                                 ) : (
                                                     // Checkbox
                                                     <div className="flex flex-col gap-[16px]">
-                                                        {group.options.map((opt: FilterOption) => (
-                                                            <div key={opt.value} className="flex flex-row gap-[10px] items-center">
-                                                                <Checkbox id={opt.value} className="rounded-[2px] border border-[#D2D8E4] bg-white
-                                                                data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"/>
-                                                                <Label key={opt.value} htmlFor={opt.value} className="text-black font-['Figtree'] text-[14px] font-normal leading-normal">{opt.label}</Label>
-                                                            </div>
-                                                        ))}
+                                                        {group.options.map((opt: FilterOption) => {
+                                                            const filterKey = group.key as keyof FilterState;
+                                                            const isChecked = filterKey === "price" || filterKey === "duration" || filterKey === "destinations"
+                                                                ? (filters[filterKey] as Set<string>).has(opt.value)
+                                                                : false;
+                                                            return (
+                                                                <div key={opt.value} className="flex flex-row gap-[10px] items-center">
+                                                                    <Checkbox
+                                                                        id={`${group.key}-${opt.value}`}
+                                                                        checked={isChecked}
+                                                                        onCheckedChange={(checked) => handleFilterChange(filterKey, opt.value, checked as boolean)}
+                                                                        className="rounded-[2px] border border-[#D2D8E4] bg-white
+                                                                        data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"
+                                                                    />
+                                                                    <Label htmlFor={`${group.key}-${opt.value}`} className="text-black font-['Figtree'] text-[14px] font-normal leading-normal cursor-pointer">
+                                                                        {opt.label}
+                                                                    </Label>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </div>
                                                 )}
                                             </AccordionContent>
@@ -358,19 +588,28 @@ export default function AllDestinations() {
                         <div className="flex flex-col gap-4 lg:flex-row justify-between w-full mb-4">
 
                             <div className="flex flex-row flex-wrap gap-[12px]">
-                                <div className="rounded-[8px] border border-[#1C8CA7] px-3 py-1.5">
-                                    <div className="flex flex-row gap-[10px] items-center">
-                                        <div className="shrink-0 text-[#1C8CA7] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal">₹2,00,000 & Above</div>
-                                        <img src="/images/listingpage/close_brand.svg" alt="close" className="w-[11px] h-[11px] cursor-pointer" />
+                                {getActiveFilterChips().map((chip, index) => (
+                                    <div key={`${chip.groupKey}-${chip.value}-${index}`} className="rounded-[8px] border border-[#1C8CA7] px-3 py-1.5">
+                                        <div className="flex flex-row gap-[10px] items-center">
+                                            <div className="shrink-0 text-[#1C8CA7] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal">
+                                                {chip.label}
+                                            </div>
+                                            <img
+                                                src="/images/listingpage/close_brand.svg"
+                                                alt="close"
+                                                className="w-[11px] h-[11px] cursor-pointer"
+                                                onClick={() => handleRemoveFilter(chip.groupKey, chip.value)}
+                                            />
+                                        </div>
                                     </div>
-                                </div>
+                                ))}
                             </div>
 
                             {/**Sort by starts here */}
                             <div className="hidden lg:flex flex-row gap-[8px] items-center">
                                 <div className="text-[#181818] font-['Figtree'] text-[14px] font-semibold leading-[21px] capitalize">Sort by</div>
                                 <div className="">
-                                    <Select defaultValue={sortOptions[0].value}>
+                                    <Select value={sortBy} onValueChange={(value) => handleSortChange(value as SortOption)}>
                                         <SelectTrigger className="rounded-[4px] border border-[#1C8CA7] bg-white w-[180px] text-[#181818] font-['Figtree'] text-[14px] font-normal leading-[21px] capitalize">
                                             <SelectValue placeholder="Select a value" className="" />
                                         </SelectTrigger>
@@ -393,7 +632,7 @@ export default function AllDestinations() {
                         {/* <div className="flex flex-wrap flex-row gap-[40px]"> */}
                         <div className="grid grid-cols-1 justify-center sm:justify-center sm:flex sm:flex-row sm:flex-wrap lg:flex lg:flex-wrap lg:justify-start lg:flex-row gap-8">
                             {/* {destinations.map((pkg, index) => ( */}
-                            {destinations.slice(0, visibleCount).map((pkg, index) => (
+                            {sortedAndFilteredDestinations.slice(0, visibleCount).map((pkg, index) => (
                                 <React.Fragment key={pkg.id}>
                                     <Card className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl group">
                                         <div className="relative overflow-hidden rounded-t-xl h-48">
@@ -466,8 +705,10 @@ export default function AllDestinations() {
                                         {/* </CardFooter> */}
                                     </Card>
 
-                                    {/** Banner Display Login */}
-                                    {((index === 2 && destinations.length > 2) || destinations.length <= 2) && (
+                                    {/** Banner Display Login - Show after last item if 1-2 items, or after 3rd item if 3+ items */}
+                                    {((index === 0 && sortedAndFilteredDestinations.length === 1) || 
+                                      (index === 1 && sortedAndFilteredDestinations.length === 2) || 
+                                      (index === 2 && sortedAndFilteredDestinations.length > 2)) && (
 
                                         <div className="wave-pattern rounded-[8px] overflow-hidden mt-6 mb-2"
                                             style={{
@@ -574,9 +815,20 @@ export default function AllDestinations() {
             {/** sort by & Filter sticky section ends here */}
 
             {/**SortBy Drawer */}
-            <SortByDrawer open={openSortDrawer} onOpenChange={setOpenSortDrawer} />
+            <SortByDrawer
+                open={openSortDrawer}
+                onOpenChange={setOpenSortDrawer}
+                sortBy={sortBy}
+                onSortChange={handleSortChange}
+            />
             {/**FilterBy Drawer */}
-            <FilterByDrawer open={openFilterDrawer} onOpenChange={setOpenFilterDrawer} />
+            <FilterByDrawer
+                open={openFilterDrawer}
+                onOpenChange={setOpenFilterDrawer}
+                filters={filters}
+                onFilterChange={handleFilterChange}
+                onClearAll={handleClearAllFilters}
+            />
 
         </>
     )

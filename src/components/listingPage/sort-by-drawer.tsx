@@ -6,48 +6,51 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/u
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@radix-ui/react-separator"
+import { SortOption } from "@/lib/sort-utils"
 
 interface SortByDrawerProps {
     open: boolean
     onOpenChange: (open: boolean) => void
+    sortBy: SortOption
+    onSortChange: (sort: SortOption) => void
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data?: any
 }
 
 const filterItems = [
     {
-        id: "popularity",
+        id: "popularity" as SortOption,
         iconSrc: "/images/listingpage/fire.svg",
         text: "Popularity"
     },
     {
-        id: "latest",
+        id: "latest" as SortOption,
         iconSrc: "/images/listingpage/tag-icon.svg",
         text: "Latest"
     },
     {
-        id: "featured",
+        id: "featured" as SortOption,
         iconSrc: "/images/listingpage/star.svg",
         text: "Featured"
     },
     {
-        id: "price-low-to-high",
+        id: "price_low_to_high" as SortOption,
         iconSrc: "/images/listingpage/down.svg",
         text: "Price: Low to High"
     },
     {
-        id: "price-high-to-low",
+        id: "price_high_to_low" as SortOption,
         iconSrc: "/images/listingpage/sort.svg",
         text: "Price: High to Low"
     },
     {
-        id: "discount",
+        id: "discount" as SortOption,
         iconSrc: "/images/listingpage/discount.svg",
         text: "Discount"
     }
 ];
 
-export function SortByDrawer({ open, onOpenChange, data }: SortByDrawerProps) {
+export function SortByDrawer({ open, onOpenChange, sortBy, onSortChange, data }: SortByDrawerProps) {
     return (
         <Drawer open={open} onOpenChange={onOpenChange}>
             <DrawerContent
@@ -71,16 +74,31 @@ export function SortByDrawer({ open, onOpenChange, data }: SortByDrawerProps) {
                 <ScrollArea className="flex-1 overflow-y-auto bg-[#EBF5F7]">
                     <div className="w-full bg-[#EBF5F7] px-5 py-4 h-full">
                         <div className="flex flex-col items-start gap-[18px]">
-                            {filterItems.map((item) => (
-                                <button
-                                    key={item.id}
-                                    type="button"
-                                    className="flex flex-row items-center gap-[12px] cursor-pointer text-left"
-                                >
-                                    <img src={item.iconSrc} alt={item.text} />
-                                    <div className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">{item.text}</div>
-                                </button>
-                            ))}
+                            {filterItems.map((item) => {
+                                const isSelected = sortBy === item.id;
+                                return (
+                                    <button
+                                        key={item.id}
+                                        type="button"
+                                        className={`flex flex-row items-center gap-[12px] cursor-pointer text-left w-full ${
+                                            isSelected ? "opacity-100" : "opacity-70 hover:opacity-100"
+                                        }`}
+                                        onClick={() => onSortChange(item.id)}
+                                    >
+                                        <img src={item.iconSrc} alt={item.text} />
+                                        <div className={`font-['Figtree'] text-[14px] font-medium leading-normal ${
+                                            isSelected ? "text-[#1C8CA7]" : "text-black"
+                                        }`}>
+                                            {item.text}
+                                        </div>
+                                        {isSelected && (
+                                            <div className="ml-auto">
+                                                <div className="w-2 h-2 rounded-full bg-[#1C8CA7]"></div>
+                                            </div>
+                                        )}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
                 </ScrollArea>
