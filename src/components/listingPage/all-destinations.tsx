@@ -187,20 +187,75 @@ export default function AllDestinations() {
     const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_SORT);
     const router = useRouter();
 
+    // Map tour options to destination keywords
+    const getTourOptionKeywords = (option: string): string[] => {
+        const optionMap: Record<string, string[]> = {
+            "All": [],
+            "Most Popular": [],
+            "Adi Kailash & Om Parvat Yatra": ["adi kailash", "om parvat"],
+            "Kailash Mansarover Darshan": ["kailash mansarovar", "kailash mansarover"],
+            "Kailash Mansarover Aerial Darshan": ["kailash", "helicopter"],
+            "Nepal: Land Of Gods & Monasteries": ["nepal", "muktinath", "pashupatinath"],
+            "Chardham Yatra": ["char dham", "chardham"],
+            "Kedarnath": ["kedarnath"],
+        };
+        return optionMap[option] || [];
+    };
+
+    // Apply tour option filters
+    const applyTourOptionFilters = (dests: Destination[]): Destination[] => {
+        // If "All" is selected, show all destinations
+        const hasAll = selected.includes("All");
+        const otherOptions = selected.filter(opt => opt !== "All");
+        
+        if (hasAll) {
+            // "All" is selected, show everything
+            return dests;
+        }
+
+        // If no options selected, show all (shouldn't happen as "All" is default)
+        if (otherOptions.length === 0) {
+            return dests;
+        }
+
+        // Filter by selected options
+        return dests.filter((dest) => {
+            const titleLower = dest.title.toLowerCase();
+            const descriptionLower = dest.description.toLowerCase();
+            const combinedText = `${titleLower} ${descriptionLower}`;
+
+            // Check if destination matches any selected option
+            return otherOptions.some((option) => {
+                // Handle "Most Popular" separately
+                if (option === "Most Popular") {
+                    return dest.isPopular;
+                }
+
+                // Handle destination keyword filters
+                const keywords = getTourOptionKeywords(option);
+                if (keywords.length === 0) return false;
+                return keywords.some((keyword) =>
+                    combinedText.includes(keyword.toLowerCase())
+                );
+            });
+        });
+    };
+
     // Apply filters to destinations
     const filteredDestinations = useMemo(() => {
-        return applyFilters(destinations, filters);
-    }, [filters]);
+        const filtered = applyFilters(destinations, filters);
+        return applyTourOptionFilters(filtered);
+    }, [filters, selected]);
 
     // Apply sorting to filtered destinations
     const sortedAndFilteredDestinations = useMemo(() => {
         return applySort(filteredDestinations, sortBy);
     }, [filteredDestinations, sortBy]);
 
-    // Reset visible count when filters or sort change
+    // Reset visible count when filters, sort, or tour options change
     React.useEffect(() => {
         setVisibleCount(6);
-    }, [filters, sortBy]);
+    }, [filters, sortBy, selected]);
 
     const navigateToPackageDetails = () => {
         router.push("/details"); //need to add dynamic routing later
@@ -303,18 +358,47 @@ export default function AllDestinations() {
 
     const toggleOption = (option: string): void => {
         setSelected((prevSelected) => {
-            console.log(prevSelected);
-            if (prevSelected.includes(option)) {
-                // Remove the option
-                return prevSelected.filter((item) => item !== option);
+            const otherOptions = tourOptions.filter(opt => opt !== "All");
+            
+            if (option === "All") {
+                // If "All" is clicked
+                if (prevSelected.includes("All")) {
+                    // If "All" is already selected, deselect it
+                    return prevSelected.filter((item) => item !== "All");
+                } else {
+                    // If "All" is not selected, select "All" (which means all options)
+                    return ["All", ...otherOptions];
+                }
             } else {
-                // Add the option
-                return [...prevSelected, option];
+                // For other options
+                if (prevSelected.includes(option)) {
+                    // Remove the option
+                    const newSelected = prevSelected.filter((item) => item !== option && item !== "All");
+                    
+                    // If no options left, select "All"
+                    if (newSelected.length === 0) {
+                        return ["All"];
+                    }
+                    
+                    // Check if all other options are still selected
+                    const allSelected = otherOptions.every(opt => 
+                        opt === option || newSelected.includes(opt)
+                    );
+                    
+                    // If all are selected, add "All", otherwise don't include "All"
+                    return allSelected ? ["All", ...newSelected] : newSelected;
+                } else {
+                    // Add the option
+                    const newSelected = [...prevSelected.filter((item) => item !== "All"), option];
+                    
+                    // Check if all options are now selected
+                    const allSelected = otherOptions.every(opt => newSelected.includes(opt));
+                    
+                    // If all options are selected, include "All"
+                    return allSelected ? ["All", ...newSelected] : newSelected;
+                }
             }
         });
-
-        console.log(selected);
-        console.log(option);
     };
 
 
