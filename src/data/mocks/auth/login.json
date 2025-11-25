@@ -1,0 +1,12 @@
+{
+  "data": {
+    "token": "mock_jwt_token_12345",
+    "userId": 1,
+    "userName": "testuser",
+    "role": "customer",
+    "expiresIn": 3600
+  },
+  "status": 200,
+  "message": "Login successful"
+}
+

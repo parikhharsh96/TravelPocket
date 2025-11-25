@@ -1,5 +1,6 @@
 import { api } from "@/lib/api-client";
 import { API_ENDPOINTS } from "@/lib/constants";
+import { loadMockData, createMockResponse, USE_MOCK_DATA } from "@/lib/mock-utils";
 
 type QueryParams = Record<
   string,
@@ -41,6 +42,14 @@ export async function fetchTrendingPackages(
     }
   );
 
+  // Check for mock data first
+  if (USE_MOCK_DATA) {
+    const mockData = await loadMockData(endpoint);
+    if (mockData) {
+      return createMockResponse(mockData);
+    }
+  }
+
   return api.get(endpoint);
 }
 
@@ -49,6 +58,14 @@ export async function fetchDestinations(params?: QueryParams) {
     API_ENDPOINTS.customerHome.getDestinations,
     params
   );
+
+  // Check for mock data first
+  if (USE_MOCK_DATA) {
+    const mockData = await loadMockData(endpoint);
+    if (mockData) {
+      return createMockResponse(mockData);
+    }
+  }
 
   return api.get(endpoint);
 }
@@ -59,6 +76,14 @@ export async function fetchSearchDropdownValues(params?: QueryParams) {
     params
   );
 
+  // Check for mock data first
+  if (USE_MOCK_DATA) {
+    const mockData = await loadMockData(endpoint);
+    if (mockData) {
+      return createMockResponse(mockData);
+    }
+  }
+
   return api.get(endpoint);
 }
 
@@ -67,6 +92,14 @@ export async function fetchTravelGoals(params?: QueryParams) {
     API_ENDPOINTS.customerHome.getTravelGoals,
     params
   );
+
+  // Check for mock data first
+  if (USE_MOCK_DATA) {
+    const mockData = await loadMockData(endpoint);
+    if (mockData) {
+      return createMockResponse(mockData);
+    }
+  }
 
   return api.get(endpoint);
 }
@@ -77,6 +110,14 @@ export async function fetchStories(params?: QueryParams) {
     params
   );
 
+  // Check for mock data first
+  if (USE_MOCK_DATA) {
+    const mockData = await loadMockData(endpoint);
+    if (mockData) {
+      return createMockResponse(mockData);
+    }
+  }
+
   return api.get(endpoint);
 }
 
@@ -85,6 +126,14 @@ export async function fetchSharedExperiences(params?: QueryParams) {
     API_ENDPOINTS.customerHome.getSharedExperiences,
     params
   );
+
+  // Check for mock data first
+  if (USE_MOCK_DATA) {
+    const mockData = await loadMockData(endpoint);
+    if (mockData) {
+      return createMockResponse(mockData);
+    }
+  }
 
   return api.get(endpoint);
 }

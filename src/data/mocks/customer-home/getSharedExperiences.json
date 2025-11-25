@@ -1,0 +1,51 @@
+{
+  "success": true,
+  "message": "Execution completed",
+  "data": [
+      {
+          "experienceId": 5,
+          "postedDate": "2025-10-01T00:00:00",
+          "postedBy": "Kunal Mehta",
+          "place": "Spiti Valley, Himachal Pradesh",
+          "title": "Exploring the Remote Monasteries of Spiti – A Soulful Ride",
+          "videoUrl": "https://www.youtube.com/watch?v=spiti-valley-journey",
+          "imageUrl": "https://yourcdn.com/images/experiences/spiti-monastery.jpg"
+      },
+      {
+          "experienceId": 3,
+          "postedDate": "2025-09-18T00:00:00",
+          "postedBy": "Amit Desai",
+          "place": "Leh–Ladakh",
+          "title": "Road Trip to Khardung La – The World’s Highest Motorable Road",
+          "videoUrl": "https://www.youtube.com/watch?v=ladakh-ride-2025",
+          "imageUrl": "https://yourcdn.com/images/experiences/ladakh-road-trip.jpg"
+      },
+      {
+          "experienceId": 1,
+          "postedDate": "2025-08-10T00:00:00",
+          "postedBy": "Rohan Verma",
+          "place": "Manali, Himachal Pradesh",
+          "title": "My First Paragliding Experience at Solang Valley",
+          "videoUrl": "https://www.youtube.com/watch?v=solang-paragliding-2025",
+          "imageUrl": "https://yourcdn.com/images/experiences/solang-valley-paragliding.jpg"
+      },
+      {
+          "experienceId": 2,
+          "postedDate": "2025-07-05T00:00:00",
+          "postedBy": "Isha Nair",
+          "place": "Andaman Islands",
+          "title": "Scuba Diving with Turtles – A Dream Come True!",
+          "videoUrl": "https://www.youtube.com/watch?v=andaman-scuba-life",
+          "imageUrl": "https://yourcdn.com/images/experiences/andaman-scuba.jpg"
+      },
+      {
+          "experienceId": 4,
+          "postedDate": "2025-06-22T00:00:00",
+          "postedBy": "Sneha Reddy",
+          "place": "Rishikesh, Uttarakhand",
+          "title": "River Rafting in the Ganges – The Adrenaline Rush I Needed!",
+          "videoUrl": "https://www.youtube.com/watch?v=rishikesh-rafting-fun",
+          "imageUrl": "https://yourcdn.com/images/experiences/rishikesh-rafting.jpg"
+      }
+  ]
+}
