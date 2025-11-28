@@ -6,9 +6,9 @@ import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import { useApi } from '@/lib/use-api';
 import { API_ENDPOINTS } from '@/lib/constants';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-const destinations = [
+const destinations1 = [
     { id: 1, title: "Kailash Mansarovar", price: "Starting from ₹99,000", image: "/images/destinations/19258d7685b00892b6dc1014baa2968860d17aee.jpg", href: "/destinations/kailash" },
     { id: 2, title: "Kedarnath", price: "Starting from ₹99,000", image: "/images/destinations/19258d7685b00892b6dc1014baa2968860d17aee.jpg", href: "/destinations/kedarnath" },
     { id: 3, title: "Adi Kailash Om Parvat", price: "Starting from ₹99,000", image: "/images/destinations/19258d7685b00892b6dc1014baa2968860d17aee.jpg", href: "/destinations/adi-kailash" },
@@ -22,6 +22,7 @@ const destinations = [
 export default function DestinationFlexLayout() {
     const router = useRouter();
     const { data, loading, error, execute } = useApi<any>();
+    const [destinations, setDestinations] = useState<any[]>([]);
 
     useEffect(() => {
         execute(API_ENDPOINTS.customerHome.getDestinations);
@@ -30,6 +31,7 @@ export default function DestinationFlexLayout() {
     useEffect(() => {
         if (data) {
             console.log('Destinations API data:', data);
+            setDestinations(data.data || []);
         }
         if (error) {
             console.error('Destinations API error:', error);
@@ -107,8 +109,8 @@ export default function DestinationFlexLayout() {
                     {/* Image zoom on hover */}
                     <div>
                         <Image
-                            src={destinations[0].image}
-                            alt={`${destinations[0].title} destination`}
+                            src={destinations1[0].image}
+                            alt={`${destinations1[0].title} destination`}
                             fill
                             loading="lazy"
                             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -119,12 +121,12 @@ export default function DestinationFlexLayout() {
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
                             {/* Main title moves slightly upward on hover */}
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[0].title}
+                                {destinations1[0].title}
                             </h3>
 
                             {/* Price stays initially visible */}
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[0].price}
+                                {destinations1[0].price}
                             </p>
 
                             {/* Additional details (hidden initially, fades in from below) */}
@@ -152,17 +154,17 @@ export default function DestinationFlexLayout() {
                 {/* 2nd image (big vertical span) */}
                 <div className="relative col-span-1 row-span-1 lg:row-start-1 lg:col-start-3 lg:col-span-2 lg:row-span-2 lg:h-[518px] h-[250px] overflow-hidden rounded-lg group">
                     {/* <Link href={''}> */}
-                        <Image src={destinations[1].image} alt={`${destinations[1].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer transition-transform duration-300 ease-in-out group-hover:scale-105" />
+                        <Image src={destinations1[1].image} alt={`${destinations1[1].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer transition-transform duration-300 ease-in-out group-hover:scale-105" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
                             {/* Main title moves slightly upward on hover */}
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[1].title}
+                                {destinations1[1].title}
                             </h3>
 
                             {/* Price stays initially visible */}
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[1].price}
+                                {destinations1[1].price}
                             </p>
 
                             {/* Additional details (hidden initially, fades in from below) */}
@@ -192,17 +194,17 @@ export default function DestinationFlexLayout() {
                 {/* Remaining images one by one */}
                 <div className="relative col-span-1 row-span-1 h-[250px] overflow-hidden rounded-lg group">
                     {/* <Link href={''}> */}
-                        <Image src={destinations[2].image} alt={`${destinations[2].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
+                        <Image src={destinations1[2].image} alt={`${destinations1[2].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
                             {/* Main title moves slightly upward on hover */}
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[2].title}
+                                {destinations1[2].title}
                             </h3>
 
                             {/* Price stays initially visible */}
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[2].price}
+                                {destinations1[2].price}
                             </p>
 
                             {/* Additional details (hidden initially, fades in from below) */}
@@ -231,17 +233,17 @@ export default function DestinationFlexLayout() {
 
                 <div className="relative col-span-2 row-span-2 lg:col-span-1 lg:row-span-1 h-[250px] overflow-hidden rounded-lg group">
                     {/* <Link href={''}> */}
-                        <Image src={destinations[3].image} alt={`${destinations[3].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
+                        <Image src={destinations1[3].image} alt={`${destinations1[3].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
                             {/* Main title moves slightly upward on hover */}
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[3].title}
+                                {destinations1[3].title}
                             </h3>
 
                             {/* Price stays initially visible */}
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[3].price}
+                                {destinations1[3].price}
                             </p>
 
                             {/* Additional details (hidden initially, fades in from below) */}
@@ -270,17 +272,17 @@ export default function DestinationFlexLayout() {
 
                 <div className="relative col-span-1 row-span-1 h-[250px] overflow-hidden rounded-lg group">
                     {/* <Link href={''}> */}
-                        <Image src={destinations[4].image} alt={`${destinations[4].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
+                        <Image src={destinations1[4].image} alt={`${destinations1[4].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
                             {/* Main title moves slightly upward on hover */}
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[4].title}
+                                {destinations1[4].title}
                             </h3>
 
                             {/* Price stays initially visible */}
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[4].price}
+                                {destinations1[4].price}
                             </p>
 
                             {/* Additional details (hidden initially, fades in from below) */}
@@ -309,17 +311,17 @@ export default function DestinationFlexLayout() {
 
                 <div className="relative col-span-1 row-span-1 h-[250px] overflow-hidden rounded-lg group">
                     {/* <Link href={''}> */}
-                        <Image src={destinations[5].image} alt={`${destinations[5].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
+                        <Image src={destinations1[5].image} alt={`${destinations1[5].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
                             {/* Main title moves slightly upward on hover */}
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[5].title}
+                                {destinations1[5].title}
                             </h3>
 
                             {/* Price stays initially visible */}
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[5].price}
+                                {destinations1[5].price}
                             </p>
 
                             {/* Additional details (hidden initially, fades in from below) */}
@@ -348,17 +350,17 @@ export default function DestinationFlexLayout() {
 
                 <div className="relative col-span-1 row-span-1 h-[250px] overflow-hidden rounded-lg group">
                     {/* <Link href={''}> */}
-                        <Image src={destinations[6].image} alt={`${destinations[6].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
+                        <Image src={destinations1[6].image} alt={`${destinations1[6].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
                             {/* Main title moves slightly upward on hover */}
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[6].title}
+                                {destinations1[6].title}
                             </h3>
 
                             {/* Price stays initially visible */}
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[6].price}
+                                {destinations1[6].price}
                             </p>
 
                             {/* Additional details (hidden initially, fades in from below) */}
@@ -387,17 +389,17 @@ export default function DestinationFlexLayout() {
 
                 <div className="relative col-span-1 row-span-1 h-[250px] overflow-hidden rounded-lg group">
                     {/* <Link href={''}> */}
-                        <Image src={destinations[7].image} alt={`${destinations[7].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
+                        <Image src={destinations1[7].image} alt={`${destinations1[7].title} destination`} fill loading="lazy" sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
                         {/* Text overlay */}
                         <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
                             {/* Main title moves slightly upward on hover */}
                             <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[7].title}
+                                {destinations1[7].title}
                             </h3>
 
                             {/* Price stays initially visible */}
                             <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase transition-transform duration-300 group-hover:-translate-y-1">
-                                {destinations[7].price}
+                                {destinations1[7].price}
                             </p>
 
                             {/* Additional details (hidden initially, fades in from below) */}

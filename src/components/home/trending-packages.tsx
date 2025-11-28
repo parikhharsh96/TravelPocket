@@ -191,7 +191,7 @@ export default function TrendingPackages() {
                                             </div>
                                             <div className="flex items-start gap-[6px]">
                                                 <p className="text-[#333333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[24px]">
-                                                    EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">{pkg.emiAmount}</span>
+                                                    EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">₹{pkg.emiAmount}</span>
                                                 </p>
                                             </div>
                                         </CardContent>
@@ -278,7 +278,7 @@ export default function TrendingPackages() {
                                         </div>
                                         <div className="flex items-start gap-[6px]">
                                             <p className="text-[#333333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[24px]">
-                                                EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">{pkg.emiAmount}</span>
+                                                EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">₹{pkg.emiAmount}</span>
                                             </p>
                                         </div>
                                     </CardContent>
