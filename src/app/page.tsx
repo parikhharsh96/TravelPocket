@@ -19,6 +19,7 @@ import RajasthanTourSection from "@/components/home/rajasthan-tour";
 import { useApi } from '@/lib/use-api';
 import { api } from '@/lib/api-client';
 import { useEffect } from "react";
+import { API_ENDPOINTS } from '@/lib/constants';
 
 interface User {
   userId: number;
@@ -28,19 +29,31 @@ interface User {
 
 export default function Home() {
 
-  const { data, loading, error, execute } = useApi<User[]>();
-
-  useEffect(() => {
-    // Set token when component mounts (or get from auth system)
-    const token = localStorage.getItem('auth_token');
-    // if (token) {
-    //   api.setToken(token);
-    // }
-  }, []);
+  const { data, loading, error, execute } = useApi<any>();
 
   // useEffect(() => {
-  //   execute('https://api.crmtravelpocket.cloud/api/CustomerHome/blogs?userid=0&pageno=1&pagesize=10', 'GET');
+  //   // Set token when component mounts (or get from auth system)
+  //   const token = localStorage.getItem('auth_token');
+  //   if (token) {
+  //     api.setToken(token);
+  //   }
   // }, []);
+
+  //get destination call
+  // useEffect(() => {
+  //   execute(API_ENDPOINTS.customerHome.getDestinations);
+  // }, [execute]);
+
+  // Log the data when it changes
+  // useEffect(() => {
+  //   if (data) {
+  //     console.log('Destinations data:', data);
+  //   }
+  //   if (error) {
+  //     console.error('Destinations error:', error);
+  //   }
+  // }, [data, error]);
+
 
   return (
     <div className="">
