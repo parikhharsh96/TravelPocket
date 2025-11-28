@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import {
   Search,
@@ -49,6 +49,8 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import React from "react"
 import { ScrollArea } from "../ui/scroll-area"
 import Header from "../shared/header"
+import { useApi } from '@/lib/use-api';
+import { API_ENDPOINTS } from '@/lib/constants';
 
 
 const topLinks = [
@@ -95,34 +97,34 @@ const destinationsList = [
   { label: "Kedarnath", url: "/details" }
 ];
 
-const destinations = [
-  { label: "KAILASH MANSAROVAR", value: "kailash-mansarovar" },
-  { label: "ADI KAILASH & OM PARVAT", value: "adi-kailash-om-parvat" },
-  { label: "CHAR DHAM", value: "char-dham" },
-  { label: "KEDARNATH", value: "kedarnath" },
-  { label: "RAJASTHAN", value: "rajasthan" },
-];
+// const destinations = [
+//   { label: "KAILASH MANSAROVAR", value: "kailash-mansarovar" },
+//   { label: "ADI KAILASH & OM PARVAT", value: "adi-kailash-om-parvat" },
+//   { label: "CHAR DHAM", value: "char-dham" },
+//   { label: "KEDARNATH", value: "kedarnath" },
+//   { label: "RAJASTHAN", value: "rajasthan" },
+// ];
 
-const tripTypes = [
-  { label: "BY ROAD", value: "by-road" },
-  { label: "BY HELICOPTER", value: "by-helicopter" },
-];
+// const tripTypes = [
+//   { label: "BY ROAD", value: "by-road" },
+//   { label: "BY HELICOPTER", value: "by-helicopter" },
+// ];
 
-const tripDurations = [
-  { label: "5 NIGHT 6 DAYS", value: "5-night-6-days" },
-  { label: "7 NIGHT 8 DAYS", value: "7-night-8-days" },
-  { label: "6 NIGHT 7 DAYS", value: "6-night-7-days" },
-  { label: "8 NIGHT / 9 DAYS", value: "8-night-9-days" },
-  { label: "13 NIGHT 14 DAYS", value: "13-night-14-days" },
-];
+// const tripDurations = [
+//   { label: "5 NIGHT 6 DAYS", value: "5-night-6-days" },
+//   { label: "7 NIGHT 8 DAYS", value: "7-night-8-days" },
+//   { label: "6 NIGHT 7 DAYS", value: "6-night-7-days" },
+//   { label: "8 NIGHT / 9 DAYS", value: "8-night-9-days" },
+//   { label: "13 NIGHT 14 DAYS", value: "13-night-14-days" },
+// ];
 
-const travellers = [
-  { label: "1", value: "1" },
-  { label: "2", value: "2" },
-  { label: "3", value: "3" },
-  { label: "4", value: "4" },
-  { label: "5", value: "5" },
-];
+// const travellers = [
+//   { label: "1", value: "1" },
+//   { label: "2", value: "2" },
+//   { label: "3", value: "3" },
+//   { label: "4", value: "4" },
+//   { label: "5", value: "5" },
+// ];
 
 
 const allDestinations = [
@@ -143,7 +145,31 @@ export default function HomeHeroSection() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [destinations, setDestinations] = useState<any[]>([]);
+  const [tripTypes, setTripTypes] = useState<any[]>([]);
+  const [tripDurations, setTripDurations] = useState<any[]>([]);
+  const [travellers, setTravellers] = useState<any[]>([]);
   const router = useRouter();
+  const { data, loading, error, execute } = useApi<any>();
+
+  useEffect(() => {
+    execute(API_ENDPOINTS.customerHome.getSearchDropdownValues);
+  }, [execute]);
+
+  useEffect(() => {
+    if (data) {
+      console.log('Search Dropdown Values API data:', data);
+      if (data.data) {
+        setDestinations(data.data.destinations || []);
+        setTripTypes(data.data.types || []);
+        setTripDurations(data.data.durations || []);
+        setTravellers(data.data.noOfTravellers || []);
+      }
+    }
+    if (error) {
+      console.error('Search Dropdown Values API error:', error);
+    }
+  }, [data, error]);
 
   const navigateToHome = () => {
     router.push("/");
@@ -787,7 +813,7 @@ export default function HomeHeroSection() {
                                   value={item.value}
                                   className="text-black font-['Figtree'] text-[14px] font-normal leading-[24px] uppercase"
                                 >
-                                  {item.label}
+                                  {item.text}
                                 </SelectItem>
                                 {index !== destinations.length - 1 && (
                                   <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mt-1 mb-1" />
@@ -816,7 +842,7 @@ export default function HomeHeroSection() {
                                   value={item.value}
                                   className="text-black font-['Figtree'] text-[14px] font-normal leading-[24px] uppercase"
                                 >
-                                  {item.label}
+                                  {item.text}
                                 </SelectItem>
                                 {index !== tripTypes.length - 1 && (
                                   <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mt-1 mb-1" />
@@ -845,7 +871,7 @@ export default function HomeHeroSection() {
                                   value={item.value}
                                   className="text-black font-['Figtree'] text-[14px] font-normal leading-[24px] uppercase"
                                 >
-                                  {item.label}
+                                  {item.text}
                                 </SelectItem>
                                 {index !== tripDurations.length - 1 && (
                                   <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mt-1 mb-1" />
@@ -874,7 +900,7 @@ export default function HomeHeroSection() {
                                   value={item.value}
                                   className="text-black font-['Figtree'] text-[14px] font-normal leading-[24px] uppercase"
                                 >
-                                  {item.label}
+                                  {item.text}
                                 </SelectItem>
                                 {index !== travellers.length - 1 && (
                                   <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mt-1 mb-1" />
