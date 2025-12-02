@@ -183,13 +183,10 @@ export default function HomeHeroSection() {
 
       {/* Background Image Container with Overlay */}
       <div
-        className="min-h-screen bg-gradient-to-b from-[#1a2f46] to-[#21315d] bg-cover bg-center bg-no-repeat relative"
-        style={{
-          backgroundImage: `url('/images/hero-section-bg.svg')`,
-        }}
+        className="min-h-screen bg-gradient-to-b from-[#1a2f46] to-[#21315d] bg-cover bg-center bg-no-repeat relative bg-[url('/images/home-section-bg-mob.png')] lg:bg-[url('/images/home-section-bg.png')]"
       >
         {/* Dark overlay for better text contrast */}
-        <div className="absolute inset-0 bg-black/30"></div>
+        {/* <div className="absolute inset-0 bg-black/30"></div> */}
 
         {/* Content with relative positioning */}
         <div className="relative z-10">
@@ -579,7 +576,7 @@ export default function HomeHeroSection() {
 
           {/* Hero Section */}
           <main className="mx-auto py-8 sm:py-16 px-2 sm:px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 text-center lg:text-left">
                 <div className="mb-8 rounded-lg p-4 sm:p-8">
@@ -608,7 +605,7 @@ export default function HomeHeroSection() {
               </div>
 
               {/* Inclusions Sidebar */}
-              <div className="rounded-[8px] bg-[rgba(0,0,0,0.20)] backdrop-blur-[4px] p-4 sm:p-6 h-fit max-w-sm mx-auto lg:mx-0">
+              <div className="rounded-lg bg-black/40 lg:bg-black/20 backdrop-blur-sm p-4 sm:p-6 h-fit max-w-sm mx-auto lg:mx-0">
                 <h3 className="text-white text-center font-['Figtree'] text-[14px] lg:text-[20px] font-medium leading-normal mb-4 sm:mb-6">Inclusions</h3>
 
                 <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
@@ -760,7 +757,7 @@ export default function HomeHeroSection() {
             </div>
 
             {/* Search Section */}
-            <div className="mt-12 sm:mt-24 py-8 hidden lg:block">
+            <div className="py-4 hidden lg:block">{/**mt-12 sm:mt-24 */}
               <div className="mx-auto">
                 <h2 className="text-white text-center font-['Figtree'] text-[18px] lg:text-[20px] font-semibold leading-normal mb-6 sm:mb-8 py-4">
                   Where Will You Go Next?
