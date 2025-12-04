@@ -345,10 +345,10 @@ export default function DetailPackage() {
 
     return (
         <>
-            <section className="container mx-auto"> {/**max-w-[1920px] */}
+            <section className="mx-auto"> {/**max-w-[1920px] */} {/**container */}
                 <div className="rounded-[0_0_30px_30px] bg-[#EBF5F7] w-full">
-                    <div className="p-4 md:p-6 lg:p-8">
-                        <div className="flex items-center gap-4 mb-6 md:mb-8 text-[#5a5a5a] pt-2">
+                    <div className="p-4 md:px-6 lg:px-8 pt-2 pb-4"> {/**p-4 md:p-6 lg:p-8 */}
+                        <div className="flex items-center gap-4 mb-6 md:mb-4 text-[#5a5a5a] pt-1">
                             <div className="flex items-center gap-2 hover:text-[#000000] transition-colors cursor-pointer" onClick={handleBack}>
                                 {/* <Link href="/" className="flex items-center gap-2 hover:text-[#000000] transition-colors"> */}
                                 {/* <ArrowLeft className="w-5 h-5" /> */}

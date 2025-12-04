@@ -8,7 +8,7 @@ export default function WhatsAppBanner() {
     }
 
     return (
-        <section className="container mx-auto px-4 pb-[25px] sm:px-6 md:px-8 lg:px-10 xl:px-[200px] mt-8">
+        <section className="container mx-auto px-4 pb-[25px] sm:px-6 md:px-8 lg:px-10 xl:px-[80px] mt-8">
             <div className="relative w-full h-[280px] sm:h-[320px] md:h-[280px] lg:h-[220px] xl:h-[225px] overflow-hidden rounded-[10px]"> {/**mt-[40px] */}
                 <div
                     className="absolute inset-0 bg-cover bg-center"

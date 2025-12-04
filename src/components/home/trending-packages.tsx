@@ -143,7 +143,7 @@ export default function TrendingPackages() {
                 </Button>
             </div>
             {/* Slider */}
-            <div className="hidden md:block relative px-[50px]">
+            <div className="hidden md:block relative px-[50px] lg:py-8">
                 {/* Left Arrow */}
                 <button
                     onClick={() => scroll("left")}

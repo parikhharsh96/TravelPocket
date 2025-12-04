@@ -198,7 +198,7 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
 
                     {/* Logo */}
                     <div className="flex-shrink-0 cursor-pointer" onClick={navigateToHome}>
-                        <img src="/images/footer/logo_design_travel_pocket.svg" alt="Logo" className="w-[100px] sm:w-[119px] h-auto" />
+                        <img src="/images/footer/logo_design_travel_pocket.svg" alt="Logo" className="w-[140px] sm:w-[240px] h-auto" />
                     </div>
                 </div>
 
