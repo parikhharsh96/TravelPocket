@@ -148,7 +148,7 @@ export default function TravelGallery() {
     const els = Array.from(document.querySelectorAll<HTMLElement>(".auto-scroll"))
     if (els.length === 0) return
 
-    const speed = 0.6 // pixels per frame — adjust to taste
+    const speed = 1.5 // pixels per frame — adjust to taste
     const cleanups: (() => void)[] = []
 
     els.forEach((el) => {

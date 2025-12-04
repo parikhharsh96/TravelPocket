@@ -20,12 +20,7 @@ export function NewsletterSection() {
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Background Image */}
-            <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{
-                    backgroundImage: "url('/images/newsletter/cloud_bg_1.png')",
-                }}
-            />
+            <div className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-[url('/images/footer/contact-us-mobile.png')] lg:bg-[url('/images/footer/news_letter_section_bg.png')]" />
 
             {/* <div className="absolute inset-0" style={{
                 background: "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)",
@@ -38,7 +33,7 @@ export function NewsletterSection() {
                 }}
             /> */}
 
-            <div className="absolute top-0 left-0 w-full h-32 bg-contain bg-repeat-x bg-top opacity-80">
+            {/* <div className="absolute top-0 left-0 w-full h-32 bg-contain bg-repeat-x bg-top opacity-80">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1920" height="331" viewBox="0 0 1920 331" fill="none">
                     <path d="M1921 -151.277H0V330.723H1921V-151.277Z" fill="url(#paint0_linear_354_16472)" />
                     <defs>
@@ -54,13 +49,13 @@ export function NewsletterSection() {
 
             <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-white/20 via-white/10 to-transparent" />
 
-            <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 via-transparent to-blue-900/30" />
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 via-transparent to-blue-900/30" /> */}
 
             {/* Content Container */}
             <div className="container mx-auto relative z-10 w-full mx-auto px-4 sm:px-6 lg:px-[50px]"> {/**max-w-7xl */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-16 items-center mb-4">
                     {/* Right Column - Journey Text (appears first on mobile) */}
-                    <div className="order-1 lg:order-2 text-center lg:text-right">
+                    <div className="hidden order-1 lg:order-2 text-center lg:text-right">
                         <div className="space-y-4">
                             <p className="text-[#365C85] text-center font-['Figtree'] text-[50px] md:text-[80px] font-normal leading-normal rotate-[-3.871deg]">
                                 Let The Journey Begin!
