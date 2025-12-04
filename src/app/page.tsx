@@ -15,6 +15,7 @@ import KailashMansarovarPage from "@/components/home/kailash-mansarovar";
 import CharDhamSection from "@/components/home/char-dham";
 import NepalTourSection from "@/components/home/nepal-tour";
 import RajasthanTourSection from "@/components/home/rajasthan-tour";
+import { Stories } from "@/components/home/stories";
 
 import { useApi } from '@/lib/use-api';
 import { api } from '@/lib/api-client';
@@ -52,6 +53,7 @@ export default function Home() {
       <ContactOurExperts />
       <TravelGoalsSection />
       <CharDhamSection />
+      <Stories />
       <TestimonialCards />
       <NepalTourSection />
       <RajasthanTourSection />

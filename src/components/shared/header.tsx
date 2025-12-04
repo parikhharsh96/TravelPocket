@@ -217,8 +217,8 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
                                         onMouseEnter={() => setOpenIndex(index)}
                                         onMouseLeave={() => setOpenIndex(null)}
                                     >
-                                        <div className="flex items-center justify-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] font-semibold uppercase text-[#333] group hover:text-[#e97737] cursor-pointer">
-                                            <span>{item}</span>
+                                        <div className="flex items-center justify-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] font-semibold font-['Figtree'] uppercase text-[#333] group hover:text-[#e97737] cursor-pointer">
+                                            <span className="font-['Figtree']">{item}</span>
                                             <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" />
                                         </div>
                                     </DropdownMenuTrigger>
@@ -280,7 +280,7 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
                                 <PopoverTrigger asChild>
                                     <div className="flex items-center justify-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] font-semibold uppercase text-[#333] group hover:text-[#e97737] cursor-pointer" onMouseEnter={() => setPopoverOpen(true)}
                                         onMouseLeave={() => setPopoverOpen(false)}>
-                                        <span>{item}</span>
+                                        <span className="font-['Figtree']">{item}</span>
                                         <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" />
                                     </div>
                                     {/* <Button
@@ -412,7 +412,7 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
                             <Link
                                 key={link.label}
                                 href={link.href}
-                                className="text-[#1A2F46] font-[Figtree] text-[12px] md:text-[12px] font-semibold lg:text-[14px] uppercase hover:text-[#E97737] transition-colors"
+                                className="text-[#1A2F46] font-['Figtree'] text-[12px] md:text-[12px] font-semibold lg:text-[14px] uppercase hover:text-[#E97737] transition-colors"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 {link.label}
