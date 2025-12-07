@@ -186,7 +186,7 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
             <Separator orientation="horizontal" className="bg-[#BBB] my-1 h-[1px]" />
 
             {/* Bottom Bar */}
-            <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-2 py-2">
+            <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-2 py-0">{/**py-2 */}
                 <div className="flex items-center gap-4">
                     {/* Hamburger Menu for Mobile & Tablet */}
                     <button
@@ -198,7 +198,7 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
 
                     {/* Logo */}
                     <div className="flex-shrink-0 cursor-pointer" onClick={navigateToHome}>
-                        <img src="/images/footer/logo_design_travel_pocket.svg" alt="Logo" className="w-[140px] sm:w-[240px] h-auto" />
+                        <img src="/images/footer/logo_design_travel_pocket.svg" alt="Logo" className="w-[120px] sm:w-[220px] h-auto" />
                     </div>
                 </div>
 
