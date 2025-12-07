@@ -21,14 +21,14 @@ export default function ContactOurExperts() {
         {/**Larger Device */}
         <div className="container mx-auto hidden lg:block px-4 py-8 lg:py-16">
           <div className=""> {/**bg-[#EAF6F8] bg-[url('/bg-lines.svg')] bg-cover bg-no-repeat py-12 px-4 sm:px-8 lg:px-16 */}
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-10 items-end">
+            <div className="mx-auto grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-10 items-end"> {/**max-w-7xl */}
 
               {/* LEFT SECTION (your uploaded image) */}
               <div className="flex justify-center">
                 <img
-                  src="/images/contactus/Contact_Experts_web.png"
+                  src="/images/contactus/contact_experts_2.5x.png"
                   alt="Travel Expert"
-                  className="w-full max-w-2xl h-auto object-contain"
+                  className="w-full max-w-7xl h-auto object-contain"
                 />{/** rounded-xl shadow-md */}
               </div>
 
