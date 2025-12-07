@@ -225,7 +225,7 @@ export default function KailashMansarovarPage() {
                                     </CardContent>
                                     {/* <CardFooter> */}
                                     {/* Buttons */}
-                                    <div className="flex flex-col md:flex-row lg:flex-row gap-4">
+                                    <div className="flex flex-row md:flex-row lg:flex-row gap-4">
                                         <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
                     group-hover:bg-[linear-gradient(90deg,_#1A2F46_0%,_#1A2F46_50%,_transparent_50%)] 
              group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
@@ -422,7 +422,7 @@ export default function KailashMansarovarPage() {
                                             </div>
 
                                             {/* Action Buttons */}
-                                            <div className="flex flex-col sm:flex-row gap-2">
+                                            <div className="flex flex-row sm:flex-row gap-2">
                                                 <Button
                                                     variant="outline"
                                                     className="flex-1"

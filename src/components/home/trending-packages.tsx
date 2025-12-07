@@ -205,7 +205,7 @@ export default function TrendingPackages() {
                                 </CardContent>
                                 {/* <CardFooter> */}
                                 {/* Buttons */}
-                                <div className="flex flex-col md:flex-row lg:flex-row gap-4">
+                                <div className="flex flex-row md:flex-row lg:flex-row gap-4">
                                     <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
                     group-hover:bg-[linear-gradient(90deg,_#1A2F46_0%,_#1A2F46_50%,_transparent_50%)] 
              group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
@@ -289,7 +289,7 @@ export default function TrendingPackages() {
                             </CardContent>
                             {/* <CardFooter> */}
                             {/* Buttons */}
-                            <div className="flex flex-col md:flex-row lg:flex-row gap-4">
+                            <div className="flex flex-row md:flex-row lg:flex-row gap-4">
                                 <Button variant="outline" className="flex-1 shrink-0 cursor-pointer" onClick={navigateToPackageDetails}>
                                     <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">View Details</span>
                                 </Button>

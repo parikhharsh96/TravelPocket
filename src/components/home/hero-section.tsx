@@ -166,7 +166,7 @@ export default function HomeHeroSection() {
       {/* Top Banner */}
       <div className="bg-[#242A3A] py-2 px-4 text-center">
         <div className="flex flex-col sm:inline-flex sm:flex-row items-center gap-1 lg:gap-2">
-          <div className="flex items-center gap-2">
+          <div className="flex sm:items-center gap-2">
             <img src="/images/microphone.gif" alt="Announcement" className="w-6 h-6" />
             <span className="text-white font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal">Registrations Now Open for <span className="font-semibold">Kailash Mansarovar Yatra 2025 Parikrama!</span> Secure your seat
               today!</span>
@@ -174,7 +174,7 @@ export default function HomeHeroSection() {
           <Button
             variant="link"
             size="sm"
-            className="mt-0 lg:mt-2 sm:mt-0 bg-transparent px-0 lg:px-1"
+            className="mt-0 lg:mt-0 sm:mt-0 bg-transparent px-0 lg:px-1"
           >
             <span className="text-white font-['Figtree'] text-[12px] lg:text-[14px] font-semibold leading-normal underline underline-offset-auto decoration-solid uppercase">REGISTER NOW</span>
           </Button>
@@ -579,8 +579,8 @@ export default function HomeHeroSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 text-center lg:text-left">
-                <div className="mb-8 rounded-lg p-4 sm:p-8">
-                  <h1 className="text-white font-['Playfair_Display'] text-[36px] lg:text-[86px] font-bold leading-[42px] lg:leading-[90px] mb-4">
+                <div className="mb-8 rounded-lg"> {/**p-2 sm:p-4 */}
+                  <h1 className="text-white font-['Playfair_Display'] text-[36px] md:text-[48px] lg:text-[64px] xl:text-[86px] font-bold leading-[42px] md:leading-[56px] lg:leading-[72px] xl:leading-[90px] mb-4">
                     Kailash
                     <br />
                     Mansarovar
@@ -616,14 +616,15 @@ export default function HomeHeroSection() {
               </div>
 
               {/* Inclusions Sidebar */}
-              <div className="rounded-lg bg-black/40 lg:bg-black/20 backdrop-blur-sm p-4 sm:p-6 h-fit max-w-sm mx-auto lg:mx-0">
-                <h3 className="text-white text-center font-['Figtree'] text-[14px] lg:text-[20px] font-medium leading-normal mb-4 sm:mb-6">Inclusions</h3>
+              <div className="rounded-lg bg-black/40 lg:bg-black/20 backdrop-blur-sm p-4 sm:p-4 h-fit max-w-sm mx-auto mx-auto lg:ml-auto lg:mr-0
+">
+                <h3 className="text-white text-center font-['Figtree'] text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] font-medium leading-normal mb-4 sm:mb-6">Inclusions</h3>
 
                 <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
                   <div className="text-center flex flex-col gap-2 items-center">
-                    <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center">
+                    <div className="w-10 sm:w-11 md:w-12 lg:w-14 h-10 sm:h-11 md:h-12 lg:h-14 flex items-center justify-center">
                       {/* <Utensils className="w-5 sm:w-6 h-5 sm:h-6 text-[#ffffff]" /> */}
-                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-8 sm:w-9 md:w-10 lg:w-12 h-8 sm:h-9 md:h-10 lg:h-12" viewBox="0 0 40 40" fill="none">
                         <g clipPath="url(#clip0_3292_18060)">
                           <mask id="mask0_3292_18060" style={{ maskType: "luminance" }} maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
                             <path d="M0 3.8147e-06H40V40H0V3.8147e-06Z" fill="white" />
@@ -654,7 +655,7 @@ export default function HomeHeroSection() {
                         </defs>
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">
+                    <p className="text-white text-center font-['Figtree'] text-[12px] md:text-[13px] lg:text-[14px] font-medium leading-normal">
                       Vegetarian
                       <br />
                       Meals
@@ -662,9 +663,9 @@ export default function HomeHeroSection() {
                   </div>
 
                   <div className="text-center flex flex-col gap-2 items-center">
-                    <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center">
+                    <div className="w-10 sm:w-11 md:w-12 lg:w-14 h-10 sm:h-11 md:h-12 lg:h-14 flex items-center justify-center">
                       {/* <FileText className="w-5 sm:w-6 h-5 sm:h-6 text-[#ffffff]" /> */}
-                      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="52" viewBox="0 0 50 52" fill="none">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-8 sm:w-9 md:w-10 lg:w-12 h-8 sm:h-9 md:h-10 lg:h-12" viewBox="0 0 50 52" fill="none">
                         <mask id="mask0_3292_7110" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="6" width="47" height="46">
                           <rect x="0.863525" y="6" width="46" height="46" fill="#D9D9D9" />
                         </mask>
@@ -673,13 +674,13 @@ export default function HomeHeroSection() {
                         </g>
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">Tibet & Kailash Permits</p>
+                    <p className="text-white text-center font-['Figtree'] text-[12px] md:text-[13px] lg:text-[14px] font-medium leading-normal">Tibet & Kailash Permits</p>
                   </div>
 
                   <div className="text-center flex flex-col gap-2 items-center">
-                    <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center">
+                    <div className="w-10 sm:w-11 md:w-12 lg:w-14 h-10 sm:h-11 md:h-12 lg:h-14 flex items-center justify-center">
                       {/* <Plane className="w-5 sm:w-6 h-5 sm:h-6 text-[#ffffff]" /> */}
-                      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="52" viewBox="0 0 50 52" fill="none">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-8 sm:w-9 md:w-10 lg:w-12 h-8 sm:h-9 md:h-10 lg:h-12" viewBox="0 0 50 52" fill="none">
                         <mask id="mask0_3292_7043" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="6" width="47" height="46">
                           <rect x="0.863525" y="6" width="46" height="46" fill="#D9D9D9" />
                         </mask>
@@ -688,13 +689,13 @@ export default function HomeHeroSection() {
                         </g>
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">Modes of Transportation</p>
+                    <p className="text-white text-center font-['Figtree'] text-[12px] md:text-[13px] lg:text-[14px] font-medium leading-normal">Modes of Transportation</p>
                   </div>
 
                   <div className="text-center hidden lg:flex flex-col gap-2 items-center">
-                    <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center mx-auto">
+                    <div className="w-10 sm:w-11 md:w-12 lg:w-14 h-10 sm:h-11 md:h-12 lg:h-14 flex items-center justify-center mx-auto">
                       {/* <Building className="w-5 sm:w-6 h-5 sm:h-6 text-[#ffffff]" /> */}
-                      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="52" viewBox="0 0 50 52" fill="none">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-8 sm:w-9 md:w-10 lg:w-12 h-8 sm:h-9 md:h-10 lg:h-12" viewBox="0 0 50 52" fill="none">
                         <mask id="mask0_3292_13021" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="6" width="47" height="46">
                           <rect x="0.859985" y="6" width="46" height="46" fill="#D9D9D9" />
                         </mask>
@@ -703,7 +704,7 @@ export default function HomeHeroSection() {
                         </g>
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">
+                    <p className="text-white text-center font-['Figtree'] text-[12px] md:text-[13px] lg:text-[14px] font-medium leading-normal">
                       Hotel
                       <br />
                       Stays
@@ -711,9 +712,9 @@ export default function HomeHeroSection() {
                   </div>
 
                   <div className="text-center hidden lg:flex flex-col gap-2 items-center">
-                    <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center">
+                    <div className="w-10 sm:w-11 md:w-12 lg:w-14 h-10 sm:h-11 md:h-12 lg:h-14 flex items-center justify-center">
                       {/* <Wind className="w-5 sm:w-6 h-5 sm:h-6 text-[#ffffff]" /> */}
-                      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-8 sm:w-9 md:w-10 lg:w-12 h-8 sm:h-9 md:h-10 lg:h-12" viewBox="0 0 36 36" fill="none">
                         <path d="M14.8502 34.9453H2.36517V15.0315C2.36517 11.5839 5.16002 8.78906 8.60766 8.78906C12.0553 8.78906 14.8501 11.5839 14.8501 15.0315V34.9453H14.8502Z" stroke="white" strokeWidth="2" strokeMiterlimit="10" />
                         <path d="M14.8502 30.7266H2.36517" stroke="white" strokeWidth="2" strokeMiterlimit="10" />
                         <path d="M8.60767 8.78906C9.77264 8.78906 10.717 7.84466 10.717 6.67969C10.717 5.51471 9.77264 4.57031 8.60767 4.57031C7.44269 4.57031 6.49829 5.51471 6.49829 6.67969C6.49829 7.84466 7.44269 8.78906 8.60767 8.78906Z" stroke="white" strokeWidth="2" strokeMiterlimit="10" />
@@ -725,7 +726,7 @@ export default function HomeHeroSection() {
                         <path d="M29.2597 4.67969V8.88916" stroke="white" strokeWidth="2" strokeMiterlimit="10" />
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">
+                    <p className="text-white text-center font-['Figtree'] text-[12px] md:text-[13px] lg:text-[14px] font-medium leading-normal">
                       Oxygen
                       <br />
                       cylinders
@@ -733,9 +734,9 @@ export default function HomeHeroSection() {
                   </div>
 
                   <div className="text-center hidden lg:flex flex-col gap-2 items-center">
-                    <div className="w-10 sm:w-12 h-10 sm:h-12 flex items-center justify-center">
+                    <div className="w-10 sm:w-11 md:w-12 lg:w-14 h-10 sm:h-11 md:h-12 lg:h-14 flex items-center justify-center">
                       {/* <MoreHorizontal className="w-5 sm:w-6 h-5 sm:h-6 text-[#ffffff]" /> */}
-                      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-8 sm:w-9 md:w-10 lg:w-12 h-8 sm:h-9 md:h-10 lg:h-12" viewBox="0 0 50 50" fill="none">
                         <mask id="mask0_3292_7423" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x="0" y="0" width="50" height="50">
                           <rect width="50" height="50" fill="#D9D9D9" />
                         </mask>
@@ -744,7 +745,7 @@ export default function HomeHeroSection() {
                         </g>
                       </svg>
                     </div>
-                    <p className="text-white text-center font-['Figtree'] text-[12px] lg:text-[14px] font-medium leading-normal">+10 More</p>
+                    <p className="text-white text-center font-['Figtree'] text-[12px] md:text-[13px] lg:text-[14px] font-medium leading-normal">+10 More</p>
                   </div>
                 </div>
 
