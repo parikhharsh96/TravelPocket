@@ -166,7 +166,7 @@ export default function HomeHeroSection() {
       {/* Top Banner */}
       <div className="bg-[#242A3A] py-2 px-4 text-center">
         <div className="flex flex-col sm:inline-flex sm:flex-row items-center gap-1 lg:gap-2">
-          <div className="flex items-center gap-2">
+          <div className="flex sm:items-center gap-2">
             <img src="/images/microphone.gif" alt="Announcement" className="w-6 h-6" />
             <span className="text-white font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal">Registrations Now Open for <span className="font-semibold">Kailash Mansarovar Yatra 2025 Parikrama!</span> Secure your seat
               today!</span>
@@ -579,7 +579,7 @@ export default function HomeHeroSection() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 text-center lg:text-left">
-                <div className="mb-8 rounded-lg p-2 sm:p-4">
+                <div className="mb-8 rounded-lg"> {/**p-2 sm:p-4 */}
                   <h1 className="text-white font-['Playfair_Display'] text-[36px] md:text-[48px] lg:text-[64px] xl:text-[86px] font-bold leading-[42px] md:leading-[56px] lg:leading-[72px] xl:leading-[90px] mb-4">
                     Kailash
                     <br />
@@ -616,7 +616,8 @@ export default function HomeHeroSection() {
               </div>
 
               {/* Inclusions Sidebar */}
-              <div className="rounded-lg bg-black/40 lg:bg-black/20 backdrop-blur-sm p-4 sm:p-4 h-fit max-w-sm mx-auto lg:mx-0">
+              <div className="rounded-lg bg-black/40 lg:bg-black/20 backdrop-blur-sm p-4 sm:p-4 h-fit max-w-sm mx-auto mx-auto lg:ml-auto lg:mr-0
+">
                 <h3 className="text-white text-center font-['Figtree'] text-[14px] md:text-[16px] lg:text-[18px] xl:text-[20px] font-medium leading-normal mb-4 sm:mb-6">Inclusions</h3>
 
                 <div className="grid grid-cols-3 sm:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
