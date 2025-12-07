@@ -174,7 +174,7 @@ export default function HomeHeroSection() {
           <Button
             variant="link"
             size="sm"
-            className="mt-0 lg:mt-2 sm:mt-0 bg-transparent px-0 lg:px-1"
+            className="mt-0 lg:mt-0 sm:mt-0 bg-transparent px-0 lg:px-1"
           >
             <span className="text-white font-['Figtree'] text-[12px] lg:text-[14px] font-semibold leading-normal underline underline-offset-auto decoration-solid uppercase">REGISTER NOW</span>
           </Button>
