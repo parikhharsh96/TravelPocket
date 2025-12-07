@@ -187,10 +187,10 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
 
             {/* Bottom Bar */}
             <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-2 py-0">{/**py-2 */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-0">
                     {/* Hamburger Menu for Mobile & Tablet */}
                     <button
-                        className="lg:hidden p-2"
+                        className="lg:hidden p-1"
                         onClick={() => setIsMenuOpen(true)}
                     >
                         <img src="/images/header/dehaze.svg" alt="Menu" className="w-6 h-6" />
@@ -198,7 +198,7 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
 
                     {/* Logo */}
                     <div className="flex-shrink-0 cursor-pointer" onClick={navigateToHome}>
-                        <img src="/images/footer/logo_design_travel_pocket.svg" alt="Logo" className="w-[120px] sm:w-[220px] h-auto" />
+                        <img src="/images/footer/logo_design_travel_pocket.svg" alt="Logo" className="w-[140px] sm:w-[220px] h-auto" />
                     </div>
                 </div>
 
