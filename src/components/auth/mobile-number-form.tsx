@@ -57,20 +57,20 @@ export function MobileNumberForm({ initialData, onNext }: MobileNumberFormProps)
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-[#21296f] text-balance">Login or Create your account</h1>
+        <h1 className="text-[#1A2F46] text-center font-['Playfair_Display'] text-[28px] font-semibold leading-normal">Login or Create your account</h1>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="mobile" className="text-[#1c1b1f] font-medium">
-            Mobile Number <span className="text-[#ff0000]">*</span>
+          <Label htmlFor="mobile" className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">
+            Mobile Number <span className="text-[#FF0000]">*</span>
           </Label>
           <div className="flex gap-2">
             <Select value={countryCode} onValueChange={(value) => setValue("countryCode", value)}>
-              <SelectTrigger className="w-24 border-[#d9d9d9]">
+              <SelectTrigger className="w-24 border-[#d9d9d9] text-[#5A5A5A] font-['Figtree'] text-[16px] font-normal leading-normal">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="+91">
                   <div className="flex items-center gap-2">
                     <span className="text-[#11892e]">🇮🇳</span>
@@ -79,7 +79,7 @@ export function MobileNumberForm({ initialData, onNext }: MobileNumberFormProps)
                 </SelectItem>
                 <SelectItem value="+1">
                   <div className="flex items-center gap-2">
-                    <span>🇺🇸</span>
+                    <span>us</span>
                     <span>+1</span>
                   </div>
                 </SelectItem>
@@ -94,27 +94,27 @@ export function MobileNumberForm({ initialData, onNext }: MobileNumberFormProps)
             <Input
               {...register("mobileNumber")}
               placeholder="Enter Mobile Number"
-              className="flex-1 border-[#d9d9d9] text-[#1c1b1f] placeholder:text-[#5a5a5a]"
+              className="flex-1 border-[#d9d9d9] text-[#5A5A5A] font-['Figtree'] text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
             />
           </div>
-          {errors.mobileNumber && <p className="text-[#ff0000] text-sm">{errors.mobileNumber.message}</p>}
+          {errors.mobileNumber && <p className="text-[#FF0000] text-sm">{errors.mobileNumber.message}</p>}
         </div>
 
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-medium py-3 rounded-lg"
+          className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg"
         >
           {isLoading ? "Sending..." : "SEND OTP"}
         </Button>
 
-        <p className="text-sm text-[#5a5a5a] text-center">
+        <p className="text-[#4E4E4E] text-center font-['Figtree'] text-[11px] font-normal leading-[19.5px]text-center">
           By verifying, you accept the{" "}
-          <a href="#" className="text-[#e97737] hover:underline">
+          <a href="#" className="text-[#E97737] hover:underline">
             Terms & Conditions
           </a>{" "}
-          and{" "}
-          <a href="#" className="text-[#e97737] hover:underline">
+          <span className="text-[#1D2125]/69">and</span>{" "}
+          <a href="#" className="text-[#E97737] hover:underline">
             Privacy Policy
           </a>
           .
@@ -122,10 +122,10 @@ export function MobileNumberForm({ initialData, onNext }: MobileNumberFormProps)
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-[#d9d9d9]" />
+            <div className="w-full border-t border-[#D2D8E4]" />
           </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="bg-[#ffffff] px-4 text-[#5a5a5a]">Or Continue</span>
+          <div className="relative flex justify-center">
+            <span className="bg-[#ffffff] px-4 text-black text-center font-['Figtree'] text-[11px] font-semibold leading-[19.5px]">Or Continue</span>
           </div>
         </div>
 
@@ -133,7 +133,7 @@ export function MobileNumberForm({ initialData, onNext }: MobileNumberFormProps)
           type="button"
           variant="outline"
           onClick={handleGoogleLogin}
-          className="w-full border-[#d9d9d9] text-[#1c1b1f] hover:bg-[#d2d8e4] py-3 bg-transparent"
+          className="w-full rounded-lg border border-[#D2D8E4] bg-white text-black text-center font-['Figtree'] text-[16px] font-semibold leading-[19.5px] hover:bg-[#d2d8e4] py-3 bg-transparent"
         >
           <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
             <path

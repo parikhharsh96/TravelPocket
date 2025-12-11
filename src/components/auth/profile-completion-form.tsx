@@ -61,30 +61,30 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
 
   return (
     <div className="space-y-6">
-      <Button variant="ghost" onClick={onBack} className="p-0 h-auto text-[#5a5a5a] hover:text-[#1c1b1f]">
+      <Button variant="ghost" onClick={onBack} className="p-0 h-auto text-[#5A5A5A] font-['Figtree'] text-[12px] font-normal leading-[14px] hover:text-[#1c1b1f]">
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back
       </Button>
 
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-[#21296f] text-balance">Complete your Sign up</h1>
+        <h1 className="text-[#1A2F46] text-center font-['Playfair_Display'] text-[28px] font-semibold leading-normal">Complete your Sign up</h1>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="mobile" className="text-[#1c1b1f] font-medium">
+          <Label htmlFor="mobile" className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">
             Mobile Number <span className="text-[#ff0000]">*</span>
           </Label>
           <div className="flex gap-2">
             <Select value={initialData.countryCode} disabled>
-              <SelectTrigger className="w-24 border-[#d9d9d9] bg-[#d2d8e4]">
+              <SelectTrigger className="w-24 border-[#d9d9d9] bg-[#d2d8e4] text-black font-['Figtree'] text-[16px] font-normal leading-normal">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="+91">
                   <div className="flex items-center gap-2">
-                    <span className="text-[#11892e]">🇮🇳</span>
-                    <span>+91</span>
+                    <span className="text-[#5A5A5A] font-['Figtree'] text-[16px] font-normal leading-normal">🇮🇳</span>
+                    <span className="text-[#5A5A5A] font-['Figtree'] text-[16px] font-normal leading-normal">+91</span>
                   </div>
                 </SelectItem>
               </SelectContent>
@@ -92,44 +92,44 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
             <Input
               value={initialData.mobileNumber}
               disabled
-              className="flex-1 border-[#d9d9d9] bg-[#d2d8e4] text-[#5a5a5a]"
+              className="flex-1 border-[#d9d9d9] bg-[#d2d8e4] text-black font-['Figtree'] text-[16px] font-normal leading-normal"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-[#1c1b1f] font-medium">
+          <Label htmlFor="email" className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">
             Email Address <span className="text-[#ff0000]">*</span>
           </Label>
           <Input
             {...register("email")}
             type="email"
             placeholder="Enter Email Address"
-            className="border-[#d9d9d9] text-[#1c1b1f] placeholder:text-[#5a5a5a]"
+            className="border-[#d9d9d9] text-black font-['Figtree'] text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
           />
           {errors.email && <p className="text-[#ff0000] text-sm">{errors.email.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="firstName" className="text-[#1c1b1f] font-medium">
+          <Label htmlFor="firstName" className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">
             First Name <span className="text-[#ff0000]">*</span>
           </Label>
           <Input
             {...register("firstName")}
             placeholder="Enter First Name"
-            className="border-[#d9d9d9] text-[#1c1b1f] placeholder:text-[#5a5a5a]"
+            className="border-[#d9d9d9] text-black font-['Figtree'] text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
           />
           {errors.firstName && <p className="text-[#ff0000] text-sm">{errors.firstName.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="lastName" className="text-[#1c1b1f] font-medium">
+          <Label htmlFor="lastName" className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">
             Last Name <span className="text-[#ff0000]">*</span>
           </Label>
           <Input
             {...register("lastName")}
             placeholder="Enter Last Name"
-            className="border-[#d9d9d9] text-[#1c1b1f] placeholder:text-[#5a5a5a]"
+            className="border-[#d9d9d9] text-black font-['Figtree'] text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
           />
           {errors.lastName && <p className="text-[#ff0000] text-sm">{errors.lastName.message}</p>}
         </div>
@@ -140,9 +140,9 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
               id="marketing"
               checked={marketingConsent}
               onCheckedChange={(checked) => setValue("marketingConsent", !!checked)}
-              className="border-[#1c8ca7] data-[state=checked]:bg-[#1c8ca7]"
+              className="border-[#1c8ca7] data-[state=checked]:bg-[#1c8ca7] text-white"
             />
-            <Label htmlFor="marketing" className="text-[#1c1b1f] text-sm leading-relaxed">
+            <Label htmlFor="marketing" className="text-black font-['Figtree'] text-[14px] font-normal leading-normal">
               Keep me updated on special promotions and offers.
             </Label>
           </div>
@@ -152,9 +152,9 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
               id="whatsapp"
               checked={whatsappConsent}
               onCheckedChange={(checked) => setValue("whatsappConsent", !!checked)}
-              className="border-[#1c8ca7] data-[state=checked]:bg-[#1c8ca7]"
+              className="border-[#1c8ca7] data-[state=checked]:bg-[#1c8ca7] text-white"
             />
-            <Label htmlFor="whatsapp" className="text-[#1c1b1f] text-sm leading-relaxed">
+            <Label htmlFor="whatsapp" className="text-black font-['Figtree'] text-[14px] font-normal leading-normal">
               I would like to get WhatsApp notifications
             </Label>
           </div>
@@ -163,7 +163,7 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
         <Button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-medium py-3 rounded-lg"
+          className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg"
         >
           {isLoading ? "Creating Profile..." : "COMPLETE PROFILE"}
         </Button>

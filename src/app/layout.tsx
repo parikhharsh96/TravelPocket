@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Figtree, Playfair_Display, Inter } from "next/font/google";
+import { Figtree, Playfair_Display, Inter, Dancing_Script } from "next/font/google";
 import "./globals.css";
 
 const figtree = Figtree({
@@ -11,7 +11,13 @@ const figtree = Figtree({
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
-  //variable: "--font-playfair",
+  variable: "--font-playfair",
+});
+
+const dancingScript = Dancing_Script({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-dancing-script",
 });
 
 
@@ -44,7 +50,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${figtree.className} ${playfair.className} ${inter.variable} antialiased min-h-screen bg-[#ffff]`}
+        className={`${geistSans.variable} ${geistMono.variable} ${figtree.className} ${inter.variable} ${playfair.variable} ${dancingScript.variable} antialiased min-h-screen bg-[#ffff]`}
       >
         {children}
       </body>

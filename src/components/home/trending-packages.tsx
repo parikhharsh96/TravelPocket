@@ -122,25 +122,25 @@ export default function TrendingPackages() {
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
              hover:bg-[position:0_0]" onClick={navigateToAllDestinations}>
-                        <div className="flex flex-row gap-2 items-center">
-                            <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
-                            <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
-                                <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
-                                <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
-                            </svg>
-                        </div>
-                    </Button>
-                </div>
-                {/* Slider */}
-                <div className="hidden md:block relative px-[50px]">
-                    {/* Left Arrow */}
-                    <button
-                        onClick={() => scroll("left")}
-                        className="hidden md:block absolute left-[0px] top-1/2 -translate-y-1/2 shadow-md rounded-full p-2 z-10"
-                        style={{ background: '#E3E6EE' }}
-                    >
-                        <ArrowLeft className="h-5 w-5 cursor-pointer" />
-                    </button>
+                    <div className="flex flex-row gap-2 items-center">
+                        <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
+                        <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                            <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                            <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
+                        </svg>
+                    </div>
+                </Button>
+            </div>
+            {/* Slider */}
+            <div className="hidden md:block relative px-[50px] lg:py-8">
+                {/* Left Arrow */}
+                <button
+                    onClick={() => scroll("left")}
+                    className="hidden md:block absolute left-[0px] top-1/2 -translate-y-1/2 shadow-md rounded-full p-2 z-10"
+                    style={{ background: '#E3E6EE' }}
+                >
+                    <ArrowLeft className="h-5 w-5 cursor-pointer" />
+                </button>
 
                     <div className="slider-wrp">
                         {/* Cards */}
@@ -180,25 +180,25 @@ export default function TrendingPackages() {
                                                     <p className="text-[#333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[22px]">{pkg.title}</p>
                                                 </div>
 
-                                                <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
-                                                    {/* Info Row */}
-                                                    <Calendar className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span>
-                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                    <CheckCircle className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusionCaption}</span>
-                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                    <MapPin className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.departure}</span>
-                                                </div>
-                                            </div>
-                                            <div className="flex items-start gap-[6px]">
-                                                <p className="text-[#333333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[24px]">
-                                                    EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">₹{pkg.emiAmount}</span>
-                                                </p>
-                                            </div>
-                                        </CardContent>
-                                        {/* <CardFooter> */}
-                                        {/* Buttons */}
-                                        <div className="flex flex-col md:flex-row lg:flex-row gap-4">
-                                            <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                                        <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
+                                            {/* Info Row */}
+                                            <Calendar className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span>
+                                            <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                            <CheckCircle className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusionCaption}</span>
+                                            <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                            <MapPin className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.departure}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-[6px]">
+                                        <p className="text-[#333333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[24px]">
+                                            EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">₹{pkg.emiAmount}</span>
+                                        </p>
+                                    </div>
+                                </CardContent>
+                                {/* <CardFooter> */}
+                                {/* Buttons */}
+                                <div className="flex flex-row md:flex-row lg:flex-row gap-4">
+                                    <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
                     group-hover:bg-[linear-gradient(90deg,_#1A2F46_0%,_#1A2F46_50%,_transparent_50%)] 
              group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
              group-hover:transition-[background-position] duration-300 ease-out
@@ -267,37 +267,37 @@ export default function TrendingPackages() {
                                                 <p className="text-[#333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[22px]">{pkg.title}</p>
                                             </div>
 
-                                            <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
-                                                {/* Info Row */}
-                                                <Calendar className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span>
-                                                <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                <CheckCircle className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusionCaption}</span>
-                                                <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                <MapPin className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.departure}</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-start gap-[6px]">
-                                            <p className="text-[#333333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[24px]">
-                                                EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">₹{pkg.emiAmount}</span>
-                                            </p>
-                                        </div>
-                                    </CardContent>
-                                    {/* <CardFooter> */}
-                                    {/* Buttons */}
-                                    <div className="flex flex-col md:flex-row lg:flex-row gap-4">
-                                        <Button variant="outline" className="flex-1 shrink-0 cursor-pointer" onClick={navigateToPackageDetails}>
-                                            <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">View Details</span>
-                                        </Button>
-                                        <Button variant="outline" className="flex-1 shrink-0 cursor-pointer" onClick={navigateToPackageDetails}>
-                                            <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">Book Now</span>
-                                        </Button>
+                                    <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
+                                        {/* Info Row */}
+                                        <Calendar className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span>
+                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                        <CheckCircle className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusionCaption}</span>
+                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                        <MapPin className="h-4 w-4" /> <span className="text-[#5A5A5A] font-[Figtree] text-[10px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.departure}</span>
                                     </div>
-                                    {/* </CardFooter> */}
-                                </Card>
-                            )))}
+                                </div>
+                                <div className="flex items-start gap-[6px]">
+                                    <p className="text-[#333333] font-['Figtree'] text-[12px] md:text-[16px] font-normal leading-[24px]">
+                                        EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[22px] font-semibold leading-[24px]">₹{pkg.emiAmount}</span>
+                                    </p>
+                                </div>
+                            </CardContent>
+                            {/* <CardFooter> */}
+                            {/* Buttons */}
+                            <div className="flex flex-row md:flex-row lg:flex-row gap-4">
+                                <Button variant="outline" className="flex-1 shrink-0 cursor-pointer" onClick={navigateToPackageDetails}>
+                                    <span className="text-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">View Details</span>
+                                </Button>
+                                <Button variant="outline" className="flex-1 shrink-0 cursor-pointer" onClick={navigateToPackageDetails}>
+                                    <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal">Book Now</span>
+                                </Button>
+                            </div>
+                            {/* </CardFooter> */}
+                        </Card>
+                    )))}
                         )
-                    </div>
                 </div>
+            </div>
 
                 {/* View All button Mobile view */}
                 <div className="flex items-center justify-center gap-2 md:hidden">

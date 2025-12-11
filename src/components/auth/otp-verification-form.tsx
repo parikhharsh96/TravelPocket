@@ -87,71 +87,70 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack }: OtpVerific
 
   return (
     <div className="space-y-6">
-      <Button variant="ghost" onClick={onBack} className="p-0 h-auto text-[#5a5a5a] hover:text-[#1c1b1f]">
+      <Button variant="ghost" onClick={onBack} className="p-0 h-auto text-[#5A5A5A] font-['Figtree'] text-[12px] font-normal leading-[14px] hover:text-[#1c1b1f]">
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back
       </Button>
 
       <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold text-[#21296f] text-balance">Verify your Mobile Number</h1>
-        <p className="text-[#5a5a5a]">Enter the OTP sent to your Mobile Number</p>
-        <p className="font-medium text-[#1c1b1f]">{mobileNumber}</p>
+        <h1 className="text-[#1A2F46] text-center font-['Playfair_Display'] text-[28px] font-semibold leading-normal">Verify your Mobile Number</h1>
+        <p className="text-black text-center font-['Figtree'] text-[14px] font-normal leading-[21px]">Enter the OTP sent to your Mobile Number</p>
+        <p className="text-black text-center font-['Figtree'] text-[14px] font-semibold leading-[21px]">{mobileNumber}</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-4">
-          <label className="block text-[#1c1b1f] font-medium">
-            Enter OTP<span className="text-[#ff0000]">*</span>
+        <div className="space-y-4 rounded-md bg-[#FFF7F2] px-8 py-5">
+          <label className="block text-black font-['Figtree'] text-[14px] font-medium leading-normal">
+            Enter OTP<span className="text-black">*</span>
           </label>
 
-          <div className="flex gap-3 justify-center">
+          <div className="flex gap-3">
             {otpValues.map((value, index) => (
               <Input
                 key={index}
-                ref={(el) => {inputRefs.current[index] = el}}
+                ref={(el) => { inputRefs.current[index] = el }}
                 type="text"
                 inputMode="numeric"
                 maxLength={1}
                 value={value}
                 onChange={(e) => handleOtpChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-12 h-12 text-center text-lg font-medium border-[#1c8ca7] focus:border-[#243de2] text-[#1c1b1f]"
+                className="w-12 h-12 text-center text-black font-['Figtree'] text-[20px] font-medium leading-normal rounded-md border border-[#29A4C1] focus:border-[#243de2]"
               />
             ))}
           </div>
 
           {errors.otp && <p className="text-[#ff0000] text-sm text-center">{errors.otp.message}</p>}
-        </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-black font-['Figtree'] text-[15px] font-normal leading-[18px]">
+              <Clock className="w-4 h-4" />
+              <span>{countdown}s</span>
+            </div>
 
-        <div className="flex items-center justify-between text-sm">
-          <div className="flex items-center gap-2 text-[#5a5a5a]">
-            <Clock className="w-4 h-4" />
-            <span>{countdown}s</span>
+            {canResend ? (
+              <button type="button" onClick={handleResendOtp} className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-semibold leading-[18px] hover:underline">
+                Re-Send OTP
+              </button>
+            ) : (
+              <span className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-semibold leading-[18px]">Re-Send OTP</span>
+            )}
           </div>
-
-          {canResend ? (
-            <button type="button" onClick={handleResendOtp} className="text-[#e97737] hover:underline font-medium">
-              Re-Send OTP
-            </button>
-          ) : (
-            <span className="text-[#d9d9d9]">Re-Send OTP</span>
-          )}
         </div>
 
         <Button
           type="submit"
           disabled={isLoading || otpValues.join("").length !== 6}
-          className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-medium py-3 rounded-lg"
+          className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg"
         >
           {isLoading ? "Verifying..." : "VERIFY OTP"}
         </Button>
 
-        <p className="text-sm text-[#5a5a5a] text-center">
+        <p className="text-[#4E4E4E] text-center font-['Figtree'] text-[11px] font-normal leading-[19.5px] text-center">
           By verifying, you accept the{" "}
           <a href="#" className="text-[#e97737] hover:underline">
             Terms & Conditions
           </a>{" "}
-          and{" "}
+          <span className="text-[#1D2125]/69">and</span>{" "}
           <a href="#" className="text-[#e97737] hover:underline">
             Privacy Policy
           </a>
