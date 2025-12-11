@@ -20,6 +20,8 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Calendar, CheckCircle, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useApi } from '@/lib/use-api';
+import { API_ENDPOINTS } from '@/lib/constants';
 
 const packages = [
     {
@@ -96,7 +98,7 @@ interface GiftProductCardProps {
 }
 
 interface ItineraryAccordionProps {
-    itinerary: ItineraryItem[];
+    itinerary: Itinerary[];
     defaultOpenCount?: number;
     openAccordions: Set<string>;
     setOpenAccordions: React.Dispatch<React.SetStateAction<Set<string>>>;
@@ -162,6 +164,84 @@ interface PackingListProps {
     rightColumn: EssentialItem[];
 }
 
+interface PackageDate {
+    dateId: number;
+    packageId: number;
+    groupCode: string;
+    startDate: string;
+    endDate: string;
+    groupSize: number;
+    remaining: number;
+    remark: string;
+}
+
+interface Essential {
+    essentialId: number;
+    title: string;
+}
+
+interface Inclusion {
+    inclusionId: number;
+    title: string;
+    imageUrl: string;
+}
+
+interface Exclusion {
+    exclusionId: number;
+    title: string;
+}
+
+interface Hotel {
+    itineraryId: number;
+    hotelId: number;
+    hotelName: string;
+    category: string;
+}
+
+interface Itinerary {
+    itineraryId: number;
+    packageId: number;
+    title: string;
+    dayNumber: number;
+    dayLabel: string;
+    description: string;
+    fromCityId: number;
+    fromCityName: string;
+    toCityId: number;
+    toCityName: string;
+    hotels: Hotel[];
+}
+
+interface PackageOverview {
+    groupId: number;
+    groupName: string;
+    groupDescription: string;
+    packageId: number;
+    title: string;
+    duration: string;
+    tag: string;
+    groupSize: string;
+    departure: string;
+    price: number;
+    mrp: number;
+    imageUrl: string;
+    emiAmount: number;
+    inclusionCaption: string;
+    showPopularFlag: boolean;
+    showRegistrationOpenFlag: boolean;
+    description: string;
+    highlight: string;
+    distance: string;
+    season: string;
+    destination: string;
+    difficulty: string;
+    altitude: string;
+    isTcsApplicable: boolean;
+    isTrending: boolean;
+    imageList: any[];
+    highlightList: any[];
+}
+
 const leftColumnData: EssentialItem[] = [
     { text: "Thermal innerwear (tops and bottoms)." },
     { text: "Warm jackets and windcheaters (waterproof recommended)." },
@@ -202,9 +282,19 @@ export default function DetailPackage() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const [activeTab, setActiveTab] = useState("inclusions");
+    const [packageOverview, setPackageOverview] = useState<PackageOverview | null>(null);
+    const [essentials, setEssentials] = useState<Essential[]>([]);
+    const [inclusions, setInclusions] = useState<Inclusion[]>([]);
+    const [exclusions, setExclusions] = useState<Exclusion[]>([]);
+    const [packageDates, setPackageDates] = useState<PackageDate[]>([]);
+    const [itineraries, setItineraries] = useState<Itinerary[]>([]);
 
     const sliderRef = useRef<HTMLDivElement>(null);
     const tabRefs = useRef<Record<string, HTMLDivElement | null>>({});
+    const { data, loading, error, execute } = useApi<any>();
+    const { data: itinerariesData, execute: executeItineraries } = useApi<any>();
+    const { data: inclusionsData, execute: executeInclusions } = useApi<any>();
+    const { data: packageDatesData, execute: executeDates } = useApi<any>();
 
     // Number of accordions to open by default
     const defaultOpenAccordions = 2;
@@ -222,11 +312,66 @@ export default function DetailPackage() {
 
     const scrollAmount = 320; // Match card width + margin
 
+    useEffect(() => {
+        const apiUrl = `${API_ENDPOINTS.package.getOverview}?userid=0&packageid=16`;
+        execute(apiUrl);
+
+        const itinerariesUrl = `${API_ENDPOINTS.package.getItineraries}?userid=0&packageid=16`;
+        executeItineraries(itinerariesUrl);
+
+        const inclusionsUrl = `${API_ENDPOINTS.package.getEssentialInclusions}?userid=0&packageid=16`;
+        executeInclusions(inclusionsUrl);
+
+        const datesUrl = `${API_ENDPOINTS.package.getPackageDates}?userid=0&packageid=16`;
+        executeDates(datesUrl);
+    }, [execute, executeItineraries, executeInclusions, executeDates]);
+
+    useEffect(() => {
+        if (data) {
+            console.log('Package Overview API data:', data);
+            if (data.success && data.data) {
+                setPackageOverview(data.data);
+            }
+        }
+        if (error) {
+            console.error('Package Overview API error:', error);
+        }
+    }, [data, error]);
+
+    useEffect(() => {
+        if (itinerariesData) {
+            console.log('Package Itineraries API data:', itinerariesData);
+            if (itinerariesData.success && itinerariesData.data) {
+                setItineraries(itinerariesData.data || []);
+            }
+        }
+    }, [itinerariesData]);
+
+    useEffect(() => {
+        if (inclusionsData) {
+            console.log('Package Essential Inclusions API data:', inclusionsData);
+            if (inclusionsData.success && inclusionsData.data) {
+                setEssentials(inclusionsData.data.essentials || []);
+                setInclusions(inclusionsData.data.inclusions || []);
+                setExclusions(inclusionsData.data.exclusions || []);
+            }
+        }
+    }, [inclusionsData]);
+
+    useEffect(() => {
+        if (packageDatesData) {
+            console.log('Package Dates API data:', packageDatesData);
+            if (packageDatesData.success && packageDatesData.data) {
+                setPackageDates(packageDatesData.data || []);
+            }
+        }
+    }, [packageDatesData]);
+
     const [showAll, setShowAll] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
-    const displayLimit = 14;
-    const halfLimit = displayLimit / 2;
+    const mobileLimit = Math.ceil(essentials.length / 4); // Show half of total essentials on mobile initially
+    const halfLimit = Math.ceil(essentials.length / 2);
 
     const handleBack = () => {
         if (document.referrer !== "") {
@@ -255,15 +400,19 @@ export default function DetailPackage() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    // Convert API essentials to left/right columns
+    const leftColumnFromAPI = essentials.slice(0, Math.ceil(essentials.length / 2)).map(item => ({ text: item.title, essentialId: item.essentialId }));
+    const rightColumnFromAPI = essentials.slice(Math.ceil(essentials.length / 2)).map(item => ({ text: item.title, essentialId: item.essentialId }));
+
     // ✅ Decide what to display
     const displayedLeft =
-        isMobile && !showAll ? leftColumnData.slice(0, halfLimit) : leftColumnData;
+        isMobile && !showAll ? leftColumnFromAPI.slice(0, mobileLimit) : leftColumnFromAPI;
 
     const displayedRight =
-        isMobile && !showAll ? rightColumnData.slice(0, halfLimit) : rightColumnData;
+        isMobile && !showAll ? rightColumnFromAPI.slice(0, mobileLimit) : rightColumnFromAPI;
 
     const hasExtraItems =
-        leftColumnData.length > halfLimit || rightColumnData.length > halfLimit;
+        leftColumnFromAPI.length > mobileLimit || rightColumnFromAPI.length > mobileLimit;
 
     useEffect(() => {
         const observerOptions = {
@@ -794,7 +943,7 @@ export default function DetailPackage() {
 
                                     <div className="w-full flex flex-col">
                                         <ItineraryAccordion
-                                            itinerary={itineraryList}
+                                            itinerary={itineraries}
                                             defaultOpenCount={defaultOpenAccordions}
                                             openAccordions={openAccordions}
                                             setOpenAccordions={setOpenAccordions}
@@ -815,7 +964,7 @@ export default function DetailPackage() {
                                             {/* LEFT COLUMN */}
                                             <div className="flex flex-col gap-[8px] items-start">
                                                 {displayedLeft.map((item, index) => (
-                                                    <div key={index} className="flex gap-[8px] items-center">
+                                                    <div key={item.essentialId} className="flex gap-[8px] items-center">
                                                         <img src="/images/detailpage/arrow.svg" alt="" />
                                                         <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
                                                             {item.text}
@@ -827,7 +976,7 @@ export default function DetailPackage() {
                                             {/* RIGHT COLUMN */}
                                             <div className="flex flex-col gap-[8px] items-start mt-4 lg:mt-0">
                                                 {displayedRight.map((item, index) => (
-                                                    <div key={index} className="flex gap-[8px] items-center">
+                                                    <div key={item.essentialId} className="flex gap-[8px] items-center">
                                                         <img src="/images/detailpage/arrow.svg" alt="" />
                                                         <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
                                                             {item.text}
@@ -876,89 +1025,27 @@ export default function DetailPackage() {
 
                                 {activeTab === "inclusions" ? (
                                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/Frame_1.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Tibet & Kailash Permits: All necessary entry permissions and group visas
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/Frame_1.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Chinese Visa Fee: Included in the package.
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/Frame_1.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Transportation: Lucknow–Nepalgunj by coach, Nepalgunj–Simikot by aircraft, Simikot–Hilsa by helicopter, and Tibet by luxury coach.
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/Frame_3.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Accommodation: Hotel stay in Nepalgunj and guesthouses in Tibet.
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/Frame_1.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Permits: Upper Humla permit fee included.
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/cutlery.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Support Services: Support truck for kitchen equipment and food supplies
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/svg4089.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Meals: All vegetarian meals throughout the journey.
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/bus.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Overland transfer in Tibet by luxury coach.
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/winter-jacket.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Gear: Complimentary duffle bag, day pack, and down jacket
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/tent.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Camping Equipment: Tents, utensils, and other essentials for camping.
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/tour-guide.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Guides: Expert Tibetan guide from FEC.
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/capa.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Health & Safety: Oxygen cylinders provided for the group.
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-col items-start gap-[9px]">
-                                            <img src="/images/detailpage/rupee.svg" />
-                                            <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                Entrance fees in Tibet
-                                            </p>
-                                        </div>
+                                        {inclusions.map((inclusion, index) => (
+                                            <div key={inclusion.inclusionId} className="flex flex-col items-start gap-[9px]">
+                                                <img src="/images/detailpage/Frame_1.svg" />
+                                                <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                    {inclusion.title}
+                                                </p>
+                                            </div>
+                                        ))}
                                     </div>
                                 ) : (
-                                    <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] italic">
-                                        Exclusion details will be added soon...
+                                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+                                        {exclusions.map((exclusion, index) => (
+                                            <div key={exclusion.exclusionId} className="flex flex-col items-start gap-[9px]">
+                                                <img src="/images/detailpage/Frame_1.svg" />
+                                                <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                    {exclusion.title}
+                                                </p>
+                                            </div>
+                                        ))}
                                     </div>
+
                                 )}
 
                             </div>
@@ -1819,7 +1906,7 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                 const isOpen = openAccordions.has(itemId);
 
                 return (
-                    <div key={index}>
+                    <div key={item.itineraryId}>
                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-8 w-full">
                             {/* For mobile: Day + title + accordion icon inline */}
                             <Accordion
@@ -1838,7 +1925,8 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                 className="w-[100px] h-[40px] object-contain"
                                             />
                                             <div className="absolute text-[#E97737] font-[Figtree] text-[14px] font-bold uppercase top-[10px] left-[25px]">
-                                                Day {item.day}
+                                                {/* Day {item.day} */}
+                                                {item.dayLabel}
                                             </div>
                                         </div>
                                         {/* Title */}
@@ -1848,12 +1936,10 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                     </AccordionTrigger>
 
                                     <AccordionContent>
-                                        <p className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8 pl-4">
-                                            {item.description}
-                                        </p>
+                                        <div className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8 pl-4" dangerouslySetInnerHTML={{ __html: item.description }} />
 
                                         {/* Route Overview */}
-                                        {item.routeOverview && item.routeOverview?.length > 0 && (
+                                        {/* {item.routeOverview && item.routeOverview?.length > 0 && (
                                             <div className="flex flex-col gap-[8px] mb-4 pl-4">
                                                 <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
                                                     Route Overview
@@ -1871,10 +1957,10 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                     </div>
                                                 ))}
                                             </div>
-                                        )}
+                                        )} */}
 
                                         {/* Key Highlights */}
-                                        {item.keyHighlights && item.keyHighlights?.length > 0 && (
+                                        {/* {item.keyHighlights && item.keyHighlights?.length > 0 && (
                                             <div className="flex flex-col gap-[8px] mb-4 pl-4">
                                                 <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
                                                     Key Highlights
@@ -1891,10 +1977,10 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                     </div>
                                                 ))}
                                             </div>
-                                        )}
+                                        )} */}
 
                                         {/* Feature Badges */}
-                                        {item.featureBadges && item.featureBadges?.length > 0 && (
+                                        {/* {item.featureBadges && item.featureBadges?.length > 0 && (
                                             <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4 pl-4">
                                                 {item.featureBadges.map((badge, idx) => (
                                                     <div
@@ -1911,10 +1997,10 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                     </div>
                                                 ))}
                                             </div>
-                                        )}
+                                        )} */}
 
                                         {/* Images */}
-                                        {item.images && item.images?.length > 0 && (
+                                        {/* {item.images && item.images?.length > 0 && (
                                             <div className="flex flex-row gap-[12px] flex-wrap pl-4">
                                                 {item.images.map((img, idx) => (
                                                     <div
@@ -1932,7 +2018,7 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                     </div>
                                                 ))}
                                             </div>
-                                        )}
+                                        )} */}
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
@@ -1946,7 +2032,8 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                         className="w-[120px] h-[50px] object-contain"
                                     />
                                     <div className="absolute text-[#E97737] font-[Figtree] text-[14px] lg:text-[22px] font-bold leading-normal uppercase lg:top-[8px] left-[25px]">
-                                        Day {item.day}
+                                        {/* Day {item.day} */}
+                                        {item.dayLabel}
                                     </div>
                                 </div>
 
@@ -1966,12 +2053,10 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                 </div>
                                             </AccordionTrigger>
                                             <AccordionContent>
-                                                <p className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8">
-                                                    {item.description}
-                                                </p>
+                                                <div className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8" dangerouslySetInnerHTML={{ __html: item.description }} />
 
                                                 {/* Route Overview */}
-                                                {item.routeOverview && item.routeOverview?.length > 0 && (
+                                                {/* {item.routeOverview && item.routeOverview?.length > 0 && (
                                                     <div className="flex flex-col gap-[8px] mb-4">
                                                         <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
                                                             Route Overview
@@ -1989,10 +2074,10 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                             </div>
                                                         ))}
                                                     </div>
-                                                )}
+                                                )} */}
 
                                                 {/* Key Highlights */}
-                                                {item.keyHighlights && item.keyHighlights?.length > 0 && (
+                                                {/* {item.keyHighlights && item.keyHighlights?.length > 0 && (
                                                     <div className="flex flex-col gap-[8px] mb-4">
                                                         <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
                                                             Key Highlights
@@ -2009,10 +2094,10 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                             </div>
                                                         ))}
                                                     </div>
-                                                )}
+                                                )} */}
 
                                                 {/* Feature Badges */}
-                                                {item.featureBadges && item.featureBadges?.length > 0 && (
+                                                {/* {item.featureBadges && item.featureBadges?.length > 0 && (
                                                     <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4">
                                                         {item.featureBadges.map((badge, idx) => (
                                                             <div
@@ -2029,10 +2114,10 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                             </div>
                                                         ))}
                                                     </div>
-                                                )}
+                                                )} */}
 
                                                 {/* Images */}
-                                                {item.images && item.images?.length > 0 && (
+                                                {/* {item.images && item.images?.length > 0 && (
                                                     <div className="flex flex-row gap-[12px] flex-wrap">
                                                         {item.images.map((img, idx) => (
                                                             <div
@@ -2050,7 +2135,7 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                             </div>
                                                         ))}
                                                     </div>
-                                                )}
+                                                )} */}
                                             </AccordionContent>
                                         </AccordionItem>
                                     </Accordion>

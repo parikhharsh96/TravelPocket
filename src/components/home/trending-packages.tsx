@@ -34,10 +34,12 @@ export default function TrendingPackages() {
     const [trendingPackages, setTrendingPackages] = useState<TrendingPackage[]>([]);
 
     useEffect(() => {
-        execute(API_ENDPOINTS.customerHome.getTrendingPackages);
+        const apiUrl = `${API_ENDPOINTS.customerHome.getTrendingPackages}?userid=0&pageno=1&pagesize=10`;
+        execute(apiUrl);
     }, [execute]);
 
     useEffect(() => {
+        console.log('Loading state:', loading);
         if (data) {
             console.log('Trending Packages API data:', data);
             if (data.data) {
@@ -47,7 +49,7 @@ export default function TrendingPackages() {
         if (error) {
             console.error('Trending Packages API error:', error);
         }
-    }, [data, error]);
+    }, [data, error, loading]);
 
     const navigateToAllDestinations = () => {
         router.push("/listing");
@@ -235,7 +237,7 @@ export default function TrendingPackages() {
                     <div
                         className="flex gap-6 items-center overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"
                     >
-                        {loading ? (
+                        {true ? (
                             <PackagesSkeleton />
                         ) : (
                             trendingPackages.map((pkg, index) => (

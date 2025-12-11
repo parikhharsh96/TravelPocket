@@ -1,49 +1,44 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useApi } from '@/lib/use-api';
+import { API_ENDPOINTS } from '@/lib/constants';
 
 interface Story {
-  id: number
-  date: string
+  storyId: number
   title: string
-  description: string
-  image: string
-  signature: string
+  storyDate: string
+  postedBy: string
+  shortDescription: string
+  longDescription: string
+  imageUrl: string
 }
-
-const stories: Story[] = [
-  {
-    id: 1,
-    date: "October 2024",
-    title: "My dream trip to see Kailash Manasarovar happened",
-    description: "Kailash Mansarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed exactly and they performed what they promised. Travel and Stay was very comfortable. They handled unavoidable hurdles excellently. Tour lead was very friendly, courteous and excellent company to the travellers.",
-    image: "/images/stories/stories-img.jpg",
-    signature: "Rekha Dinesh Kumar"
-  },
-  {
-    id: 2,
-    date: "September 2024",
-    title: "Exploring the hidden gems of Himachal Pradesh",
-    description: "Kailash Mansarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed exactly and they performed what they promised. Travel and Stay was very comfortable. They handled unavoidable hurdles excellently. Tour lead was very friendly, courteous and excellent company to the travellers.",
-    image: "/images/stories/stories-img.jpg",
-    signature: "Amit Sharma"
-  },
-  {
-    id: 3,
-    date: "August 2024",
-    title: "My dream trip to Kerala backwaters - A serene escape",
-    description: "Kailash Mansarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed exactly and they performed what they promised. Travel and Stay was very comfortable. They handled unavoidable hurdles excellently. Tour lead was very friendly, courteous and excellent company to the travellers.",
-    image: "/images/stories/stories-img.jpg",
-    signature: "Priya Nair"
-  }
-]
 
 export function Stories() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
+  const { data, loading, error, execute } = useApi<any>();
+  const [stories, setStories] = useState<Story[]>([]);
+
+  useEffect(() => {
+    const apiUrl = `${API_ENDPOINTS.customerHome.getStories}?userid=0&pageno=1&pagesize=10`;
+    execute(apiUrl);
+  }, [execute]);
+
+  useEffect(() => {
+    if (data) {
+      console.log('Stories API data:', data);
+      if (data.data) {
+        setStories(data.data);
+      }
+    }
+    if (error) {
+      console.error('Stories API error:', error);
+    }
+  }, [data, error]);
 
   const navigateToStories = () => {
     router.push("/stories");
@@ -57,9 +52,91 @@ export function Stories() {
     setCurrentIndex((prev) => (prev - 1 + stories.length) % stories.length)
   }
 
+  const StoriesSkeleton = () => (
+    <div className="relative h-[725px] md:h-[450px] overflow-hidden">
+      <div className="absolute inset-0 flex items-center justify-center">
+        {/* Left card (blurred) */}
+        <div className="absolute w-full max-w-4xl" style={{ transform: "translateX(-80%) scale(0.85)", opacity: "1", zIndex: "5", filter: "blur(2px)" }}>
+          <div className="bg-gray-300 rounded-2xl p-6 md:p-8 mx-4">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+              <div className="flex-shrink-0">
+                <div className="bg-white p-3 rounded-lg shadow-lg w-full md:w-56">
+                  <div className="h-36 md:h-42 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                  <div className="mt-2 h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                </div>
+              </div>
+              <div className="flex-1 space-y-4">
+                <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-24"></div>
+                <div className="h-8 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                <div className="space-y-2">
+                  <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                  <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-3/4"></div>
+                </div>
+                <div className="h-10 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-40"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Center card (active) */}
+        <div className="w-full max-w-4xl" style={{ transform: "translateX(0%) scale(1)", opacity: "1", zIndex: "10" }}>
+          <div className="bg-gray-300 rounded-2xl p-6 md:p-8 mx-4">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+              <div className="flex-shrink-0">
+                <div className="bg-white p-3 rounded-lg shadow-lg w-full md:w-56">
+                  <div className="h-36 md:h-42 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                  <div className="mt-2 h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                </div>
+              </div>
+              <div className="flex-1 space-y-4">
+                <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-24"></div>
+                <div className="h-8 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                <div className="space-y-2">
+                  <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                  <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-3/4"></div>
+                </div>
+                <div className="h-10 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-40"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Right card (blurred) */}
+        <div className="absolute w-full max-w-4xl" style={{ transform: "translateX(80%) scale(0.85)", opacity: "1", zIndex: "5", filter: "blur(2px)" }}>
+          <div className="bg-gray-300 rounded-2xl p-6 md:p-8 mx-4">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+              <div className="flex-shrink-0">
+                <div className="bg-white p-3 rounded-lg shadow-lg w-full md:w-56">
+                  <div className="h-36 md:h-42 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                  <div className="mt-2 h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                </div>
+              </div>
+              <div className="flex-1 space-y-4">
+                <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-24"></div>
+                <div className="h-8 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                <div className="space-y-2">
+                  <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                  <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-3/4"></div>
+                </div>
+                <div className="h-10 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-40"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <section className="py-12 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container mx-auto px-4">
+    <>
+      <style jsx>{`
+        @keyframes shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+      `}</style>
+      <section className="py-12 bg-gradient-to-b from-gray-50 to-white">
+        <div className="container mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col md:flex-row items-center justify-between py-10 relative md:mb-4 md:mt-2">
           {/* Title with background circle */}
@@ -101,9 +178,12 @@ export function Stories() {
         </div>
 
         {/* Slider Container */}
-        <div className="relative h-[725px] md:h-[450px] overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-center">
-            {stories.map((story, index) => {
+        {loading ? (
+          <StoriesSkeleton />
+        ) : (
+          <div className="relative h-[725px] md:h-[450px] overflow-hidden">
+            <div className="absolute inset-0 flex items-center justify-center">
+              {stories.map((story, index) => {
               const isActive = index === currentIndex
               const isPrev = index === (currentIndex - 1 + stories.length) % stories.length
               const isNext = index === (currentIndex + 1) % stories.length
@@ -132,7 +212,7 @@ export function Stories() {
 
               return (
                 <div
-                  key={story.id}
+                  key={story.storyId}
                   className="absolute w-full max-w-4xl transition-all duration-700 ease-in-out"
                   style={{
                     transform,
@@ -148,13 +228,13 @@ export function Stories() {
                       <div className="flex-shrink-0">
                         <div className="bg-white p-3 rounded-lg shadow-lg transform rotate-[-3deg] hover:rotate-0 transition-transform duration-300">
                           <img
-                            src={story.image}
+                            src={story.imageUrl}
                             alt={story.title}
                             className="w-full h-36 md:w-56 md:h-42 object-cover rounded"
                           />
                           <div className="mt-2 text-center">
                             <p className="text-black font-['Dancing_Script'] text-[26px] font-normal leading-normal">
-                              {story.signature}
+                              {story.postedBy}
                             </p>
                           </div>
                         </div>
@@ -164,7 +244,7 @@ export function Stories() {
                       <div className="flex-1 text-white">
                         <div className="mb-3">
                           <span className="rounded-md bg-white text-black font-['Figtree'] text-[12px] font-normal leading-normal px-3 py-1">
-                            {story.date}
+                            {new Date(story.storyDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
                           </span>
                         </div>
 
@@ -173,7 +253,7 @@ export function Stories() {
                         </h3>
 
                         <p className="text-white font-['Figtree'] text-[12px] lg:text-[14px] font-light leading-[22px] mb-6">
-                          {story.description}
+                          {story.longDescription}
                         </p>
 
                         <Button
@@ -196,9 +276,10 @@ export function Stories() {
                   </div>
                 </div>
               )
-            })}
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* View All button Mobile view */}
         <div className="flex items-center justify-end gap-2 md:hidden">
@@ -243,7 +324,8 @@ export function Stories() {
           </button>
         </div>
 
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   )
 }

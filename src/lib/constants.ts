@@ -9,13 +9,24 @@ export const USE_MOCK_DATA =
   (process.env.NODE_ENV === "development" && process.env.NEXT_PUBLIC_USE_MOCK_DATA !== "false");
 
 export const API_ENDPOINTS = {
+  auth: {
+    generateToken: `${API_BASE_URL}/api/Auth/generatetoken`,
+  },
   customerHome: {
-    getTrendingPackages: `${API_BASE_URL}/api/CustomerHome/gettrendingpackages`,
-    getDestinations: `${API_BASE_URL}/api/CustomerHome/getdestinations`,
-    getSearchDropdownValues: `${API_BASE_URL}/api/CustomerHome/getsearchdropdownvalues`,
-    getTravelGoals: `${API_BASE_URL}/api/CustomerHome/gettravelgoals`,
-    getStories: `${API_BASE_URL}/api/CustomerHome/getstories`,
-    getSharedExperiences: `${API_BASE_URL}/api/CustomerHome/getsharedexperiences`,
+    getTrendingPackages: `${API_BASE_URL}/api/customerhome/trending-packages`,
+    getDestinations: `${API_BASE_URL}/api/customerhome/destinations`,
+    getSearchDropdownValues: `${API_BASE_URL}/api/customerhome/search-dropdown-values`,
+    getTravelGoals: `${API_BASE_URL}/api/customerhome/travel-goals`,
+    getStories: `${API_BASE_URL}/api/customerhome/stories`,
+    getSharedExperiences: `${API_BASE_URL}/api/customerhome/shared-experiences`,
+    getTravelGalleries: `${API_BASE_URL}/api/customerhome/travel-galleries`,
+    getBlogs: `${API_BASE_URL}/api/customerhome/blogs`,
+  },
+  package: {
+    getOverview: `${API_BASE_URL}/api/package/overview`,
+    getItineraries: `${API_BASE_URL}/api/package/package-itineraries`,
+    getEssentialInclusions: `${API_BASE_URL}/api/package/package-essential-inclusions`,
+    getPackageDates: `${API_BASE_URL}/api/package/package-dates`,
   },
   booking: {
     getCustomerBySearch: `${API_BASE_URL}/api/Booking/getcustomerbysearch`,

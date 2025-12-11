@@ -1,14 +1,27 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Instagram } from "lucide-react"
 import { ArrowCircleIcon } from "../shared/ArrowCircleIcon"
 import { useRouter } from "next/navigation"
+import { useApi } from '@/lib/use-api'
+import { API_ENDPOINTS } from '@/lib/constants'
+
+interface Gallery {
+  galleryId: number
+  title: string
+  publishDate: string
+  imageUrl: string
+  videoUrl: string
+}
 
 interface Photo {
   src: string
   alt: string
   className: string
+  galleryId?: number
+  publishDate?: string
+  videoUrl?: string
 }
 
 interface NestedPhoto {
@@ -18,6 +31,26 @@ interface NestedPhoto {
 type RestructuredPhoto = Photo | NestedPhoto
 
 export default function TravelGallery() {
+  const { data, loading, error, execute } = useApi<any>();
+  const [galleries, setGalleries] = useState<Gallery[]>([]);
+
+  useEffect(() => {
+    const apiUrl = `${API_ENDPOINTS.customerHome.getTravelGalleries}?userid=0&pageno=1&pagesize=10`;
+    execute(apiUrl);
+  }, [execute]);
+
+  useEffect(() => {
+    if (data) {
+      console.log('Travel Galleries API data:', data);
+      if (data.data) {
+        setGalleries(data.data);
+      }
+    }
+    if (error) {
+      console.error('Travel Galleries API error:', error);
+    }
+  }, [data, error]);
+
   const photos: Photo[] = [
     {
       src: "/images/travelgallery/images_1.png",
@@ -113,9 +146,31 @@ export default function TravelGallery() {
 
   const router = useRouter();
 
-    const navigateToGallery = () => {
-        router.push("/gallery"); //need to add dynamic routing later
-    };
+  const navigateToGallery = () => {
+    router.push("/gallery"); //need to add dynamic routing later
+  };
+
+  // Map Gallery data to Photo format with proper grid classes
+  const mapGalleriesToPhotos = (galleries: Gallery[]): Photo[] => {
+    const gridClasses = [
+      "col-span-1 row-span-1",
+      "col-span-1 row-span-1", 
+      "col-span-2 row-span-2",
+      "col-span-1 row-span-1",
+      "col-span-1 row-span-1"
+    ];
+    
+    return galleries.map((gallery, index) => ({
+      src: gallery.imageUrl,
+      alt: gallery.title,
+      className: gridClasses[index % gridClasses.length],
+      galleryId: gallery.galleryId,
+      publishDate: gallery.publishDate,
+      videoUrl: gallery.videoUrl
+    }));
+  };
+
+  const displayPhotos = galleries.length > 0 ? mapGalleriesToPhotos(galleries) : photos;
 
   const travelGalleryPhotos = (photos: Photo[]): RestructuredPhoto[] => {
     const newList: RestructuredPhoto[] = [];
@@ -140,7 +195,7 @@ export default function TravelGallery() {
     return newList;
   };
 
-  const restructurePhotos = travelGalleryPhotos(photos);
+  const restructurePhotos = travelGalleryPhotos(photos); // pass here displayphotos
   console.log(restructurePhotos);
 
   // Auto-scroll logic: scrolls right continuously and loops back to start.

@@ -277,9 +277,6 @@ function TravelPackageCard({
                         <Separator orientation="vertical" className="ml-2 mr-2 !h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
                         <div className="flex items-center gap-1 md:gap-2"><MapPin className="h-4 w-4 mr-0 md:mr-2" /><span className="text-[10px] md:text-[14px] text-[#5A5A5A] font-['Figtree'] font-medium leading-[14px] uppercase">{pickup}</span></div>
                     </div>
-                    {/* <div className="flex items-center text-xs flex-wrap">
-                        <MapPin className="h-4 w-4 mr-2 mt-1" /> <span className="mt-1">{pickup}</span>
-                    </div> */}
                 </div>
             </div>
         </Card>

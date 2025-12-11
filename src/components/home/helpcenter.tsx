@@ -68,19 +68,10 @@ export function HelpCenterSection() {
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
              hover:bg-[position:0_0]" onClick={navigateToFaqs}>
-                        {/* <span className="text-[#E97737] font-['Figtree'] text-sm font-semibold uppercase">View All</span>
-                                <img
-                                    src="/images/trendingpackages/Group1000007348.svg"
-                                    alt=""
-                                    width={20}
-                                    height={20}
-                                    className="mx-auto"
-                                /> */}
                         <div className="flex items-center gap-2 cursor-pointer">
                             <p className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">
                                 View all FAQs
                             </p>
-                            {/* <ArrowCircleIcon className="w-6 h-6 text-[#E97737] group-hover:text-white" /> */}
                             <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
                                 <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
                                 <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
@@ -88,38 +79,6 @@ export function HelpCenterSection() {
                         </div>
                     </Button>
                 </div>
-
-                {/* FAQ Cards Grid - Responsive */}
-                {/* <div className="min-h-[136px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pl-0 md:pl-[50px] lg:pl-[80px] gap-[100px] lg:gap-[32px]">
-                    {faqData.map((faq, index) => {
-                       
-                        return (
-                            <Card key={index} className="group lg:max-w-[315px] bg-white border-0 shadow-sm">
-                                <CardContent className="p-6 text-center relative">
-                                    <div className="w-[97px] h-[97px] absolute top-[-70px] left-[-70px] bg-orange-500 rounded-lg flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-600 transition-colors duration-200">
-                                        <img src={faq.imgSrc} className="" />
-                                    </div>
-
-                                   
-                                    <h3 className="min-h-[80px] text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal flex items-center justify-center">
-                                        {faq.title}
-                                    </h3>
-
-                                 
-                                    <Button
-                                        variant="ghost"
-                                        className="group p-0 h-auto cursor-pointer hover:scale-105 transform transition"
-                                    >
-                                        <span className="underline-offset-4 text-[#1A2F46] font-['Figtree'] text-[16px] font-bold leading-normal underline">
-                                            {faq.action}
-                                        </span>
-                                        <ArrowCircleIcon className="w-18 h-18 rounded-[18px] text-[#1A2F46]" />
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        )
-                    })}
-                </div> */}
 
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 px-4 sm:px-6 lg:px-12 mt-12 md:mt-8">
                     {faqData.map((faq, index) => (
@@ -147,14 +106,11 @@ export function HelpCenterSection() {
                                 >
                                     <div className="flex items-center gap-1">
                                         <span>{faq.action}</span>
-                                        {/* <ArrowCircleIcon className="w-4 h-4 rounded-[18px] text-[#1A2F46]" /> */}
                                         <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#1A2F46] group-hover:-rotate-45 group-hover:bg-[#1A2F46] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
                                             <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
                                             <path d="M11.581 9.3599H4.80006V8.6399H11.581L8.84682 5.9057L9.36006 5.3999L12.9601 8.9999L9.36006 12.5999L8.84682 12.0941L11.581 9.3599Z" fill="currentColor" />
                                         </svg>
                                     </div>
-
-                                    {/* <ArrowCircleIcon className="w-4 h-4 rounded-[18px] text-[#1A2F46]" /> */}
                                 </Button>
                             </CardContent>
                         </Card>

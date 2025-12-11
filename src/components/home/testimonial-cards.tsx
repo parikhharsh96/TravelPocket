@@ -17,7 +17,8 @@ export default function TestimonialCards() {
     const [experiences, setExperiences] = useState<any[]>([]);
 
     useEffect(() => {
-        execute(API_ENDPOINTS.customerHome.getSharedExperiences);
+        const apiUrl = `${API_ENDPOINTS.customerHome.getSharedExperiences}?userid=0&pageno=1&pagesize=10`;
+        execute(apiUrl);
     }, [execute]);
 
     useEffect(() => {

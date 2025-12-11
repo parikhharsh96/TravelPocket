@@ -11,7 +11,8 @@ export function TravelGoalsSection() {
     const [travelGoals, setTravelGoals] = useState<any[]>([]);
 
     useEffect(() => {
-        execute(API_ENDPOINTS.customerHome.getTravelGoals);
+        const apiUrl = `${API_ENDPOINTS.customerHome.getTravelGoals}?userid=0&pageno=1&pagesize=10`;
+        execute(apiUrl);
     }, [execute]);
 
     useEffect(() => {

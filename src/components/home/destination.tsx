@@ -25,7 +25,8 @@ export default function DestinationFlexLayout() {
     const [destinations, setDestinations] = useState<any[]>([]);
 
     useEffect(() => {
-        execute(API_ENDPOINTS.customerHome.getDestinations);
+        const apiUrl = `${API_ENDPOINTS.customerHome.getDestinations}?userid=0&pageno=1&pagesize=10`;
+        execute(apiUrl);
     }, [execute]);
 
     useEffect(() => {
@@ -93,20 +94,8 @@ export default function DestinationFlexLayout() {
                 <DestinationSkeleton />
             ) : (
                 <div className="grid grid-cols-2 gap-[10px] grid-rows-[auto_auto_auto_auto_auto_auto] lg:grid-cols-6 lg:grid-rows-2 lg:gap-[15px] ">
-                {/* 1st image (big, 2 cols) */}
-                {/* <div className="relative col-span-2 row-span-1 lg:col-span-2 lg:row-span-1 spect-[4/3] h-[250px] overflow-hidden rounded-lg group">
-                    <Link href={''}>
-                        <Image src={destinations[0].image} alt={destinations[0].title} fill className="object-cover rounded-lg cursor-pointer group-hover:scale-105 transform-transition duration-300 ease-in-out" />
-                        <div className="absolute bottom-3 left-3 text-white flex flex-col gap-1 transition-all duration-300">
-                            <h3 className="font-['Figtree'] text-[16px] md:text-[20px] font-semibold leading-normal transition-transform duration-300 group-hover:-translate-y-1">{destinations[0].title}</h3>
-                            <p className="font-['Figtree'] text-[11px] md:text-[14px] font-normal leading-normal uppercase transition-transform duration-300 group-hover:-translate-y-1">{destinations[0].price}</p>
-                        </div>
-                    </Link>
-                </div> */}
 
                 <div className="relative col-span-2 row-span-1 lg:col-span-2 lg:row-span-1 h-[250px] overflow-hidden rounded-lg group">
-                    {/* <Link href={destinations[0].href}> */}
-                    {/* Image zoom on hover */}
                     <div>
                         <Image
                             src={destinations1[0].image}
