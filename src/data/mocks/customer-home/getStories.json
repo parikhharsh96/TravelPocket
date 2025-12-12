@@ -1,0 +1,51 @@
+{
+  "success": true,
+  "message": "Execution completed",
+  "data": [
+      {
+          "storyId": 1,
+          "title": "Journey to the Himalayas – A Soul Searching Trek",
+          "storyDate": "2025-09-15T00:00:00",
+          "postedBy": "Priya Sharma",
+          "shortDescription": "An unforgettable 10-day trek across the snow-capped Himalayas.",
+          "longDescription": "The Himalayas changed the way I look at life. Every step towards the peak felt like walking into a new version of myself. The calmness of the mountains, the local warmth, and the breathless sunrise made this journey one to remember forever.",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/stories/story1.jpg"
+      },
+      {
+          "storyId": 2,
+          "title": "Lost in the Desert – Finding Peace in Rajasthan",
+          "storyDate": "2025-07-03T00:00:00",
+          "postedBy": "Arjun Mehta",
+          "shortDescription": "A solo trip to Jaisalmer that turned into a spiritual experience.",
+          "longDescription": "Wandering through the golden dunes of Rajasthan, I realized solitude isn’t loneliness. The desert taught me silence speaks volumes. The starlit sky and the soft winds became my companions in this magical land.",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/stories/story1.jpg"
+      },
+      {
+          "storyId": 3,
+          "title": "Cycling Through the Backwaters of Kerala",
+          "storyDate": "2025-08-22T00:00:00",
+          "postedBy": "Neha Patel",
+          "shortDescription": "A green adventure through God’s Own Country.",
+          "longDescription": "Kerala’s backwaters are more than postcard beauty—they are living poetry. Cycling through narrow lanes with the smell of coconut and fresh monsoon air, I met locals who welcomed me with smiles and homemade banana chips!",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/stories/story1.jpg"
+      },
+      {
+          "storyId": 4,
+          "title": "Discovering the Spiritual Vibe of Varanasi",
+          "storyDate": "2025-06-10T00:00:00",
+          "postedBy": "Rohit Agarwal",
+          "shortDescription": "Witnessing life and death coexist on the ghats of the Ganges.",
+          "longDescription": "Varanasi awakened my spirit. Watching the Ganga Aarti at Dashashwamedh Ghat, surrounded by chants, bells, and floating diyas, I felt an indescribable connection to something larger than myself.",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/stories/story1.jpg"
+      },
+      {
+          "storyId": 5,
+          "title": "Exploring the Untouched Beauty of Spiti Valley",
+          "storyDate": "2025-10-01T00:00:00",
+          "postedBy": "Aarav Singh",
+          "shortDescription": "A road trip through one of India’s most surreal landscapes.",
+          "longDescription": "Spiti Valley is where adventure meets serenity. From turquoise rivers to ancient monasteries, every corner felt timeless. This trip reminded me that the best journeys are the ones that humble you.",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/stories/story1.jpg"
+      }
+  ]
+}

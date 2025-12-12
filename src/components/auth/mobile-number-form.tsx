@@ -8,7 +8,25 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { API_ENDPOINTS } from "@/lib/constants"
+import { useApi } from "@/lib/use-api"
+import { useToast } from "@/components/ui/use-toast"
 import type { SignupData } from "./signup-flow"
+
+interface SendOtpRequest {
+  phone: string | null
+  email: string | null
+  source: string
+}
+
+interface SendOtpResponse {
+  success: boolean
+  message: string
+  data: {
+    isSuccess: boolean
+    message: string
+  }
+}
 
 const mobileSchema = z.object({
   countryCode: z.string().min(1, "Country code is required"),
@@ -23,7 +41,9 @@ interface MobileNumberFormProps {
 }
 
 export function MobileNumberForm({ initialData, onNext }: MobileNumberFormProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const { execute, loading } = useApi<SendOtpResponse>()
+  const { toast } = useToast()
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const {
     register,
@@ -42,11 +62,35 @@ export function MobileNumberForm({ initialData, onNext }: MobileNumberFormProps)
   const countryCode = watch("countryCode")
 
   const onSubmit = async (data: MobileFormData) => {
-    setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsLoading(false)
-    onNext(data)
+    setErrorMessage(null)
+    
+    const requestBody: SendOtpRequest = {
+      phone: `${data.countryCode}${data.mobileNumber}`,
+      email: null,
+      source: 'Web'
+    }
+    
+    console.log('Sending OTP...', requestBody)
+    const response = await execute(API_ENDPOINTS.auth.sendOtp, 'POST', requestBody)
+    
+    if (response && response.data && response.data.data) {
+      const { isSuccess, message } = response.data.data
+      
+      if (isSuccess) {
+        console.log('OTP sent successfully:', message)
+        toast({
+          title: "Success",
+          description: "OTP sent successfully to your mobile number",
+        })
+        onNext(data)
+      } else {
+        setErrorMessage(message || 'Failed to send OTP. Please try again.')
+        console.error('Send OTP failed:', message)
+      }
+    } else {
+      setErrorMessage('Failed to send OTP. Please try again.')
+      console.error('API error:', response?.error)
+    }
   }
 
   const handleGoogleLogin = () => {
@@ -98,14 +142,15 @@ export function MobileNumberForm({ initialData, onNext }: MobileNumberFormProps)
             />
           </div>
           {errors.mobileNumber && <p className="text-[#FF0000] text-sm">{errors.mobileNumber.message}</p>}
+          {errorMessage && <p className="text-[#FF0000] text-sm">{errorMessage}</p>}
         </div>
 
         <Button
           type="submit"
-          disabled={isLoading}
+          disabled={loading}
           className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg"
         >
-          {isLoading ? "Sending..." : "SEND OTP"}
+          {loading ? "Sending..." : "SEND OTP"}
         </Button>
 
         <p className="text-[#4E4E4E] text-center font-['Figtree'] text-[11px] font-normal leading-[19.5px]text-center">

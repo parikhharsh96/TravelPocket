@@ -1,0 +1,41 @@
+{
+  "success": true,
+  "message": "Execution completed",
+  "data": [
+      {
+          "goalId": 1,
+          "goalName": "Nepal Soul Trip",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/travelgoal/soulnepal.svg"
+      },
+      {
+          "goalId": 2,
+          "goalName": "Adventure Sports",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/travelgoal/advt-sport.svg"
+      },
+      {
+          "goalId": 3,
+          "goalName": "Nature and Wilderness",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/travelgoal/nature.svg"
+      },
+      {
+          "goalId": 4,
+          "goalName": "Culture and Food Tour",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/travelgoal/culture.svg"
+      },
+      {
+          "goalId": 5,
+          "goalName": "Religious/Pilgrimage",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/travelgoal/religious.svg"
+      },
+      {
+          "goalId": 6,
+          "goalName": "Beaches",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/travelgoal/beach.svg"
+      },
+      {
+          "goalId": 7,
+          "goalName": "Solo Trips",
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/travelgoal/solotrip.svg"
+      }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "message": "Token generated successfully",
+  "data": {
+    "token": "mock_jwt_token_guest_12345",
+    "userId": 2,
+    "userName": "guest",
+    "role": "guest",
+    "expiresIn": 3600
+  }
+}
+

@@ -1,0 +1,36 @@
+{
+  "success": true,
+  "message": "Execution completed",
+  "data": [
+      {
+          "groupId": 1,
+          "groupName": "Kailash Mansarovar",
+          "price": 99000,
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/packages/pkg1.png"
+      },
+      {
+          "groupId": 2,
+          "groupName": "Adi Kailash",
+          "price": 21900,
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/packages/pkg1.png"
+      },
+      {
+          "groupId": 3,
+          "groupName": "Char Dham Yatra",
+          "price": 0,
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/packages/pkg1.png"
+      },
+      {
+          "groupId": 4,
+          "groupName": "Do Dham",
+          "price": 0,
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/packages/pkg1.png"
+      },
+      {
+          "groupId": 5,
+          "groupName": "Jaisalmer",
+          "price": 0,
+          "imageUrl": "https://media.crmtravelpocket.cloud/uploads/packages/pkg1.png"
+      }
+  ]
+}

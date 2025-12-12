@@ -1,0 +1,13 @@
+{
+    "success": true,
+    "message": "Execution completed",
+    "data": {
+        "monthlyEnquiries": 21,
+        "weeklyEnquiries": 2,
+        "monthlyBookings": 19,
+        "pendingBookings": 9,
+        "weeklyBookings": 2,
+        "monthlyPayments": 2212990,
+        "monthlyDues": 2144147.62
+    }
+}

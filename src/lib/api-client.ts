@@ -45,9 +45,11 @@ function setStoredToken(token: string | null): void {
 /**
  * Refresh token by calling the refresh endpoint
  */
+import { API_ENDPOINTS } from './constants';
+
 async function refreshToken(): Promise<string | null> {
   try {
-    const response = await fetch('https://api.crmtravelpocket.cloud/api/Auth/generatetoken', {
+    const response = await fetch(API_ENDPOINTS.auth.generateToken, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -100,10 +102,21 @@ async function apiCall<T = unknown>(
       headers['Authorization'] = `Bearer ${token}`;
     }
 
-    // Make the request
+    const method = (options.method || 'GET').toUpperCase();
+    console.info('[API] Request start', {
+      method,
+      endpoint,
+    });
+
     const response = await fetch(endpoint, {
       ...options,
       headers,
+    });
+
+    console.info('[API] Response received', {
+      method,
+      endpoint,
+      status: response.status,
     });
 
     if (response.status === 401) {
@@ -120,6 +133,12 @@ async function apiCall<T = unknown>(
           ...options,
           headers: retryHeaders,
           body: options.body,
+        });
+
+        console.info('[API] Retry response received', {
+          method,
+          endpoint,
+          status: retryResponse.status,
         });
 
         if (!retryResponse.ok) {
