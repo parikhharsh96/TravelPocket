@@ -2,26 +2,120 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Calendar } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { useApi } from '@/lib/use-api'
+import { API_ENDPOINTS } from '@/lib/constants'
+
+interface UserDetailsData {
+  firstName: string
+  lastName: string
+  dateOfBirth: string
+  gender: string
+  email: string
+  countryCode: string
+  mobile: string
+  nationality: string
+  aadhaar: string
+  pan: string
+}
 
 export function UserDetails() {
-  const [formData, setFormData] = useState({
-    firstName: "Shivam",
-    lastName: "Tripathi",
-    dateOfBirth: "18.03.1984",
+  const { data, loading, error, execute } = useApi<any>()
+  const [userDetails, setUserDetails] = useState<UserDetailsData>({
+    firstName: "",
+    lastName: "",
+    dateOfBirth: "",
     gender: "male",
-    email: "shivamtripathi@gmail.com",
+    email: "",
     countryCode: "+91",
-    mobile: "98765 43210",
-    nationality: "Indian",
+    mobile: "",
+    nationality: "",
     aadhaar: "",
     pan: "",
   })
+  const [formData, setFormData] = useState<UserDetailsData>({
+    firstName: "",
+    lastName: "",
+    dateOfBirth: "",
+    gender: "male",
+    email: "",
+    countryCode: "+91",
+    mobile: "",
+    nationality: "",
+    aadhaar: "",
+    pan: "",
+  })
+
+  useEffect(() => {
+    // Replace with actual customer ID from auth context or props
+    const customerId = 26
+    const apiUrl = `${API_ENDPOINTS.accounts.getUserDetails}?customerid=${customerId}`
+    execute(apiUrl)
+  }, [execute])
+
+  useEffect(() => {
+    console.log('Loading state:', loading)
+    if (data) {
+      console.log('User Details API data:', data)
+      if (data.data && data.data.profile) {
+        const profile = data.data.profile
+        const mappedData: UserDetailsData = {
+          firstName: profile.firstName || "",
+          lastName: profile.lastName || "",
+          dateOfBirth: profile.dateOfBirth || "",
+          gender: profile.gender || "male",
+          email: profile.email || "",
+          countryCode: profile.countryCode || "+91",
+          mobile: profile.mobile || "",
+          nationality: profile.nationality || "",
+          aadhaar: profile.aadhaar || "",
+          pan: profile.pan || "",
+        }
+        setUserDetails(mappedData)
+        setFormData(mappedData)
+      } else {
+        // Profile is null, use fallback data
+        console.log('Profile data is null, using fallback data')
+        const fallbackData: UserDetailsData = {
+          firstName: "Shivam",
+          lastName: "Tripathi",
+          dateOfBirth: "18.03.1984",
+          gender: "male",
+          email: "shivamtripathi@gmail.com",
+          countryCode: "+91",
+          mobile: "98765 43210",
+          nationality: "Indian",
+          aadhaar: "",
+          pan: "",
+        }
+        setUserDetails(fallbackData)
+        setFormData(fallbackData)
+      }
+    }
+    if (error) {
+      console.error('User Details API error:', error)
+      // Fallback to default data on error
+      const fallbackData: UserDetailsData = {
+        firstName: "Shivam",
+        lastName: "Tripathi",
+        dateOfBirth: "18.03.1984",
+        gender: "male",
+        email: "shivamtripathi@gmail.com",
+        countryCode: "+91",
+        mobile: "98765 43210",
+        nationality: "Indian",
+        aadhaar: "",
+        pan: "",
+      }
+      setUserDetails(fallbackData)
+      setFormData(fallbackData)
+    }
+  }, [data, error, loading])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

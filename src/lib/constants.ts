@@ -11,6 +11,9 @@ export const USE_MOCK_DATA =
 export const API_ENDPOINTS = {
   auth: {
     generateToken: `${API_BASE_URL}/api/Auth/generatetoken`,
+    sendOtp: `${API_BASE_URL}/api/OTP/send`,
+    verifyOtp: `${API_BASE_URL}/api/OTP/verify`,
+    addCustomerProfile: `${API_BASE_URL}/api/customerhome/add-customer-profile`,
   },
   customerHome: {
     getTrendingPackages: `${API_BASE_URL}/api/customerhome/trending-packages`,
@@ -21,6 +24,9 @@ export const API_ENDPOINTS = {
     getSharedExperiences: `${API_BASE_URL}/api/customerhome/shared-experiences`,
     getTravelGalleries: `${API_BASE_URL}/api/customerhome/travel-galleries`,
     getBlogs: `${API_BASE_URL}/api/customerhome/blogs`,
+  },
+  accounts: {
+    getUserDetails: `${API_BASE_URL}/api/customerhome/user-details`,
   },
   package: {
     getOverview: `${API_BASE_URL}/api/package/overview`,

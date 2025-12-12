@@ -9,6 +9,43 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowLeft, Clock } from "lucide-react"
+import { API_ENDPOINTS } from "@/lib/constants"
+import { useApi } from "@/lib/use-api"
+
+interface VerifyOtpRequest {
+  phone: string | null
+  email: string | null
+  otp: string
+}
+
+interface SendOtpRequest {
+  phone: string | null
+  email: string | null
+  source: string
+}
+
+interface SendOtpResponse {
+  success: boolean
+  message: string
+  data: {
+    isSuccess: boolean
+    message: string
+  }
+}
+
+interface VerifyOtpResponse {
+  success: boolean
+  message: string
+  data: {
+    isSuccess: boolean
+    message: string
+    userId: string | null
+    firstName: string | null
+    lastName: string | null
+    email: string | null
+    phone: string | null
+  }
+}
 
 const otpSchema = z.object({
   otp: z.string().length(6, "OTP must be 6 digits"),
@@ -20,13 +57,16 @@ interface OtpVerificationFormProps {
   mobileNumber: string
   onNext: (data: { otp: string }) => void
   onBack: () => void
+  onLoginSuccess?: (userData: any) => void
 }
 
-export function OtpVerificationForm({ mobileNumber, onNext, onBack }: OtpVerificationFormProps) {
-  const [isLoading, setIsLoading] = useState(false)
+export function OtpVerificationForm({ mobileNumber, onNext, onBack, onLoginSuccess }: OtpVerificationFormProps) {
+  const { execute, loading } = useApi<VerifyOtpResponse>()
+  const { execute: executeResend, loading: resendLoading } = useApi<SendOtpResponse>()
   const [countdown, setCountdown] = useState(21)
   const [canResend, setCanResend] = useState(false)
-  const [otpValues, setOtpValues] = useState(["5", "1", "", "", "", ""])
+  const [otpValues, setOtpValues] = useState(["", "", "", "", "", ""])
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   const {
@@ -70,19 +110,60 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack }: OtpVerific
   }
 
   const onSubmit = async (data: OtpFormData) => {
-    setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsLoading(false)
-    onNext(data)
+    setErrorMessage(null)
+    
+    const requestBody: VerifyOtpRequest = {
+      phone: mobileNumber,
+      email: null,
+      otp: data.otp
+    }
+    
+    console.log('Verifying OTP...', requestBody)
+    const response = await execute(API_ENDPOINTS.auth.verifyOtp, 'POST', requestBody)
+    
+    if (response && response.data && response.data.data) {
+      const { isSuccess, userId, message } = response.data.data
+      
+      if (isSuccess) {
+        if (userId) {
+          // Existing user - login successful
+          console.log('Login successful for existing user:', userId)
+          onLoginSuccess?.(response.data.data)
+        } else {
+          // New user - proceed to profile creation
+          console.log('New user - proceeding to profile creation')
+          onNext(data)
+        }
+      } else {
+        // OTP verification failed
+        setErrorMessage(message || 'Invalid OTP. Please try again.')
+        console.error('OTP verification failed:', message)
+      }
+    } else {
+      setErrorMessage('Failed to verify OTP. Please try again.')
+      console.error('API error:', response?.error)
+    }
   }
 
-  const handleResendOtp = () => {
-    setCountdown(30)
-    setCanResend(false)
-    setOtpValues(["", "", "", "", "", ""])
-    inputRefs.current[0]?.focus()
-    console.log("Resending OTP...")
+  const handleResendOtp = async () => {
+    const requestBody: SendOtpRequest = {
+      phone: mobileNumber,
+      email: null,
+      source: 'Web'
+    }
+    
+    console.log('Resending OTP...', requestBody)
+    const response = await executeResend(API_ENDPOINTS.auth.sendOtp, 'POST', requestBody)
+    
+    if (response && response.data && response.data.data && response.data.data.isSuccess) {
+      setCountdown(30)
+      setCanResend(false)
+      setOtpValues(["", "", "", "", "", ""])
+      inputRefs.current[0]?.focus()
+      console.log('OTP resent successfully')
+    } else {
+      console.error('Failed to resend OTP')
+    }
   }
 
   return (
@@ -121,6 +202,7 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack }: OtpVerific
           </div>
 
           {errors.otp && <p className="text-[#ff0000] text-sm text-center">{errors.otp.message}</p>}
+          {errorMessage && <p className="text-[#ff0000] text-sm text-center">{errorMessage}</p>}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-black font-['Figtree'] text-[15px] font-normal leading-[18px]">
               <Clock className="w-4 h-4" />
@@ -128,8 +210,13 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack }: OtpVerific
             </div>
 
             {canResend ? (
-              <button type="button" onClick={handleResendOtp} className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-semibold leading-[18px] hover:underline">
-                Re-Send OTP
+              <button 
+                type="button" 
+                onClick={handleResendOtp} 
+                disabled={resendLoading}
+                className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-semibold leading-[18px] hover:underline disabled:opacity-50"
+              >
+                {resendLoading ? 'Sending...' : 'Re-Send OTP'}
               </button>
             ) : (
               <span className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-semibold leading-[18px]">Re-Send OTP</span>
@@ -139,10 +226,10 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack }: OtpVerific
 
         <Button
           type="submit"
-          disabled={isLoading || otpValues.join("").length !== 6}
+          disabled={loading || otpValues.join("").length !== 6}
           className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg"
         >
-          {isLoading ? "Verifying..." : "VERIFY OTP"}
+          {loading ? "Verifying..." : "VERIFY OTP"}
         </Button>
 
         <p className="text-[#4E4E4E] text-center font-['Figtree'] text-[11px] font-normal leading-[19.5px] text-center">

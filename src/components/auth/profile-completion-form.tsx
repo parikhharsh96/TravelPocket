@@ -10,7 +10,30 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ArrowLeft } from "lucide-react"
+import { API_ENDPOINTS } from "@/lib/constants"
+import { useApi } from "@/lib/use-api"
 import type { SignupData } from "./signup-flow"
+
+interface CreateProfileRequest {
+  firstname: string
+  lastname: string
+  emailAddress: string
+  phone: string
+  source: string
+  utmSource: string
+  SocialMediaConsent: boolean
+  WhatsappConsent: boolean
+}
+
+interface CreateProfileResponse {
+  success: boolean
+  message: string
+  data: {
+    userId: number
+    isSuccess: boolean
+    message: string
+  }
+}
 
 const profileSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -29,7 +52,8 @@ interface ProfileCompletionFormProps {
 }
 
 export function ProfileCompletionForm({ initialData, onComplete, onBack }: ProfileCompletionFormProps) {
-  const [isLoading, setIsLoading] = useState(false)
+  const { execute, loading } = useApi<CreateProfileResponse>()
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const {
     register,
@@ -52,11 +76,36 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
   const whatsappConsent = watch("whatsappConsent")
 
   const onSubmit = async (data: ProfileFormData) => {
-    setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    setIsLoading(false)
-    onComplete(data)
+    setErrorMessage(null)
+    
+    const requestBody: CreateProfileRequest = {
+      firstname: data.firstName,
+      lastname: data.lastName,
+      emailAddress: data.email,
+      phone: initialData.mobileNumber || '',
+      source: 'website',
+      utmSource: 'facebook',
+      SocialMediaConsent: data.marketingConsent,
+      WhatsappConsent: data.whatsappConsent
+    }
+    
+    console.log('Creating customer profile...', requestBody)
+    const response = await execute(API_ENDPOINTS.auth.addCustomerProfile, 'POST', requestBody)
+    
+    if (response && response.data && response.data.data) {
+      const { isSuccess, userId, message } = response.data.data
+      
+      if (isSuccess) {
+        console.log('Profile created successfully:', { userId, message })
+        onComplete(data)
+      } else {
+        setErrorMessage(message || 'Failed to create profile. Please try again.')
+        console.error('Profile creation failed:', message)
+      }
+    } else {
+      setErrorMessage('Failed to create profile. Please try again.')
+      console.error('API error:', response?.error)
+    }
   }
 
   return (
@@ -132,6 +181,7 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
             className="border-[#d9d9d9] text-black font-['Figtree'] text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
           />
           {errors.lastName && <p className="text-[#ff0000] text-sm">{errors.lastName.message}</p>}
+          {errorMessage && <p className="text-[#ff0000] text-sm">{errorMessage}</p>}
         </div>
 
         <div className="space-y-4">
@@ -162,10 +212,10 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
 
         <Button
           type="submit"
-          disabled={isLoading}
+          disabled={loading}
           className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg"
         >
-          {isLoading ? "Creating Profile..." : "COMPLETE PROFILE"}
+          {loading ? "Creating Profile..." : "COMPLETE PROFILE"}
         </Button>
       </form>
     </div>

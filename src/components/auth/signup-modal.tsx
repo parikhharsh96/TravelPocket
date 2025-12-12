@@ -55,6 +55,19 @@ export function SignupModal({ children, open, onOpenChange }: SignupModalProps) 
     })
   }
 
+  const handleLoginSuccess = (userData: any) => {
+    console.log("Login successful:", userData)
+    // Close modal on successful login
+    onOpenChange?.(false)
+    // Reset form
+    setStep(1)
+    setSignupData({
+      countryCode: "+91",
+      marketingConsent: true,
+      whatsappConsent: true,
+    })
+  }
+
   const handleOpenChange = (newOpen: boolean) => {
     onOpenChange?.(newOpen)
     if (!newOpen) {
@@ -96,6 +109,7 @@ export function SignupModal({ children, open, onOpenChange }: SignupModalProps) 
                       mobileNumber={`${signupData.countryCode} ${signupData.mobileNumber}`}
                       onNext={handleNext}
                       onBack={handleBack}
+                      onLoginSuccess={handleLoginSuccess}
                     />
                   )}
                   {step === 3 && (
