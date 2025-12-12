@@ -1,7 +1,10 @@
 const DEFAULT_API_BASE_URL = "https://api.crmtravelpocket.cloud";
+const PROXY_API_BASE_URL = "/api/proxy";
 
 export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? DEFAULT_API_BASE_URL;
+  process.env.NODE_ENV === "production" 
+    ? PROXY_API_BASE_URL 
+    : (process.env.NEXT_PUBLIC_API_BASE_URL ?? DEFAULT_API_BASE_URL);
 
 // Mock mode configuration
 export const USE_MOCK_DATA =
@@ -10,10 +13,18 @@ export const USE_MOCK_DATA =
 
 export const API_ENDPOINTS = {
   auth: {
-    generateToken: `${API_BASE_URL}/api/Auth/generatetoken`,
-    sendOtp: `${API_BASE_URL}/api/OTP/send`,
-    verifyOtp: `${API_BASE_URL}/api/OTP/verify`,
-    addCustomerProfile: `${API_BASE_URL}/api/customerhome/add-customer-profile`,
+    generateToken: process.env.NODE_ENV === "production" 
+      ? `${API_BASE_URL}?endpoint=/api/Auth/generatetoken`
+      : `${API_BASE_URL}/api/Auth/generatetoken`,
+    sendOtp: process.env.NODE_ENV === "production" 
+      ? `${API_BASE_URL}?endpoint=/api/OTP/send`
+      : `${API_BASE_URL}/api/OTP/send`,
+    verifyOtp: process.env.NODE_ENV === "production" 
+      ? `${API_BASE_URL}?endpoint=/api/OTP/verify`
+      : `${API_BASE_URL}/api/OTP/verify`,
+    addCustomerProfile: process.env.NODE_ENV === "production" 
+      ? `${API_BASE_URL}?endpoint=/api/customerhome/add-customer-profile`
+      : `${API_BASE_URL}/api/customerhome/add-customer-profile`,
   },
   customerHome: {
     getTrendingPackages: `${API_BASE_URL}/api/customerhome/trending-packages`,
