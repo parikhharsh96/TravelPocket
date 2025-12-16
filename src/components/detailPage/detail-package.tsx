@@ -276,6 +276,18 @@ const rightColumnData: EssentialItem[] = [
     { text: "Travel insurance documents." },
 ];
 
+const formatIndianCurrency = (amount: number): string => {
+    return new Intl.NumberFormat('en-IN').format(amount);
+};
+
+const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = date.toLocaleDateString('en-US', { month: 'short' });
+    const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+    return `${day} ${month},${dayOfWeek}`;
+};
+
 export default function DetailPackage() {
 
     const [activeSection, setActiveSection] = useState("overview");
@@ -529,7 +541,7 @@ export default function DetailPackage() {
                                 </Link>
                                 <img src="/images/detailpage/arrow-right.svg" width="12px" height="12px"
                                     alt="Twitter" className="cursor-pointer" />
-                                <span className="text-black font-['Figtree'] text-[11px] lg:text-[12px] font-normal leading-[14px] cursor-pointer">Kailash Mansarovar Yatra</span>
+                                <span className="text-black font-['Figtree'] text-[11px] lg:text-[12px] font-normal leading-[14px] cursor-pointer">{packageOverview?.groupName}</span>
                             </div>
                         </div>
 
@@ -538,44 +550,44 @@ export default function DetailPackage() {
                             <div className="flex flex-col">
                                 <div className="flex flex-col gap-[16px] flex-1 min-w-0">
                                     <div className="flex flex-col gap-[0px] lg:gap-[12px]">
-                                        <div className="text-black font-['Figtree'] text-[18px] lg:text-[26px] font-semibold leading-[24px]">Kailash Mansarovar Yatra </div>
-                                        <div className="text-black font-['Figtree'] text-[14px] lg:text-[20px] font-normal leading-[24px]">Charan Sparsh Outer Kora from Lucknow By Helicopter</div>
+                                        <div className="text-black font-['Figtree'] text-[18px] lg:text-[26px] font-semibold leading-[24px]">{packageOverview?.groupName}</div>
+                                        <div className="text-black font-['Figtree'] text-[14px] lg:text-[20px] font-normal leading-[24px]">{packageOverview?.title}</div>
                                     </div>
                                     <div className="flex flex-wrap flex-row gap-[14px] items-center">
                                         <div className="flex gap-[6px] items-center">
                                             <img src="/images/detailpage/calendar_month.svg" width="14px" height="14px"
                                                 alt="Twitter" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">11 Nights 12 Days</div>
+                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">{packageOverview?.duration}</div>
                                         </div>
                                         <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
                                         <div className="flex gap-[6px] items-center" >
                                             <img src="/images/detailpage/task_alt.svg" width="14px" height="14px"
                                                 alt="Twitter" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">20+ Inclusions</div>
+                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">{packageOverview?.inclusionCaption}</div>
                                         </div>
                                         <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
                                         <div className="flex gap-[6px] items-center">
                                             <img src="/images/detailpage/location_on.svg" width="14px" height="14px"
                                                 alt="Twitter" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Pick up: Lucknow</div>
+                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Pick up: {packageOverview?.departure}</div>
                                         </div>
                                         <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
                                         <div className="flex gap-[6px] items-center">
                                             <img src="/images/detailpage/group.svg" width="14px" height="14px"
                                                 alt="Twitter" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Group Size: 30</div>
+                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Group Size: {packageOverview?.groupSize}</div>
                                         </div>
                                         <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
                                         <div className="flex gap-[6px] items-center">
                                             <img src="/images/detailpage/elevation.svg" width="14px" height="14px"
                                                 alt="Twitter" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Altitude: 6,638 m</div>
+                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Altitude: {packageOverview?.altitude}</div>
                                         </div>
                                         <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
                                         <div className="flex gap-[6px] items-center">
                                             <img src="/images/detailpage/footprint.svg" width="22px" height="22px"
                                                 alt="footprint" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">DIFFICULTY: Beginner</div>
+                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">DIFFICULTY: {packageOverview?.difficulty}</div>
                                         </div>
                                         {/* <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" /> */}
                                     </div>
@@ -593,14 +605,14 @@ export default function DetailPackage() {
                                             <div className="flex flex-col gap-[8px]">
                                                 <div className="flex flex-row gap-[5px]">
                                                     <div className="text-[#5A5A5A] font-[Figtree] text-[14px] lg:text-[16px] font-semibold leading-[24px] line-through">
-                                                        2,85,000
+                                                        {formatIndianCurrency(packageOverview?.mrp || 0)}
                                                     </div>
                                                     <div className="text-[#5A5A5A] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
                                                         + GST
                                                     </div>
                                                 </div>
                                                 <div className="text-[#333] font-[Figtree] text-[20px] lg:text-[24px] font-semibold leading-[24px]">
-                                                    ₹2,75,000
+                                                    {formatIndianCurrency(packageOverview?.price || 0)}
                                                 </div>
                                             </div>
                                             <Separator orientation="vertical" className="w-px bg-[#BBB] border border-[#BBB]" />
@@ -611,7 +623,7 @@ export default function DetailPackage() {
                                                     </div>
                                                 </div>
                                                 <div className="text-[#333] font-[Figtree] text-[20px] lg:text-[24px] font-semibold leading-[24px]">
-                                                    ₹9500
+                                                    ₹{packageOverview?.emiAmount}
                                                 </div>
                                             </div>
                                         </div>
@@ -1509,67 +1521,75 @@ export default function DetailPackage() {
                                     {/**Scroll Area */}
                                     <ScrollArea className="max-h-[550px]">
                                         <div className="flex flex-col gap-[20px] max-h-[550px]" style={{ padding: "30px 20px" }}>
-                                            <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                                <div className="relative">
-                                                    <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
-                                                        <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                            Available
-                                                        </span>
-                                                    </Badge>
-                                                </div>
-                                                <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-row gap-[50px]">
-                                                            <div className="flex gap-[20px]">
-                                                                <div className="flex flex-gap[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">02 Sep,Tue</div>
+                                            {packageDates.map((pkgDate, index) => (
+                                                <div key={pkgDate.dateId} className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
+                                                    <div className="relative">
+                                                        <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
+                                                            <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
+                                                                Available
+                                                            </span>
+                                                        </Badge>
+                                                    </div>
+                                                    <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
+                                                        <div className="flex flex-col gap-[12px]">
+                                                            <div className="flex flex-row gap-[50px]">
+                                                                <div className="flex gap-[20px]">
+                                                                    <div className="flex flex-gap[14px] items-center">
+                                                                        <div className="flex flex-col gap-[8px]">
+                                                                            <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
+                                                                            <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">{formatDate(pkgDate.startDate)}</div>
+                                                                        </div>
+                                                                        <img src="images/detailpage/arrow-right_1.svg" className="ml-4 mr-4" />
+                                                                        <div className="flex flex-col gap-[8px]">
+                                                                            <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
+                                                                            <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">{formatDate(pkgDate.endDate)}</div>
+                                                                        </div>
                                                                     </div>
-                                                                    <img src="images/detailpage/arrow-right_1.svg" className="ml-4 mr-4" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">13 Sep,Tue</div>
+                                                                    <div className="flex flex-col items-start gap-[4px] justify-center">
+                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
+                                                                        <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
+                                                                            <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">{pkgDate.remaining}</div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div className="flex flex-col items-start gap-[4px] justify-center">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
-                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">28</div>
+                                                                <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
+                                                                    <div className="flex flex-col gap-[10px]">
+                                                                        <div className="flex gap-[8px] items-center">
+                                                                            <img src="/images/detailpage/chat-bubble_1.svg" className="" />
+                                                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
+                                                                        </div>
+                                                                        <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                                        <div className="flex gap-[8px] items-center">
+                                                                            <img src="/images/detailpage/mail_1.svg" className="" />
+                                                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
-                                                                <div className="flex flex-col gap-[10px]">
-                                                                    <div className="flex gap-[8px] items-center">
-                                                                        <img src="/images/detailpage/chat-bubble_1.svg" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
+                                                            <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                            {pkgDate.remark && (
+                                                                <>
+                                                                    {/* <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" /> */}
+                                                                    <div className="flex flex-col gap-[6px]">
+                                                                        <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
+                                                                        <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">{pkgDate.remark}</div>
                                                                     </div>
-                                                                    <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
-                                                                    <div className="flex gap-[8px] items-center">
-                                                                        <img src="/images/detailpage/mail_1.svg" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
-                                                                    </div>
-                                                                </div>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    <div style={{ padding: "10px 10px" }}>
+                                                        <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
+                                                            <div className="flex items-center justify-center">
+                                                                <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                             </div>
                                                         </div>
-                                                        <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div style={{ padding: "10px 10px" }}>
-                                                    <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
-                                                        <div className="flex items-center justify-center">
-                                                            <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            ))}
 
-                                            <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
+
+                                            {/* <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
                                                 <div className="relative">
                                                     <Badge variant="warning" icon="/images/detailpage/dot_brown.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#FFFAE1]">
                                                         <span className="text-[#853C04] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
@@ -1747,7 +1767,7 @@ export default function DetailPackage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
 
                                         </div>
@@ -2208,18 +2228,6 @@ function RelatedPackages() {
                 </div>
 
                 {/* View All button (aligned right) */}
-                {/* <Button variant="outline" className="hidden md:block rounded-[6px] border border-[#E97737] ml-0 mt-6 md:ml-6 md:mt-0 cursor-pointer hover:scale-115 transform transition duration-200" onClick={navigateToPackages}>
-                    <div className="flex flex-row gap-2 items-center">
-                        <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase">View All</span>
-                        <img
-                            src="/images/trendingpackages/Group1000007348.svg"
-                            alt=""
-                            width={20}
-                            height={20}
-                            className="mx-auto"
-                        />
-                    </div>
-                </Button> */}
                 <Button variant="outline" className="group hidden md:block rounded-[6px] border border-[#E97737] ml-0 mt-6 md:ml-6 md:mt-0 cursor-pointer
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
@@ -2227,13 +2235,6 @@ function RelatedPackages() {
              hover:bg-[position:0_0]" onClick={navigateToPackages}>
                     <div className="flex flex-row gap-2 items-center">
                         <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase group-hover:text-white">View All</span>
-                        {/* <img
-                            src="/images/trendingpackages/Group1000007348.svg"
-                            alt=""
-                            width={20}
-                            height={20}
-                            className="mx-auto"
-                        /> */}
                         <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
                             <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
                             <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
@@ -2412,16 +2413,6 @@ function RelatedPackages() {
 
             {/* View All button Mobile view */}
             <div className="flex items-center justify-center gap-2 md:hidden">
-                {/* <Button variant="outline" className="rounded-[6px] border border-[var(--Primary,#E97737)] mt-6 cursor-pointer hover:scale-115 transform transition duration-200" onClick={navigateToPackages}>
-                    <span className="text-[#E97737] font-['Figtree'] text-[14px] md:text-sm font-semibold uppercase">View All</span>
-                    <img
-                        src="/images/trendingpackages/Group1000007348.svg"
-                        alt=""
-                        width={20}
-                        height={20}
-                        className="mx-auto"
-                    />
-                </Button> */}
                 <Button variant="outline" className="group relative rounded-[6px] border border-[#E97737] mt-6 cursor-pointer
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
