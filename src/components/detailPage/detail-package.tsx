@@ -173,6 +173,8 @@ interface PackageDate {
     groupSize: number;
     remaining: number;
     remark: string;
+    isAvailable: boolean;
+    isFillingFast: boolean;
 }
 
 interface Essential {
@@ -1524,9 +1526,18 @@ export default function DetailPackage() {
                                             {packageDates.map((pkgDate, index) => (
                                                 <div key={pkgDate.dateId} className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
                                                     <div className="relative">
-                                                        <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
+                                                        {/* <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
                                                             <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
                                                                 Available
+                                                            </span>
+                                                        </Badge> */}
+                                                        <Badge
+                                                            variant={pkgDate.isFillingFast ? "warning" : "registration"}
+                                                            icon={pkgDate.isFillingFast ? "/images/detailpage/dot_brown.svg" : "/images/detailpage/green_dot.svg"}
+                                                            className={`absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] ${pkgDate.isFillingFast ? 'bg-[#FFFAE1]' : 'bg-[#DFF8F1]'}`}
+                                                        >
+                                                            <span className={`font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase ${pkgDate.isFillingFast ? 'text-[#853C04]' : 'text-[#04852D]'}`}>
+                                                                {pkgDate.isFillingFast ? 'Filling Fast' : 'Available'}
                                                             </span>
                                                         </Badge>
                                                     </div>
