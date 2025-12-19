@@ -15,6 +15,9 @@ export const API_ENDPOINTS = {
     verifyOtp: `${API_BASE_URL}/api/OTP/verify`,
     addCustomerProfile: `${API_BASE_URL}/api/customerhome/add-customer-profile`,
   },
+  header: {
+    getMenuSubmenus: `${API_BASE_URL}/api/package/menu-submenus`,
+  },
   customerHome: {
     getTrendingPackages: `${API_BASE_URL}/api/customerhome/trending-packages`,
     getDestinations: `${API_BASE_URL}/api/customerhome/destinations`,

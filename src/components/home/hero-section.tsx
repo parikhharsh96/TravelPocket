@@ -52,6 +52,19 @@ import Header from "../shared/header"
 import { useApi } from '@/lib/use-api';
 import { API_ENDPOINTS } from '@/lib/constants';
 
+interface Package {
+  packageId: number;
+  packageName: string;
+}
+
+interface MenuGroup {
+  groupId: number;
+  groupName: string;
+  packages: Package[];
+}
+
+interface MenuData extends Array<MenuGroup> {}
+
 
 const topLinks = [
   { label: "Blogs", href: "/blogs" },
@@ -97,36 +110,6 @@ const destinationsList = [
   { label: "Kedarnath", url: "/details" }
 ];
 
-// const destinations = [
-//   { label: "KAILASH MANSAROVAR", value: "kailash-mansarovar" },
-//   { label: "ADI KAILASH & OM PARVAT", value: "adi-kailash-om-parvat" },
-//   { label: "CHAR DHAM", value: "char-dham" },
-//   { label: "KEDARNATH", value: "kedarnath" },
-//   { label: "RAJASTHAN", value: "rajasthan" },
-// ];
-
-// const tripTypes = [
-//   { label: "BY ROAD", value: "by-road" },
-//   { label: "BY HELICOPTER", value: "by-helicopter" },
-// ];
-
-// const tripDurations = [
-//   { label: "5 NIGHT 6 DAYS", value: "5-night-6-days" },
-//   { label: "7 NIGHT 8 DAYS", value: "7-night-8-days" },
-//   { label: "6 NIGHT 7 DAYS", value: "6-night-7-days" },
-//   { label: "8 NIGHT / 9 DAYS", value: "8-night-9-days" },
-//   { label: "13 NIGHT 14 DAYS", value: "13-night-14-days" },
-// ];
-
-// const travellers = [
-//   { label: "1", value: "1" },
-//   { label: "2", value: "2" },
-//   { label: "3", value: "3" },
-//   { label: "4", value: "4" },
-//   { label: "5", value: "5" },
-// ];
-
-
 const allDestinations = [
   ...domesticDestinations.map((d) => ({ ...d, type: "Domestic" })),
   ...internationalDestinations.map((d) => ({ ...d, type: "International" })),
@@ -149,12 +132,19 @@ export default function HomeHeroSection() {
   const [tripTypes, setTripTypes] = useState<any[]>([]);
   const [tripDurations, setTripDurations] = useState<any[]>([]);
   const [travellers, setTravellers] = useState<any[]>([]);
+  const [menuData, setMenuData] = useState<MenuData | null>(null);
   const router = useRouter();
   const { data, loading, error, execute } = useApi<any>();
+  const { data: menuApiData, loading: menuLoading, error: menuError, execute: executeMenu } = useApi<any>();
 
   useEffect(() => {
     execute(API_ENDPOINTS.customerHome.getSearchDropdownValues);
   }, [execute]);
+
+  useEffect(() => {
+    const apiUrl = `${API_ENDPOINTS.header.getMenuSubmenus}?userid=0`;
+    executeMenu(apiUrl);
+  }, [executeMenu]);
 
   useEffect(() => {
     if (data) {
@@ -171,6 +161,18 @@ export default function HomeHeroSection() {
     }
   }, [data, error]);
 
+  useEffect(() => {
+    if (menuApiData) {
+      console.log('Menu Submenus API data:', menuApiData);
+      if (menuApiData.success && menuApiData.data) {
+        setMenuData(menuApiData.data);
+      }
+    }
+    if (menuError) {
+      console.error('Menu Submenus API error:', menuError);
+    }
+  }, [menuApiData, menuError]);
+
   const navigateToHome = () => {
     router.push("/");
   };
@@ -186,6 +188,10 @@ export default function HomeHeroSection() {
 
     router.push(route)
   }
+
+  const getPackagesByGroup = (groupName: string) => {
+    return menuData?.find(group => group.groupName === groupName)?.packages || [];
+  };
 
   return (
     <div className="min-h-screen bg-[#ffffff]">
@@ -437,17 +443,17 @@ export default function HomeHeroSection() {
 
                           {(item === "Kailash Mansarovar" || item === "ADI Kailash") && (
                             <>
-                              {destinationsList.map((option, ind) => (
+                              {getPackagesByGroup(item === "ADI Kailash" ? "Adi Kailash" : item).map((option, ind) => (
                                 <React.Fragment key={ind}>
                                   <DropdownMenuItem>
                                     <Link
-                                      href={option.url || "/"}
+                                      href={`/details/${option.packageId}`}
                                       className="block px-3 py-2 text-[#1A2F46] font-['Figtree'] text-[16px] font-medium leading-[24px]"
                                     >
-                                      {option.label}
+                                      {option.packageName}
                                     </Link>
                                   </DropdownMenuItem>
-                                  {ind !== destinationsList.length - 1 && (
+                                  {ind !== getPackagesByGroup(item === "ADI Kailash" ? "Adi Kailash" : item).length - 1 && (
                                     <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
                                   )}
                                 </React.Fragment>

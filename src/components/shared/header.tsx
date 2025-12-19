@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useApi } from '@/lib/use-api';
+import { API_ENDPOINTS } from '@/lib/constants';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -45,6 +47,19 @@ interface HeaderProps {
     rounded?: string;
     showSearch?: boolean;
 }
+
+interface Package {
+    packageId: number;
+    packageName: string;
+}
+
+interface MenuGroup {
+    groupId: number;
+    groupName: string;
+    packages: Package[];
+}
+
+interface MenuData extends Array<MenuGroup> {}
 
 const whoWeAreOptions = [
     { label: "About us", href: "/about-us" },
@@ -97,7 +112,26 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [openIndex, setOpenIndex] = useState<number | null>(null);
     const [popoverOpen, setPopoverOpen] = useState(false);
+    const [menuData, setMenuData] = useState<MenuData | null>(null);
     const router = useRouter();
+    const { data, loading, error, execute } = useApi<any>();
+
+    useEffect(() => {
+        const apiUrl = `${API_ENDPOINTS.header.getMenuSubmenus}?userid=0`;
+        execute(apiUrl);
+    }, [execute]);
+
+    useEffect(() => {
+        if (data) {
+            console.log('Menu Submenus API data:', data);
+            if (data.success && data.data) {
+                setMenuData(data.data);
+            }
+        }
+        if (error) {
+            console.error('Menu Submenus API error:', error);
+        }
+    }, [data, error]);
 
     const navLinks = ["Kailash Mansarovar", "ADI Kailash", "All Destinations", "WHO WE ARE"];
     const topLinks = [
@@ -128,6 +162,10 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
 
     const navigateToPackages = () => {
         router.push("/listing");
+    };
+
+    const getPackagesByGroup = (groupName: string) => {
+        return menuData?.find(group => group.groupName === groupName)?.packages || [];
     };
 
     return (
@@ -251,17 +289,17 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
 
                                         {(item === "Kailash Mansarovar" || item === "ADI Kailash") && (
                                             <>
-                                                {destinationsList.map((option, ind) => (
-                                                    <React.Fragment key={ind}>
+                                                {getPackagesByGroup(item === "ADI Kailash" ? "Adi Kailash" : item).map((pkg, ind) => (
+                                                    <React.Fragment key={pkg.packageId}>
                                                         <DropdownMenuItem>
                                                             <Link
-                                                                href={option.url || "/"}
+                                                                href={`/details?packageId=${pkg.packageId}`}
                                                                 className="block px-3 py-2 text-[#1A2F46] font-['Figtree'] text-[16px] font-medium leading-[24px]"
                                                             >
-                                                                {option.label}
+                                                                {pkg.packageName}
                                                             </Link>
                                                         </DropdownMenuItem>
-                                                        {ind !== destinationsList.length - 1 && (
+                                                        {ind !== getPackagesByGroup(item === "ADI Kailash" ? "Adi Kailash" : item).length - 1 && (
                                                             <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
                                                         )}
                                                     </React.Fragment>
