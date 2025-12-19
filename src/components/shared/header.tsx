@@ -59,7 +59,7 @@ interface MenuGroup {
     packages: Package[];
 }
 
-interface MenuData extends Array<MenuGroup> {}
+
 
 const whoWeAreOptions = [
     { label: "About us", href: "/about-us" },
@@ -112,7 +112,7 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [openIndex, setOpenIndex] = useState<number | null>(null);
     const [popoverOpen, setPopoverOpen] = useState(false);
-    const [menuData, setMenuData] = useState<MenuData | null>(null);
+    const [menuData, setMenuData] = useState<MenuGroup[] | null>(null);
     const router = useRouter();
     const { data, loading, error, execute } = useApi<any>();
 

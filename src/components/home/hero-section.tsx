@@ -63,7 +63,6 @@ interface MenuGroup {
   packages: Package[];
 }
 
-interface MenuData extends Array<MenuGroup> {}
 
 
 const topLinks = [
@@ -132,7 +131,7 @@ export default function HomeHeroSection() {
   const [tripTypes, setTripTypes] = useState<any[]>([]);
   const [tripDurations, setTripDurations] = useState<any[]>([]);
   const [travellers, setTravellers] = useState<any[]>([]);
-  const [menuData, setMenuData] = useState<MenuData | null>(null);
+  const [menuData, setMenuData] = useState<MenuGroup[] | null>(null);
   const router = useRouter();
   const { data, loading, error, execute } = useApi<any>();
   const { data: menuApiData, loading: menuLoading, error: menuError, execute: executeMenu } = useApi<any>();

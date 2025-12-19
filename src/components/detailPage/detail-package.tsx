@@ -1001,7 +1001,7 @@ export default function DetailPackage() {
 
                                     <div className="flex flex-col gap-[8px]">
                                         {packageOverview?.highlightList && packageOverview.highlightList.map((highlight, index) => (
-                                            <div className="flex flex-row gap-[8px] items-center">
+                                            <div key={index} className="flex flex-row gap-[8px] items-center">
                                                 <img src="/images/detailpage/iconspace.svg" />
                                                 <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Service : Lucknow To Lucknow</div>
                                             </div>
