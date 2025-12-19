@@ -194,10 +194,18 @@ interface Exclusion {
 }
 
 interface Hotel {
-    itineraryId: number;
     hotelId: number;
     hotelName: string;
     category: string;
+}
+
+interface Route {
+    label: string;
+    detail: string;
+}
+
+interface KeyHighlight {
+    highlight: string;
 }
 
 interface Itinerary {
@@ -207,11 +215,15 @@ interface Itinerary {
     dayNumber: number;
     dayLabel: string;
     description: string;
-    fromCityId: number;
+    fromCityId: number | null;
     fromCityName: string;
-    toCityId: number;
+    toCityId: number | null;
     toCityName: string;
+    meal: string;
+    altitude: string;
     hotels: Hotel[];
+    routes: Route[];
+    keyHighlights: KeyHighlight[];
 }
 
 interface PackageOverview {
@@ -549,87 +561,191 @@ export default function DetailPackage() {
 
                         <div className="mt-2 flex flex-col lg:flex-row justify-between items-start gap-[16px]">
                             {/* -- Left section -- */}
-                            <div className="flex flex-col">
-                                <div className="flex flex-col gap-[16px] flex-1 min-w-0">
-                                    <div className="flex flex-col gap-[0px] lg:gap-[12px]">
-                                        <div className="text-black font-['Figtree'] text-[18px] lg:text-[26px] font-semibold leading-[24px]">{packageOverview?.groupName}</div>
-                                        <div className="text-black font-['Figtree'] text-[14px] lg:text-[20px] font-normal leading-[24px]">{packageOverview?.title}</div>
-                                    </div>
-                                    <div className="flex flex-wrap flex-row gap-[14px] items-center">
-                                        <div className="flex gap-[6px] items-center">
-                                            <img src="/images/detailpage/calendar_month.svg" width="14px" height="14px"
-                                                alt="Twitter" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">{packageOverview?.duration}</div>
+                            {loading ? (
+                                <div className="flex flex-col">
+                                    <div className="flex flex-col gap-[16px] flex-1 min-w-0">
+                                        <div className="flex flex-col gap-[0px] lg:gap-[12px]">
+                                            <div className="h-[24px] lg:h-[32px] w-48 lg:w-64 bg-gray-200 rounded animate-pulse"></div>
+                                            <div className="h-[20px] lg:h-[24px] w-72 lg:w-96 bg-gray-200 rounded animate-pulse"></div>
                                         </div>
-                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                        <div className="flex gap-[6px] items-center" >
-                                            <img src="/images/detailpage/task_alt.svg" width="14px" height="14px"
-                                                alt="Twitter" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">{packageOverview?.inclusionCaption}</div>
+                                        <div className="flex flex-wrap flex-row gap-[14px] items-center">
+                                            <div className="flex gap-[6px] items-center">
+                                                <div className="w-[14px] h-[14px] bg-gray-200 rounded animate-pulse"></div>
+                                                <div className="h-[14px] w-20 bg-gray-200 rounded animate-pulse"></div>
+                                            </div>
+                                            <div className="!h-[14px] w-px bg-gray-200 animate-pulse"></div>
+                                            <div className="flex gap-[6px] items-center">
+                                                <div className="w-[14px] h-[14px] bg-gray-200 rounded animate-pulse"></div>
+                                                <div className="h-[14px] w-24 bg-gray-200 rounded animate-pulse"></div>
+                                            </div>
+                                            <div className="!h-[14px] w-px bg-gray-200 animate-pulse"></div>
+                                            <div className="flex gap-[6px] items-center">
+                                                <div className="w-[14px] h-[14px] bg-gray-200 rounded animate-pulse"></div>
+                                                <div className="h-[14px] w-28 bg-gray-200 rounded animate-pulse"></div>
+                                            </div>
                                         </div>
-                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                        <div className="flex gap-[6px] items-center">
-                                            <img src="/images/detailpage/location_on.svg" width="14px" height="14px"
-                                                alt="Twitter" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Pick up: {packageOverview?.departure}</div>
-                                        </div>
-                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                        <div className="flex gap-[6px] items-center">
-                                            <img src="/images/detailpage/group.svg" width="14px" height="14px"
-                                                alt="Twitter" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Group Size: {packageOverview?.groupSize}</div>
-                                        </div>
-                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                        <div className="flex gap-[6px] items-center">
-                                            <img src="/images/detailpage/elevation.svg" width="14px" height="14px"
-                                                alt="Twitter" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Altitude: {packageOverview?.altitude}</div>
-                                        </div>
-                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                        <div className="flex gap-[6px] items-center">
-                                            <img src="/images/detailpage/footprint.svg" width="22px" height="22px"
-                                                alt="footprint" className="cursor-pointer" />
-                                            <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">DIFFICULTY: {packageOverview?.difficulty}</div>
-                                        </div>
-                                        {/* <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" /> */}
                                     </div>
                                 </div>
-                            </div>
+                            ) : (
+                                <div className="flex flex-col">
+                                    <div className="flex flex-col gap-[16px] flex-1 min-w-0">
+                                        <div className="flex flex-col gap-[0px] lg:gap-[12px]">
+                                            <div className="text-black font-['Figtree'] text-[18px] lg:text-[26px] font-semibold leading-[24px]">{packageOverview?.groupName}</div>
+                                            <div className="text-black font-['Figtree'] text-[14px] lg:text-[20px] font-normal leading-[24px]">{packageOverview?.title}</div>
+                                        </div>
+                                        <div className="flex flex-wrap flex-row gap-[14px] items-center">
+                                            {packageOverview?.duration && packageOverview.duration.trim() !== '' && (
+                                                <>
+                                                    <div className="flex gap-[6px] items-center">
+                                                        <img src="/images/detailpage/calendar_month.svg" width="14px" height="14px"
+                                                            alt="Twitter" className="cursor-pointer" />
+                                                        <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">{packageOverview?.duration}</div>
+                                                    </div>
+                                                </>
+                                            )}
+                                            {packageOverview?.inclusionCaption && packageOverview.inclusionCaption.trim() !== '' && (
+                                                <>
+                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                    <div className="flex gap-[6px] items-center" >
+                                                        <img src="/images/detailpage/task_alt.svg" width="14px" height="14px"
+                                                            alt="Twitter" className="cursor-pointer" />
+                                                        <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">{packageOverview?.inclusionCaption}</div>
+                                                    </div>
+                                                </>
+                                            )}
+                                            {packageOverview?.departure && packageOverview.departure.trim() !== '' && (
+                                                <>
+                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                    <div className="flex gap-[6px] items-center">
+                                                        <img src="/images/detailpage/location_on.svg" width="14px" height="14px"
+                                                            alt="Twitter" className="cursor-pointer" />
+                                                        <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Pick up: {packageOverview?.departure}</div>
+                                                    </div>
+                                                </>
+                                            )}
+                                            {packageOverview?.groupSize && packageOverview.groupSize.trim() !== '' && (
+                                                <>
+                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                    <div className="flex gap-[6px] items-center">
+                                                        <img src="/images/detailpage/group.svg" width="14px" height="14px"
+                                                            alt="Twitter" className="cursor-pointer" />
+                                                        <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Group Size: {packageOverview?.groupSize}</div>
+                                                    </div>
+                                                </>
+                                            )}
+                                            {packageOverview?.altitude && packageOverview.altitude.trim() !== '' && (
+                                                <>
+                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                    <div className="flex gap-[6px] items-center">
+                                                        <img src="/images/detailpage/elevation.svg" width="14px" height="14px"
+                                                            alt="Twitter" className="cursor-pointer" />
+                                                        <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">Altitude: {packageOverview?.altitude}</div>
+                                                    </div>
+                                                </>
+                                            )}
+                                            {packageOverview?.difficulty && packageOverview.difficulty.trim() !== '' && (
+                                                <>
+                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                    <div className="flex gap-[6px] items-center">
+                                                        <img src="/images/detailpage/footprint.svg" width="22px" height="22px"
+                                                            alt="footprint" className="cursor-pointer" />
+                                                        <div className="text-[#5A5A5A] font-[Figtree] text-[11px] lg:text-[13px] font-medium leading-[14px] uppercase">DIFFICULTY: {packageOverview?.difficulty}</div>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             <Separator orientation="horizontal" className="lg:hidden w-full bg-[#BBB] border border-[#BBB]" />
 
                             {/* -- Right section -- */}
-                            <div className="flex flex-col items-center">
-                                {/* <div className="text-[20px]">Hello world</div> */}
-                                <div className="flex flex-col gap-[12px]">
-                                    <div className="flex flex-row gap-[20px]">
-                                        <div className="flex flex-row gap-[44px] lg:gap-[36px]">
-                                            <div className="flex flex-col gap-[8px]">
-                                                <div className="flex flex-row gap-[5px]">
-                                                    <div className="text-[#5A5A5A] font-[Figtree] text-[14px] lg:text-[16px] font-semibold leading-[24px] line-through">
-                                                        {formatIndianCurrency(packageOverview?.mrp || 0)}
+                            {loading ? (
+                                <div className="flex flex-col items-center">
+                                    <div className="flex flex-col gap-[12px]">
+                                        <div className="flex flex-row gap-[20px]">
+                                            <div className="flex flex-row gap-[44px] lg:gap-[36px]">
+                                                <div className="flex flex-col gap-[8px]">
+                                                    <div className="flex flex-row gap-[5px]">
+                                                        <div className="h-[16px] lg:h-[20px] w-20 bg-gray-200 rounded animate-pulse"></div>
+                                                        <div className="h-[16px] lg:h-[20px] w-12 bg-gray-200 rounded animate-pulse"></div>
                                                     </div>
-                                                    <div className="text-[#5A5A5A] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                        + GST
-                                                    </div>
+                                                    <div className="h-[20px] lg:h-[24px] w-24 bg-gray-200 rounded animate-pulse"></div>
                                                 </div>
-                                                <div className="text-[#333] font-[Figtree] text-[20px] lg:text-[24px] font-semibold leading-[24px]">
-                                                    {formatIndianCurrency(packageOverview?.price || 0)}
+                                                <div className="w-px h-16 bg-gray-200 animate-pulse"></div>
+                                                <div className="flex flex-col gap-[8px]">
+                                                    <div className="h-[16px] lg:h-[20px] w-28 bg-gray-200 rounded animate-pulse"></div>
+                                                    <div className="h-[20px] lg:h-[24px] w-16 bg-gray-200 rounded animate-pulse"></div>
                                                 </div>
                                             </div>
-                                            <Separator orientation="vertical" className="w-px bg-[#BBB] border border-[#BBB]" />
-                                            <div className="flex flex-col gap-[8px]">
-                                                <div className="flex flex-row gap-[5px]">
-                                                    <div className="text-[#5A5A5A] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                        EMI starts from
+                                            <div className="hidden lg:flex flex-col gap-[6px]">
+                                                <div className="w-16 h-12 bg-gray-200 rounded animate-pulse"></div>
+                                                <div className="h-[14px] w-20 bg-gray-200 rounded animate-pulse"></div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-row">
+                                            <div className="h-10 w-48 bg-gray-200 rounded animate-pulse"></div>
+                                        </div>
+                                        <div className="lg:hidden flex flex-row gap-[8px] items-center">
+                                            <div className="w-16 h-12 bg-gray-200 rounded animate-pulse"></div>
+                                            <div className="h-[14px] w-20 bg-gray-200 rounded animate-pulse"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col items-center">
+                                    <div className="flex flex-col gap-[12px]">
+                                        <div className="flex flex-row gap-[20px]">
+                                            <div className="flex flex-row gap-[44px] lg:gap-[36px]">
+                                                <div className="flex flex-col gap-[8px]">
+                                                    <div className="flex flex-row gap-[5px]">
+                                                        <div className="text-[#5A5A5A] font-[Figtree] text-[14px] lg:text-[16px] font-semibold leading-[24px] line-through">
+                                                            ₹{formatIndianCurrency(packageOverview?.mrp || 0)}
+                                                        </div>
+                                                        <div className="text-[#5A5A5A] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                            + GST
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-[#333] font-[Figtree] text-[20px] lg:text-[24px] font-semibold leading-[24px]">
+                                                        ₹{formatIndianCurrency(packageOverview?.price || 0)}
                                                     </div>
                                                 </div>
-                                                <div className="text-[#333] font-[Figtree] text-[20px] lg:text-[24px] font-semibold leading-[24px]">
-                                                    ₹{packageOverview?.emiAmount}
+                                                <Separator orientation="vertical" className="w-px bg-[#BBB] border border-[#BBB]" />
+                                                <div className="flex flex-col gap-[8px]">
+                                                    <div className="flex flex-row gap-[5px]">
+                                                        <div className="text-[#5A5A5A] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                            EMI starts from
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-[#333] font-[Figtree] text-[20px] lg:text-[24px] font-semibold leading-[24px]">
+                                                        ₹{packageOverview?.emiAmount}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="hidden lg:flex flex-col gap-[6px]">
+                                                <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
+                                                    <div className="flex flex-row gap-[3px] items-center">
+                                                        <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">4.9</div>
+                                                        <div>
+                                                            <img src="/images/detailpage/star_rate.svg" className="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="text-[#000] text-center font-[Figtree] text-[12px] font-semibold leading-[14px] underline">
+                                                    3 Reviews
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="hidden lg:flex flex-col gap-[6px]">
+                                        <div className="flex flex-row">
+                                            <div className="rounded-[4px] bg-[#FFF7F2]" style={{ padding: "8px 14px" }}>
+                                                <span className="text-black font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal">Earn </span>
+                                                <img src="/images/detailpage/24-Crowns.png" className="inline mr-1" />
+                                                <span className="text-[#000] font-[Figtree] text-[12px] lg:text-[14px] font-bold leading-normal">50 Reward Points</span>
+                                                <span className="text-black font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal"> on this Booking</span>
+                                            </div>
+                                        </div>
+                                        <div className="lg:hidden flex flex-row gap-[8px] items-center">
                                             <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
                                                 <div className="flex flex-row gap-[3px] items-center">
                                                     <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">4.9</div>
@@ -643,29 +759,8 @@ export default function DetailPackage() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="flex flex-row">
-                                        <div className="rounded-[4px] bg-[#FFF7F2]" style={{ padding: "8px 14px" }}>
-                                            <span className="text-black font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal">Earn </span>
-                                            <img src="/images/detailpage/24-Crowns.png" className="inline mr-1" />
-                                            <span className="text-[#000] font-[Figtree] text-[12px] lg:text-[14px] font-bold leading-normal">50 Reward Points</span>
-                                            <span className="text-black font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal"> on this Booking</span>
-                                        </div>
-                                    </div>
-                                    <div className="lg:hidden flex flex-row gap-[8px] items-center">
-                                        <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
-                                            <div className="flex flex-row gap-[3px] items-center">
-                                                <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">4.9</div>
-                                                <div>
-                                                    <img src="/images/detailpage/star_rate.svg" className="" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="text-[#000] text-center font-[Figtree] text-[12px] font-semibold leading-[14px] underline">
-                                            3 Reviews
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -733,15 +828,24 @@ export default function DetailPackage() {
                         {/** Image Slider */}
                         <div className="relative w-full overflow-hidden rounded-xl shadow-2xl mt-4 mb-4">
                             <div className="relative aspect-[2/1] w-full">
-                                {sliderImgs.map((image, index) => (
-                                    <div
-                                        key={index}
-                                        className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === currentIndex ? "opacity-100" : "opacity-0"
-                                            }`}
-                                    >
-                                        <img src={image.imageSrc || "/placeholder.svg"} alt={image.alt} className="w-full h-full object-cover" />
+                                {packageOverview?.imageList && packageOverview.imageList.length > 0 ? (
+                                    packageOverview.imageList.map((image, index) => (
+                                        <div
+                                            key={index}
+                                            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === currentIndex ? "opacity-100" : "opacity-0"
+                                                }`}
+                                        >
+                                            <img src={image.imageSrc || "/placeholder.svg"} alt={image.alt} className="w-full h-full object-cover" />
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                                        <div className="text-center">
+                                            <div className="text-[#5A5A5A] text-lg mb-2">📷</div>
+                                            <div className="text-[#5A5A5A] font-['Figtree'] text-sm">No images available</div>
+                                        </div>
                                     </div>
-                                ))}
+                                )}
                             </div>
 
                             <div className="lg:hidden absolute left-1/2 top-[10px] -translate-x-1/2 -10 w-[90%] px-5 py-2.5 rounded-[6px] bg-[#FFF]" style={{ padding: "10px 20px" }}>
@@ -763,7 +867,7 @@ export default function DetailPackage() {
                         </div>
 
                         <div className="flex justify-center gap-3 mb-4">
-                            {sliderImgs.map((_, index) => (
+                            {packageOverview?.imageList.map((_, index) => (
                                 <button
                                     key={index}
                                     onClick={() => goToSlide(index)}
@@ -874,14 +978,17 @@ export default function DetailPackage() {
                                     <div className="text-[#1A2F46] font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal">
                                         Overview
                                     </div>
-
                                     <p className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
+                                        {packageOverview?.description}
+                                    </p>
+
+                                    {/* <p className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
                                         Organized by TravelPocket, this 9 Nights 10 Days Kailash Mansarovar Yatra by Helicopter from Lucknow offers a perfect blend of comfort and spirituality. It allows pilgrims to experience the divine power of Kailash Parvat and the serene beauty of Mansarovar Lake without the strenuous trek, making it accessible even for senior citizens and families.
 
                                         Known as the ultimate Tirth Yatra, the Kailash Mansarovar journey is not just a tour—it&apos;s a life-transforming spiritual experience. Pilgrims from around the world undertake this yatra seeking peace, enlightenment, and inner awakening.
 
                                         Whether you are a spiritual seeker, an adventurer, or a devotee of Lord Shiva, the Kailash Mansarovar Yatra by Helicopter is your calling. Let TravelPocket, a trusted name in spiritual travel, guide you through this once-in-a-lifetime journey with expert support, reliable services, and soulful hospitality.
-                                    </p>
+                                    </p> */}
                                 </div>
                             </div>
 
@@ -893,7 +1000,13 @@ export default function DetailPackage() {
                                     </div>
 
                                     <div className="flex flex-col gap-[8px]">
-                                        <div className="flex flex-row gap-[8px] items-center">
+                                        {packageOverview?.highlightList && packageOverview.highlightList.map((highlight, index) => (
+                                            <div className="flex flex-row gap-[8px] items-center">
+                                                <img src="/images/detailpage/iconspace.svg" />
+                                                <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Service : Lucknow To Lucknow</div>
+                                            </div>
+                                        ))}
+                                        {/* <div className="flex flex-row gap-[8px] items-center">
                                             <img src="/images/detailpage/iconspace.svg" />
                                             <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">Service : Lucknow To Lucknow</div>
                                         </div>
@@ -920,7 +1033,7 @@ export default function DetailPackage() {
                                         <div className="flex flex-row gap-[8px] items-center">
                                             <img src="/images/detailpage/iconspace.svg" />
                                             <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">5 Nights in Hotel & 5 Nights in guest house accommodation</div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -1041,7 +1154,7 @@ export default function DetailPackage() {
                                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
                                         {inclusions.map((inclusion, index) => (
                                             <div key={inclusion.inclusionId} className="flex flex-col items-start gap-[9px]">
-                                                <img src="/images/detailpage/Frame_1.svg" />
+                                                <img src={inclusion.imageUrl} />
                                                 <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
                                                     {inclusion.title}
                                                 </p>
@@ -1967,15 +2080,16 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                     </AccordionTrigger>
 
                                     <AccordionContent>
-                                        <div className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8 pl-4" dangerouslySetInnerHTML={{ __html: item.description }} />
+                                        {/* <div className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8 pl-4" dangerouslySetInnerHTML={{ __html: item.description }} /> */}
+                                        <p className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8 pl-4">{item.description}</p>
 
                                         {/* Route Overview */}
-                                        {/* {item.routeOverview && item.routeOverview?.length > 0 && (
+                                        {item.routes && item.routes?.length > 0 && (
                                             <div className="flex flex-col gap-[8px] mb-4 pl-4">
                                                 <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
                                                     Route Overview
                                                 </div>
-                                                {item.routeOverview.map((route, idx) => (
+                                                {item.routes.map((route, idx) => (
                                                     <div
                                                         key={idx}
                                                         className="flex flex-row gap-[6px] items-center"
@@ -1983,73 +2097,68 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                         <img src="/images/detailpage/check_circle.svg" alt="" />
                                                         <div className="text-black font-['Figtree'] text-[14px] font-semibold leading-[24px]">
                                                             {route.label}:{" "}
-                                                            <span className="font-normal">{route.value}</span>
+                                                            <span className="font-normal">{route.detail}</span>
                                                         </div>
                                                     </div>
                                                 ))}
                                             </div>
-                                        )} */}
+                                        )}
 
                                         {/* Key Highlights */}
-                                        {/* {item.keyHighlights && item.keyHighlights?.length > 0 && (
+                                        {item.keyHighlights && item.keyHighlights?.length > 0 && (
                                             <div className="flex flex-col gap-[8px] mb-4 pl-4">
                                                 <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
                                                     Key Highlights
                                                 </div>
-                                                {item.keyHighlights.map((highlight, idx) => (
+                                                {item.keyHighlights.map((item, idx) => (
                                                     <div
                                                         key={idx}
                                                         className="flex flex-row gap-[6px] items-center"
                                                     >
                                                         <img src="/images/detailpage/check_circle.svg" alt="" />
                                                         <div className="text-black font-['Figtree'] text-[14px] font-semibold leading-[24px]">
-                                                            <span className="font-normal">{highlight}</span>
+                                                            <span className="font-normal">{item.highlight}</span>
                                                         </div>
                                                     </div>
                                                 ))}
                                             </div>
-                                        )} */}
+                                        )}
 
                                         {/* Feature Badges */}
-                                        {/* {item.featureBadges && item.featureBadges?.length > 0 && (
-                                            <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4 pl-4">
-                                                {item.featureBadges.map((badge, idx) => (
-                                                    <div
-                                                        key={idx}
-                                                        className="rounded-lg bg-[#DDF9FF]"
-                                                        style={{ padding: "4px 12px" }}
-                                                    >
-                                                        <div className="flex flex-row gap-[8px] items-center">
-                                                            <img src={badge.icon} alt="" className="w-h h-4" />
-                                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] font-semibold leading-[22px]">
-                                                                {badge.text}
-                                                            </div>
-                                                        </div>
+                                        <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4 pl-4">
+                                            <div
+                                                className="rounded-lg bg-[#DDF9FF]"
+                                                style={{ padding: "4px 12px" }}
+                                            >
+                                                <div className="flex flex-row gap-[8px] items-center">
+                                                    <img src="/images/detailpage/iconspace_3.svg" alt="" className="w-h h-4" />
+                                                    <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] font-semibold leading-[22px]">
+                                                        {item.meal}
                                                     </div>
-                                                ))}
+                                                </div>
                                             </div>
-                                        )} */}
+                                        </div>
 
                                         {/* Images */}
-                                        {/* {item.images && item.images?.length > 0 && (
+                                        {item.hotels && item.hotels?.length > 0 && (
                                             <div className="flex flex-row gap-[12px] flex-wrap pl-4">
-                                                {item.images.map((img, idx) => (
+                                                {item.hotels.map((hotel, idx) => (
                                                     <div
-                                                        key={idx}
+                                                        key={hotel.hotelId}
                                                         className="flex flex-col gap-[8px] items-start max-w-[200px]"
                                                     >
                                                         <img
-                                                            src={img.src}
-                                                            alt={img.alt}
+                                                            src={"null"}
+                                                            alt={hotel.hotelName}
                                                             className="w-[200px] h-[150px]"
                                                         />
                                                         <div className="text-[#333] font-['Figtree'] text-[13px] font-normal leading-[24px]">
-                                                            {img.caption}
+                                                            {hotel.hotelName}
                                                         </div>
                                                     </div>
                                                 ))}
                                             </div>
-                                        )} */}
+                                        )}
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
@@ -2084,15 +2193,16 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                 </div>
                                             </AccordionTrigger>
                                             <AccordionContent>
-                                                <div className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8" dangerouslySetInnerHTML={{ __html: item.description }} />
+                                                {/* <div className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8" dangerouslySetInnerHTML={{ __html: item.description }} /> */}
+                                                <p className="text-[#333] font-['Figtree'] text-[14px] font-normal leading-6 mb-6 sm:mb-8">{item.description}</p>
 
                                                 {/* Route Overview */}
-                                                {/* {item.routeOverview && item.routeOverview?.length > 0 && (
+                                                {item.routes && item.routes?.length > 0 && (
                                                     <div className="flex flex-col gap-[8px] mb-4">
                                                         <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
                                                             Route Overview
                                                         </div>
-                                                        {item.routeOverview.map((route, idx) => (
+                                                        {item.routes.map((route, idx) => (
                                                             <div
                                                                 key={idx}
                                                                 className="flex flex-row gap-[6px] items-center"
@@ -2100,73 +2210,91 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                                 <img src="/images/detailpage/check_circle.svg" alt="" />
                                                                 <div className="text-black font-['Figtree'] text-[14px] font-semibold leading-[24px]">
                                                                     {route.label}:{" "}
-                                                                    <span className="font-normal">{route.value}</span>
+                                                                    <span className="font-normal">{route.detail}</span>
                                                                 </div>
                                                             </div>
                                                         ))}
                                                     </div>
-                                                )} */}
+                                                )}
 
                                                 {/* Key Highlights */}
-                                                {/* {item.keyHighlights && item.keyHighlights?.length > 0 && (
+                                                {item.keyHighlights && item.keyHighlights?.length > 0 && (
                                                     <div className="flex flex-col gap-[8px] mb-4">
                                                         <div className="text-[#29A4C1] font-['Figtree'] text-base font-semibold leading-6">
                                                             Key Highlights
                                                         </div>
-                                                        {item.keyHighlights.map((highlight, idx) => (
+                                                        {item.keyHighlights.map((item, idx) => (
                                                             <div
                                                                 key={idx}
                                                                 className="flex flex-row gap-[6px] items-center"
                                                             >
                                                                 <img src="/images/detailpage/check_circle.svg" alt="" />
                                                                 <div className="text-black font-['Figtree'] text-[14px] font-semibold leading-[24px]">
-                                                                    <span className="font-normal">{highlight}</span>
+                                                                    <span className="font-normal">{item.highlight}</span>
                                                                 </div>
                                                             </div>
                                                         ))}
                                                     </div>
-                                                )} */}
+                                                )}
 
                                                 {/* Feature Badges */}
-                                                {/* {item.featureBadges && item.featureBadges?.length > 0 && (
-                                                    <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4">
-                                                        {item.featureBadges.map((badge, idx) => (
-                                                            <div
-                                                                key={idx}
-                                                                className="rounded-lg bg-[#DDF9FF]"
-                                                                style={{ padding: "4px 12px" }}
-                                                            >
-                                                                <div className="flex flex-row gap-[8px] items-center">
-                                                                    <img src={badge.icon} alt="" className="w-h h-4" />
-                                                                    <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] font-semibold leading-[22px]">
-                                                                        {badge.text}
-                                                                    </div>
-                                                                </div>
+                                                <div className="flex flex-col lg:flex-row flex-wrap gap-2 sm:gap-4 mb-4">
+                                                    {/* {item.featureBadges.map((badge, idx) => ( */}
+                                                    {/* <div
+                                                        className="rounded-lg bg-[#DDF9FF]"
+                                                        style={{ padding: "4px 12px" }}
+                                                    >
+                                                        <div className="flex flex-row gap-[8px] items-center">
+                                                            <img src="/images/detailpage/iconspace_3.svg" alt="" className="w-h h-4" />
+                                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] font-semibold leading-[22px]">
+                                                                {item.meal}
                                                             </div>
-                                                        ))}
+                                                        </div>
                                                     </div>
-                                                )} */}
+                                                    <div
+                                                        className="rounded-lg bg-[#DDF9FF]"
+                                                        style={{ padding: "4px 12px" }}
+                                                    >
+                                                        <div className="flex flex-row gap-[8px] items-center">
+                                                            <img src="/images/detailpage/iconspace_3.svg" alt="" className="w-h h-4" />
+                                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] font-semibold leading-[22px]">
+                                                                {item.meal}
+                                                            </div>
+                                                        </div>
+                                                    </div> */}
+                                                    <div
+                                                        className="rounded-lg bg-[#DDF9FF]"
+                                                        style={{ padding: "4px 12px" }}
+                                                    >
+                                                        <div className="flex flex-row gap-[8px] items-center">
+                                                            <img src="/images/detailpage/iconspace_3.svg" alt="" className="w-h h-4" />
+                                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[14px] font-semibold leading-[22px]">
+                                                                {item.meal}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 {/* Images */}
-                                                {/* {item.images && item.images?.length > 0 && (
+                                                {item.hotels && item.hotels?.length > 0 && (
                                                     <div className="flex flex-row gap-[12px] flex-wrap">
-                                                        {item.images.map((img, idx) => (
+                                                        {item.hotels.map((hotel, idx) => (
                                                             <div
-                                                                key={idx}
+                                                                key={hotel.hotelId}
                                                                 className="flex flex-col gap-[8px] items-start max-w-[200px]"
                                                             >
                                                                 <img
-                                                                    src={img.src}
-                                                                    alt={img.alt}
+                                                                    src={'null'}
+                                                                    alt={hotel.hotelName}
                                                                     className="w-[200px] h-[150px]"
                                                                 />
                                                                 <div className="text-[#333] font-['Figtree'] text-[13px] font-normal leading-[24px]">
-                                                                    {img.caption}
+                                                                    {hotel.hotelName}
                                                                 </div>
                                                             </div>
                                                         ))}
                                                     </div>
-                                                )} */}
+                                                )}
                                             </AccordionContent>
                                         </AccordionItem>
                                     </Accordion>
