@@ -13,6 +13,7 @@ export const API_ENDPOINTS = {
     generateToken: `${API_BASE_URL}/api/Auth/generatetoken`,
     sendOtp: `${API_BASE_URL}/api/OTP/send`,
     verifyOtp: `${API_BASE_URL}/api/OTP/verify`,
+    checkUserExist: `${API_BASE_URL}/api/OTP/user-exist`,
     addCustomerProfile: `${API_BASE_URL}/api/customerhome/add-customer-profile`,
   },
   header: {

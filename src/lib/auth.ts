@@ -52,7 +52,7 @@ export const authOptions: NextAuthOptions = {
           }
           
           // First check if user exists
-          const checkResponse = await fetch(`${API_BASE_URL}/api/OTP/user-exist?email=${user.email}`, {
+          const checkResponse = await fetch(`${API_ENDPOINTS.auth.checkUserExist}?email=${user.email}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
