@@ -28,6 +28,7 @@ export const API_ENDPOINTS = {
     getSharedExperiences: `${API_BASE_URL}/api/customerhome/shared-experiences`,
     getTravelGalleries: `${API_BASE_URL}/api/customerhome/travel-galleries`,
     getBlogs: `${API_BASE_URL}/api/customerhome/blogs`,
+    getPackageListing: `${API_BASE_URL}/api/customerhome/package-listing`,
   },
   accounts: {
     getUserDetails: `${API_BASE_URL}/api/customerhome/user-details`,
@@ -47,6 +48,9 @@ export const API_ENDPOINTS = {
     addProposal: `${API_BASE_URL}/api/Booking/addproposal`,
     updateProposal: `${API_BASE_URL}/api/Booking/updateproposal`,
     addFollowup: `${API_BASE_URL}/api/Booking/addfollowup`,
+    saveMember: `${API_BASE_URL}/api/Booking/savemember`,
+    saveMemberDocs: `${API_BASE_URL}/api/Booking/savememberdocs`,
+    replaceMemberDocs: `${API_BASE_URL}/api/Booking/replacememberdocs`,
   },
 } as const;
 

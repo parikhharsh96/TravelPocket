@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 import { Separator } from "@radix-ui/react-separator";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -40,6 +40,29 @@ import {
     clearAllFilters,
 } from "@/lib/filter-utils";
 import { applySort, SortOption, DEFAULT_SORT } from "@/lib/sort-utils";
+import { useApi } from '@/lib/use-api';
+import { API_ENDPOINTS } from '@/lib/constants';
+
+interface PackageListingItem {
+    packageId: number;
+    title: string;
+    duration: string;
+    price: number;
+    priceUsd: number | null;
+    mrp: number | null;
+    discountAmount: number | null;
+    discountPercent: number | null;
+    destination: string | null;
+    groupId: number;
+    groupName: string;
+    groupDescription: string;
+    groupImageUrl: string;
+    groupDisplayOrder: number;
+    departureDate: string | null;
+    emi: number;
+    isPopular: boolean;
+    isTrending: boolean;
+}
 
 const packages = [
     {
@@ -178,6 +201,8 @@ const tourOptions: string[] = [
 
 
 export default function AllDestinations() {
+    const { data, loading, error, execute } = useApi<any>();
+    const [packageListings, setPackageListings] = useState<PackageListingItem[]>([]);
 
     const [selected, setSelected] = useState<string[]>(['All']);
     const [openSortDrawer, setOpenSortDrawer] = useState(false);
@@ -186,6 +211,42 @@ export default function AllDestinations() {
     const [filters, setFilters] = useState<FilterState>(initialFilterState);
     const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_SORT);
     const router = useRouter();
+
+    // API call for package listing
+    useEffect(() => {
+        const requestBody = {
+            "priceRanges": [
+                {
+                    "min": 1,
+                    "max": 10000000
+                }
+            ],
+            "durationRanges": [
+                {
+                    "min": 1,
+                    "max": 20
+                }
+            ],
+            "destinationIds": [0],
+            "groupIds": [0],
+            "departureMonth": 0,
+            "sortBy": null
+        };
+        
+        execute(API_ENDPOINTS.customerHome.getPackageListing, 'POST', requestBody);
+    }, [execute]);
+
+    useEffect(() => {
+        if (data) {
+            console.log('Package Listing API data:', data);
+            if (data.data) {
+                setPackageListings(data.data);
+            }
+        }
+        if (error) {
+            console.error('Package Listing API error:', error);
+        }
+    }, [data, error, loading]);
 
     // Map tour options to destination keywords
     const getTourOptionKeywords = (option: string): string[] => {
@@ -241,11 +302,30 @@ export default function AllDestinations() {
         });
     };
 
-    // Apply filters to destinations
+    // Apply filters to API data instead of static destinations
     const filteredDestinations = useMemo(() => {
-        const filtered = applyFilters(destinations, filters);
+        // Convert API data to destination format for filtering
+        const convertedPackages = packageListings.map(pkg => ({
+            id: pkg.packageId,
+            title: pkg.groupName,
+            description: pkg.title,
+            duration: pkg.duration,
+            nights: parseInt(pkg.duration.split(' ')[0]) || 0,
+            days: parseInt(pkg.duration.split(' ')[2]) || 0,
+            type: "Group Tour" as const,
+            price: pkg.price,
+            emi: pkg.emi,
+            month: ["May", "June", "July"], // API doesn't provide months
+            pickUp: "Departure", // API doesn't have pickup info
+            inclusionsCount: 20, // API doesn't have inclusion count
+            status: pkg.isTrending ? "Registrations Open" as const : "Closed" as const,
+            isPopular: pkg.isPopular,
+            images: [pkg.groupImageUrl || "/images/trendingpackages/dummy_card_img.png"]
+        }));
+        
+        const filtered = applyFilters(convertedPackages, filters);
         return applyTourOptionFilters(filtered);
-    }, [filters, selected]);
+    }, [filters, selected, packageListings]);
 
     // Apply sorting to filtered destinations
     const sortedAndFilteredDestinations = useMemo(() => {
@@ -632,7 +712,24 @@ export default function AllDestinations() {
                         {/* <div className="flex flex-wrap flex-row gap-[40px]"> */}
                         <div className="grid grid-cols-1 justify-center sm:justify-center sm:flex sm:flex-row sm:flex-wrap lg:flex lg:flex-wrap lg:justify-start lg:flex-row gap-8">
                             {/* {destinations.map((pkg, index) => ( */}
-                            {sortedAndFilteredDestinations.slice(0, visibleCount).map((pkg, index) => (
+                            {loading ? (
+                                // Loading skeleton
+                                Array.from({ length: 6 }).map((_, i) => (
+                                    <div key={i} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl">
+                                        <div className="h-48 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded-t-xl" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                        <div className="p-4 space-y-3">
+                                            <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                            <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                            <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-3/4" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                            <div className="flex gap-2 mt-4">
+                                                <div className="h-8 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded flex-1" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                                <div className="h-8 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded flex-1" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                sortedAndFilteredDestinations.slice(0, visibleCount).map((pkg, index) => (
                                 <React.Fragment key={pkg.id}>
                                     <Card className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl group">
                                         <div className="relative overflow-hidden rounded-t-xl h-48">
@@ -744,8 +841,15 @@ export default function AllDestinations() {
                                         </div>
                                     )}
                                 </React.Fragment>
-                            ))}
+                            )))}
                         </div>
+
+                        <style jsx>{`
+                            @keyframes shimmer {
+                                0% { background-position: 200% 0; }
+                                100% { background-position: -200% 0; }
+                            }
+                        `}</style>
 
                         {/**Load more btn */}
                         {/* <div className="w-full flex flex-row items-center justify-center mt-4 mb-4">
