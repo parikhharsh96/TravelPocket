@@ -150,7 +150,7 @@ export default function TrendingPackages() {
                             ref={scrollRef}
                             className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"
                         >
-                            {loading ? (
+                            {loading || trendingPackages.length === 0 ? (
                                 <PackagesSkeleton />
                             ) : (
                                 trendingPackages.map((pkg, index) => (
@@ -237,7 +237,7 @@ export default function TrendingPackages() {
                     <div
                         className="flex gap-6 items-center overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"
                     >
-                        {true ? (
+                        {loading || trendingPackages.length === 0 ? (
                             <PackagesSkeleton />
                         ) : (
                             trendingPackages.map((pkg, index) => (
