@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Figtree, Playfair_Display, Inter, Dancing_Script } from "next/font/google";
+import { AuthProvider } from "@/components/providers/session-provider";
 import "./globals.css";
 
 const figtree = Figtree({
@@ -52,7 +53,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${figtree.className} ${inter.variable} ${playfair.variable} ${dancingScript.variable} antialiased min-h-screen bg-[#ffff]`}
       >
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
