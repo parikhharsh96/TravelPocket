@@ -12,6 +12,7 @@ interface ApiResponse<T = unknown> {
 
 // Store for managing token
 let storedToken: string | null = null;
+let tokenGenerationPromise: Promise<string | null> | null = null;
 
 /**
  * Get token from session storage or localStorage
@@ -19,12 +20,24 @@ let storedToken: string | null = null;
 function getStoredToken(): string | null {
   if (typeof window === 'undefined') return storedToken;
   
-  const token = 
-    sessionStorage.getItem('auth_token') || 
-    localStorage.getItem('auth_token') ||
-    storedToken;
+  const token = sessionStorage.getItem('auth_token');
+  const expiry = sessionStorage.getItem('auth_token_expiry');
   
-  return token;
+  // Check if token exists and is still valid
+  if (token && expiry && Date.now() < parseInt(expiry)) {
+    storedToken = token; // Update in-memory cache
+    return token;
+  }
+  
+  // Token expired or doesn't exist, clear storage
+  if (token || expiry) {
+    sessionStorage.removeItem('auth_token');
+    sessionStorage.removeItem('auth_token_expiry');
+    localStorage.removeItem('auth_token');
+    storedToken = null;
+  }
+  
+  return null;
 }
 
 /**
@@ -34,9 +47,14 @@ function setStoredToken(token: string | null): void {
   storedToken = token;
   if (typeof window !== 'undefined') {
     if (token) {
+      // Set token with 30-day expiry
+      const expiry = Date.now() + (30 * 24 * 60 * 60 * 1000); // 30 days in milliseconds
       sessionStorage.setItem('auth_token', token);
+      sessionStorage.setItem('auth_token_expiry', expiry.toString());
+      console.log('Token stored with 30-day expiry');
     } else {
       sessionStorage.removeItem('auth_token');
+      sessionStorage.removeItem('auth_token_expiry');
       localStorage.removeItem('auth_token');
     }
   }
@@ -49,29 +67,57 @@ import { API_ENDPOINTS } from './constants';
 
 async function refreshToken(): Promise<string | null> {
   try {
-    const response = await fetch(API_ENDPOINTS.auth.generateToken, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        "userId": 2,
-        "userName": "guest",
-        "role": "guest"
-      }),
-    });
-
-    if (response.ok) {
-      const responseData = await response.json();
-      const newToken = responseData?.data?.token;
-      setStoredToken(newToken);
-      console.log('New token:', newToken);
-      return newToken;
+    // Check if we already have a valid token before generating new one
+    const existingToken = getStoredToken();
+    if (existingToken) {
+      console.log('Using existing valid token');
+      return existingToken;
     }
+    
+    // If token generation is already in progress, wait for it
+    if (tokenGenerationPromise) {
+      console.log('Token generation already in progress, waiting...');
+      return await tokenGenerationPromise;
+    }
+    
+    // Start token generation and store the promise
+    console.log('Generating new token...');
+    tokenGenerationPromise = generateNewToken();
+    
+    const result = await tokenGenerationPromise;
+    tokenGenerationPromise = null; // Clear the promise
+    
+    return result;
   } catch (error) {
     console.error('[API] Token refresh failed:', error);
+    tokenGenerationPromise = null; // Clear the promise on error
+    return null;
   }
+}
 
+async function generateNewToken(): Promise<string | null> {
+  const response = await fetch(API_ENDPOINTS.auth.generateToken, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "userId": 2,
+      "userName": "guest",
+      "role": "guest"
+    }),
+  });
+
+  if (response.ok) {
+    const responseData = await response.json();
+    const newToken = responseData?.data?.token;
+    if (newToken) {
+      setStoredToken(newToken);
+      console.log('New token generated and stored');
+      return newToken;
+    }
+  }
+  
   return null;
 }
 

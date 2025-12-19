@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { ArrowLeft, Clock } from "lucide-react"
 import { API_ENDPOINTS } from "@/lib/constants"
 import { useApi } from "@/lib/use-api"
+import { useAuth } from "@/hooks/use-auth"
 
 interface VerifyOtpRequest {
   phone: string | null
@@ -47,6 +48,20 @@ interface VerifyOtpResponse {
   }
 }
 
+interface UserExistResponse {
+  success: boolean
+  message: string
+  data: {
+    isSuccess: boolean
+    message: string
+    userId: number
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+  }
+}
+
 const otpSchema = z.object({
   otp: z.string().length(6, "OTP must be 6 digits"),
 })
@@ -63,6 +78,8 @@ interface OtpVerificationFormProps {
 export function OtpVerificationForm({ mobileNumber, onNext, onBack, onLoginSuccess }: OtpVerificationFormProps) {
   const { execute, loading } = useApi<VerifyOtpResponse>()
   const { execute: executeResend, loading: resendLoading } = useApi<SendOtpResponse>()
+  const { execute: executeUserExist, loading: userExistLoading } = useApi<UserExistResponse>()
+  const { loginWithMobile } = useAuth()
   const [countdown, setCountdown] = useState(21)
   const [canResend, setCanResend] = useState(false)
   const [otpValues, setOtpValues] = useState(["", "", "", "", "", ""])
@@ -122,17 +139,30 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack, onLoginSucce
     const response = await execute(API_ENDPOINTS.auth.verifyOtp, 'POST', requestBody)
     
     if (response && response.data && response.data.data) {
-      const { isSuccess, userId, message } = response.data.data
+      const { isSuccess, message } = response.data.data
       
       if (isSuccess) {
-        if (userId) {
-          // Existing user - login successful
-          console.log('Login successful for existing user:', userId)
-          onLoginSuccess?.(response.data.data)
+        // OTP verified successfully, now check if user exists
+        console.log('OTP verified successfully, checking user existence...')
+        
+        const userExistResponse = await executeUserExist(`${API_ENDPOINTS.auth.checkUserExist}?phone=${mobileNumber.replace('+', '')}`, 'GET')
+        
+        if (userExistResponse && userExistResponse.data && userExistResponse.data.data) {
+          const userData = userExistResponse.data.data
+          
+          if (userData.isSuccess) {
+            // User exists - login successful
+            console.log('User exists, login successful:', userData.userId)
+            loginWithMobile(userData)
+            onLoginSuccess?.(userData)
+          } else {
+            // User doesn't exist - proceed to profile creation
+            console.log('User does not exist, proceeding to profile creation')
+            onNext(data)
+          }
         } else {
-          // New user - proceed to profile creation
-          console.log('New user - proceeding to profile creation')
-          onNext(data)
+          console.error('Failed to check user existence')
+          setErrorMessage('Failed to verify user. Please try again.')
         }
       } else {
         // OTP verification failed
