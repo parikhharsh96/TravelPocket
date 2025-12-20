@@ -835,7 +835,7 @@ export default function DetailPackage() {
                                             className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${index === currentIndex ? "opacity-100" : "opacity-0"
                                                 }`}
                                         >
-                                            <img src={image.imageSrc || "/placeholder.svg"} alt={image.alt} className="w-full h-full object-cover" />
+                                            <img src={image || "/placeholder.svg"} alt={image || "package images"} className="w-full h-full object-cover" />
                                         </div>
                                     ))
                                 ) : (

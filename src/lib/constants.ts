@@ -1,12 +1,12 @@
 const DEFAULT_API_BASE_URL = "https://api.crmtravelpocket.cloud";
+const TEST_API_BASE_URL = "https://api-test.crmtravelpocket.cloud";
 
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? DEFAULT_API_BASE_URL;
+// Temporarily using test API - change to false when backend moves back to production
+const USE_TEST_API = process.env.NEXT_PUBLIC_USE_TEST_API !== "false";
 
-// Mock mode configuration
-export const USE_MOCK_DATA =
-  process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true" ||
-  (process.env.NODE_ENV === "development" && process.env.NEXT_PUBLIC_USE_MOCK_DATA !== "false");
+export const API_BASE_URL = USE_TEST_API 
+  ? TEST_API_BASE_URL 
+  : (process.env.NEXT_PUBLIC_API_BASE_URL ?? DEFAULT_API_BASE_URL);
 
 export const API_ENDPOINTS = {
   auth: {
