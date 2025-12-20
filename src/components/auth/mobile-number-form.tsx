@@ -86,11 +86,11 @@ export function MobileNumberForm({ initialData, onNext }: MobileNumberFormProps)
         onNext(data)
       } else {
         setErrorMessage(message || 'Failed to send OTP. Please try again.')
-        console.error('Send OTP failed:', message)
+        // console.error('Send OTP failed:', message)
       }
     } else {
       setErrorMessage('Failed to send OTP. Please try again.')
-      console.error('API error:', response?.error)
+      // console.error('API error:', response?.error)
     }
   }
 

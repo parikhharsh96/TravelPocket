@@ -100,11 +100,11 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
         onComplete(data)
       } else {
         setErrorMessage(message || 'Failed to create profile. Please try again.')
-        console.error('Profile creation failed:', message)
+        // console.error('Profile creation failed:', message)
       }
     } else {
       setErrorMessage('Failed to create profile. Please try again.')
-      console.error('API error:', response?.error)
+      // console.error('API error:', response?.error)
     }
   }
 

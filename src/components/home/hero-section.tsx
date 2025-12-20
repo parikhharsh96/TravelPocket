@@ -51,6 +51,8 @@ import { ScrollArea } from "../ui/scroll-area"
 import Header from "../shared/header"
 import { useApi } from '@/lib/use-api';
 import { API_ENDPOINTS } from '@/lib/constants';
+import { useAuth } from '@/hooks/use-auth';
+import { SignupModal } from '../auth/signup-modal';
 
 interface Package {
   packageId: number;
@@ -118,10 +120,10 @@ const iconRoutes: Record<string, string> = {
   "magnifiying-glass": "/search",
   "wishlist": "/wishlist",
   "cart": "/cart",
-  // "user": "/account",
+  "user": "/account",
 }
 
-const icons = ["magnifiying", "wishlist", "cart"];
+const icons = ["magnifiying", "wishlist", "cart", "user"];
 
 export default function HomeHeroSection() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -132,9 +134,11 @@ export default function HomeHeroSection() {
   const [tripDurations, setTripDurations] = useState<any[]>([]);
   const [travellers, setTravellers] = useState<any[]>([]);
   const [menuData, setMenuData] = useState<MenuGroup[] | null>(null);
+  const [signupModalOpen, setSignupModalOpen] = useState(false);
   const router = useRouter();
   const { data, loading, error, execute } = useApi<any>();
   const { data: menuApiData, loading: menuLoading, error: menuError, execute: executeMenu } = useApi<any>();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     execute(API_ENDPOINTS.customerHome.getSearchDropdownValues);
@@ -355,17 +359,17 @@ export default function HomeHeroSection() {
                         <AccordionContent className="">
                           <ScrollArea className="h-64 w-full">
                             <div className="flex flex-col gap-2 p-2">
-                              {whoWeAreOptions.map((option, index) => (
-                                <div key={option.label}>
+                              {(getPackagesByGroup("Who We Are").length > 0 ? getPackagesByGroup("Who We Are") : whoWeAreOptions.map(opt => ({ packageName: opt.label, packageId: opt.href }))).map((option, index) => (
+                                <div key={option.packageId}>
                                   <Link
-                                    href={option.href}
+                                    href={`/${option.packageName}`}
                                     className="block px-2 py-2 text-[#FFFFFF] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
                                   >
-                                    {option.label}
+                                    {option.packageName}
                                   </Link>
 
                                   {/* Separator below each link except the last one */}
-                                  {index !== whoWeAreOptions.length - 1 && (
+                                  {index !== (getPackagesByGroup("Who We Are").length > 0 ? getPackagesByGroup("Who We Are") : whoWeAreOptions).length - 1 && (
                                     <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mb-2" />
                                   )}
                                 </div>
@@ -395,11 +399,11 @@ export default function HomeHeroSection() {
               {/* Main Navigation - Desktop Only */}
               <div className="hidden lg:flex items-center gap-8">
 
-                {navLinks.map((item, index) => {
-                  if (item === "Kailash Mansarovar" || item === "ADI Kailash" || item === "WHO WE ARE") {
+                {menuData?.map((item, index) => {
+                  if (item.groupName === "Kailash Mansarovar" || item.groupName === "Adi Kailash" || item.groupName === "Who We Are") {
                     return (
                       <DropdownMenu
-                        key={item}
+                        key={item.groupId}
                         open={openIndex === index}
                         onOpenChange={(isOpen) => setOpenIndex(isOpen ? index : null)}
                       >
@@ -409,7 +413,7 @@ export default function HomeHeroSection() {
                           onMouseLeave={() => setOpenIndex(null)}
                         >
                           <div className="flex items-center justify-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] font-semibold uppercase text-white group hover:text-[#e97737] cursor-pointer">
-                            <span>{item}</span>
+                            <span>{item.groupName}</span>
                             <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" />
                           </div>
                         </DropdownMenuTrigger>
@@ -420,19 +424,19 @@ export default function HomeHeroSection() {
                           onMouseEnter={() => setOpenIndex(index)}
                           onMouseLeave={() => setOpenIndex(null)}
                         >
-                          {item === "WHO WE ARE" && (
+                          {item.groupName === "Who We Are" && (
                             <>
-                              {whoWeAreOptions.map((option, ind) => (
+                              {(getPackagesByGroup(item.groupName).length > 0 ? getPackagesByGroup(item.groupName) : whoWeAreOptions.map(opt => ({ packageName: opt.label, packageId: opt.href }))).map((option, ind) => (
                                 <React.Fragment key={ind}>
                                   <DropdownMenuItem>
                                     <Link
-                                      href={option.href || "/"}
+                                      href={ `/${option.packageName}`}
                                       className="block px-3 py-2 text-[#1A2F46] font-['Figtree'] text-[16px] font-medium leading-[24px]"
                                     >
-                                      {option.label}
+                                      {option.packageName}
                                     </Link>
                                   </DropdownMenuItem>
-                                  {ind !== whoWeAreOptions.length - 1 && (
+                                  {ind !== (getPackagesByGroup(item.groupName).length > 0 ? getPackagesByGroup(item.groupName) : whoWeAreOptions).length - 1 && (
                                     <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
                                   )}
                                 </React.Fragment>
@@ -440,9 +444,9 @@ export default function HomeHeroSection() {
                             </>
                           )}
 
-                          {(item === "Kailash Mansarovar" || item === "ADI Kailash") && (
+                          {(item.groupName === "Kailash Mansarovar" || item.groupName === "Adi Kailash") && (
                             <>
-                              {getPackagesByGroup(item === "ADI Kailash" ? "Adi Kailash" : item).map((option, ind) => (
+                              {getPackagesByGroup(item.groupName).map((option, ind) => (
                                 <React.Fragment key={ind}>
                                   <DropdownMenuItem>
                                     <Link
@@ -452,7 +456,7 @@ export default function HomeHeroSection() {
                                       {option.packageName}
                                     </Link>
                                   </DropdownMenuItem>
-                                  {ind !== getPackagesByGroup(item === "ADI Kailash" ? "Adi Kailash" : item).length - 1 && (
+                                  {ind !== getPackagesByGroup(item.groupName).length - 1 && (
                                     <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
                                   )}
                                 </React.Fragment>
@@ -466,110 +470,110 @@ export default function HomeHeroSection() {
                   }
 
                   // For All Destination nav links, just Popover
-                  return (
-                    <Popover key={item} open={popoverOpen} onOpenChange={setPopoverOpen}>
-                      <PopoverTrigger asChild>
-                        <div className="flex items-center justify-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] font-semibold uppercase text-white group hover:text-[#e97737] cursor-pointer" onMouseEnter={() => setPopoverOpen(true)}
-                          onMouseLeave={() => setPopoverOpen(false)}>
-                          <span>{item}</span>
-                          <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" />
-                        </div>
-                        {/* <Button
-                                        variant="outline"
-                                        onMouseEnter={() => setPopoverOpen(true)}
-                                        onMouseLeave={() => setPopoverOpen(false)}
-                                    >
-                                        Open popover
-                                    </Button> */}
-                      </PopoverTrigger>
+            //       return (
+            //         <Popover key={item} open={popoverOpen} onOpenChange={setPopoverOpen}>
+            //           <PopoverTrigger asChild>
+            //             <div className="flex items-center justify-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] font-semibold uppercase text-white group hover:text-[#e97737] cursor-pointer" onMouseEnter={() => setPopoverOpen(true)}
+            //               onMouseLeave={() => setPopoverOpen(false)}>
+            //               <span>{item}</span>
+            //               <ChevronDown className="w-5 h-5 transition-transform duration-300 group-hover:rotate-180" />
+            //             </div>
+            //             {/* <Button
+            //                             variant="outline"
+            //                             onMouseEnter={() => setPopoverOpen(true)}
+            //                             onMouseLeave={() => setPopoverOpen(false)}
+            //                         >
+            //                             Open popover
+            //                         </Button> */}
+            //           </PopoverTrigger>
 
-                      <PopoverContent
-                        className="w-full !z-50 rounded-[8px] bg-white shadow-[0_6px_9px_0_rgba(0,0,0,0.25)] border-none"
-                        onMouseEnter={() => setPopoverOpen(true)}
-                        onMouseLeave={() => setPopoverOpen(false)}
-                      >
-                        <div className="w-[800px] px-4 py-4">
-                          <div className="flex justify-between items-center mb-4">
-                            <div className="text-[24px] font-semibold leading-normal font-['Playfair_Display'] text-[#1A2F46]">Explore All Destinations</div>
-                            <button className="group rounded-[6px] border border-[#E97737] px-3 py-3 cursor-pointer
-                    bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
-             bg-[length:200%_100%] bg-[position:100%_0] 
-             transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]" onClick={navigateToPackages} tabIndex={-1}>
-                              <div className="flex flex-row gap-[10px] justify-center items-center">
-                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-semibold leading-normal uppercase group-hover:text-white">View all</div>
-                                <div className="">
-                                  {/* <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                            <circle cx="10" cy="10" r="9.5" stroke="#E97737" />
-                                                            <path d="M12.8677 10.4H5.33333V9.6H12.8677L9.82973 6.562L10.4 6L14.4 10L10.4 14L9.82973 13.438L12.8677 10.4Z" fill="#E97737" />
-                                                        </svg> */}
-                                  <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
-                                    <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
-                                    <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
-                                  </svg>
-                                </div>
-                              </div>
-                            </button>
-                          </div>
+            //           <PopoverContent
+            //             className="w-full !z-50 rounded-[8px] bg-white shadow-[0_6px_9px_0_rgba(0,0,0,0.25)] border-none"
+            //             onMouseEnter={() => setPopoverOpen(true)}
+            //             onMouseLeave={() => setPopoverOpen(false)}
+            //           >
+            //             <div className="w-[800px] px-4 py-4">
+            //               <div className="flex justify-between items-center mb-4">
+            //                 <div className="text-[24px] font-semibold leading-normal font-['Playfair_Display'] text-[#1A2F46]">Explore All Destinations</div>
+            //                 <button className="group rounded-[6px] border border-[#E97737] px-3 py-3 cursor-pointer
+            //         bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
+            //  bg-[length:200%_100%] bg-[position:100%_0] 
+            //  transition-[background-position] duration-300 ease-out
+            //  hover:bg-[position:0_0]" onClick={navigateToPackages} tabIndex={-1}>
+            //                   <div className="flex flex-row gap-[10px] justify-center items-center">
+            //                     <div className="text-[#E97737] font-['Figtree'] text-[14px] font-semibold leading-normal uppercase group-hover:text-white">View all</div>
+            //                     <div className="">
+            //                       {/* <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            //                                                 <circle cx="10" cy="10" r="9.5" stroke="#E97737" />
+            //                                                 <path d="M12.8677 10.4H5.33333V9.6H12.8677L9.82973 6.562L10.4 6L14.4 10L10.4 14L9.82973 13.438L12.8677 10.4Z" fill="#E97737" />
+            //                                             </svg> */}
+            //                       <svg className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+            //                         <circle className="group-hover:[stroke-width:0]" cx="10" cy="10" r="9.5" stroke="currentColor" strokeWidth="1" fill="none" />
+            //                         <path d="M12.8677 10.4H5.33331V9.6H12.8677L9.82971 6.562L10.4 6L14.4 10L10.4 14L9.82971 13.438L12.8677 10.4Z" fill="currentColor" />
+            //                       </svg>
+            //                     </div>
+            //                   </div>
+            //                 </button>
+            //               </div>
 
-                          <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mb-4" />
+            //               <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mb-4" />
 
-                          <div className="grid grid-cols-[1fr_auto_1fr] gap-x-[40px]">
-                            {/* Domestic Destinations */}
-                            <div className="flex flex-col gap-[30px]">
-                              <div className="text-[#E97737] font-['Playfair_Display'] text-[18px] font-semibold leading-normal mb-3">Domestic Destinations</div>
-                              <div className="grid grid-cols-2 gap-x-[40px] gap-y-[30px]">
-                                {domesticDestinations.map((dest, index) => (
-                                  // <div className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal">Adi Kailash & Om Parvat</div>
-                                  <Link
-                                    key={index}
-                                    href={dest.url || "/"} // Replace with actual href
-                                    className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal"
-                                  >
-                                    {dest.label}
-                                  </Link>
-                                ))}
-                              </div>
+            //               <div className="grid grid-cols-[1fr_auto_1fr] gap-x-[40px]">
+            //                 {/* Domestic Destinations */}
+            //                 <div className="flex flex-col gap-[30px]">
+            //                   <div className="text-[#E97737] font-['Playfair_Display'] text-[18px] font-semibold leading-normal mb-3">Domestic Destinations</div>
+            //                   <div className="grid grid-cols-2 gap-x-[40px] gap-y-[30px]">
+            //                     {domesticDestinations.map((dest, index) => (
+            //                       // <div className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal">Adi Kailash & Om Parvat</div>
+            //                       <Link
+            //                         key={index}
+            //                         href={dest.url || "/"} // Replace with actual href
+            //                         className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal"
+            //                       >
+            //                         {dest.label}
+            //                       </Link>
+            //                     ))}
+            //                   </div>
 
-                              <img
-                                src="/images/header/domestic_img.jpg"
-                                alt="Domestic"
-                                className="mt-4 rounded-lg w-full object-cover h-36"
-                              />
-                            </div>
+            //                   <img
+            //                     src="/images/header/domestic_img.jpg"
+            //                     alt="Domestic"
+            //                     className="mt-4 rounded-lg w-full object-cover h-36"
+            //                   />
+            //                 </div>
 
-                            {/* Vertical Separator */}
-                            <Separator orientation="vertical" className="h-full w-[1px] bg-[#E7E7E7]" />
+            //                 {/* Vertical Separator */}
+            //                 <Separator orientation="vertical" className="h-full w-[1px] bg-[#E7E7E7]" />
 
-                            {/* International Destinations */}
-                            <div className="flex flex-col gap-[30px]">
-                              <div className="text-[#E97737] font-['Playfair_Display'] text-[18px] font-semibold leading-normal mb-3">International Destinations</div>
+            //                 {/* International Destinations */}
+            //                 <div className="flex flex-col gap-[30px]">
+            //                   <div className="text-[#E97737] font-['Playfair_Display'] text-[18px] font-semibold leading-normal mb-3">International Destinations</div>
 
-                              <div className="grid grid-cols-1 gap-y-[40px]">
-                                {internationalDestinations.map((dest, index) => (
-                                  // <div className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal">Adi Kailash & Om Parvat</div>
-                                  <Link
-                                    key={index}
-                                    href={dest.url || "/"} // Replace with actual href
-                                    className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal"
-                                  >
-                                    {dest.label}
-                                  </Link>
-                                ))}
-                              </div>
+            //                   <div className="grid grid-cols-1 gap-y-[40px]">
+            //                     {internationalDestinations.map((dest, index) => (
+            //                       // <div className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal">Adi Kailash & Om Parvat</div>
+            //                       <Link
+            //                         key={index}
+            //                         href={dest.url || "/"} // Replace with actual href
+            //                         className="text-[#1A2F46] font-['Figtree'] text-[18px] font-medium leading-normal"
+            //                       >
+            //                         {dest.label}
+            //                       </Link>
+            //                     ))}
+            //                   </div>
 
-                              <img
-                                src="/images/header/international_trip.jpg"
-                                alt="International"
-                                className="mt-4 rounded-lg w-full object-cover h-36"
-                              />
-                            </div>
-                          </div>
+            //                   <img
+            //                     src="/images/header/international_trip.jpg"
+            //                     alt="International"
+            //                     className="mt-4 rounded-lg w-full object-cover h-36"
+            //                   />
+            //                 </div>
+            //               </div>
 
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  );
+            //             </div>
+            //           </PopoverContent>
+            //         </Popover>
+            //       );
 
                 })}
               </div>
@@ -577,14 +581,14 @@ export default function HomeHeroSection() {
 
               {/* Right Actions */}
               <div className="flex items-center gap-2 sm:gap-4">
-                {icons.map((icon) => (
+                {icons.filter(icon => icon !== "user").map((icon) => (
                   <div key={icon} className="cursor-pointer" onClick={() => handleIconClick(icon)}>
                     <img src={`/images/header/${icon}_white.svg`} alt={icon} className={`w-5 h-5 sm:w-6 sm:h-6 ${icon === "wishlist" ? "hidden sm:block" : ""}`} />
                   </div>
                 ))}
-                <Button className="bg-[#e97737] hover:bg-[#c75414] px-2 sm:px-4">
-                  <div className="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                {isAuthenticated ? (
+                  <div className="cursor-pointer" onClick={() => handleIconClick("user")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none" className="w-5 h-5 sm:w-6 sm:h-6">
                       <g clipPath="url(#clip0_3292_1201)">
                         <path d="M9 0.873047C11.5103 0.873047 13.5527 2.88877 13.5527 5.37109C13.5526 7.85328 11.5102 9.86914 9 9.86914C6.48979 9.86914 4.44742 7.85328 4.44727 5.37109C4.44727 2.88877 6.4897 0.873048 9 0.873047ZM9 2.46191C7.37593 2.46191 6.05273 3.77008 6.05273 5.37109C6.05289 6.97197 7.37603 8.28027 9 8.28027C10.624 8.28027 11.9471 6.97197 11.9473 5.37109C11.9473 3.77008 10.6241 2.46191 9 2.46191Z" fill="white" stroke="white" strokeWidth="0.2" />
                         <path d="M11.8125 11.0576C14.8384 11.0576 17.3027 13.4899 17.3027 16.4814C17.3027 17.9452 16.104 19.1279 14.625 19.1279H3.375C1.896 19.1279 0.697345 17.9452 0.697266 16.4814C0.697266 13.4899 3.16157 11.0576 6.1875 11.0576H11.8125ZM6.1875 12.6465C4.0478 12.6465 2.30273 14.3712 2.30273 16.4814C2.30281 17.0639 2.78223 17.5391 3.375 17.5391H14.625C15.2178 17.5391 15.6972 17.0639 15.6973 16.4814C15.6973 14.3712 13.9522 12.6465 11.8125 12.6465H6.1875Z" fill="white" stroke="white" strokeWidth="0.2" />
@@ -595,12 +599,30 @@ export default function HomeHeroSection() {
                         </clipPath>
                       </defs>
                     </svg>
-                    <div className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">
-                      <span className="hidden sm:inline">LOGIN / REGISTER</span>
-                      <span className="sm:hidden">LOGIN</span>
-                    </div>
                   </div>
-                </Button>
+                ) : (
+                  <SignupModal open={signupModalOpen} onOpenChange={setSignupModalOpen}>
+                    <Button className="bg-[#e97737] hover:bg-[#c75414] px-2 sm:px-4 cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                          <g clipPath="url(#clip0_3292_1201)">
+                            <path d="M9 0.873047C11.5103 0.873047 13.5527 2.88877 13.5527 5.37109C13.5526 7.85328 11.5102 9.86914 9 9.86914C6.48979 9.86914 4.44742 7.85328 4.44727 5.37109C4.44727 2.88877 6.4897 0.873048 9 0.873047ZM9 2.46191C7.37593 2.46191 6.05273 3.77008 6.05273 5.37109C6.05289 6.97197 7.37603 8.28027 9 8.28027C10.624 8.28027 11.9471 6.97197 11.9473 5.37109C11.9473 3.77008 10.6241 2.46191 9 2.46191Z" fill="white" stroke="white" strokeWidth="0.2" />
+                            <path d="M11.8125 11.0576C14.8384 11.0576 17.3027 13.4899 17.3027 16.4814C17.3027 17.9452 16.104 19.1279 14.625 19.1279H3.375C1.896 19.1279 0.697345 17.9452 0.697266 16.4814C0.697266 13.4899 3.16157 11.0576 6.1875 11.0576H11.8125ZM6.1875 12.6465C4.0478 12.6465 2.30273 14.3712 2.30273 16.4814C2.30281 17.0639 2.78223 17.5391 3.375 17.5391H14.625C15.2178 17.5391 15.6972 17.0639 15.6973 16.4814C15.6973 14.3712 13.9522 12.6465 11.8125 12.6465H6.1875Z" fill="white" stroke="white" strokeWidth="0.2" />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_3292_1201">
+                              <rect width="18" height="20" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                        <div className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">
+                          <span className="hidden sm:inline">LOGIN / REGISTER</span>
+                          <span className="sm:hidden">LOGIN</span>
+                        </div>
+                      </div>
+                    </Button>
+                  </SignupModal>
+                )}
               </div>
             </div>
           </nav>

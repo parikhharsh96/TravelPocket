@@ -3,8 +3,7 @@
  * Set NEXT_PUBLIC_USE_MOCK_DATA=true in .env.local to enable mock mode
  */
 export const USE_MOCK_DATA =
-  process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true" ||
-  process.env.NODE_ENV === "development" && process.env.NEXT_PUBLIC_USE_MOCK_DATA !== "false";
+  process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true";
 
 /**
  * Map API endpoints to mock file paths

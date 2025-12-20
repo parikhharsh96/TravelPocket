@@ -161,17 +161,17 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack, onLoginSucce
             onNext(data)
           }
         } else {
-          console.error('Failed to check user existence')
+          // console.error('Failed to check user existence')
           setErrorMessage('Failed to verify user. Please try again.')
         }
       } else {
         // OTP verification failed
         setErrorMessage(message || 'Invalid OTP. Please try again.')
-        console.error('OTP verification failed:', message)
+        // console.error('OTP verification failed:', message)
       }
     } else {
       setErrorMessage('Failed to verify OTP. Please try again.')
-      console.error('API error:', response?.error)
+      // console.error('API error:', response?.error)
     }
   }
 
@@ -192,7 +192,7 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack, onLoginSucce
       inputRefs.current[0]?.focus()
       console.log('OTP resent successfully')
     } else {
-      console.error('Failed to resend OTP')
+      // console.error('Failed to resend OTP')
     }
   }
 
