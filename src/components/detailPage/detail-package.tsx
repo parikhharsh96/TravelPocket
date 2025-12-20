@@ -819,11 +819,11 @@ export default function DetailPackage() {
 
             <DepartureDrawer open={open} onOpenChange={setOpen} />
 
-            <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 mb-4 md:mb-8"> {/**max-w-[1920px] */}
+            <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 mb-4 md:mb-8 overflow-hidden"> {/**max-w-[1920px] */}
 
-                <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_575px] gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 min-w-0">
                     {/**Left Section */}
-                    <div>
+                    <div className="min-w-0">
 
                         {/** Image Slider */}
                         <div className="relative w-full overflow-hidden rounded-xl shadow-2xl mt-4 mb-4">
@@ -1589,7 +1589,7 @@ export default function DetailPackage() {
                     {/**Left Section ends here */}
 
                     {/**Right Section */}
-                    <div className="w-full">
+                    <div className="w-full min-w-0">
                         <div className="hidden lg:flex flex-col gap-[20px] items-start items-center">
                             <div className="flex flex-col gap-[10px] items-start">
                                 <div className="text-black font-['Figtree'] text-[20px] not-italic font-semibold leading-none">Select Departure Month</div>
@@ -1656,14 +1656,14 @@ export default function DetailPackage() {
                                                     </div>
                                                     <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
                                                         <div className="flex flex-col gap-[12px]">
-                                                            <div className="flex flex-row gap-[50px]">
+                                                            <div className="flex flex-row lg:gap-4 xl:gap-4 2xl:gap-6">
                                                                 <div className="flex gap-[20px]">
-                                                                    <div className="flex flex-gap[14px] items-center">
+                                                                    <div className="flex flex-row gap-2 items-center">
                                                                         <div className="flex flex-col gap-[8px]">
                                                                             <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
                                                                             <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">{formatDate(pkgDate.startDate)}</div>
                                                                         </div>
-                                                                        <img src="images/detailpage/arrow-right_1.svg" className="ml-4 mr-4" />
+                                                                        <img src="images/detailpage/arrow-right_1.svg" className="xl:ml-1 xl:mr-1 2xl:ml-4 2xl:mr-4" />
                                                                         <div className="flex flex-col gap-[8px]">
                                                                             <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
                                                                             <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">{formatDate(pkgDate.endDate)}</div>

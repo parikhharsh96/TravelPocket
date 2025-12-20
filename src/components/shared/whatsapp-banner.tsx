@@ -19,7 +19,7 @@ export default function WhatsAppBanner() {
 
                 <div className="relative h-full p-4 sm:p-6 md:p-8">
                     {/* Small devices: Single column (icon top, text middle, button bottom) */}
-                    <div className="flex flex-col items-start justify-between h-full sm:hidden">
+                    <div className="flex flex-col justify-between h-full sm:hidden"> {/**items-start */}
 
                         {/* Text in Top */}
                         <div className="text-center font-['Inter']">
