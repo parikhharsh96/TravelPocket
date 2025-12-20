@@ -51,6 +51,8 @@ import { ScrollArea } from "../ui/scroll-area"
 import Header from "../shared/header"
 import { useApi } from '@/lib/use-api';
 import { API_ENDPOINTS } from '@/lib/constants';
+import { useAuth } from '@/hooks/use-auth';
+import { SignupModal } from '../auth/signup-modal';
 
 interface Package {
   packageId: number;
@@ -118,10 +120,10 @@ const iconRoutes: Record<string, string> = {
   "magnifiying-glass": "/search",
   "wishlist": "/wishlist",
   "cart": "/cart",
-  // "user": "/account",
+  "user": "/account",
 }
 
-const icons = ["magnifiying", "wishlist", "cart"];
+const icons = ["magnifiying", "wishlist", "cart", "user"];
 
 export default function HomeHeroSection() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -132,9 +134,11 @@ export default function HomeHeroSection() {
   const [tripDurations, setTripDurations] = useState<any[]>([]);
   const [travellers, setTravellers] = useState<any[]>([]);
   const [menuData, setMenuData] = useState<MenuGroup[] | null>(null);
+  const [signupModalOpen, setSignupModalOpen] = useState(false);
   const router = useRouter();
   const { data, loading, error, execute } = useApi<any>();
   const { data: menuApiData, loading: menuLoading, error: menuError, execute: executeMenu } = useApi<any>();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     execute(API_ENDPOINTS.customerHome.getSearchDropdownValues);
@@ -577,14 +581,14 @@ export default function HomeHeroSection() {
 
               {/* Right Actions */}
               <div className="flex items-center gap-2 sm:gap-4">
-                {icons.map((icon) => (
+                {icons.filter(icon => icon !== "user").map((icon) => (
                   <div key={icon} className="cursor-pointer" onClick={() => handleIconClick(icon)}>
                     <img src={`/images/header/${icon}_white.svg`} alt={icon} className={`w-5 h-5 sm:w-6 sm:h-6 ${icon === "wishlist" ? "hidden sm:block" : ""}`} />
                   </div>
                 ))}
-                <Button className="bg-[#e97737] hover:bg-[#c75414] px-2 sm:px-4">
-                  <div className="flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                {isAuthenticated ? (
+                  <div className="cursor-pointer" onClick={() => handleIconClick("user")}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none" className="w-5 h-5 sm:w-6 sm:h-6">
                       <g clipPath="url(#clip0_3292_1201)">
                         <path d="M9 0.873047C11.5103 0.873047 13.5527 2.88877 13.5527 5.37109C13.5526 7.85328 11.5102 9.86914 9 9.86914C6.48979 9.86914 4.44742 7.85328 4.44727 5.37109C4.44727 2.88877 6.4897 0.873048 9 0.873047ZM9 2.46191C7.37593 2.46191 6.05273 3.77008 6.05273 5.37109C6.05289 6.97197 7.37603 8.28027 9 8.28027C10.624 8.28027 11.9471 6.97197 11.9473 5.37109C11.9473 3.77008 10.6241 2.46191 9 2.46191Z" fill="white" stroke="white" strokeWidth="0.2" />
                         <path d="M11.8125 11.0576C14.8384 11.0576 17.3027 13.4899 17.3027 16.4814C17.3027 17.9452 16.104 19.1279 14.625 19.1279H3.375C1.896 19.1279 0.697345 17.9452 0.697266 16.4814C0.697266 13.4899 3.16157 11.0576 6.1875 11.0576H11.8125ZM6.1875 12.6465C4.0478 12.6465 2.30273 14.3712 2.30273 16.4814C2.30281 17.0639 2.78223 17.5391 3.375 17.5391H14.625C15.2178 17.5391 15.6972 17.0639 15.6973 16.4814C15.6973 14.3712 13.9522 12.6465 11.8125 12.6465H6.1875Z" fill="white" stroke="white" strokeWidth="0.2" />
@@ -595,12 +599,30 @@ export default function HomeHeroSection() {
                         </clipPath>
                       </defs>
                     </svg>
-                    <div className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">
-                      <span className="hidden sm:inline">LOGIN / REGISTER</span>
-                      <span className="sm:hidden">LOGIN</span>
-                    </div>
                   </div>
-                </Button>
+                ) : (
+                  <SignupModal open={signupModalOpen} onOpenChange={setSignupModalOpen}>
+                    <Button className="bg-[#e97737] hover:bg-[#c75414] px-2 sm:px-4 cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                          <g clipPath="url(#clip0_3292_1201)">
+                            <path d="M9 0.873047C11.5103 0.873047 13.5527 2.88877 13.5527 5.37109C13.5526 7.85328 11.5102 9.86914 9 9.86914C6.48979 9.86914 4.44742 7.85328 4.44727 5.37109C4.44727 2.88877 6.4897 0.873048 9 0.873047ZM9 2.46191C7.37593 2.46191 6.05273 3.77008 6.05273 5.37109C6.05289 6.97197 7.37603 8.28027 9 8.28027C10.624 8.28027 11.9471 6.97197 11.9473 5.37109C11.9473 3.77008 10.6241 2.46191 9 2.46191Z" fill="white" stroke="white" strokeWidth="0.2" />
+                            <path d="M11.8125 11.0576C14.8384 11.0576 17.3027 13.4899 17.3027 16.4814C17.3027 17.9452 16.104 19.1279 14.625 19.1279H3.375C1.896 19.1279 0.697345 17.9452 0.697266 16.4814C0.697266 13.4899 3.16157 11.0576 6.1875 11.0576H11.8125ZM6.1875 12.6465C4.0478 12.6465 2.30273 14.3712 2.30273 16.4814C2.30281 17.0639 2.78223 17.5391 3.375 17.5391H14.625C15.2178 17.5391 15.6972 17.0639 15.6973 16.4814C15.6973 14.3712 13.9522 12.6465 11.8125 12.6465H6.1875Z" fill="white" stroke="white" strokeWidth="0.2" />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_3292_1201">
+                              <rect width="18" height="20" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                        <div className="text-white font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-[24px] uppercase">
+                          <span className="hidden sm:inline">LOGIN / REGISTER</span>
+                          <span className="sm:hidden">LOGIN</span>
+                        </div>
+                      </div>
+                    </Button>
+                  </SignupModal>
+                )}
               </div>
             </div>
           </nav>
