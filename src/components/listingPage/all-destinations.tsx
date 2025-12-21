@@ -62,6 +62,12 @@ interface PackageListingItem {
     emi: number;
     isPopular: boolean;
     isTrending: boolean;
+    showRegistrationOpenFlag: boolean
+}
+
+interface FilterDestination {
+    destinationId: number;
+    destinationName: string;
 }
 
 const packages = [
@@ -203,6 +209,7 @@ const tourOptions: string[] = [
 export default function AllDestinations() {
     const { data, loading, error, execute } = useApi<any>();
     const [packageListings, setPackageListings] = useState<PackageListingItem[]>([]);
+    const [filterDestinationData, setFilterDestinationData] = useState<FilterDestination[]>([]);
 
     const [selected, setSelected] = useState<string[]>(['All']);
     const [openSortDrawer, setOpenSortDrawer] = useState(false);
@@ -211,6 +218,8 @@ export default function AllDestinations() {
     const [filters, setFilters] = useState<FilterState>(initialFilterState);
     const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_SORT);
     const router = useRouter();
+
+    const { data: destinationList, execute: executeDestinationLists } = useApi<any>();
 
     // API call for package listing
     useEffect(() => {
@@ -232,8 +241,11 @@ export default function AllDestinations() {
             "departureMonth": 0,
             "sortBy": null
         };
-        
+
         execute(API_ENDPOINTS.customerHome.getPackageListing, 'POST', requestBody);
+
+        const apiUrl = `${API_ENDPOINTS.customerHome.getDestinationListing}`;
+        executeDestinationLists(apiUrl, 'GET');
     }, [execute]);
 
     useEffect(() => {
@@ -248,6 +260,15 @@ export default function AllDestinations() {
         }
     }, [data, error, loading]);
 
+    useEffect(() => {
+        if (destinationList) {
+            console.log('Package Itineraries API data:', destinationList);
+            if (destinationList.success && destinationList.data) {
+                setFilterDestinationData(destinationList.data || []);
+            }
+        }
+    }, [destinationList]);
+    
     // Map tour options to destination keywords
     const getTourOptionKeywords = (option: string): string[] => {
         const optionMap: Record<string, string[]> = {
@@ -268,7 +289,7 @@ export default function AllDestinations() {
         // If "All" is selected, show all destinations
         const hasAll = selected.includes("All");
         const otherOptions = selected.filter(opt => opt !== "All");
-        
+
         if (hasAll) {
             // "All" is selected, show everything
             return dests;
@@ -318,11 +339,11 @@ export default function AllDestinations() {
             month: ["May", "June", "July"], // API doesn't provide months
             pickUp: "Departure", // API doesn't have pickup info
             inclusionsCount: 20, // API doesn't have inclusion count
-            status: pkg.isTrending ? "Registrations Open" as const : "Closed" as const,
+            status: pkg.showRegistrationOpenFlag ? "Registrations Open" as const : "Closed" as const,
             isPopular: pkg.isPopular,
             images: [pkg.groupImageUrl || "/images/trendingpackages/dummy_card_img.png"]
         }));
-        
+
         const filtered = applyFilters(convertedPackages, filters);
         return applyTourOptionFilters(filtered);
     }, [filters, selected, packageListings]);
@@ -439,7 +460,7 @@ export default function AllDestinations() {
     const toggleOption = (option: string): void => {
         setSelected((prevSelected) => {
             const otherOptions = tourOptions.filter(opt => opt !== "All");
-            
+
             if (option === "All") {
                 // If "All" is clicked
                 if (prevSelected.includes("All")) {
@@ -454,26 +475,26 @@ export default function AllDestinations() {
                 if (prevSelected.includes(option)) {
                     // Remove the option
                     const newSelected = prevSelected.filter((item) => item !== option && item !== "All");
-                    
+
                     // If no options left, select "All"
                     if (newSelected.length === 0) {
                         return ["All"];
                     }
-                    
+
                     // Check if all other options are still selected
-                    const allSelected = otherOptions.every(opt => 
+                    const allSelected = otherOptions.every(opt =>
                         opt === option || newSelected.includes(opt)
                     );
-                    
+
                     // If all are selected, add "All", otherwise don't include "All"
                     return allSelected ? ["All", ...newSelected] : newSelected;
                 } else {
                     // Add the option
                     const newSelected = [...prevSelected.filter((item) => item !== "All"), option];
-                    
+
                     // Check if all options are now selected
                     const allSelected = otherOptions.every(opt => newSelected.includes(opt));
-                    
+
                     // If all options are selected, include "All"
                     return allSelected ? ["All", ...newSelected] : newSelected;
                 }
@@ -572,11 +593,10 @@ export default function AllDestinations() {
                                 <div className="flex flex-row justify-between items-center">
                                     <div className="text-black font-['Figtree'] text-[20px] font-semibold leading-normal not-italic">Filter by</div>
                                     <div
-                                        className={`font-['Figtree'] text-[14px] font-normal leading-normal not-italic ${
-                                            hasActiveFilters(filters)
-                                                ? "text-[#4D4D4D] cursor-pointer hover:text-[#1A2F46]"
-                                                : "text-[#4D4D4D] opacity-50 cursor-not-allowed"
-                                        }`}
+                                        className={`font-['Figtree'] text-[14px] font-normal leading-normal not-italic ${hasActiveFilters(filters)
+                                            ? "text-[#4D4D4D] cursor-pointer hover:text-[#1A2F46]"
+                                            : "text-[#4D4D4D] opacity-50 cursor-not-allowed"
+                                            }`}
                                         onClick={hasActiveFilters(filters) ? handleClearAllFilters : undefined}
                                     >
                                         Clear all
@@ -612,17 +632,15 @@ export default function AllDestinations() {
                                                             return (
                                                                 <div
                                                                     key={option.value}
-                                                                    className={`rounded-[8px] border px-3 py-3 cursor-pointer transition-colors ${
-                                                                        isSelected
-                                                                            ? "border-[#1C8CA7] bg-[#1C8CA7]"
-                                                                            : "border-[#D2D8E4] bg-white"
-                                                                    }`}
+                                                                    className={`rounded-[8px] border px-3 py-3 cursor-pointer transition-colors ${isSelected
+                                                                        ? "border-[#1C8CA7] bg-[#1C8CA7]"
+                                                                        : "border-[#D2D8E4] bg-white"
+                                                                        }`}
                                                                     onClick={() => handleFilterChange("packageType", option.value, !isSelected)}
                                                                 >
                                                                     <div className="flex items-center">
-                                                                        <div className={`font-['Figtree'] text-[14px] font-normal leading-normal ${
-                                                                            isSelected ? "text-white" : "text-[#1A2F46]"
-                                                                        }`}>
+                                                                        <div className={`font-['Figtree'] text-[14px] font-normal leading-normal ${isSelected ? "text-white" : "text-[#1A2F46]"
+                                                                            }`}>
                                                                             {option.label}
                                                                         </div>
                                                                     </div>
@@ -730,118 +748,118 @@ export default function AllDestinations() {
                                 ))
                             ) : (
                                 sortedAndFilteredDestinations.slice(0, visibleCount).map((pkg, index) => (
-                                <React.Fragment key={pkg.id}>
-                                    <Card className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl group">
-                                        <div className="relative overflow-hidden rounded-t-xl h-48">
-                                            <img
-                                                src={pkg.images[0]}
-                                                alt={pkg.title}
-                                                className="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-110"
-                                            />
-                                            {pkg.isPopular && (
-                                                <Badge
-                                                    variant="popular"
-                                                    icon="/images/trendingpackages/local_fire_department.svg"
-                                                    className="absolute top-0.5 left-0.5 rounded-[4px] bg-[#FCD205]"
-                                                >
-                                                    <span className="text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-medium leading-[14px] uppercase">Popular</span>
-                                                </Badge>
-                                            )}
+                                    <React.Fragment key={pkg.id}>
+                                        <Card className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl group">
+                                            <div className="relative overflow-hidden rounded-t-xl h-48">
+                                                <img
+                                                    src={pkg.images[0]}
+                                                    alt={pkg.title}
+                                                    className="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-110"
+                                                />
+                                                {pkg.isPopular && (
+                                                    <Badge
+                                                        variant="popular"
+                                                        icon="/images/trendingpackages/local_fire_department.svg"
+                                                        className="absolute top-0.5 left-0.5 rounded-[4px] bg-[#FCD205]"
+                                                    >
+                                                        <span className="text-[#1A2F46] font-['Figtree'] text-[10px] md:text-[12px] font-medium leading-[14px] uppercase">Popular</span>
+                                                    </Badge>
+                                                )}
 
-                                        </div>
-                                        <CardContent className="py-0 space-y-2">
-                                            {/* Registrations Open Badge */}
-                                            {pkg.status === "Registrations Open" && (
-                                                <Badge variant="registration" icon="/images/trendingpackages/Ellipse6306.svg" className="rounded-[4px] bg-[#DFF8F1]">
-                                                    <span className="text-[#00A53F] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                        Registrations Open
-                                                    </span>
-                                                </Badge>
-                                            )}
-                                            <div className="flex flex-col items-start gap-[12px] h-[155px]">
-                                                <div className="flex flex-col items-start gap-[10px]">
-                                                    <h3 className="text-[#333] font-['Figtree'] text-[18px] md:text-[20px] font-semibold leading-normal">{pkg.title}</h3>
-                                                    <p className="text-[#333] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[22px]">{pkg.description}{pkg.description}</p>
-                                                </div>
+                                            </div>
+                                            <CardContent className="py-0 space-y-2">
+                                                {/* Registrations Open Badge */}
+                                                {pkg.status === "Registrations Open" && (
+                                                    <Badge variant="registration" icon="/images/trendingpackages/Ellipse6306.svg" className="rounded-[4px] bg-[#DFF8F1]">
+                                                        <span className="text-[#00A53F] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
+                                                            Registrations Open
+                                                        </span>
+                                                    </Badge>
+                                                )}
+                                                <div className="flex flex-col items-start gap-[12px] h-[155px]">
+                                                    <div className="flex flex-col items-start gap-[10px]">
+                                                        <h3 className="text-[#333] font-['Figtree'] text-[18px] md:text-[20px] font-semibold leading-normal">{pkg.title}</h3>
+                                                        <p className="text-[#333] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[22px]">{pkg.description}{pkg.description}</p>
+                                                    </div>
 
-                                                <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
-                                                    {/* Info Row */}
-                                                    <div className="flex flex-row gap-1 items-center"><Calendar className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span></div>
-                                                    {/* <Calendar className="h-4 w-4" /> {pkg.duration} */}
-                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                    <div className="flex flex-row gap-1 items-center"><CheckCircle className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusionsCount} Inclusions</span></div>
-                                                    {/* <CheckCircle className="h-4 w-4" /> {pkg.inclusionsCount} */}
-                                                    <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                    <div className="flex flex-row gap-1 items-center"><MapPin className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">Pick up: {pkg.pickUp}</span></div>
+                                                    <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
+                                                        {/* Info Row */}
+                                                        <div className="flex flex-row gap-1 items-center"><Calendar className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span></div>
+                                                        {/* <Calendar className="h-4 w-4" /> {pkg.duration} */}
+                                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                        <div className="flex flex-row gap-1 items-center"><CheckCircle className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusionsCount} Inclusions</span></div>
+                                                        {/* <CheckCircle className="h-4 w-4" /> {pkg.inclusionsCount} */}
+                                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                        <div className="flex flex-row gap-1 items-center"><MapPin className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">Pick up: {pkg.pickUp}</span></div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="flex items-center gap-[6px] mt-4 pt-4">
-                                                <p className="text-[#333333] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[24px]">
-                                                    EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-[24px]">₹{pkg.price}</span>
-                                                </p>
-                                            </div>
-                                        </CardContent>
-                                        {/* <CardFooter> */}
-                                        {/* Buttons */}
-                                        <div className="flex flex-row md:flex-row lg:flex-row gap-4">
-                                            <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                                                <div className="flex items-center gap-[6px] mt-4 pt-4">
+                                                    <p className="text-[#333333] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[24px]">
+                                                        EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-[24px]">₹{pkg.price}</span>
+                                                    </p>
+                                                </div>
+                                            </CardContent>
+                                            {/* <CardFooter> */}
+                                            {/* Buttons */}
+                                            <div className="flex flex-row md:flex-row lg:flex-row gap-4">
+                                                <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
                     group-hover:bg-[linear-gradient(90deg,_#1A2F46_0%,_#1A2F46_50%,_transparent_50%)] 
              group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
              group-hover:transition-[background-position] duration-300 ease-out
              group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
-                                                <span className="ttext-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">View Details</span>
-                                            </Button>
-                                            <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
+                                                    <span className="ttext-[#1A2F46] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">View Details</span>
+                                                </Button>
+                                                <Button variant="outline" className="flex-1 shrink-0 cursor-pointer
                     group-hover:bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              group-hover:bg-[length:200%_100%] bg-[position:100%_0] 
              group-hover:transition-[background-position] duration-300 ease-out
              group-hover:bg-[position:0_0]" onClick={navigateToPackageDetails}>
-                                                <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">Book Now</span>
-                                            </Button>
-                                        </div>
-                                        {/* </CardFooter> */}
-                                    </Card>
-
-                                    {/** Banner Display Login - Show after last item if 1-2 items, or after 3rd item if 3+ items */}
-                                    {((index === 0 && sortedAndFilteredDestinations.length === 1) || 
-                                      (index === 1 && sortedAndFilteredDestinations.length === 2) || 
-                                      (index === 2 && sortedAndFilteredDestinations.length > 2)) && (
-
-                                        <div className="wave-pattern rounded-[8px] overflow-hidden mt-6 mb-2"
-                                            style={{
-                                                backgroundImage: "url('/images/listingpage/banner_strip_bg.png')",
-                                                backgroundSize: "cover",
-                                                backgroundPosition: "center",
-                                            }}
-                                        >
-                                            <div className="flex flex-row md:flex-row items-center justify-between w-full px-6 py-6 md:py-8">
-                                                {/* Left content */}
-                                                <div className="flex flex-col gap-4 text-white font-['Figtree'] md:max-w-[70%]">
-                                                    <div className="text-[14px] md:text-[26px] font-normal leading-snug">
-                                                        Registrations Now Open for{" "}
-                                                        <span className="font-bold">Kailash Mansarovar Yatra 2025 Parikrama!</span>{" "}
-                                                        Secure your seat today!
-                                                    </div>
-
-                                                    <button className="flex items-center justify-center gap-2 border border-white bg-white text-[#E97737] rounded-[6px] py-2 px-6 text-[12px] md:text-[14px] font-semibold uppercase hover:bg-[#fff3ec] transition w-fit">
-                                                        Register Now
-                                                        <img src="/images/listingpage/arror_icon_orange.svg" alt="arrow" />
-                                                    </button>
-                                                </div>
-
-                                                {/* Right image */}
-                                                <div className="mt-6 md:mt-0 md:ml-6 flex-shrink-0 ml-4 md:ml-0">
-                                                    <img
-                                                        src="/images/listingpage/feature_img.png"
-                                                        alt="Kailash"
-                                                        className="w-[150px] h-[100px] md:w-[220px] md:h-[120px] rounded-[6px] object-cover"
-                                                    />
-                                                </div>
+                                                    <span className="text-[#E97737] text-center font-['Figtree'] text-[11px] md:text-[14px] font-medium uppercase leading-normal group-hover:text-white">Book Now</span>
+                                                </Button>
                                             </div>
-                                        </div>
-                                    )}
-                                </React.Fragment>
-                            )))}
+                                            {/* </CardFooter> */}
+                                        </Card>
+
+                                        {/** Banner Display Login - Show after last item if 1-2 items, or after 3rd item if 3+ items */}
+                                        {((index === 0 && sortedAndFilteredDestinations.length === 1) ||
+                                            (index === 1 && sortedAndFilteredDestinations.length === 2) ||
+                                            (index === 2 && sortedAndFilteredDestinations.length > 2)) && (
+
+                                                <div className="wave-pattern rounded-[8px] overflow-hidden mt-6 mb-2"
+                                                    style={{
+                                                        backgroundImage: "url('/images/listingpage/banner_strip_bg.png')",
+                                                        backgroundSize: "cover",
+                                                        backgroundPosition: "center",
+                                                    }}
+                                                >
+                                                    <div className="flex flex-row md:flex-row items-center justify-between w-full px-6 py-6 md:py-8">
+                                                        {/* Left content */}
+                                                        <div className="flex flex-col gap-4 text-white font-['Figtree'] md:max-w-[70%]">
+                                                            <div className="text-[14px] md:text-[26px] font-normal leading-snug">
+                                                                Registrations Now Open for{" "}
+                                                                <span className="font-bold">Kailash Mansarovar Yatra 2025 Parikrama!</span>{" "}
+                                                                Secure your seat today!
+                                                            </div>
+
+                                                            <button className="flex items-center justify-center gap-2 border border-white bg-white text-[#E97737] rounded-[6px] py-2 px-6 text-[12px] md:text-[14px] font-semibold uppercase hover:bg-[#fff3ec] transition w-fit">
+                                                                Register Now
+                                                                <img src="/images/listingpage/arror_icon_orange.svg" alt="arrow" />
+                                                            </button>
+                                                        </div>
+
+                                                        {/* Right image */}
+                                                        <div className="mt-6 md:mt-0 md:ml-6 flex-shrink-0 ml-4 md:ml-0">
+                                                            <img
+                                                                src="/images/listingpage/feature_img.png"
+                                                                alt="Kailash"
+                                                                className="w-[150px] h-[100px] md:w-[220px] md:h-[120px] rounded-[6px] object-cover"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                    </React.Fragment>
+                                )))}
                         </div>
 
                         <style jsx>{`
