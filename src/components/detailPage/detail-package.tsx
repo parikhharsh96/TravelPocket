@@ -252,8 +252,23 @@ interface PackageOverview {
     altitude: string;
     isTcsApplicable: boolean;
     isTrending: boolean;
+    reviewRating: string;
+    reviewCount: string;
     imageList: any[];
     highlightList: any[];
+}
+
+interface packageReview {
+    reviewId: number,
+    packageId: number,
+    customerId: number,
+    firstName: string,
+    lastName: string,
+    imageUrl: string,
+    rating: number,
+    reviewTitle: string,
+    reviewText: string,
+    reviewDate: string
 }
 
 const leftColumnData: EssentialItem[] = [
@@ -314,6 +329,7 @@ export default function DetailPackage() {
     const [exclusions, setExclusions] = useState<Exclusion[]>([]);
     const [packageDates, setPackageDates] = useState<PackageDate[]>([]);
     const [itineraries, setItineraries] = useState<Itinerary[]>([]);
+    const [packageReviews, setPackageReviews] = useState<packageReview[]>([]);
 
     const sliderRef = useRef<HTMLDivElement>(null);
     const tabRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -321,6 +337,7 @@ export default function DetailPackage() {
     const { data: itinerariesData, execute: executeItineraries } = useApi<any>();
     const { data: inclusionsData, execute: executeInclusions } = useApi<any>();
     const { data: packageDatesData, execute: executeDates } = useApi<any>();
+    const { data: packageReviewsData, execute: executePackageReviews } = useApi<any>();
 
     // Number of accordions to open by default
     const defaultOpenAccordions = 2;
@@ -350,7 +367,11 @@ export default function DetailPackage() {
 
         const datesUrl = `${API_ENDPOINTS.package.getPackageDates}?userid=0&packageid=16`;
         executeDates(datesUrl);
-    }, [execute, executeItineraries, executeInclusions, executeDates]);
+
+        const reviewsUrl = `${API_ENDPOINTS.package.getPackageReviews}?userid=0&packageid=16`;
+        executePackageReviews(reviewsUrl);
+
+    }, [execute, executeItineraries, executeInclusions, executeDates, executePackageReviews]);
 
     useEffect(() => {
         if (data) {
@@ -392,6 +413,15 @@ export default function DetailPackage() {
             }
         }
     }, [packageDatesData]);
+
+    useEffect(() => {
+        if (packageReviewsData) {
+            console.log('Package Reviews API data:', packageReviewsData);
+            if (packageReviewsData.success && packageReviewsData.data) {
+                setPackageReviews(packageReviewsData.data || []);
+            }
+        }
+    }, [packageReviewsData]);
 
     const [showAll, setShowAll] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -724,17 +754,21 @@ export default function DetailPackage() {
                                                 </div>
                                             </div>
                                             <div className="hidden lg:flex flex-col gap-[6px]">
-                                                <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
-                                                    <div className="flex flex-row gap-[3px] items-center">
-                                                        <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">4.9</div>
-                                                        <div>
-                                                            <img src="/images/detailpage/star_rate.svg" className="" />
+                                                {packageOverview?.reviewRating && packageOverview.reviewRating.trim() !== '' && (
+                                                    <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
+                                                        <div className="flex flex-row gap-[3px] items-center">
+                                                            <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">{packageOverview?.reviewRating}</div>
+                                                            <div>
+                                                                <img src="/images/detailpage/star_rate.svg" className="" />
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="text-[#000] text-center font-[Figtree] text-[12px] font-semibold leading-[14px] underline">
-                                                    3 Reviews
-                                                </div>
+                                                )}
+                                                {packageOverview?.reviewCount && packageOverview.reviewCount.trim() !== '' && (
+                                                    <div className="text-[#000] text-center font-[Figtree] text-[12px] font-semibold leading-[14px] underline">
+                                                        {packageOverview?.reviewCount} Reviews
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="flex flex-row">
@@ -746,17 +780,21 @@ export default function DetailPackage() {
                                             </div>
                                         </div>
                                         <div className="lg:hidden flex flex-row gap-[8px] items-center">
-                                            <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
-                                                <div className="flex flex-row gap-[3px] items-center">
-                                                    <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">4.9</div>
-                                                    <div>
-                                                        <img src="/images/detailpage/star_rate.svg" className="" />
+                                            {packageOverview?.reviewRating && packageOverview.reviewRating.trim() !== '' && (
+                                                <div className="rounded-[5px] bg-[#00A53F]" style={{ padding: "10px 4px" }}>
+                                                    <div className="flex flex-row gap-[3px] items-center">
+                                                        <div className="text-white font-[Figtree] text-[16px] lg:text-[20px] font-semibold leading-[24px]">{packageOverview?.reviewRating}</div>
+                                                        <div>
+                                                            <img src="/images/detailpage/star_rate.svg" className="" />
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="text-[#000] text-center font-[Figtree] text-[12px] font-semibold leading-[14px] underline">
-                                                3 Reviews
-                                            </div>
+                                            )}
+                                            {packageOverview?.reviewCount && packageOverview.reviewCount.trim() !== '' && (
+                                                <div className="text-[#000] text-center font-[Figtree] text-[12px] font-semibold leading-[14px] underline">
+                                                    {packageOverview?.reviewCount} Reviews
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -1340,7 +1378,30 @@ export default function DetailPackage() {
                                             ref={sliderRef}
                                             className="flex overflow-x-auto scroll-smooth no-scrollbar gap-6 px-2 py-6"
                                         >
-                                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                            {packageReviews.map((review, index) => (
+                                                <div key={review.reviewId} className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                                    <div className="flex items-start gap-4">
+                                                        <img src={review.imageUrl || "/images/detailpage/review_photo.jpg"} alt="Profile" className="w-16 h-16 rounded-full object-cover" />
+                                                        <div className="flex-1">
+                                                            <div className="flex flex-col gap-[12px]">
+                                                                <div className="flex flex-col gap-[10px]">
+                                                                    <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">{review.reviewTitle}</div>
+                                                                    <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">{review.reviewText}</div>
+                                                                </div>
+                                                                <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
+                                                                    <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
+                                                                    {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                    <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
+                                                                        <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                                        <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
                                                 <div className="flex items-start gap-4">
                                                     <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                                                     <div className="flex-1">
@@ -1351,7 +1412,6 @@ export default function DetailPackage() {
                                                             </div>
                                                             <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
                                                                 <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
                                                                 <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
                                                                     <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
                                                                     <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
@@ -1360,9 +1420,9 @@ export default function DetailPackage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
-                                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
                                                 <div className="flex items-start gap-4">
                                                     <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                                                     <div className="flex-1">
@@ -1373,7 +1433,7 @@ export default function DetailPackage() {
                                                             </div>
                                                             <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
                                                                 <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                
                                                                 <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
                                                                     <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
                                                                     <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
@@ -1382,9 +1442,9 @@ export default function DetailPackage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
-                                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
                                                 <div className="flex items-start gap-4">
                                                     <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                                                     <div className="flex-1">
@@ -1395,7 +1455,7 @@ export default function DetailPackage() {
                                                             </div>
                                                             <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
                                                                 <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                               
                                                                 <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
                                                                     <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
                                                                     <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
@@ -1404,9 +1464,9 @@ export default function DetailPackage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
-                                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
                                                 <div className="flex items-start gap-4">
                                                     <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                                                     <div className="flex-1">
@@ -1417,7 +1477,7 @@ export default function DetailPackage() {
                                                             </div>
                                                             <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
                                                                 <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                               
                                                                 <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
                                                                     <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
                                                                     <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
@@ -1426,9 +1486,9 @@ export default function DetailPackage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
-                                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
                                                 <div className="flex items-start gap-4">
                                                     <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                                                     <div className="flex-1">
@@ -1439,7 +1499,7 @@ export default function DetailPackage() {
                                                             </div>
                                                             <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
                                                                 <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                
                                                                 <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
                                                                     <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
                                                                     <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
@@ -1448,9 +1508,9 @@ export default function DetailPackage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
-                                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
                                                 <div className="flex items-start gap-4">
                                                     <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                                                     <div className="flex-1">
@@ -1461,7 +1521,7 @@ export default function DetailPackage() {
                                                             </div>
                                                             <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
                                                                 <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                              
                                                                 <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
                                                                     <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
                                                                     <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
@@ -1470,9 +1530,9 @@ export default function DetailPackage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
-                                            <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
                                                 <div className="flex items-start gap-4">
                                                     <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                                                     <div className="flex-1">
@@ -1483,7 +1543,7 @@ export default function DetailPackage() {
                                                             </div>
                                                             <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
                                                                 <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                
                                                                 <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
                                                                     <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
                                                                     <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
@@ -1492,7 +1552,7 @@ export default function DetailPackage() {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
 
                                         </div>
@@ -1500,8 +1560,28 @@ export default function DetailPackage() {
                                     {/**ends here */}
 
                                     {/**Review Cards mobile device */}
-                                    <div className="md:hidden flex flex-col items-start gap-[16px]">
-                                        <div className="rounded-[8px] border border-[#D2D8E4] bg-white flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                    <div className="md:hidden flex flex-col items-start gap-[16px] w-full">
+                                        {packageReviews.map((review, index) => (
+                                            <div key={review.reviewId} className="rounded-[8px] border border-[#D2D8E4] bg-white flex-shrink-0 w-full" style={{ padding: "20px 15px" }}>
+                                                <div className="flex items-start gap-4">
+                                                    <img src={review.imageUrl ||"/images/detailpage/review_photo.jpg"} alt="Profile" className="w-16 h-16 rounded-full object-cover" />
+                                                    <div className="flex-1">
+                                                        <div className="flex flex-col gap-[12px]">
+                                                            <div className="flex flex-col gap-[10px]">
+                                                                <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">{review.reviewTitle}</div>
+                                                                <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">{review.reviewText}</div>
+                                                            </div>
+                                                            <div className="flex gap-[8px] items-center cursor-pointer">
+                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
+                                                                <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                        {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white flex-shrink-0" style={{ padding: "20px 15px" }}>
                                             <div className="flex items-start gap-4">
                                                 <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                                                 <div className="flex-1">
@@ -1535,25 +1615,7 @@ export default function DetailPackage() {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div className="rounded-[8px] border border-[#D2D8E4] bg-white flex-shrink-0" style={{ padding: "20px 15px" }}>
-                                            <div className="flex items-start gap-4">
-                                                <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                <div className="flex-1">
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-col gap-[10px]">
-                                                            <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
-                                                            <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
-                                                        </div>
-                                                        <div className="flex gap-[8px] items-center cursor-pointer">
-                                                            <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                            <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     {/**ends here */}
 
