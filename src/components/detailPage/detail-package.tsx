@@ -256,6 +256,7 @@ interface PackageOverview {
     reviewCount: string;
     imageList: any[];
     highlightList: any[];
+    rewardPoints: number
 }
 
 interface packageReview {
@@ -772,12 +773,14 @@ export default function DetailPackage() {
                                             </div>
                                         </div>
                                         <div className="flex flex-row">
-                                            <div className="rounded-[4px] bg-[#FFF7F2]" style={{ padding: "8px 14px" }}>
-                                                <span className="text-black font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal">Earn </span>
-                                                <img src="/images/detailpage/24-Crowns.png" className="inline mr-1" />
-                                                <span className="text-[#000] font-[Figtree] text-[12px] lg:text-[14px] font-bold leading-normal">50 Reward Points</span>
-                                                <span className="text-black font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal"> on this Booking</span>
-                                            </div>
+                                            {packageOverview?.rewardPoints && (
+                                                <div className="rounded-[4px] bg-[#FFF7F2]" style={{ padding: "8px 14px" }}>
+                                                    <span className="text-black font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal">Earn </span>
+                                                    <img src="/images/detailpage/24-Crowns.png" className="inline mr-1" />
+                                                    <span className="text-[#000] font-[Figtree] text-[12px] lg:text-[14px] font-bold leading-normal">{packageOverview?.rewardPoints} Reward Points</span>
+                                                    <span className="text-black font-['Figtree'] text-[12px] lg:text-[14px] font-normal leading-normal"> on this Booking</span>
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="lg:hidden flex flex-row gap-[8px] items-center">
                                             {packageOverview?.reviewRating && packageOverview.reviewRating.trim() !== '' && (
@@ -1564,7 +1567,7 @@ export default function DetailPackage() {
                                         {packageReviews.map((review, index) => (
                                             <div key={review.reviewId} className="rounded-[8px] border border-[#D2D8E4] bg-white flex-shrink-0 w-full" style={{ padding: "20px 15px" }}>
                                                 <div className="flex items-start gap-4">
-                                                    <img src={review.imageUrl ||"/images/detailpage/review_photo.jpg"} alt="Profile" className="w-16 h-16 rounded-full object-cover" />
+                                                    <img src={review.imageUrl || "/images/detailpage/review_photo.jpg"} alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                                                     <div className="flex-1">
                                                         <div className="flex flex-col gap-[12px]">
                                                             <div className="flex flex-col gap-[10px]">

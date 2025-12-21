@@ -39,7 +39,8 @@ export const API_ENDPOINTS = {
     getEssentialInclusions: `${API_BASE_URL}/api/package/package-essential-inclusions`,
     getPackageDates: `${API_BASE_URL}/api/package/package-dates`,
     getPackageReviews: `${API_BASE_URL}/api/package/reviews`,
-    getDestinationListing: `${API_BASE_URL}/api/package/listing-destinations`,
+    // getDestinationListing: `${API_BASE_URL}/api/package/listing-destinations`,
+    getListingFilters: `${API_BASE_URL}/api/package/listing-filters`,
   },
   booking: {
     getCustomerBySearch: `${API_BASE_URL}/api/Booking/getcustomerbysearch`,
