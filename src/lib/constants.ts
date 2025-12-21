@@ -29,7 +29,6 @@ export const API_ENDPOINTS = {
     getTravelGalleries: `${API_BASE_URL}/api/customerhome/travel-galleries`,
     getBlogs: `${API_BASE_URL}/api/customerhome/blogs`,
     getPackageListing: `${API_BASE_URL}/api/customerhome/package-listing`,
-    getDestinationListing: `${API_BASE_URL}/api/customerhome/listing-destinations`,
   },
   accounts: {
     getUserDetails: `${API_BASE_URL}/api/customerhome/user-details`,
@@ -40,6 +39,7 @@ export const API_ENDPOINTS = {
     getEssentialInclusions: `${API_BASE_URL}/api/package/package-essential-inclusions`,
     getPackageDates: `${API_BASE_URL}/api/package/package-dates`,
     getPackageReviews: `${API_BASE_URL}/api/package/reviews`,
+    getDestinationListing: `${API_BASE_URL}/api/package/listing-destinations`,
   },
   booking: {
     getCustomerBySearch: `${API_BASE_URL}/api/Booking/getcustomerbysearch`,

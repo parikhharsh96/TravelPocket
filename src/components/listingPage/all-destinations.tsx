@@ -244,7 +244,7 @@ export default function AllDestinations() {
 
         execute(API_ENDPOINTS.customerHome.getPackageListing, 'POST', requestBody);
 
-        const apiUrl = `${API_ENDPOINTS.customerHome.getDestinationListing}`;
+        const apiUrl = `${API_ENDPOINTS.package.getDestinationListing}`;
         executeDestinationLists(apiUrl, 'GET');
     }, [execute]);
 
@@ -268,7 +268,7 @@ export default function AllDestinations() {
             }
         }
     }, [destinationList]);
-    
+
     // Map tour options to destination keywords
     const getTourOptionKeywords = (option: string): string[] => {
         const optionMap: Record<string, string[]> = {
