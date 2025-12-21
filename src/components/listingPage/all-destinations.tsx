@@ -28,18 +28,17 @@ import {
 } from "@/components/ui/select";
 import { SortByDrawer } from "./sort-by-drawer";
 import { FilterByDrawer } from "./filter-by-drawer";
-import { Destination, destinations } from "@/data/destinations";
+
 import React from "react";
 import { useRouter } from "next/navigation";
 import {
     FilterState,
     initialFilterState,
-    applyFilters,
     getFilterLabel,
     hasActiveFilters,
     clearAllFilters,
 } from "@/lib/filter-utils";
-import { applySort, SortOption, DEFAULT_SORT } from "@/lib/sort-utils";
+import { SortOption, DEFAULT_SORT } from "@/lib/sort-utils";
 import { useApi } from '@/lib/use-api';
 import { API_ENDPOINTS } from '@/lib/constants';
 
@@ -65,9 +64,27 @@ interface PackageListingItem {
     showRegistrationOpenFlag: boolean
 }
 
-interface FilterDestination {
-    destinationId: number;
-    destinationName: string;
+interface ListingFiltersResponse {
+    success: boolean;
+    message: string;
+    data: {
+        destinations: {
+            destinationId: number;
+            destinationName: string;
+        }[];
+        prices: {
+            minPrice: string;
+            maxPrice: string;
+        }[];
+        durations: {
+            minDays: string;
+            maxDays: string;
+        }[];
+        months: {
+            monthNo: string;
+            monthName: string;
+        }[];
+    };
 }
 
 const packages = [
@@ -194,24 +211,13 @@ const packages = [
 ];
 
 
-const tourOptions: string[] = [
-    "All",
-    "Most Popular",
-    "Adi Kailash & Om Parvat Yatra",
-    "Kailash Mansarover Darshan",
-    "Kailash Mansarover Aerial Darshan",
-    "Nepal: Land Of Gods & Monasteries",
-    "Chardham Yatra",
-    "Kedarnath",
-];
-
-
 export default function AllDestinations() {
     const { data, loading, error, execute } = useApi<any>();
     const [packageListings, setPackageListings] = useState<PackageListingItem[]>([]);
-    const [filterDestinationData, setFilterDestinationData] = useState<FilterDestination[]>([]);
+    const [listingFilters, setListingFilters] = useState<ListingFiltersResponse['data'] | null>(null);
+    const [hasInitiallyLoaded, setHasInitiallyLoaded] = useState(false);
 
-    const [selected, setSelected] = useState<string[]>(['All']);
+    const [selectedDestinations, setSelectedDestinations] = useState<number[]>([]);
     const [openSortDrawer, setOpenSortDrawer] = useState(false);
     const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
     const [visibleCount, setVisibleCount] = useState(6); // initial 6 items
@@ -219,34 +225,101 @@ export default function AllDestinations() {
     const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_SORT);
     const router = useRouter();
 
-    const { data: destinationList, execute: executeDestinationLists } = useApi<any>();
+    const { data: listingFiltersData, loading: listingFiltersLoading, error: listingFiltersError, execute: executeListingFilters } = useApi<ListingFiltersResponse>();
 
-    // API call for package listing
-    useEffect(() => {
-        const requestBody = {
-            "priceRanges": [
-                {
-                    "min": 1,
-                    "max": 10000000
+    // Create tour options from API destinations
+    const tourOptions = useMemo(() => {
+        if (!listingFilters?.destinations) return [{ id: 0, name: "All" }];
+        return [
+            { id: 0, name: "All" },
+            ...listingFilters.destinations.map(dest => ({ id: dest.destinationId, name: dest.destinationName }))
+        ];
+    }, [listingFilters]);
+
+    const toggleDestinationOption = (destinationId: number): void => {
+        setSelectedDestinations((prevSelected) => {
+            if (destinationId === 0) {
+                // "All" clicked
+                if (prevSelected.includes(0)) {
+                    // Deselect all - also clear filter destinations
+                    setFilters(prev => ({ ...prev, destinations: new Set() }));
+                    return [];
+                } else {
+                    // Select all - also set filter destinations
+                    const allIds = listingFilters?.destinations.map(d => d.destinationId) || [];
+                    setFilters(prev => ({ ...prev, destinations: new Set(allIds.map(id => id.toString())) }));
+                    return [0, ...allIds];
                 }
-            ],
-            "durationRanges": [
-                {
-                    "min": 1,
-                    "max": 20
+            } else {
+                // Specific destination clicked
+                if (prevSelected.includes(destinationId)) {
+                    // Remove from both tour options and filters
+                    setFilters(prev => {
+                        const newSet = new Set(prev.destinations);
+                        newSet.delete(destinationId.toString());
+                        return { ...prev, destinations: newSet };
+                    });
+                    return prevSelected.filter(id => id !== destinationId && id !== 0);
+                } else {
+                    // Add to both tour options and filters
+                    setFilters(prev => {
+                        const newSet = new Set(prev.destinations);
+                        newSet.add(destinationId.toString());
+                        return { ...prev, destinations: newSet };
+                    });
+                    const newSelected = [...prevSelected.filter(id => id !== 0), destinationId];
+                    
+                    // Check if all destinations are now selected
+                    const allDestinationIds = listingFilters?.destinations.map(d => d.destinationId) || [];
+                    const allSelected = allDestinationIds.every(id => newSelected.includes(id));
+                    
+                    return allSelected ? [0, ...newSelected] : newSelected;
                 }
-            ],
-            "destinationIds": [0],
-            "groupIds": [0],
-            "departureMonth": 0,
-            "sortBy": null
+            }
+        });
+    };
+
+    // Build API request body from current filters
+    const buildRequestBody = useMemo(() => {
+        const priceRanges = Array.from(filters.price).map(priceRange => {
+            const [min, max] = priceRange.split('-');
+            return { min: parseInt(min), max: parseInt(max) };
+        });
+
+        const durationRanges = Array.from(filters.duration).map(durationRange => {
+            const [min, max] = durationRange.split('-');
+            return { min: parseInt(min), max: parseInt(max) };
+        });
+
+        // Combine destinations from both tour options and sidebar/drawer filters
+        const tourDestinationIds = selectedDestinations.length > 0 && !selectedDestinations.includes(0) 
+            ? selectedDestinations 
+            : [];
+        
+        const filterDestinationIds = Array.from(filters.destinations).map(id => parseInt(id));
+        
+        // Merge both destination sources and remove duplicates
+        const allDestinationIds = [...new Set([...tourDestinationIds, ...filterDestinationIds])];
+
+        return {
+            priceRanges: priceRanges.length > 0 ? priceRanges : [{ min: 1, max: 10000000 }],
+            durationRanges: durationRanges.length > 0 ? durationRanges : [{ min: 1, max: 20 }],
+            destinationIds: allDestinationIds,
+            groupIds: [0],
+            departureMonth: filters.month ? parseInt(filters.month) : 0,
+            sortBy: sortBy !== DEFAULT_SORT ? sortBy : null
         };
+    }, [filters, sortBy, selectedDestinations]);
 
-        execute(API_ENDPOINTS.customerHome.getPackageListing, 'POST', requestBody);
+    // API call for package listing - trigger when filters change
+    useEffect(() => {
+        execute(API_ENDPOINTS.customerHome.getPackageListing, 'POST', buildRequestBody);
+    }, [buildRequestBody, execute]);
 
-        const apiUrl = `${API_ENDPOINTS.package.getDestinationListing}`;
-        executeDestinationLists(apiUrl, 'GET');
-    }, [execute]);
+    // Initial API calls
+    useEffect(() => {
+        executeListingFilters(API_ENDPOINTS.package.getListingFilters, 'GET');
+    }, [executeListingFilters]);
 
     useEffect(() => {
         if (data) {
@@ -254,109 +327,27 @@ export default function AllDestinations() {
             if (data.data) {
                 setPackageListings(data.data);
             }
+            setHasInitiallyLoaded(true);
         }
         if (error) {
             console.error('Package Listing API error:', error);
+            setHasInitiallyLoaded(true);
         }
     }, [data, error, loading]);
 
     useEffect(() => {
-        if (destinationList) {
-            console.log('Package Itineraries API data:', destinationList);
-            if (destinationList.success && destinationList.data) {
-                setFilterDestinationData(destinationList.data || []);
+        if (listingFiltersData) {
+            console.log('Listing Filters API data:', listingFiltersData);
+            if (listingFiltersData.success && listingFiltersData.data) {
+                setListingFilters(listingFiltersData.data);
             }
         }
-    }, [destinationList]);
+    }, [listingFiltersData, listingFiltersLoading, listingFiltersError]);
 
-    // Map tour options to destination keywords
-    const getTourOptionKeywords = (option: string): string[] => {
-        const optionMap: Record<string, string[]> = {
-            "All": [],
-            "Most Popular": [],
-            "Adi Kailash & Om Parvat Yatra": ["adi kailash", "om parvat"],
-            "Kailash Mansarover Darshan": ["kailash mansarovar", "kailash mansarover"],
-            "Kailash Mansarover Aerial Darshan": ["kailash", "helicopter"],
-            "Nepal: Land Of Gods & Monasteries": ["nepal", "muktinath", "pashupatinath"],
-            "Chardham Yatra": ["char dham", "chardham"],
-            "Kedarnath": ["kedarnath"],
-        };
-        return optionMap[option] || [];
-    };
-
-    // Apply tour option filters
-    const applyTourOptionFilters = (dests: Destination[]): Destination[] => {
-        // If "All" is selected, show all destinations
-        const hasAll = selected.includes("All");
-        const otherOptions = selected.filter(opt => opt !== "All");
-
-        if (hasAll) {
-            // "All" is selected, show everything
-            return dests;
-        }
-
-        // If no options selected, show all (shouldn't happen as "All" is default)
-        if (otherOptions.length === 0) {
-            return dests;
-        }
-
-        // Filter by selected options
-        return dests.filter((dest) => {
-            const titleLower = dest.title.toLowerCase();
-            const descriptionLower = dest.description.toLowerCase();
-            const combinedText = `${titleLower} ${descriptionLower}`;
-
-            // Check if destination matches any selected option
-            return otherOptions.some((option) => {
-                // Handle "Most Popular" separately
-                if (option === "Most Popular") {
-                    return dest.isPopular;
-                }
-
-                // Handle destination keyword filters
-                const keywords = getTourOptionKeywords(option);
-                if (keywords.length === 0) return false;
-                return keywords.some((keyword) =>
-                    combinedText.includes(keyword.toLowerCase())
-                );
-            });
-        });
-    };
-
-    // Apply filters to API data instead of static destinations
-    const filteredDestinations = useMemo(() => {
-        // Convert API data to destination format for filtering
-        const convertedPackages = packageListings.map(pkg => ({
-            id: pkg.packageId,
-            title: pkg.groupName,
-            description: pkg.title,
-            duration: pkg.duration,
-            nights: parseInt(pkg.duration.split(' ')[0]) || 0,
-            days: parseInt(pkg.duration.split(' ')[2]) || 0,
-            type: "Group Tour" as const,
-            price: pkg.price,
-            emi: pkg.emi,
-            month: ["May", "June", "July"], // API doesn't provide months
-            pickUp: "Departure", // API doesn't have pickup info
-            inclusionsCount: 20, // API doesn't have inclusion count
-            status: pkg.showRegistrationOpenFlag ? "Registrations Open" as const : "Closed" as const,
-            isPopular: pkg.isPopular,
-            images: [pkg.groupImageUrl || "/images/trendingpackages/dummy_card_img.png"]
-        }));
-
-        const filtered = applyFilters(convertedPackages, filters);
-        return applyTourOptionFilters(filtered);
-    }, [filters, selected, packageListings]);
-
-    // Apply sorting to filtered destinations
-    const sortedAndFilteredDestinations = useMemo(() => {
-        return applySort(filteredDestinations, sortBy);
-    }, [filteredDestinations, sortBy]);
-
-    // Reset visible count when filters, sort, or tour options change
+    // Reset visible count when filters, sort, or destinations change
     React.useEffect(() => {
         setVisibleCount(6);
-    }, [filters, sortBy, selected]);
+    }, [filters, sortBy, selectedDestinations]);
 
     const navigateToPackageDetails = () => {
         router.push("/details"); //need to add dynamic routing later
@@ -374,7 +365,7 @@ export default function AllDestinations() {
         setVisibleCount((prev) => prev + 6);
     };
 
-    const allLoaded = visibleCount >= sortedAndFilteredDestinations.length;
+    const allLoaded = visibleCount >= packageListings.length;
 
     // Sort handler
     const handleSortChange = (newSort: SortOption) => {
@@ -403,10 +394,26 @@ export default function AllDestinations() {
 
             return newFilters;
         });
+
+        // Sync destination filters with tour options
+        if (groupKey === "destinations") {
+            const destinationId = parseInt(value);
+            setSelectedDestinations(prev => {
+                if (checked) {
+                    const newSelected = [...prev.filter(id => id !== 0), destinationId];
+                    const allDestinationIds = listingFilters?.destinations.map(d => d.destinationId) || [];
+                    const allSelected = allDestinationIds.every(id => newSelected.includes(id));
+                    return allSelected ? [0, ...newSelected] : newSelected;
+                } else {
+                    return prev.filter(id => id !== destinationId && id !== 0);
+                }
+            });
+        }
     };
 
     const handleClearAllFilters = () => {
         setFilters(clearAllFilters());
+        setSelectedDestinations([]);
     };
 
     const handleRemoveFilter = (groupKey: keyof FilterState, value: string) => {
@@ -423,6 +430,12 @@ export default function AllDestinations() {
 
             return newFilters;
         });
+
+        // Sync destination removal with tour options
+        if (groupKey === "destinations") {
+            const destinationId = parseInt(value);
+            setSelectedDestinations(prev => prev.filter(id => id !== destinationId && id !== 0));
+        }
     };
 
     // Get active filter chips for display
@@ -431,76 +444,41 @@ export default function AllDestinations() {
 
         // Price filters
         filters.price.forEach((value) => {
-            chips.push({ groupKey: "price", value, label: getFilterLabel("price", value) });
+            const [min, max] = value.split('-');
+            const label = `₹${parseInt(min).toLocaleString()} - ₹${parseInt(max).toLocaleString()}`;
+            chips.push({ groupKey: "price", value, label });
         });
 
         // Duration filters
         filters.duration.forEach((value) => {
-            chips.push({ groupKey: "duration", value, label: getFilterLabel("duration", value) });
+            const [min, max] = value.split('-');
+            const label = `${min} - ${max} days`;
+            chips.push({ groupKey: "duration", value, label });
         });
 
         // Month filter
         if (filters.month) {
-            chips.push({ groupKey: "month", value: filters.month, label: getFilterLabel("month", filters.month) });
+            const monthData = listingFilters?.months.find(m => m.monthNo === filters.month);
+            const label = monthData?.monthName || filters.month;
+            chips.push({ groupKey: "month", value: filters.month, label });
         }
 
-        // Package type filter
-        if (filters.packageType && filters.packageType !== "all") {
-            chips.push({ groupKey: "packageType", value: filters.packageType, label: getFilterLabel("packageType", filters.packageType) });
-        }
-
-        // Destination filters
-        filters.destinations.forEach((value) => {
-            chips.push({ groupKey: "destinations", value, label: getFilterLabel("destinations", value) });
+        // Combined destination filters (from both tour options and sidebar/drawer)
+        const allSelectedDestinations = new Set([
+            ...Array.from(filters.destinations),
+            ...selectedDestinations.filter(id => id !== 0).map(id => id.toString())
+        ]);
+        
+        allSelectedDestinations.forEach((value) => {
+            const destData = listingFilters?.destinations.find(d => d.destinationId.toString() === value);
+            const label = destData?.destinationName || value;
+            chips.push({ groupKey: "destinations", value, label });
         });
 
         return chips;
     };
 
-    const toggleOption = (option: string): void => {
-        setSelected((prevSelected) => {
-            const otherOptions = tourOptions.filter(opt => opt !== "All");
 
-            if (option === "All") {
-                // If "All" is clicked
-                if (prevSelected.includes("All")) {
-                    // If "All" is already selected, deselect it
-                    return prevSelected.filter((item) => item !== "All");
-                } else {
-                    // If "All" is not selected, select "All" (which means all options)
-                    return ["All", ...otherOptions];
-                }
-            } else {
-                // For other options
-                if (prevSelected.includes(option)) {
-                    // Remove the option
-                    const newSelected = prevSelected.filter((item) => item !== option && item !== "All");
-
-                    // If no options left, select "All"
-                    if (newSelected.length === 0) {
-                        return ["All"];
-                    }
-
-                    // Check if all other options are still selected
-                    const allSelected = otherOptions.every(opt =>
-                        opt === option || newSelected.includes(opt)
-                    );
-
-                    // If all are selected, add "All", otherwise don't include "All"
-                    return allSelected ? ["All", ...newSelected] : newSelected;
-                } else {
-                    // Add the option
-                    const newSelected = [...prevSelected.filter((item) => item !== "All"), option];
-
-                    // Check if all options are now selected
-                    const allSelected = otherOptions.every(opt => newSelected.includes(opt));
-
-                    // If all options are selected, include "All"
-                    return allSelected ? ["All", ...newSelected] : newSelected;
-                }
-            }
-        });
-    };
 
 
     return (
@@ -561,21 +539,27 @@ export default function AllDestinations() {
                 <div className="p-0 md:p-6 lg:p-8">
                     <div className="rounded-[8px] bg-[#EBF5F7] w-full px-6 py-4.5 overflow-x-auto scroll-px-6">
                         <div className="flex flex-row lg:flex-wrap gap-[12px]">
-                            {tourOptions.map((option: string, index: number) => {
-                                const isActive: boolean = selected.includes(option);
-                                return (
-                                    <div key={index} onClick={() => toggleOption(option)} className={`px-5 py-3 rounded-[8px] border shrink-0 cursor-pointer transition-colors
-                                        ${isActive ? "bg-[#1A2F46] border-[#1A2F46]" : "bg-white border-[#D2D8E4]"}
-                                                `}>
-                                        <div className="flex items-start w-full">
-                                            <div className={`font-['Figtree'] text-[14px] md:text-base font-normal leading-normal capitalize shrink-0
-                                                ${isActive ? "text-[#FFFFFF]" : "text-[#1A2F46]"}
-                                                `}>{option}</div>
+                            {listingFiltersLoading || !listingFilters ? (
+                                // Tour options skeleton
+                                Array.from({ length: 5 }).map((_, i) => (
+                                    <div key={i} className="px-5 py-3 rounded-[8px] shrink-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] h-[44px] w-[120px]" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                ))
+                            ) : (
+                                tourOptions.map((option, index: number) => {
+                                    const isActive: boolean = selectedDestinations.includes(option.id);
+                                    return (
+                                        <div key={index} onClick={() => toggleDestinationOption(option.id)} className={`px-5 py-3 rounded-[8px] border shrink-0 cursor-pointer transition-colors
+                                            ${isActive ? "bg-[#1A2F46] border-[#1A2F46]" : "bg-white border-[#D2D8E4]"}
+                                                    `}>
+                                            <div className="flex items-start w-full">
+                                                <div className={`font-['Figtree'] text-[14px] md:text-base font-normal leading-normal capitalize shrink-0
+                                                    ${isActive ? "text-[#FFFFFF]" : "text-[#1A2F46]"}
+                                                    `}>{option.name}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                )
-
-                            })}
+                                    )
+                                })
+                            )}
                             <div className="shrink-0 w-4"></div>
                         </div>
                     </div>
@@ -603,79 +587,151 @@ export default function AllDestinations() {
                                     </div>
                                 </div>
 
-                                <Accordion type="multiple" defaultValue={filterGroups.map((g: FilterGroup) => g.key)}>
-                                    {filterGroups.map((group: FilterGroup) => (
-                                        <AccordionItem key={group.key} value={group.key}>
-                                            <AccordionTrigger className="text-black font-['Figtree'] text-[16px] font-semibold leading-normal">
-                                                {group.title}
-                                            </AccordionTrigger>
-                                            <AccordionContent className="pt-2">
-                                                {/* Select type */}
-                                                {group.type === "datepicker" ? (
-                                                    <select
-                                                        className="w-full border border-gray-300 rounded px-2 py-1"
-                                                        name={group.key}
-                                                        value={filters.month || ""}
-                                                        onChange={(e) => handleFilterChange("month", e.target.value, !!e.target.value)}
-                                                    >
-                                                        <option value="">Select {group.title}</option>
-                                                        {group.options.map((opt: FilterOption) => (
-                                                            <option key={opt.value} value={opt.value}>
-                                                                {opt.label}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                ) : group.type === "label" ? (
-                                                    <div className="flex flex-row gap-[16px] flex-wrap items-center">
-                                                        {group.options.map((option: FilterOption) => {
-                                                            const isSelected = filters.packageType === option.value;
-                                                            return (
-                                                                <div
-                                                                    key={option.value}
-                                                                    className={`rounded-[8px] border px-3 py-3 cursor-pointer transition-colors ${isSelected
-                                                                        ? "border-[#1C8CA7] bg-[#1C8CA7]"
-                                                                        : "border-[#D2D8E4] bg-white"
-                                                                        }`}
-                                                                    onClick={() => handleFilterChange("packageType", option.value, !isSelected)}
-                                                                >
-                                                                    <div className="flex items-center">
-                                                                        <div className={`font-['Figtree'] text-[14px] font-normal leading-normal ${isSelected ? "text-white" : "text-[#1A2F46]"
-                                                                            }`}>
-                                                                            {option.label}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                ) : (
-                                                    // Checkbox
-                                                    <div className="flex flex-col gap-[16px]">
-                                                        {group.options.map((opt: FilterOption) => {
-                                                            const filterKey = group.key as keyof FilterState;
-                                                            const isChecked = filterKey === "price" || filterKey === "duration" || filterKey === "destinations"
-                                                                ? (filters[filterKey] as Set<string>).has(opt.value)
-                                                                : false;
-                                                            return (
-                                                                <div key={opt.value} className="flex flex-row gap-[10px] items-center">
-                                                                    <Checkbox
-                                                                        id={`${group.key}-${opt.value}`}
-                                                                        checked={isChecked}
-                                                                        onCheckedChange={(checked) => handleFilterChange(filterKey, opt.value, checked as boolean)}
-                                                                        className="rounded-[2px] border border-[#D2D8E4] bg-white
-                                                                        data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"
-                                                                    />
-                                                                    <Label htmlFor={`${group.key}-${opt.value}`} className="text-black font-['Figtree'] text-[14px] font-normal leading-normal cursor-pointer">
-                                                                        {opt.label}
-                                                                    </Label>
-                                                                </div>
-                                                            );
-                                                        })}
-                                                    </div>
-                                                )}
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    ))}
+                                <Accordion type="multiple" defaultValue={["destinations", "price", "duration", "month"]}>
+                                    {/* Destinations */}
+                                    <AccordionItem value="destinations">
+                                        <AccordionTrigger className="text-black font-['Figtree'] text-[16px] font-semibold leading-normal">
+                                            Destinations
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-2">
+                                            {listingFiltersLoading || !listingFilters ? (
+                                                // Destinations skeleton
+                                                <div className="flex flex-col gap-[16px]">
+                                                    {Array.from({ length: 4 }).map((_, i) => (
+                                                        <div key={i} className="flex flex-row gap-[10px] items-center">
+                                                            <div className="w-4 h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded-[2px]" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                                            <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded flex-1" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col gap-[16px]">
+                                                    {listingFilters?.destinations.map((dest) => {
+                                                        const isChecked = (filters.destinations as Set<string>).has(dest.destinationId.toString());
+                                                        return (
+                                                            <div key={dest.destinationId} className="flex flex-row gap-[10px] items-center">
+                                                                <Checkbox
+                                                                    id={`destinations-${dest.destinationId}`}
+                                                                    checked={isChecked}
+                                                                    onCheckedChange={(checked) => handleFilterChange("destinations", dest.destinationId.toString(), checked as boolean)}
+                                                                    className="rounded-[2px] border border-[#D2D8E4] bg-white data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"
+                                                                />
+                                                                <Label htmlFor={`destinations-${dest.destinationId}`} className="text-black font-['Figtree'] text-[14px] font-normal leading-normal cursor-pointer">
+                                                                    {dest.destinationName}
+                                                                </Label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
+                                        </AccordionContent>
+                                    </AccordionItem>
+
+                                    {/* Price */}
+                                    <AccordionItem value="price">
+                                        <AccordionTrigger className="text-black font-['Figtree'] text-[16px] font-semibold leading-normal">
+                                            Price
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-2">
+                                            {listingFiltersLoading || !listingFilters ? (
+                                                // Price skeleton
+                                                <div className="flex flex-col gap-[16px]">
+                                                    {Array.from({ length: 3 }).map((_, i) => (
+                                                        <div key={i} className="flex flex-row gap-[10px] items-center">
+                                                            <div className="w-4 h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded-[2px]" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                                            <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded flex-1" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col gap-[16px]">
+                                                    {listingFilters?.prices.map((price, index) => {
+                                                        const priceValue = `${price.minPrice}-${price.maxPrice}`;
+                                                        const isChecked = (filters.price as Set<string>).has(priceValue);
+                                                        return (
+                                                            <div key={index} className="flex flex-row gap-[10px] items-center">
+                                                                <Checkbox
+                                                                    id={`price-${index}`}
+                                                                    checked={isChecked}
+                                                                    onCheckedChange={(checked) => handleFilterChange("price", priceValue, checked as boolean)}
+                                                                    className="rounded-[2px] border border-[#D2D8E4] bg-white data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"
+                                                                />
+                                                                <Label htmlFor={`price-${index}`} className="text-black font-['Figtree'] text-[14px] font-normal leading-normal cursor-pointer">
+                                                                    ₹{parseInt(price.minPrice).toLocaleString()} - ₹{parseInt(price.maxPrice).toLocaleString()}
+                                                                </Label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
+                                        </AccordionContent>
+                                    </AccordionItem>
+
+                                    {/* Duration */}
+                                    <AccordionItem value="duration">
+                                        <AccordionTrigger className="text-black font-['Figtree'] text-[16px] font-semibold leading-normal">
+                                            Duration
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-2">
+                                            {listingFiltersLoading || !listingFilters ? (
+                                                // Duration skeleton
+                                                <div className="flex flex-col gap-[16px]">
+                                                    {Array.from({ length: 3 }).map((_, i) => (
+                                                        <div key={i} className="flex flex-row gap-[10px] items-center">
+                                                            <div className="w-4 h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded-[2px]" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                                            <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded flex-1" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-col gap-[16px]">
+                                                    {listingFilters?.durations.map((duration, index) => {
+                                                        const durationValue = `${duration.minDays}-${duration.maxDays}`;
+                                                        const isChecked = (filters.duration as Set<string>).has(durationValue);
+                                                        return (
+                                                            <div key={index} className="flex flex-row gap-[10px] items-center">
+                                                                <Checkbox
+                                                                    id={`duration-${index}`}
+                                                                    checked={isChecked}
+                                                                    onCheckedChange={(checked) => handleFilterChange("duration", durationValue, checked as boolean)}
+                                                                    className="rounded-[2px] border border-[#D2D8E4] bg-white data-[state=checked]:rounded-[2px] data-[state=checked]:border data-[state=checked]:border-[#1C8CA7] data-[state=checked]:bg-[#1C8CA7] data-[state=checked]:text-white"
+                                                                />
+                                                                <Label htmlFor={`duration-${index}`} className="text-black font-['Figtree'] text-[14px] font-normal leading-normal cursor-pointer">
+                                                                    {duration.minDays} - {duration.maxDays} days
+                                                                </Label>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            )}
+                                        </AccordionContent>
+                                    </AccordionItem>
+
+                                    {/* Month */}
+                                    <AccordionItem value="month">
+                                        <AccordionTrigger className="text-black font-['Figtree'] text-[16px] font-semibold leading-normal">
+                                            Month
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-2">
+                                            {listingFiltersLoading || !listingFilters ? (
+                                                // Month skeleton
+                                                <div className="h-8 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded w-full"></div>
+                                            ) : (
+                                                <select
+                                                    className="w-full border border-gray-300 rounded px-2 py-1"
+                                                    value={filters.month || ""}
+                                                    onChange={(e) => handleFilterChange("month", e.target.value, !!e.target.value)}
+                                                >
+                                                    <option value="">Select Month</option>
+                                                    {listingFilters?.months.map((month) => (
+                                                        <option key={month.monthNo} value={month.monthNo}>
+                                                            {month.monthName}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            )}
+                                        </AccordionContent>
+                                    </AccordionItem>
                                 </Accordion>
                             </div>
                         </div>
@@ -747,13 +803,13 @@ export default function AllDestinations() {
                                     </div>
                                 ))
                             ) : (
-                                sortedAndFilteredDestinations.slice(0, visibleCount).map((pkg, index) => (
-                                    <React.Fragment key={pkg.id}>
+                                packageListings.slice(0, visibleCount).map((pkg, index) => (
+                                    <React.Fragment key={pkg.packageId}>
                                         <Card className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl group">
                                             <div className="relative overflow-hidden rounded-t-xl h-48">
                                                 <img
-                                                    src={pkg.images[0]}
-                                                    alt={pkg.title}
+                                                    src={pkg.groupImageUrl}
+                                                    alt={pkg.groupName}
                                                     className="w-full h-full object-cover transform transition-transform duration-500 ease-out group-hover:scale-110"
                                                 />
                                                 {pkg.isPopular && (
@@ -769,7 +825,7 @@ export default function AllDestinations() {
                                             </div>
                                             <CardContent className="py-0 space-y-2">
                                                 {/* Registrations Open Badge */}
-                                                {pkg.status === "Registrations Open" && (
+                                                {pkg.showRegistrationOpenFlag && (
                                                     <Badge variant="registration" icon="/images/trendingpackages/Ellipse6306.svg" className="rounded-[4px] bg-[#DFF8F1]">
                                                         <span className="text-[#00A53F] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
                                                             Registrations Open
@@ -778,24 +834,22 @@ export default function AllDestinations() {
                                                 )}
                                                 <div className="flex flex-col items-start gap-[12px] h-[155px]">
                                                     <div className="flex flex-col items-start gap-[10px]">
-                                                        <h3 className="text-[#333] font-['Figtree'] text-[18px] md:text-[20px] font-semibold leading-normal">{pkg.title}</h3>
-                                                        <p className="text-[#333] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[22px]">{pkg.description}{pkg.description}</p>
+                                                        <h3 className="text-[#333] font-['Figtree'] text-[18px] md:text-[20px] font-semibold leading-normal">{pkg.groupName}</h3>
+                                                        <p className="text-[#333] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[22px]">{pkg.title}</p>
                                                     </div>
 
                                                     <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
                                                         {/* Info Row */}
                                                         <div className="flex flex-row gap-1 items-center"><Calendar className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span></div>
-                                                        {/* <Calendar className="h-4 w-4" /> {pkg.duration} */}
                                                         <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                        <div className="flex flex-row gap-1 items-center"><CheckCircle className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusionsCount} Inclusions</span></div>
-                                                        {/* <CheckCircle className="h-4 w-4" /> {pkg.inclusionsCount} */}
+                                                        <div className="flex flex-row gap-1 items-center"><CheckCircle className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">20 Inclusions</span></div>
                                                         <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                        <div className="flex flex-row gap-1 items-center"><MapPin className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">Pick up: {pkg.pickUp}</span></div>
+                                                        <div className="flex flex-row gap-1 items-center"><MapPin className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">Pick up: Departure</span></div>
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center gap-[6px] mt-4 pt-4">
                                                     <p className="text-[#333333] font-['Figtree'] text-[14px] md:text-[16px] font-normal leading-[24px]">
-                                                        EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-[24px]">₹{pkg.price}</span>
+                                                        EMI starts from <span className="text-[#333333] font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-[24px]">₹{pkg.emi}</span>
                                                     </p>
                                                 </div>
                                             </CardContent>
@@ -821,9 +875,9 @@ export default function AllDestinations() {
                                         </Card>
 
                                         {/** Banner Display Login - Show after last item if 1-2 items, or after 3rd item if 3+ items */}
-                                        {((index === 0 && sortedAndFilteredDestinations.length === 1) ||
-                                            (index === 1 && sortedAndFilteredDestinations.length === 2) ||
-                                            (index === 2 && sortedAndFilteredDestinations.length > 2)) && (
+                                        {((index === 0 && packageListings.length === 1) ||
+                                            (index === 1 && packageListings.length === 2) ||
+                                            (index === 2 && packageListings.length > 2)) && (
 
                                                 <div className="wave-pattern rounded-[8px] overflow-hidden mt-6 mb-2"
                                                     style={{
@@ -879,7 +933,7 @@ export default function AllDestinations() {
                             </div>
                         </div> */}
 
-                        {!allLoaded && (
+                        {!allLoaded && packageListings.length > 0 && (
                             <div className="w-full flex justify-center mt-4 mb-4">
                                 <button
                                     onClick={handleLoadMore}
@@ -893,14 +947,28 @@ export default function AllDestinations() {
                             </div>
                         )}
 
-                        {/* Optional: Disabled button if all loaded */}
-                        {allLoaded && (
+                        {/* Show "All Loaded" only when there are packages and all are visible */}
+                        {allLoaded && packageListings.length > 0 && (
                             <div className="w-full flex justify-center mt-4 mb-4 opacity-50 cursor-not-allowed">
                                 <div className="rounded-[6px] border border-[#E97737] px-3 py-2 bg-[#E97737] flex items-center gap-2">
                                     <span className="text-white font-['Figtree'] text-[14px] font-semibold uppercase leading-normal">
                                         All Loaded
                                     </span>
                                     <img src="/images/listingpage/loadMore_white.svg" alt="All loaded" />
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Show "No Results" when package list is empty after initial load */}
+                        {!loading && hasInitiallyLoaded && packageListings.length === 0 && (
+                            <div className="w-full flex justify-center mt-8 mb-8">
+                                <div className="text-center">
+                                    <div className="text-[#666] font-['Figtree'] text-[18px] font-medium mb-2">
+                                        No packages found
+                                    </div>
+                                    <div className="text-[#999] font-['Figtree'] text-[14px]">
+                                        Try adjusting your filters to see more results
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -950,6 +1018,7 @@ export default function AllDestinations() {
                 filters={filters}
                 onFilterChange={handleFilterChange}
                 onClearAll={handleClearAllFilters}
+                listingFilters={listingFilters}
             />
 
         </>
