@@ -11,6 +11,10 @@ export default function ContactOurExperts() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
+  const handleWhatsAppClick = () => {
+    window.open("https://wa.me/917827033601", "_blank")
+  }
+
   return (
     <>
       {/** new design */}
@@ -111,6 +115,7 @@ export default function ContactOurExperts() {
 
                   <button
                     type="button"
+                    onClick={handleWhatsAppClick}
                     className="w-full border border-orange-500 text-orange-600 font-semibold p-2 rounded-md hover:bg-orange-50 transition"
                   >
                     <div className="flex flex-row items-center gap-2">
@@ -231,6 +236,7 @@ export default function ContactOurExperts() {
 
                       <button
                         type="button"
+                        onClick={handleWhatsAppClick}
                         className="w-full border border-orange-500 text-orange-600 font-semibold p-2 rounded-md hover:bg-orange-50 transition"
                       >
                         <div className="flex flex-row items-center gap-2">

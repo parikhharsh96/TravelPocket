@@ -137,7 +137,7 @@ export default function TestimonialCards() {
                                 experiences.map((exp, index) => (
                                 <div key={exp.experienceId} className="flex-shrink-0 w-full h-[300px] sm:h-[320px] md:h-[350px] lg:h-[380px] w-[280px] md:w-[360px] lg:w-[480px] bg-white rounded-lg overflow-hidden snap-start">
                                     <div className="h-[180px] md:h-[300px] relative">
-                                        {!isYouTubeUrl(exp.videoUrl) ? ( //remove ! feom isYoutubeURl
+                                        {isYouTubeUrl(exp.videoUrl) ? ( //remove ! feom isYoutubeURl
                                             <iframe
                                                 src={getYouTubeEmbedUrl(exp.videoUrl)}
                                                 className="w-full h-full rounded-lg"

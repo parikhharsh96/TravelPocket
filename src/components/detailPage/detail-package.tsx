@@ -332,6 +332,10 @@ export default function DetailPackage() {
     const [itineraries, setItineraries] = useState<Itinerary[]>([]);
     const [packageReviews, setPackageReviews] = useState<packageReview[]>([]);
 
+    const handleWhatsAppClick = () => {
+        window.open("https://wa.me/917827033601", "_blank")
+    }
+
     const sliderRef = useRef<HTMLDivElement>(null);
     const tabRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const { data, loading, error, execute } = useApi<any>();
@@ -1103,7 +1107,7 @@ export default function DetailPackage() {
                                         </div>
                                         <div className="rounded-[8px] bg-[#F4F4F4] p-2">
                                             <div className="flex flex-row gap-4 items-center">
-                                                <div className="flex flex-col md:flex-row gap-2 items-center justify-center">
+                                                <div className="flex flex-col md:flex-row gap-2 items-center justify-center cursor-pointer" onClick={handleWhatsAppClick}>
                                                     <img src="/images/detailpage/whatsapp.svg" alt="" className="" />
                                                     <div className="text-black font-[Figtree] text-center text-[11px] md:text-[12px] font-normal leading-none uppercase">Send Itinerary</div>
                                                 </div>
@@ -1788,7 +1792,7 @@ export default function DetailPackage() {
                             <div className="flex flex-col justify-center items-center gap-[25px] w-full">
                                 <div className="text-black text-center font-['Figtree'] text-base not-italic font-semibold leading-none">Need help?</div>
                                 <div className="flex items-center gap-[40px]">
-                                    <div className="flex flex-col gap-[8px] items-center">
+                                    <div className="flex flex-col gap-[8px] items-center cursor-pointer" onClick={handleWhatsAppClick}>
                                         <img src="/images/detailpage/whatsapp_help.svg" className="w-[22px] h-[22px]" />
                                         <div className="text-black text-center font-['Figtree'] text-[12px] not-italic font-normal leading-[16px] uppercase">send Itinerary</div>
                                     </div>
