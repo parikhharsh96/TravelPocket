@@ -35,6 +35,7 @@ interface FilterByDrawerProps {
     onFilterChange: (groupKey: keyof FilterState, value: string, checked?: boolean) => void
     onClearAll: () => void
     listingFilters: ListingFiltersData | null
+    loading?: boolean
 }
 
 const filterCategories = [
@@ -44,7 +45,7 @@ const filterCategories = [
     { key: "month", title: "Month" }
 ];
 
-export function FilterByDrawer({ open, onOpenChange, filters, onFilterChange, onClearAll, listingFilters }: FilterByDrawerProps) {
+export function FilterByDrawer({ open, onOpenChange, filters, onFilterChange, onClearAll, listingFilters, loading }: FilterByDrawerProps) {
     const [activeKey, setActiveKey] = useState<string>("destinations");
 
     const renderFilterContent = () => {
@@ -156,31 +157,52 @@ export function FilterByDrawer({ open, onOpenChange, filters, onFilterChange, on
                     <div className="flex w-full overflow-hidden">
                         {/* Left Section */}
                         <div className="w-2/5 bg-[#FFFFFF]">
-                            {filterCategories.map((category) => {
-                                const isActive = category.key === activeKey;
-                                return (
-                                    <div
-                                        key={category.key}
-                                        onClick={() => setActiveKey(category.key)}
-                                        className={`px-3 py-3 cursor-pointer border-y border-[#E1EAED] ${
-                                            isActive ? "bg-[#EBF5F7]" : "bg-[#FFFFFF]"
-                                        }`}
-                                    >
-                                        <div className="flex flex-row items-center w-full">
-                                            <div className={`font-['Figtree'] text-[14px] not-italic leading-normal shrink-1 ${
-                                                isActive ? "text-[#000000] font-semibold" : "text-[#464646] font-normal"
-                                            }`}>
-                                                {category.title}
+                            {loading || !listingFilters ? (
+                                // Skeleton loading for left section
+                                Array.from({ length: 4 }).map((_, i) => (
+                                    <div key={i} className="px-3 py-3 border-y border-[#E1EAED] bg-[#FFFFFF]">
+                                        <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                    </div>
+                                ))
+                            ) : (
+                                filterCategories.map((category) => {
+                                    const isActive = category.key === activeKey;
+                                    return (
+                                        <div
+                                            key={category.key}
+                                            onClick={() => setActiveKey(category.key)}
+                                            className={`px-3 py-3 cursor-pointer border-y border-[#E1EAED] ${
+                                                isActive ? "bg-[#EBF5F7]" : "bg-[#FFFFFF]"
+                                            }`}
+                                        >
+                                            <div className="flex flex-row items-center w-full">
+                                                <div className={`font-['Figtree'] text-[14px] not-italic leading-normal shrink-1 ${
+                                                    isActive ? "text-[#000000] font-semibold" : "text-[#464646] font-normal"
+                                                }`}>
+                                                    {category.title}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })
+                            )}
                         </div>
 
                         {/* Right Section */}
                         <div className="flex-1 h-screen bg-[#EBF5F7] border-y border-[#E1EAED] p-4">
-                            {renderFilterContent()}
+                            {loading || !listingFilters ? (
+                                // Skeleton loading
+                                <div className="flex flex-col gap-[16px]">
+                                    {Array.from({ length: 4 }).map((_, i) => (
+                                        <div key={i} className="flex flex-row gap-[10px] items-center">
+                                            <div className="w-4 h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded-[2px]" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                            <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded flex-1" style={{ animationDelay: `${i * 0.1}s` }}></div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                renderFilterContent()
+                            )}
                         </div>
                     </div>
                 </ScrollArea>

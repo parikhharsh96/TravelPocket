@@ -228,7 +228,7 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
             <Separator orientation="horizontal" className="bg-[#BBB] my-1 h-[1px]" />
 
             {/* Bottom Bar */}
-            <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-2 py-0">{/**py-2 */}
+            <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-2 py-1">{/**py-2 */}
                 <div className="flex items-center gap-0">
                     {/* Hamburger Menu for Mobile & Tablet */}
                     <button
