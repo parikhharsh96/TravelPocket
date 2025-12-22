@@ -2,6 +2,10 @@ import { Phone, Mail, MessageCircle, Send, HelpCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function HelpCenter() {
+  const handleWhatsAppClick = () => {
+    window.open("https://wa.me/917827033601", "_blank")
+  }
+
   return (
     <div className="rounded-[8px] bg-[#FFF7F2] p-4 md:p-6">
       <h3 className="text-black font-['Figtree'] text-[16px] md:text-[18px] font-semibold leading-normal mb-3 md:mb-4">Help Center</h3>
@@ -36,6 +40,7 @@ export function HelpCenter() {
 
         <Button
           variant="outline"
+          onClick={handleWhatsAppClick}
           className="justify-start gap-2 md:gap-3 bg-white hover:bg-[#fff7f2] rounded-[8px] border border-[#D2D8E4] h-auto py-3"
         >
           {/* <MessageCircle className="w-4 h-4 text-[#64b161] flex-shrink-0" /> */}

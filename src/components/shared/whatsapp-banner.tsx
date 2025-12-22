@@ -4,7 +4,7 @@ import { MessageCircle } from "lucide-react"
 
 export default function WhatsAppBanner() {
     const handleWhatsAppClick = () => {
-        window.open("https://wa.me/918270333601", "_blank")
+        window.open("https://wa.me/917827033601", "_blank")
     }
 
     return (
