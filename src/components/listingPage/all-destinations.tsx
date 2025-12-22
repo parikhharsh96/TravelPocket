@@ -61,7 +61,9 @@ interface PackageListingItem {
     emi: number;
     isPopular: boolean;
     isTrending: boolean;
-    showRegistrationOpenFlag: boolean
+    showRegistrationOpenFlag: boolean;
+    inclusionCaption: string;
+    departure: string;
 }
 
 interface ListingFiltersResponse {
@@ -83,6 +85,10 @@ interface ListingFiltersResponse {
         months: {
             monthNo: string;
             monthName: string;
+        }[];
+        sortOptions: {
+            sortText: string;
+            sortValue: string;
         }[];
     };
 }
@@ -222,7 +228,7 @@ export default function AllDestinations() {
     const [openFilterDrawer, setOpenFilterDrawer] = useState(false);
     const [visibleCount, setVisibleCount] = useState(6); // initial 6 items
     const [filters, setFilters] = useState<FilterState>(initialFilterState);
-    const [sortBy, setSortBy] = useState<SortOption>(DEFAULT_SORT);
+    const [sortBy, setSortBy] = useState<SortOption>("popularity");
     const router = useRouter();
 
     const { data: listingFiltersData, loading: listingFiltersLoading, error: listingFiltersError, execute: executeListingFilters } = useApi<ListingFiltersResponse>();
@@ -268,11 +274,11 @@ export default function AllDestinations() {
                         return { ...prev, destinations: newSet };
                     });
                     const newSelected = [...prevSelected.filter(id => id !== 0), destinationId];
-                    
+
                     // Check if all destinations are now selected
                     const allDestinationIds = listingFilters?.destinations.map(d => d.destinationId) || [];
                     const allSelected = allDestinationIds.every(id => newSelected.includes(id));
-                    
+
                     return allSelected ? [0, ...newSelected] : newSelected;
                 }
             }
@@ -292,23 +298,25 @@ export default function AllDestinations() {
         });
 
         // Combine destinations from both tour options and sidebar/drawer filters
-        const tourDestinationIds = selectedDestinations.length > 0 && !selectedDestinations.includes(0) 
-            ? selectedDestinations 
+        const tourDestinationIds = selectedDestinations.length > 0 && !selectedDestinations.includes(0)
+            ? selectedDestinations
             : [];
-        
+
         const filterDestinationIds = Array.from(filters.destinations).map(id => parseInt(id));
-        
+
         // Merge both destination sources and remove duplicates
         const allDestinationIds = [...new Set([...tourDestinationIds, ...filterDestinationIds])];
 
-        return {
+        const requestBody = {
             priceRanges: priceRanges.length > 0 ? priceRanges : [{ min: 1, max: 10000000 }],
             durationRanges: durationRanges.length > 0 ? durationRanges : [{ min: 1, max: 20 }],
             destinationIds: allDestinationIds,
             groupIds: [0],
             departureMonth: filters.month ? parseInt(filters.month) : 0,
-            sortBy: sortBy !== DEFAULT_SORT ? sortBy : null
+            sortBy: sortBy
         };
+
+        return requestBody;
     }, [filters, sortBy, selectedDestinations]);
 
     // API call for package listing - trigger when filters change
@@ -468,7 +476,7 @@ export default function AllDestinations() {
             ...Array.from(filters.destinations),
             ...selectedDestinations.filter(id => id !== 0).map(id => id.toString())
         ]);
-        
+
         allSelectedDestinations.forEach((value) => {
             const destData = listingFilters?.destinations.find(d => d.destinationId.toString() === value);
             const label = destData?.destinationName || value;
@@ -769,10 +777,9 @@ export default function AllDestinations() {
                                         </SelectTrigger>
                                         <SelectContent className="w-[var(--radix-select-trigger-width)] bg-white">
                                             <SelectGroup className="text-[#181818] font-['Figtree'] text-[14px] font-normal leading-[21px] capitalize">
-                                                {/* <SelectLabel>Fruits</SelectLabel> */}
-                                                {sortOptions.map((option) => (
-                                                    <SelectItem key={option.value} value={option.value} className="">
-                                                        {option.label}
+                                                {listingFilters?.sortOptions?.map((option) => (
+                                                    <SelectItem key={option.sortValue} value={option.sortValue} className="">
+                                                        {option.sortText}
                                                     </SelectItem>
                                                 ))}
                                             </SelectGroup>
@@ -840,11 +847,21 @@ export default function AllDestinations() {
 
                                                     <div className="flex py-[2px] items-center content-center gap-[10px] flex-wrap">
                                                         {/* Info Row */}
-                                                        <div className="flex flex-row gap-1 items-center"><Calendar className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span></div>
-                                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                        <div className="flex flex-row gap-1 items-center"><CheckCircle className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">20 Inclusions</span></div>
-                                                        <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
-                                                        <div className="flex flex-row gap-1 items-center"><MapPin className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">Pick up: Departure</span></div>
+                                                        {pkg.duration && (
+                                                            <div className="flex flex-row gap-1 items-center"><Calendar className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.duration}</span></div>
+                                                        )}
+                                                        {pkg.inclusionCaption && (
+                                                            <>
+                                                                <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                                <div className="flex flex-row gap-1 items-center"><CheckCircle className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.inclusionCaption}</span></div>
+                                                            </>
+                                                        )}
+                                                        {pkg.departure && (
+                                                            <>
+                                                                <Separator orientation="vertical" className="!h-[14px] w-px bg-[#BBB] border border-[#BBB]" />
+                                                                <div className="flex flex-row gap-1 items-center"><MapPin className="h-4 w-4 text-[#5A5A5A]" /><span className="text-[#5A5A5A] font-[Figtree] text-[12px] md:text-[14px] font-medium leading-[14px] uppercase">{pkg.departure}</span></div>
+                                                            </>
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center gap-[6px] mt-4 pt-4">
@@ -1010,6 +1027,8 @@ export default function AllDestinations() {
                 onOpenChange={setOpenSortDrawer}
                 sortBy={sortBy}
                 onSortChange={handleSortChange}
+                listingFilters={listingFilters}
+                loading={listingFiltersLoading}
             />
             {/**FilterBy Drawer */}
             <FilterByDrawer
@@ -1019,6 +1038,7 @@ export default function AllDestinations() {
                 onFilterChange={handleFilterChange}
                 onClearAll={handleClearAllFilters}
                 listingFilters={listingFilters}
+                loading={listingFiltersLoading}
             />
 
         </>
