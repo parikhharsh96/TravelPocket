@@ -13,6 +13,7 @@ interface Gallery {
   publishDate: string
   imageUrl: string
   videoUrl: string
+  packageName: string
 }
 
 interface Photo {
@@ -195,7 +196,7 @@ export default function TravelGallery() {
     return newList;
   };
 
-  const restructurePhotos = travelGalleryPhotos(photos); // pass here displayphotos
+  const restructurePhotos = travelGalleryPhotos(displayPhotos);
   console.log(restructurePhotos);
 
   // Auto-scroll logic: scrolls right continuously and loops back to start.
