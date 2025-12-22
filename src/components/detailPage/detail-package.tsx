@@ -335,10 +335,10 @@ export default function DetailPackage() {
     const sliderRef = useRef<HTMLDivElement>(null);
     const tabRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const { data, loading, error, execute } = useApi<any>();
-    const { data: itinerariesData, execute: executeItineraries } = useApi<any>();
-    const { data: inclusionsData, execute: executeInclusions } = useApi<any>();
-    const { data: packageDatesData, execute: executeDates } = useApi<any>();
-    const { data: packageReviewsData, execute: executePackageReviews } = useApi<any>();
+    const { data: itinerariesData, loading: itinerariesLoading, execute: executeItineraries } = useApi<any>();
+    const { data: inclusionsData, loading: inclusionsLoading, execute: executeInclusions } = useApi<any>();
+    const { data: packageDatesData, loading: packageDatesLoading, execute: executeDates } = useApi<any>();
+    const { data: packageReviewsData, loading: packageReviewsLoading, execute: executePackageReviews } = useApi<any>();
 
     // Number of accordions to open by default
     const defaultOpenAccordions = 2;
@@ -566,6 +566,12 @@ export default function DetailPackage() {
 
     return (
         <>
+            <style jsx>{`
+                @keyframes shimmer {
+                    0% { background-position: 200% 0; }
+                    100% { background-position: -200% 0; }
+                }
+            `}</style>
             <section className="mx-auto"> {/**max-w-[1920px] */} {/**container */}
                 <div className="rounded-[0_0_30px_30px] bg-[#EBF5F7] w-full">
                     <div className="p-4 md:px-6 lg:px-8 pt-2 pb-4"> {/**p-4 md:p-6 lg:p-8 */}
@@ -858,7 +864,7 @@ export default function DetailPackage() {
                 </div>
             </section>
 
-            <DepartureDrawer open={open} onOpenChange={setOpen} />
+            <DepartureDrawer open={open} onOpenChange={setOpen} packageDates={packageDates} packageDatesLoading={packageDatesLoading} />
 
             <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 mb-4 md:mb-8"> {/**max-w-[1920px] */}
 
@@ -869,7 +875,9 @@ export default function DetailPackage() {
                         {/** Image Slider */}
                         <div className="relative w-full overflow-hidden rounded-xl shadow-2xl mt-4 mb-4">
                             <div className="relative aspect-[2/1] w-full">
-                                {packageOverview?.imageList && packageOverview.imageList.length > 0 ? (
+                                {loading ? (
+                                    <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite]"></div>
+                                ) : packageOverview?.imageList && packageOverview?.imageList.length > 0 ? (
                                     packageOverview.imageList.map((image, index) => (
                                         <div
                                             key={index}
@@ -908,15 +916,21 @@ export default function DetailPackage() {
                         </div>
 
                         <div className="flex justify-center gap-3 mb-4">
-                            {packageOverview?.imageList.map((_, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => goToSlide(index)}
-                                    className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${index === currentIndex ? "bg-[#29A4C1] scale-125" : "bg-[#B3CAD0] hover:bg-[#93aeb5]"
-                                        }`}
-                                    aria-label={`Go to slide ${index + 1}`}
-                                />
-                            ))}
+                            {loading ? (
+                                Array.from({ length: 3 }).map((_, index) => (
+                                    <div key={index} className="w-2 h-2 rounded-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite]"></div>
+                                ))
+                            ) : (
+                                packageOverview?.imageList.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => goToSlide(index)}
+                                        className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${index === currentIndex ? "bg-[#29A4C1] scale-125" : "bg-[#B3CAD0] hover:bg-[#93aeb5]"
+                                            }`}
+                                        aria-label={`Go to slide ${index + 1}`}
+                                    />
+                                ))
+                            )}
                         </div>
 
                         {/** Share Section */}
@@ -1110,12 +1124,27 @@ export default function DetailPackage() {
                                     </div>
 
                                     <div className="w-full flex flex-col">
-                                        <ItineraryAccordion
-                                            itinerary={itineraries}
-                                            defaultOpenCount={defaultOpenAccordions}
-                                            openAccordions={openAccordions}
-                                            setOpenAccordions={setOpenAccordions}
-                                        />
+                                        {itinerariesLoading ? (
+                                            Array.from({ length: 5 }).map((_, index) => (
+                                                <div key={index} className="flex flex-col sm:flex-row gap-3 sm:gap-8 w-full mb-4">
+                                                    <div className="relative flex items-center flex-shrink-0 self-start">
+                                                        <div className="w-[100px] sm:w-[120px] h-[40px] sm:h-[50px] bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="h-[20px] lg:h-[24px] w-3/4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded mb-4"></div>
+                                                        <div className="h-[16px] w-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded mb-2"></div>
+                                                        <div className="h-[16px] w-5/6 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <ItineraryAccordion
+                                                itinerary={itineraries}
+                                                defaultOpenCount={defaultOpenAccordions}
+                                                openAccordions={openAccordions}
+                                                setOpenAccordions={setOpenAccordions}
+                                            />
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -1129,29 +1158,54 @@ export default function DetailPackage() {
 
                                     <div className="w-full">
                                         <div className="flex flex-col lg:flex-row justify-between lg:w-full">
-                                            {/* LEFT COLUMN */}
-                                            <div className="flex flex-col gap-[8px] items-start">
-                                                {displayedLeft.map((item, index) => (
-                                                    <div key={item.essentialId} className="flex gap-[8px] items-center">
-                                                        <img src="/images/detailpage/arrow.svg" alt="" />
-                                                        <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
-                                                            {item.text}
-                                                        </div>
+                                            {inclusionsLoading ? (
+                                                <>
+                                                    {/* LEFT COLUMN SKELETON */}
+                                                    <div className="flex flex-col gap-[8px] items-start">
+                                                        {Array.from({ length: 7 }).map((_, index) => (
+                                                            <div key={index} className="flex gap-[8px] items-center">
+                                                                <div className="w-4 h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                                                                <div className="h-[16px] w-64 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                ))}
-                                            </div>
+                                                    {/* RIGHT COLUMN SKELETON */}
+                                                    <div className="flex flex-col gap-[8px] items-start mt-4 lg:mt-0">
+                                                        {Array.from({ length: 7 }).map((_, index) => (
+                                                            <div key={index} className="flex gap-[8px] items-center">
+                                                                <div className="w-4 h-4 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                                                                <div className="h-[16px] w-64 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    {/* LEFT COLUMN */}
+                                                    <div className="flex flex-col gap-[8px] items-start">
+                                                        {displayedLeft.map((item, index) => (
+                                                            <div key={item.essentialId} className="flex gap-[8px] items-center">
+                                                                <img src="/images/detailpage/arrow.svg" alt="" />
+                                                                <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
+                                                                    {item.text}
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
 
-                                            {/* RIGHT COLUMN */}
-                                            <div className="flex flex-col gap-[8px] items-start mt-4 lg:mt-0">
-                                                {displayedRight.map((item, index) => (
-                                                    <div key={item.essentialId} className="flex gap-[8px] items-center">
-                                                        <img src="/images/detailpage/arrow.svg" alt="" />
-                                                        <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
-                                                            {item.text}
-                                                        </div>
+                                                    {/* RIGHT COLUMN */}
+                                                    <div className="flex flex-col gap-[8px] items-start mt-4 lg:mt-0">
+                                                        {displayedRight.map((item, index) => (
+                                                            <div key={item.essentialId} className="flex gap-[8px] items-center">
+                                                                <img src="/images/detailpage/arrow.svg" alt="" />
+                                                                <div className="text-[#333] font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[22px]">
+                                                                    {item.text}
+                                                                </div>
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                ))}
-                                            </div>
+                                                </>
+                                            )}
                                         </div>
 
                                         {/* View All / View Less for mobile only */}
@@ -1193,27 +1247,44 @@ export default function DetailPackage() {
 
                                 {activeTab === "inclusions" ? (
                                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
-                                        {inclusions.map((inclusion, index) => (
-                                            <div key={inclusion.inclusionId} className="flex flex-col items-start gap-[9px]">
-                                                <img src={inclusion.imageUrl} />
-                                                <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                    {inclusion.title}
-                                                </p>
-                                            </div>
-                                        ))}
+                                        {inclusionsLoading ? (
+                                            Array.from({ length: 6 }).map((_, index) => (
+                                                <div key={index} className="flex flex-col items-start gap-[9px]">
+                                                    <div className="w-12 h-12 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                                                    <div className="h-[16px] w-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            inclusions.map((inclusion, index) => (
+                                                <div key={inclusion.inclusionId} className="flex flex-col items-start gap-[9px]">
+                                                    <img src={inclusion.imageUrl} />
+                                                    <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                        {inclusion.title}
+                                                    </p>
+                                                </div>
+                                            ))
+                                        )}
                                     </div>
                                 ) : (
                                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
-                                        {exclusions.map((exclusion, index) => (
-                                            <div key={exclusion.exclusionId} className="flex flex-col items-start gap-[9px]">
-                                                <img src="/images/detailpage/Frame_1.svg" />
-                                                <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
-                                                    {exclusion.title}
-                                                </p>
-                                            </div>
-                                        ))}
+                                        {inclusionsLoading ? (
+                                            Array.from({ length: 6 }).map((_, index) => (
+                                                <div key={index} className="flex flex-col items-start gap-[9px]">
+                                                    <div className="w-12 h-12 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                                                    <div className="h-[16px] w-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 bg-[length:200%_100%] animate-[shimmer_1.5s_ease-in-out_infinite] rounded"></div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            exclusions.map((exclusion, index) => (
+                                                <div key={exclusion.exclusionId} className="flex flex-col items-start gap-[9px]">
+                                                    <img src="/images/detailpage/Frame_1.svg" />
+                                                    <p className="text-black font-[Figtree] text-[14px] lg:text-[16px] font-normal leading-[24px]">
+                                                        {exclusion.title}
+                                                    </p>
+                                                </div>
+                                            ))
+                                        )}
                                     </div>
-
                                 )}
 
                             </div>
@@ -1381,8 +1452,83 @@ export default function DetailPackage() {
                                             ref={sliderRef}
                                             className="flex overflow-x-auto scroll-smooth no-scrollbar gap-6 px-2 py-6"
                                         >
-                                            {packageReviews.map((review, index) => (
-                                                <div key={review.reviewId} className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                            {packageReviewsLoading ? (
+                                                // Skeleton for package reviews
+                                                Array.from({ length: 3 }).map((_, index) => (
+                                                    <div key={index} className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                                        <div className="flex items-start gap-4">
+                                                            <div className="w-16 h-16 rounded-full bg-gray-200 animate-pulse"></div>
+                                                            <div className="flex-1">
+                                                                <div className="flex flex-col gap-[12px]">
+                                                                    <div className="flex flex-col gap-[10px]">
+                                                                        <div className="h-[14px] w-48 bg-gray-200 rounded animate-pulse"></div>
+                                                                        <div className="h-[12px] w-full bg-gray-200 rounded animate-pulse"></div>
+                                                                        <div className="h-[12px] w-3/4 bg-gray-200 rounded animate-pulse"></div>
+                                                                    </div>
+                                                                    <div className="flex gap-[8px] items-center">
+                                                                        <div className="h-[14px] w-20 bg-gray-200 rounded animate-pulse"></div>
+                                                                        <div className="w-4 h-4 bg-gray-200 rounded-full animate-pulse"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                packageReviews.map((review, index) => (
+                                                    <div key={review.reviewId} className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
+                                                        <div className="flex items-start gap-4">
+                                                            <img src={review.imageUrl || "/images/detailpage/review_photo.jpg"} alt="Profile" className="w-16 h-16 rounded-full object-cover" />
+                                                            <div className="flex-1">
+                                                                <div className="flex flex-col gap-[12px]">
+                                                                    <div className="flex flex-col gap-[10px]">
+                                                                        <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">{review.reviewTitle}</div>
+                                                                        <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">{review.reviewText}</div>
+                                                                    </div>
+                                                                    <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
+                                                                        <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
+                                                                        {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
+                                                                        <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
+                                                                            <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
+                                                                            <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
+                                                                        </svg>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )))}
+                                        </div>
+                                    </div>
+                                    {/**ends here */}
+
+                                    {/**Review Cards mobile device */}
+                                    <div className="md:hidden flex flex-col items-start gap-[16px] w-full">
+                                        {packageReviewsLoading ? (
+                                            // Skeleton for mobile package reviews
+                                            Array.from({ length: 3 }).map((_, index) => (
+                                                <div key={index} className="rounded-[8px] border border-[#D2D8E4] bg-white flex-shrink-0 w-full" style={{ padding: "20px 15px" }}>
+                                                    <div className="flex items-start gap-4">
+                                                        <div className="w-16 h-16 rounded-full bg-gray-200 animate-pulse"></div>
+                                                        <div className="flex-1">
+                                                            <div className="flex flex-col gap-[12px]">
+                                                                <div className="flex flex-col gap-[10px]">
+                                                                    <div className="h-[14px] w-48 bg-gray-200 rounded animate-pulse"></div>
+                                                                    <div className="h-[12px] w-full bg-gray-200 rounded animate-pulse"></div>
+                                                                    <div className="h-[12px] w-3/4 bg-gray-200 rounded animate-pulse"></div>
+                                                                </div>
+                                                                <div className="flex gap-[8px] items-center">
+                                                                    <div className="h-[14px] w-20 bg-gray-200 rounded animate-pulse"></div>
+                                                                    <div className="w-4 h-4 bg-gray-200 rounded animate-pulse"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            packageReviews.map((review, index) => (
+                                                <div key={review.reviewId} className="rounded-[8px] border border-[#D2D8E4] bg-white flex-shrink-0 w-full" style={{ padding: "20px 15px" }}>
                                                     <div className="flex items-start gap-4">
                                                         <img src={review.imageUrl || "/images/detailpage/review_photo.jpg"} alt="Profile" className="w-16 h-16 rounded-full object-cover" />
                                                         <div className="flex-1">
@@ -1391,234 +1537,15 @@ export default function DetailPackage() {
                                                                     <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">{review.reviewTitle}</div>
                                                                     <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">{review.reviewText}</div>
                                                                 </div>
-                                                                <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
-                                                                    <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                    {/* <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" /> */}
-                                                                    <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
-                                                                        <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
-                                                                        <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
-                                                                    </svg>
+                                                                <div className="flex gap-[8px] items-center cursor-pointer">
+                                                                    <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
+                                                                    <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            ))}
-                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
-                                                <div className="flex items-start gap-4">
-                                                    <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                    <div className="flex-1">
-                                                        <div className="flex flex-col gap-[12px]">
-                                                            <div className="flex flex-col gap-[10px]">
-                                                                <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
-                                                                <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
-                                                            </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
-                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
-                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
-
-                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
-                                                <div className="flex items-start gap-4">
-                                                    <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                    <div className="flex-1">
-                                                        <div className="flex flex-col gap-[12px]">
-                                                            <div className="flex flex-col gap-[10px]">
-                                                                <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
-                                                                <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
-                                                            </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                
-                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
-                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
-                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
-
-                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
-                                                <div className="flex items-start gap-4">
-                                                    <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                    <div className="flex-1">
-                                                        <div className="flex flex-col gap-[12px]">
-                                                            <div className="flex flex-col gap-[10px]">
-                                                                <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
-                                                                <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
-                                                            </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                               
-                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
-                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
-                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
-
-                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
-                                                <div className="flex items-start gap-4">
-                                                    <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                    <div className="flex-1">
-                                                        <div className="flex flex-col gap-[12px]">
-                                                            <div className="flex flex-col gap-[10px]">
-                                                                <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
-                                                                <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
-                                                            </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                               
-                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
-                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
-                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
-
-                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
-                                                <div className="flex items-start gap-4">
-                                                    <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                    <div className="flex-1">
-                                                        <div className="flex flex-col gap-[12px]">
-                                                            <div className="flex flex-col gap-[10px]">
-                                                                <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
-                                                                <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
-                                                            </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                
-                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
-                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
-                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
-
-                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
-                                                <div className="flex items-start gap-4">
-                                                    <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                    <div className="flex-1">
-                                                        <div className="flex flex-col gap-[12px]">
-                                                            <div className="flex flex-col gap-[10px]">
-                                                                <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
-                                                                <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
-                                                            </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                              
-                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
-                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
-                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
-
-                                            {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white w-[320px] flex-shrink-0" style={{ padding: "20px 15px" }}>
-                                                <div className="flex items-start gap-4">
-                                                    <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                    <div className="flex-1">
-                                                        <div className="flex flex-col gap-[12px]">
-                                                            <div className="flex flex-col gap-[10px]">
-                                                                <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
-                                                                <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
-                                                            </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer bg-transparent transition-all duration-300 group">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase group-hover:scale-101 transition-transform duration-300 ease-in-out">READ MORE</div>
-                                                                
-                                                                <svg className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 cursor-pointer transition-transform duration-300 ease-in-out text-[#E97737] group-hover:-rotate-45 group-hover:bg-[#E97737] group-hover:text-white group-hover:rounded-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none">
-                                                                    <circle className="group-hover:[stroke-width:0]" cx="9" cy="9" r="8.5" stroke="currentColor" strokeWidth="1" fill="none" />
-                                                                    <path d="M11.581 9.36039H4.80005V8.64039H11.581L8.84681 5.90619L9.36005 5.40039L12.96 9.00039L9.36005 12.6004L8.84681 12.0946L11.581 9.36039Z" fill="currentColor" />
-                                                                </svg>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
-
-
-                                        </div>
-                                    </div>
-                                    {/**ends here */}
-
-                                    {/**Review Cards mobile device */}
-                                    <div className="md:hidden flex flex-col items-start gap-[16px] w-full">
-                                        {packageReviews.map((review, index) => (
-                                            <div key={review.reviewId} className="rounded-[8px] border border-[#D2D8E4] bg-white flex-shrink-0 w-full" style={{ padding: "20px 15px" }}>
-                                                <div className="flex items-start gap-4">
-                                                    <img src={review.imageUrl || "/images/detailpage/review_photo.jpg"} alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                    <div className="flex-1">
-                                                        <div className="flex flex-col gap-[12px]">
-                                                            <div className="flex flex-col gap-[10px]">
-                                                                <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">{review.reviewTitle}</div>
-                                                                <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">{review.reviewText}</div>
-                                                            </div>
-                                                            <div className="flex gap-[8px] items-center cursor-pointer">
-                                                                <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                                <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-
-                                        {/* <div className="rounded-[8px] border border-[#D2D8E4] bg-white flex-shrink-0" style={{ padding: "20px 15px" }}>
-                                            <div className="flex items-start gap-4">
-                                                <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                <div className="flex-1">
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-col gap-[10px]">
-                                                            <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
-                                                            <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
-                                                        </div>
-                                                        <div className="flex gap-[8px] items-center cursor-pointer">
-                                                            <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                            <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="rounded-[8px] border border-[#D2D8E4] bg-white flex-shrink-0" style={{ padding: "20px 15px" }}>
-                                            <div className="flex items-start gap-4">
-                                                <img src="/images/detailpage/review_photo.jpg" alt="Profile" className="w-16 h-16 rounded-full object-cover" />
-                                                <div className="flex-1">
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-col gap-[10px]">
-                                                            <div className="text-black font-['Inter'] text-[14px] font-semibold leading-none">My dream trip to see Kailash Manasarovar happened</div>
-                                                            <div className="overflow-hidden text-black text-ellipsis font-['Inter'] text-[12px] font-normal leading-none">Kailash Manasarovar doordarshan yatra arranged by Travel pocket was very systematic, professional and sincere. The itinerary was followed...</div>
-                                                        </div>
-                                                        <div className="flex gap-[8px] items-center cursor-pointer">
-                                                            <div className="text-[#E97737] font-['Figtree'] text-[14px] font-medium leading-none uppercase">READ MORE</div>
-                                                            <img src="/images/detailpage/arrow-icon.svg" width="18px" height="19px" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> */}
+                                            )))}
                                     </div>
                                     {/**ends here */}
 
@@ -1701,264 +1628,116 @@ export default function DetailPackage() {
                                     {/**Scroll Area */}
                                     <ScrollArea className="max-h-[550px]">
                                         <div className="flex flex-col gap-[20px] max-h-[550px]" style={{ padding: "30px 20px" }}>
-                                            {packageDates.map((pkgDate, index) => (
-                                                <div key={pkgDate.dateId} className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                                    <div className="relative">
-                                                        {/* <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
+                                            {packageDatesLoading ? (
+                                                // Skeleton for package dates
+                                                Array.from({ length: 3 }).map((_, index) => (
+                                                    <div key={index} className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
+                                                        <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
+                                                            <div className="flex flex-col gap-[12px]">
+                                                                <div className="flex flex-row lg:gap-4 xl:gap-4 2xl:gap-6">
+                                                                    <div className="flex gap-[20px]">
+                                                                        <div className="flex flex-row gap-2 items-center">
+                                                                            <div className="flex flex-col gap-[8px]">
+                                                                                <div className="h-[10px] w-16 bg-gray-200 rounded animate-pulse"></div>
+                                                                                <div className="h-[16px] w-20 bg-gray-200 rounded animate-pulse"></div>
+                                                                            </div>
+                                                                            <div className="w-4 h-4 bg-gray-200 rounded animate-pulse"></div>
+                                                                            <div className="flex flex-col gap-[8px]">
+                                                                                <div className="h-[10px] w-16 bg-gray-200 rounded animate-pulse"></div>
+                                                                                <div className="h-[16px] w-20 bg-gray-200 rounded animate-pulse"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="flex flex-col items-start gap-[4px] justify-center">
+                                                                            <div className="h-[10px] w-24 bg-gray-200 rounded animate-pulse"></div>
+                                                                            <div className="rounded-[40px] bg-gray-200 w-[29px] h-[29px] animate-pulse"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="rounded-[6px] bg-gray-100 w-24 h-16 animate-pulse"></div>
+                                                                </div>
+                                                                <div className="w-full h-px bg-gray-200 animate-pulse"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div style={{ padding: "10px 10px" }}>
+                                                            <div className="w-full h-12 bg-gray-200 rounded-[6px] animate-pulse"></div>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                packageDates.map((pkgDate, index) => (
+                                                    <div key={pkgDate.dateId} className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
+                                                        <div className="relative">
+                                                            {/* <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
                                                             <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
                                                                 Available
                                                             </span>
                                                         </Badge> */}
-                                                        <Badge
-                                                            variant={pkgDate.isFillingFast ? "warning" : "registration"}
-                                                            icon={pkgDate.isFillingFast ? "/images/detailpage/dot_brown.svg" : "/images/detailpage/green_dot.svg"}
-                                                            className={`absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] ${pkgDate.isFillingFast ? 'bg-[#FFFAE1]' : 'bg-[#DFF8F1]'}`}
-                                                        >
-                                                            <span className={`font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase ${pkgDate.isFillingFast ? 'text-[#853C04]' : 'text-[#04852D]'}`}>
-                                                                {pkgDate.isFillingFast ? 'Filling Fast' : 'Available'}
-                                                            </span>
-                                                        </Badge>
-                                                    </div>
-                                                    <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
-                                                        <div className="flex flex-col gap-[12px]">
-                                                            <div className="flex flex-row lg:gap-4 xl:gap-4 2xl:gap-6">
-                                                                <div className="flex gap-[20px]">
-                                                                    <div className="flex flex-row gap-2 items-center">
-                                                                        <div className="flex flex-col gap-[8px]">
-                                                                            <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
-                                                                            <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">{formatDate(pkgDate.startDate)}</div>
+                                                            <Badge
+                                                                variant={pkgDate.isFillingFast ? "warning" : "registration"}
+                                                                icon={pkgDate.isFillingFast ? "/images/detailpage/dot_brown.svg" : "/images/detailpage/green_dot.svg"}
+                                                                className={`absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] ${pkgDate.isFillingFast ? 'bg-[#FFFAE1]' : 'bg-[#DFF8F1]'}`}
+                                                            >
+                                                                <span className={`font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase ${pkgDate.isFillingFast ? 'text-[#853C04]' : 'text-[#04852D]'}`}>
+                                                                    {pkgDate.isFillingFast ? 'Filling Fast' : 'Available'}
+                                                                </span>
+                                                            </Badge>
+                                                        </div>
+                                                        <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
+                                                            <div className="flex flex-col gap-[12px]">
+                                                                <div className="flex flex-row lg:gap-4 xl:gap-4 2xl:gap-6">
+                                                                    <div className="flex gap-[20px]">
+                                                                        <div className="flex flex-row gap-2 items-center">
+                                                                            <div className="flex flex-col gap-[8px]">
+                                                                                <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
+                                                                                <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">{formatDate(pkgDate.startDate)}</div>
+                                                                            </div>
+                                                                            <img src="images/detailpage/arrow-right_1.svg" className="xl:ml-1 xl:mr-1 2xl:ml-4 2xl:mr-4" />
+                                                                            <div className="flex flex-col gap-[8px]">
+                                                                                <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
+                                                                                <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">{formatDate(pkgDate.endDate)}</div>
+                                                                            </div>
                                                                         </div>
-                                                                        <img src="images/detailpage/arrow-right_1.svg" className="xl:ml-1 xl:mr-1 2xl:ml-4 2xl:mr-4" />
-                                                                        <div className="flex flex-col gap-[8px]">
-                                                                            <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
-                                                                            <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">{formatDate(pkgDate.endDate)}</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="flex flex-col items-start gap-[4px] justify-center">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
-                                                                        <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                            <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">{pkgDate.remaining}</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
-                                                                    <div className="flex flex-col gap-[10px]">
-                                                                        <div className="flex gap-[8px] items-center">
-                                                                            <img src="/images/detailpage/chat-bubble_1.svg" className="" />
-                                                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
-                                                                        </div>
-                                                                        <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
-                                                                        <div className="flex gap-[8px] items-center">
-                                                                            <img src="/images/detailpage/mail_1.svg" className="" />
-                                                                            <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
+                                                                        <div className="flex flex-col items-start gap-[4px] justify-center">
+                                                                            <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
+                                                                            <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
+                                                                                <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">{pkgDate.remaining}</div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
-                                                            {pkgDate.remark && (
-                                                                <>
-                                                                    {/* <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" /> */}
-                                                                    <div className="flex flex-col gap-[6px]">
-                                                                        <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">{pkgDate.remark}</div>
+                                                                    <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
+                                                                        <div className="flex flex-col gap-[10px]">
+                                                                            <div className="flex gap-[8px] items-center">
+                                                                                <img src="/images/detailpage/chat-bubble_1.svg" className="" />
+                                                                                <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
+                                                                            </div>
+                                                                            <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                                            <div className="flex gap-[8px] items-center">
+                                                                                <img src="/images/detailpage/mail_1.svg" className="" />
+                                                                                <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </>
-                                                            )}
+                                                                </div>
+                                                                <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
+                                                                {pkgDate.remark && (
+                                                                    <>
+                                                                        {/* <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" /> */}
+                                                                        <div className="flex flex-col gap-[6px]">
+                                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
+                                                                            <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">{pkgDate.remark}</div>
+                                                                        </div>
+                                                                    </>
+                                                                )}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div style={{ padding: "10px 10px" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
-                                                            <div className="flex items-center justify-center">
-                                                                <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-
-
-                                            {/* <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                                <div className="relative">
-                                                    <Badge variant="warning" icon="/images/detailpage/dot_brown.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#FFFAE1]">
-                                                        <span className="text-[#853C04] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                            Filling Fast
-                                                        </span>
-                                                    </Badge>
-                                                </div>
-                                                <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-row gap-[50px]">
-                                                            <div className="flex gap-[20px]">
-                                                                <div className="flex flex-gap[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">02 Sep,Tue</div>
-                                                                    </div>
-                                                                    <img src="images/detailpage/arrow-right_1.svg" className="ml-4 mr-4" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">13 Sep,Tue</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex flex-col items-start gap-[4px] justify-center">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
-                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">28</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
-                                                                <div className="flex flex-col gap-[10px]">
-                                                                    <div className="flex gap-[8px] items-center">
-                                                                        <img src="/images/detailpage/chat-bubble_1.svg" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
-                                                                    </div>
-                                                                    <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
-                                                                    <div className="flex gap-[8px] items-center">
-                                                                        <img src="/images/detailpage/mail_1.svg" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
-                                                                    </div>
+                                                        <div style={{ padding: "10px 10px" }}>
+                                                            <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
+                                                                <div className="flex items-center justify-center">
+                                                                    <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div style={{ padding: "10px 10px" }}>
-                                                    <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
-                                                        <div className="flex items-center justify-center">
-                                                            <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                                <div className="relative">
-                                                    <Badge variant="warning" icon="/images/detailpage/dot_brown.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#FFFAE1]">
-                                                        <span className="text-[#853C04] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                            Filling Fast
-                                                        </span>
-                                                    </Badge>
-                                                </div>
-                                                <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-row gap-[50px]">
-                                                            <div className="flex gap-[20px]">
-                                                                <div className="flex flex-gap[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">02 Sep,Tue</div>
-                                                                    </div>
-                                                                    <img src="images/detailpage/arrow-right_1.svg" className="ml-4 mr-4" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">13 Sep,Tue</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex flex-col items-start gap-[4px] justify-center">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
-                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">28</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
-                                                                <div className="flex flex-col gap-[10px]">
-                                                                    <div className="flex gap-[8px] items-center">
-                                                                        <img src="/images/detailpage/chat-bubble_1.svg" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
-                                                                    </div>
-                                                                    <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
-                                                                    <div className="flex gap-[8px] items-center">
-                                                                        <img src="/images/detailpage/mail_1.svg" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div style={{ padding: "10px 10px" }}>
-                                                    <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
-                                                        <div className="flex items-center justify-center">
-                                                            <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                                <div className="relative">
-                                                    <Badge variant="warning" icon="/images/detailpage/dot_brown.svg" className="absolute top-[0px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#FFFAE1]">
-                                                        <span className="text-[#853C04] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                            Filling Fast
-                                                        </span>
-                                                    </Badge>
-                                                </div>
-                                                <div className="flex flex-col gap-[12px] mt-2" style={{ padding: "10px 10px" }}>
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-row gap-[50px]">
-                                                            <div className="flex gap-[20px]">
-                                                                <div className="flex flex-gap[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Start DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">02 Sep,Tue</div>
-                                                                    </div>
-                                                                    <img src="images/detailpage/arrow-right_1.svg" className="ml-4 mr-4" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-base not-italic font-bold leading-none">13 Sep,Tue</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex flex-col items-start gap-[4px] justify-center">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] not-italic font-semibold leading-none uppercase">Seats remaining</div>
-                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] not-italic font-bold leading-none">28</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="rounded-[6px] bg-[#E9FBFF]" style={{ padding: "8px 10px" }}>
-                                                                <div className="flex flex-col gap-[10px]">
-                                                                    <div className="flex gap-[8px] items-center">
-                                                                        <img src="/images/detailpage/chat-bubble_1.svg" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Chat with us</div>
-                                                                    </div>
-                                                                    <Separator className="w-full bg-[#BBB] border border-[#BBB]" />
-                                                                    <div className="flex gap-[8px] items-center">
-                                                                        <img src="/images/detailpage/mail_1.svg" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] not-italic font-semibold leading-none uppercase">Send Email</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] not-italic font-bold leading-none">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] not-italic font-normal leading-none">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div style={{ padding: "10px 10px" }}>
-                                                    <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" onClick={nagivateToBooking} style={{ padding: "10px 10px" }}>
-                                                        <div className="flex items-center justify-center">
-                                                            <div className="text-white font-['Figtree'] text-[14px] not-italic font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> */}
-
-
+                                                )))}
                                         </div>
                                     </ScrollArea>
                                 </div>
@@ -2205,7 +1984,7 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                         </div>
 
                                         {/* Images */}
-                                        {item.hotels && item.hotels?.length > 0 && (
+                                        {/* {item.hotels && item.hotels?.length > 0 && (
                                             <div className="flex flex-row gap-[12px] flex-wrap pl-4">
                                                 {item.hotels.map((hotel, idx) => (
                                                     <div
@@ -2223,7 +2002,7 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                     </div>
                                                 ))}
                                             </div>
-                                        )}
+                                        )} */}
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
@@ -2341,7 +2120,7 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                 </div>
 
                                                 {/* Images */}
-                                                {item.hotels && item.hotels?.length > 0 && (
+                                                {/* {item.hotels && item.hotels?.length > 0 && (
                                                     <div className="flex flex-row gap-[12px] flex-wrap">
                                                         {item.hotels.map((hotel, idx) => (
                                                             <div
@@ -2359,7 +2138,7 @@ function ItineraryAccordion({ itinerary, defaultOpenCount = 1, openAccordions, s
                                                             </div>
                                                         ))}
                                                     </div>
-                                                )}
+                                                )} */}
                                             </AccordionContent>
                                         </AccordionItem>
                                     </Accordion>

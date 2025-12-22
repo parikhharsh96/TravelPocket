@@ -8,58 +8,35 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@radix-ui/react-separator"
 import { useRouter } from "next/navigation";
 
+interface PackageDate {
+    dateId: number;
+    packageId: number;
+    groupCode: string;
+    startDate: string;
+    endDate: string;
+    groupSize: number;
+    remaining: number;
+    remark: string;
+    isAvailable: boolean;
+    isFillingFast: boolean;
+}
+
 interface DepartureDrawerProps {
     open: boolean
     onOpenChange: (open: boolean) => void
+    packageDates: PackageDate[]
+    packageDatesLoading: boolean
 }
 
-const months = [
-    { label: "Sep", year: "2025", active: true },
-    { label: "Oct", year: "2025", active: false },
-    { label: "Nov", year: "2025", active: false },
-    { label: "Dec", year: "2025", active: false },
-]
+const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = date.toLocaleDateString('en-US', { month: 'short' });
+    const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+    return `${day} ${month},${dayOfWeek}`;
+};
 
-const departures = [
-    {
-        id: 1,
-        status: "AVAILABLE",
-        statusColor: "text-emerald-600",
-        startDate: "02 Sep, Tue",
-        endDate: "13 Sep, Sat",
-        seatsRemaining: 28,
-        note: "07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip",
-    },
-    {
-        id: 2,
-        status: "FILLING FAST",
-        statusColor: "text-amber-600",
-        startDate: "19 Sep, Fri",
-        endDate: "30 Sep, Tue",
-        seatsRemaining: 15,
-        note: null,
-    },
-    {
-        id: 3,
-        status: "AVAILABLE",
-        statusColor: "text-emerald-600",
-        startDate: "26 Sep, Fri",
-        endDate: "07 Oct, Tue",
-        seatsRemaining: 32,
-        note: null,
-    },
-    {
-        id: 4,
-        status: "FILLING FAST",
-        statusColor: "text-amber-600",
-        startDate: "03 Oct, Fri",
-        endDate: "14 Oct, Tue",
-        seatsRemaining: 8,
-        note: null,
-    },
-]
-
-export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
+export function DepartureDrawer({ open, onOpenChange, packageDates, packageDatesLoading }: DepartureDrawerProps) {
 
     const router = useRouter();
 
@@ -118,579 +95,132 @@ export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
                         <div className="flex flex-col gap-[14px]">
                             <div className="flex justify-between items-center" style={{ padding: "15px 15px 15px 15px" }}>
                                 <div className="text-black font-['Figtree'] text-base not-italic font-semibold leading-none capitalize">Sept 2025 Departures</div>
-                                <div className="text-black text-right font-['Figtree'] text-[12px] font-normal leading-[normal] uppercase">3 dates </div>
+                                <div className="text-black text-right font-['Figtree'] text-[12px] font-normal leading-[normal] uppercase">{packageDates?.length || 0} dates </div>
                             </div>
 
-                            <div className="flex flex-col gap-[16px] max-h-[550px]" style={{ padding: "0px 15px 15px 15px" }}>
-                                <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                    <div className="flex flex-col gap-[16px]">
-                                        {/* <div className="flex-none bg-[#DFF8F1] rounded-[4px]" style={{ padding: "4px 8px" }}>
-                                            <div className="flex items-center gap-[4px]">
-                                                <img src="/images/detailpage/green_dot.svg" alt="" className="h-[8px] w-[8px]" />
-                                                <div className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    AVAILABLE
+                            <div className="flex flex-col gap-[16px]" style={{ padding: "0px 15px 15px 15px" }}>
+                                {packageDatesLoading ? (
+                                    Array.from({ length: 3 }).map((_, index) => (
+                                        <div key={index} className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
+                                            <div className="flex flex-col gap-[16px]">
+                                                <div className="relative">
+                                                    <div className="absolute top-[0.5px] left-[1px] z-10 w-20 h-6 bg-gray-200 rounded animate-pulse"></div>
                                                 </div>
-                                            </div>
-                                        </div> */}
-                                        <div className="relative">
-                                            <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0.5px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
-                                                <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    Available
-                                                </span>
-                                            </Badge>
-                                        </div>
-
-                                        <div className="flex-grow mt-4">
-                                            <div className="" style={{ padding: "0px 15px 10px 15px" }}>
-                                                <div className="flex flex-col gap-[12px]">
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-col gap-[16px]">
-                                                            <div className="flex flex-row gap-[20px]">
-                                                                <div className="flex flex-row gap-[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">START DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">02 Sep, Tue</div>
+                                                <div className="flex-grow mt-4">
+                                                    <div className="" style={{ padding: "0px 15px 10px 15px" }}>
+                                                        <div className="flex flex-col gap-[12px]">
+                                                            <div className="flex flex-col gap-[12px]">
+                                                                <div className="flex flex-col gap-[16px]">
+                                                                    <div className="flex flex-row gap-[20px]">
+                                                                        <div className="flex flex-row gap-[14px] items-center">
+                                                                            <div className="flex flex-col gap-[8px]">
+                                                                                <div className="h-[10px] w-16 bg-gray-200 rounded animate-pulse"></div>
+                                                                                <div className="h-[16px] w-20 bg-gray-200 rounded animate-pulse"></div>
+                                                                            </div>
+                                                                            <div className="w-4 h-4 bg-gray-200 rounded animate-pulse"></div>
+                                                                            <div className="flex flex-col gap-[8px]">
+                                                                                <div className="h-[10px] w-16 bg-gray-200 rounded animate-pulse"></div>
+                                                                                <div className="h-[16px] w-20 bg-gray-200 rounded animate-pulse"></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="flex flex-col gap-[2px]">
+                                                                            <div className="h-[10px] w-24 bg-gray-200 rounded animate-pulse"></div>
+                                                                            <div className="rounded-[40px] bg-gray-200 w-[29px] h-[29px] animate-pulse"></div>
+                                                                        </div>
                                                                     </div>
-                                                                    <img src="/images/detailpage/arrow-right_1.svg" alt="" className="w-[18px] h-[18px]" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">13 Sep, Sat</div>
-                                                                    </div>
+                                                                    <div className="bg-gray-100 rounded-[6px] w-full max-w-[228px] h-12 animate-pulse"></div>
                                                                 </div>
-                                                                <div className="flex flex-col gap-[2px]">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">Seats remain...</div>
-                                                                    {/* <Badge className="h-5 min-w-5 rounded-full px-1 bg-[#17A74E]">
-                                                                        8
-                                                                    </Badge> */}
-                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] font-extrabold leading-[normal]">28</div>
-                                                                    </div>
-                                                                </div>
+                                                                <div className="w-full h-px bg-gray-200 animate-pulse"></div>
                                                             </div>
-                                                            <div className="bg-[#E9FBFF] rounded-[6px] w-full max-w-[228px]" style={{ padding: "4px 10px" }}>
-                                                                <div className="flex flex-row gap-[10px]">
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/chat-bubble_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Chat with us</div>
-                                                                    </div>
-                                                                    <Separator className="bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/mail_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Send Email</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Separator className="w-full bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] font-bold leading-[normal]">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] font-normal leading-[normal]">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
-                                                            <div className="flex items-center justify-center">
-                                                                <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                            </div>
+                                                            <div className="w-full h-12 bg-gray-200 rounded-[6px] animate-pulse"></div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col gap-[16px] max-h-[550px]" style={{ padding: "0px 15px 15px 15px" }}>
-                                <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                    <div className="flex flex-col gap-[16px]">
-                                        {/* <div className="flex-none bg-[#DFF8F1] rounded-[4px]" style={{ padding: "4px 8px" }}>
-                                            <div className="flex items-center gap-[4px]">
-                                                <img src="/images/detailpage/green_dot.svg" alt="" className="h-[8px] w-[8px]" />
-                                                <div className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    AVAILABLE
+                                    ))
+                                ) : (
+                                    packageDates.map((pkgDate, index) => (
+                                        <div key={pkgDate.dateId} className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
+                                            <div className="flex flex-col gap-[16px]">
+                                                <div className="relative">
+                                                    <Badge
+                                                        variant={pkgDate.isFillingFast ? "warning" : "registration"}
+                                                        icon={pkgDate.isFillingFast ? "/images/detailpage/dot_brown.svg" : "/images/detailpage/green_dot.svg"}
+                                                        className={`absolute top-[0.5px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] ${pkgDate.isFillingFast ? 'bg-[#FFFAE1]' : 'bg-[#DFF8F1]'}`}
+                                                    >
+                                                        <span className={`font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase ${pkgDate.isFillingFast ? 'text-[#853C04]' : 'text-[#04852D]'}`}>
+                                                            {pkgDate.isFillingFast ? 'Filling Fast' : 'Available'}
+                                                        </span>
+                                                    </Badge>
                                                 </div>
-                                            </div>
-                                        </div> */}
-                                        <div className="relative">
-                                            <Badge variant="warning" icon="/images/detailpage/dot_brown.svg" className="absolute top-[0.5px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#FFFAE1]">
-                                                <span className="text-[#853C04] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    Filling Fast
-                                                </span>
-                                            </Badge>
-                                        </div>
 
-                                        <div className="flex-grow mt-4">
-                                            <div className="" style={{ padding: "0px 15px 10px 15px" }}>
-                                                <div className="flex flex-col gap-[12px]">
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-col gap-[16px]">
-                                                            <div className="flex flex-row gap-[20px]">
-                                                                <div className="flex flex-row gap-[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">START DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">02 Sep, Tue</div>
+                                                <div className="flex-grow mt-4">
+                                                    <div className="" style={{ padding: "0px 15px 10px 15px" }}>
+                                                        <div className="flex flex-col gap-[12px]">
+                                                            <div className="flex flex-col gap-[12px]">
+                                                                <div className="flex flex-col gap-[16px]">
+                                                                    <div className="flex flex-row gap-[20px]">
+                                                                        <div className="flex flex-row gap-[14px] items-center">
+                                                                            <div className="flex flex-col gap-[8px]">
+                                                                                <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">START DATE</div>
+                                                                                <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">{formatDate(pkgDate.startDate)}</div>
+                                                                            </div>
+                                                                            <img src="/images/detailpage/arrow-right_1.svg" alt="" className="w-[18px] h-[18px]" />
+                                                                            <div className="flex flex-col gap-[8px]">
+                                                                                <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">END DATE</div>
+                                                                                <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">{formatDate(pkgDate.endDate)}</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="flex flex-col gap-[2px]">
+                                                                            <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">Seats remain...</div>
+                                                                            <div className={`rounded-[40px] w-[29px] h-[29px] flex flex-col items-center justify-center ${pkgDate.isFillingFast ? 'bg-[#D6B40A]' : 'bg-[#17A74E]'}`}>
+                                                                                <div className="text-white font-['Figtree'] text-[14px] font-extrabold leading-[normal]">{pkgDate.remaining}</div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                    <img src="/images/detailpage/arrow-right_1.svg" alt="" className="w-[18px] h-[18px]" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">13 Sep, Sat</div>
+                                                                    <div className="bg-[#E9FBFF] rounded-[6px] w-full max-w-[228px]" style={{ padding: "4px 10px" }}>
+                                                                        <div className="flex flex-row gap-[10px]">
+                                                                            <div className="flex flex-row gap-[6px] items-center shrink-0">
+                                                                                <img src="/images/detailpage/chat-bubble_blue.svg" alt="" className="" />
+                                                                                <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Chat with us</div>
+                                                                            </div>
+                                                                            <Separator className="bg-[#D2D8E4] border border-[#D2D8E4]" />
+                                                                            <div className="flex flex-row gap-[6px] items-center shrink-0">
+                                                                                <img src="/images/detailpage/mail_blue.svg" alt="" className="" />
+                                                                                <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Send Email</div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div className="flex flex-col gap-[2px]">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">Seats remain...</div>
-                                                                    {/* <Badge className="h-5 min-w-5 rounded-full px-1 bg-[#17A74E]">
-                                                                        8
-                                                                    </Badge> */}
-                                                                    <div className="rounded-[40px] bg-[#D6B40A] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] font-extrabold leading-[normal]">05</div>
+                                                                <Separator className="w-full bg-[#D2D8E4] border border-[#D2D8E4]" />
+                                                                {pkgDate.remark && (
+                                                                    <div className="flex flex-col gap-[6px]">
+                                                                        <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] font-bold leading-[normal]">SPECIAL NOTE</div>
+                                                                        <div className="text-black font-['Figtree'] text-[12px] font-normal leading-[normal]">{pkgDate.remark}</div>
                                                                     </div>
-                                                                </div>
+                                                                )}
                                                             </div>
-                                                            <div className="bg-[#E9FBFF] rounded-[6px] w-full max-w-[228px]" style={{ padding: "4px 10px" }}>
-                                                                <div className="flex flex-row gap-[10px]">
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/chat-bubble_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Chat with us</div>
-                                                                    </div>
-                                                                    <Separator className="bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/mail_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Send Email</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Separator className="w-full bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] font-bold leading-[normal]">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] font-normal leading-[normal]">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
-                                                    </div>
 
-                                                    <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
-                                                            <div className="flex items-center justify-center">
-                                                                <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
+                                                            <div style={{ padding: "" }}>
+                                                                <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
+                                                                    <div className="flex items-center justify-center">
+                                                                        <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col gap-[16px] max-h-[550px]" style={{ padding: "0px 15px 15px 15px" }}>
-                                <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                    <div className="flex flex-col gap-[16px]">
-                                        {/* <div className="flex-none bg-[#DFF8F1] rounded-[4px]" style={{ padding: "4px 8px" }}>
-                                            <div className="flex items-center gap-[4px]">
-                                                <img src="/images/detailpage/green_dot.svg" alt="" className="h-[8px] w-[8px]" />
-                                                <div className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    AVAILABLE
-                                                </div>
-                                            </div>
-                                        </div> */}
-                                        <div className="relative">
-                                            <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0.5px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
-                                                <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    Available
-                                                </span>
-                                            </Badge>
-                                        </div>
-
-                                        <div className="flex-grow mt-4">
-                                            <div className="" style={{ padding: "0px 15px 10px 15px" }}>
-                                                <div className="flex flex-col gap-[12px]">
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-col gap-[16px]">
-                                                            <div className="flex flex-row gap-[20px]">
-                                                                <div className="flex flex-row gap-[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">START DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">02 Sep, Tue</div>
-                                                                    </div>
-                                                                    <img src="/images/detailpage/arrow-right_1.svg" alt="" className="w-[18px] h-[18px]" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">13 Sep, Sat</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex flex-col gap-[2px]">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">Seats remain...</div>
-                                                                    {/* <Badge className="h-5 min-w-5 rounded-full px-1 bg-[#17A74E]">
-                                                                        8
-                                                                    </Badge> */}
-                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] font-extrabold leading-[normal]">28</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="bg-[#E9FBFF] rounded-[6px] w-full max-w-[228px]" style={{ padding: "4px 10px" }}>
-                                                                <div className="flex flex-row gap-[10px]">
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/chat-bubble_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Chat with us</div>
-                                                                    </div>
-                                                                    <Separator className="bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/mail_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Send Email</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Separator className="w-full bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] font-bold leading-[normal]">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] font-normal leading-[normal]">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
-                                                            <div className="flex items-center justify-center">
-                                                                <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col gap-[16px] max-h-[550px]" style={{ padding: "0px 15px 15px 15px" }}>
-                                <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                    <div className="flex flex-col gap-[16px]">
-                                        {/* <div className="flex-none bg-[#DFF8F1] rounded-[4px]" style={{ padding: "4px 8px" }}>
-                                            <div className="flex items-center gap-[4px]">
-                                                <img src="/images/detailpage/green_dot.svg" alt="" className="h-[8px] w-[8px]" />
-                                                <div className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    AVAILABLE
-                                                </div>
-                                            </div>
-                                        </div> */}
-                                        <div className="relative">
-                                            <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0.5px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
-                                                <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    Available
-                                                </span>
-                                            </Badge>
-                                        </div>
-
-                                        <div className="flex-grow mt-4">
-                                            <div className="" style={{ padding: "0px 15px 10px 15px" }}>
-                                                <div className="flex flex-col gap-[12px]">
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-col gap-[16px]">
-                                                            <div className="flex flex-row gap-[20px]">
-                                                                <div className="flex flex-row gap-[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">START DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">02 Sep, Tue</div>
-                                                                    </div>
-                                                                    <img src="/images/detailpage/arrow-right_1.svg" alt="" className="w-[18px] h-[18px]" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">13 Sep, Sat</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex flex-col gap-[2px]">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">Seats remain...</div>
-                                                                    {/* <Badge className="h-5 min-w-5 rounded-full px-1 bg-[#17A74E]">
-                                                                        8
-                                                                    </Badge> */}
-                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] font-extrabold leading-[normal]">28</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="bg-[#E9FBFF] rounded-[6px] w-full max-w-[228px]" style={{ padding: "4px 10px" }}>
-                                                                <div className="flex flex-row gap-[10px]">
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/chat-bubble_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Chat with us</div>
-                                                                    </div>
-                                                                    <Separator className="bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/mail_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Send Email</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Separator className="w-full bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] font-bold leading-[normal]">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] font-normal leading-[normal]">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
-                                                            <div className="flex items-center justify-center">
-                                                                <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col gap-[16px] max-h-[550px]" style={{ padding: "0px 15px 15px 15px" }}>
-                                <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                    <div className="flex flex-col gap-[16px]">
-                                        {/* <div className="flex-none bg-[#DFF8F1] rounded-[4px]" style={{ padding: "4px 8px" }}>
-                                            <div className="flex items-center gap-[4px]">
-                                                <img src="/images/detailpage/green_dot.svg" alt="" className="h-[8px] w-[8px]" />
-                                                <div className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    AVAILABLE
-                                                </div>
-                                            </div>
-                                        </div> */}
-                                        <div className="relative">
-                                            <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0.5px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
-                                                <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    Available
-                                                </span>
-                                            </Badge>
-                                        </div>
-
-                                        <div className="flex-grow mt-4">
-                                            <div className="" style={{ padding: "0px 15px 10px 15px" }}>
-                                                <div className="flex flex-col gap-[12px]">
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-col gap-[16px]">
-                                                            <div className="flex flex-row gap-[20px]">
-                                                                <div className="flex flex-row gap-[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">START DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">02 Sep, Tue</div>
-                                                                    </div>
-                                                                    <img src="/images/detailpage/arrow-right_1.svg" alt="" className="w-[18px] h-[18px]" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">13 Sep, Sat</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex flex-col gap-[2px]">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">Seats remain...</div>
-                                                                    {/* <Badge className="h-5 min-w-5 rounded-full px-1 bg-[#17A74E]">
-                                                                        8
-                                                                    </Badge> */}
-                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] font-extrabold leading-[normal]">28</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="bg-[#E9FBFF] rounded-[6px] w-full max-w-[228px]" style={{ padding: "4px 10px" }}>
-                                                                <div className="flex flex-row gap-[10px]">
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/chat-bubble_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Chat with us</div>
-                                                                    </div>
-                                                                    <Separator className="bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/mail_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Send Email</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Separator className="w-full bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] font-bold leading-[normal]">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] font-normal leading-[normal]">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737]" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
-                                                            <div className="flex items-center justify-center">
-                                                                <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col gap-[16px] max-h-[550px]" style={{ padding: "0px 15px 15px 15px" }}>
-                                <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                    <div className="flex flex-col gap-[16px]">
-                                        {/* <div className="flex-none bg-[#DFF8F1] rounded-[4px]" style={{ padding: "4px 8px" }}>
-                                            <div className="flex items-center gap-[4px]">
-                                                <img src="/images/detailpage/green_dot.svg" alt="" className="h-[8px] w-[8px]" />
-                                                <div className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    AVAILABLE
-                                                </div>
-                                            </div>
-                                        </div> */}
-                                        <div className="relative">
-                                            <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0.5px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
-                                                <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    Available
-                                                </span>
-                                            </Badge>
-                                        </div>
-
-                                        <div className="flex-grow mt-4">
-                                            <div className="" style={{ padding: "0px 15px 10px 15px" }}>
-                                                <div className="flex flex-col gap-[12px]">
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-col gap-[16px]">
-                                                            <div className="flex flex-row gap-[20px]">
-                                                                <div className="flex flex-row gap-[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">START DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">02 Sep, Tue</div>
-                                                                    </div>
-                                                                    <img src="/images/detailpage/arrow-right_1.svg" alt="" className="w-[18px] h-[18px]" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">13 Sep, Sat</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex flex-col gap-[2px]">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">Seats remain...</div>
-                                                                    {/* <Badge className="h-5 min-w-5 rounded-full px-1 bg-[#17A74E]">
-                                                                        8
-                                                                    </Badge> */}
-                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] font-extrabold leading-[normal]">28</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="bg-[#E9FBFF] rounded-[6px] w-full max-w-[228px]" style={{ padding: "4px 10px" }}>
-                                                                <div className="flex flex-row gap-[10px]">
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/chat-bubble_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Chat with us</div>
-                                                                    </div>
-                                                                    <Separator className="bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/mail_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Send Email</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Separator className="w-full bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] font-bold leading-[normal]">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] font-normal leading-[normal]">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
-                                                            <div className="flex items-center justify-center">
-                                                                <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-col gap-[16px] max-h-[550px]" style={{ padding: "0px 15px 15px 15px" }}>
-                                <div className="rounded-lg bg-white shadow-[0_6px_8px_0_rgba(0,0,0,0.2)]">
-                                    <div className="flex flex-col gap-[16px]">
-                                        {/* <div className="flex-none bg-[#DFF8F1] rounded-[4px]" style={{ padding: "4px 8px" }}>
-                                            <div className="flex items-center gap-[4px]">
-                                                <img src="/images/detailpage/green_dot.svg" alt="" className="h-[8px] w-[8px]" />
-                                                <div className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    AVAILABLE
-                                                </div>
-                                            </div>
-                                        </div> */}
-                                        <div className="relative">
-                                            <Badge variant="registration" icon="/images/detailpage/green_dot.svg" className="absolute top-[0.5px] left-[1px] z-10 text-xs font-semibold px-3 py-1 rounded-[4px] bg-[#DFF8F1]">
-                                                <span className="text-[#04852D] font-['Figtree'] text-[12px] font-semibold leading-[14px] uppercase">
-                                                    Available
-                                                </span>
-                                            </Badge>
-                                        </div>
-
-                                        <div className="flex-grow mt-4">
-                                            <div className="" style={{ padding: "0px 15px 10px 15px" }}>
-                                                <div className="flex flex-col gap-[12px]">
-                                                    <div className="flex flex-col gap-[12px]">
-                                                        <div className="flex flex-col gap-[16px]">
-                                                            <div className="flex flex-row gap-[20px]">
-                                                                <div className="flex flex-row gap-[14px] items-center">
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">START DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">02 Sep, Tue</div>
-                                                                    </div>
-                                                                    <img src="/images/detailpage/arrow-right_1.svg" alt="" className="w-[18px] h-[18px]" />
-                                                                    <div className="flex flex-col gap-[8px]">
-                                                                        <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">END DATE</div>
-                                                                        <div className="text-black font-['Figtree'] text-[16px] font-extrabold leading-[normal]">13 Sep, Sat</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex flex-col gap-[2px]">
-                                                                    <div className="text-[#5D5D5D] font-['Figtree'] text-[10px] font-semibold leading-[normal] uppercase">Seats remain...</div>
-                                                                    {/* <Badge className="h-5 min-w-5 rounded-full px-1 bg-[#17A74E]">
-                                                                        8
-                                                                    </Badge> */}
-                                                                    <div className="rounded-[40px] bg-[#17A74E] w-[29px] h-[29px] flex flex-col items-center justify-center">
-                                                                        <div className="text-white font-['Figtree'] text-[14px] font-extrabold leading-[normal]">28</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="bg-[#E9FBFF] rounded-[6px] w-full max-w-[228px]" style={{ padding: "4px 10px" }}>
-                                                                <div className="flex flex-row gap-[10px]">
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/chat-bubble_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Chat with us</div>
-                                                                    </div>
-                                                                    <Separator className="bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                                    <div className="flex flex-row gap-[6px] items-center shrink-0">
-                                                                        <img src="/images/detailpage/mail_blue.svg" alt="" className="" />
-                                                                        <div className="text-[#1C8CA7] font-['Figtree'] text-[11px] font-semibold leading-[normal] uppercase">Send Email</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Separator className="w-full bg-[#D2D8E4] border border-[#D2D8E4]" />
-                                                        <div className="flex flex-col gap-[6px]">
-                                                            <div className="text-[#4D4D4D] font-['Figtree'] text-[11px] font-bold leading-[normal]">SPECIAL NOTE</div>
-                                                            <div className="text-black font-['Figtree'] text-[12px] font-normal leading-[normal]">07 Sep is full moon day on this special day we will be at mansarovar lake for holy dip</div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div style={{ padding: "" }}>
-                                                        <div className="w-full rounded-[6px] bg-[#E97737] cursor-pointer" style={{ padding: "10px 10px" }} onClick={nagivateToBooking}>
-                                                            <div className="flex items-center justify-center">
-                                                                <div className="text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase">BOOK NOW  |  reserve your seat*</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    ))
+                                )}
                             </div>
                         </div>
                     </div>
 
-                    <div className="w-full" style={{ padding: "0px 15px 0px 15px" }}>
+                    <div className="w-full mt-4" style={{ padding: "0px 15px 0px 15px" }}>
                         <div className="rounded-[8px] bg-[#FFF7F2]" style={{ padding: "10px 25px 20px 20px" }}>
                             <div className="flex items-center space-x-3">
                                 {/* Icon */}
@@ -718,15 +248,6 @@ export function DepartureDrawer({ open, onOpenChange }: DepartureDrawerProps) {
                                         and book the package at this price, payment as per policy can be made in the next 24/48 hrs post confirmation. Holding of seats are subject to availability.
                                     </span>
                                 </div>
-
-                                {/* Extra Discount Info */}
-                                {/* <div className="flex flex-row gap-1 items-center mt-4">
-                                        <div className="font-['Figtree'] text-black text-[11px] font-semibold leading-normal">Pay this amount by 02 Aug 2025 to avail</div>
-                                        <img src="/images/detailpage/rupee2.svg" height="22px" width="22px" className="inline ml-1 mr-1 w-[22px] h-[22px] align-middle" />
-                                        <div className="font-['Figtree'] text-black text-[11px] font-semibold leading-normal">
-                                            Extra Discount
-                                        </div>
-                                    </div> */}
 
                                 <div className="">
                                     <div className="font-['Figtree'] text-black text-[11px] font-semibold leading-normal">Pay this amount by 02 Aug 2025 to avail</div>
