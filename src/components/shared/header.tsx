@@ -247,7 +247,7 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
                 {/* Navigation Links */}
                 <div className="hidden lg:flex items-center gap-4">
                     {menuData?.map((item, index) => {
-                        if (item.groupName === "Kailash Mansarovar" || item.groupName === "Adi Kailash" || item.groupName === "Who We Are") {
+                        if (item.groupName === "Kailash Mansarovar" || item.groupName === "Adi Kailash" || item.groupName === "Who We Are" || item.groupName === "All Destinations") {
                             return (
                                 <DropdownMenu
                                     key={item.groupId}
@@ -291,7 +291,7 @@ export default function Header({ bgColor, rounded, showSearch = false }: HeaderP
                                             </>
                                         )}
 
-                                        {(item.groupName === "Kailash Mansarovar" || item.groupName === "Adi Kailash") && (
+                                        {(item.groupName === "Kailash Mansarovar" || item.groupName === "Adi Kailash" || item.groupName === "All Destinations") && (
                                             <>
                                                 {getPackagesByGroup(item.groupName).map((pkg, ind) => (
                                                     <React.Fragment key={pkg.packageId}>

@@ -400,7 +400,7 @@ export default function HomeHeroSection() {
               <div className="hidden lg:flex items-center gap-8">
 
                 {menuData?.map((item, index) => {
-                  if (item.groupName === "Kailash Mansarovar" || item.groupName === "Adi Kailash" || item.groupName === "Who We Are") {
+                  if (item.groupName === "Kailash Mansarovar" || item.groupName === "Adi Kailash" || item.groupName === "All Destinations" || item.groupName === "Who We Are") {
                     return (
                       <DropdownMenu
                         key={item.groupId}
@@ -444,7 +444,7 @@ export default function HomeHeroSection() {
                             </>
                           )}
 
-                          {(item.groupName === "Kailash Mansarovar" || item.groupName === "Adi Kailash") && (
+                          {(item.groupName === "Kailash Mansarovar" || item.groupName === "Adi Kailash" || item.groupName === "All Destinations") && (
                             <>
                               {getPackagesByGroup(item.groupName).map((option, ind) => (
                                 <React.Fragment key={ind}>
