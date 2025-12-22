@@ -127,6 +127,10 @@ const iconRoutes: Record<string, string> = {
 const icons = ["magnifiying", "wishlist", "cart", "user"];
 
 export default function HomeHeroSection() {
+  const handleWhatsAppClick = () => {
+    window.open("https://wa.me/917827033601", "_blank")
+  }
+  
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -949,7 +953,7 @@ export default function HomeHeroSection() {
                   call back
                 </div>
               </div>
-              <div className="flex flex-row gap-[6px] shrink-0 items-center cursor-pointer">
+              <div className="flex flex-row gap-[6px] shrink-0 items-center cursor-pointer" onClick={handleWhatsAppClick}>
                 <div className="text-white font-['Figtree'] text-[13px] font-semibold leading-[normal] capitalize">Chat with us</div>
                 <img src="/images/detailpage/whatsapp_white.svg" alt="" className="" />
               </div>

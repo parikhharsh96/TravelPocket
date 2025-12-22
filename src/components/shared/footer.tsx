@@ -245,7 +245,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                                                 <p className="text-[#1A2F46] font-['Figtree'] text-[10px] font-medium leading-normal uppercase">CHAT WITH US ON</p>
                                                 <span className="text-[#1A2F46] font-['Figtree'] text-[30px] font-light leading-normal capitalize">WhatsApp</span>
                                             </div>
-                                            <div className="relative top-[15px]">{/**cursor-pointer transition-transform hover:scale-110 */}
+                                            <div className="relative top-[15px] cursor-pointer" onClick={handleWhatsAppClick}>{/**cursor-pointer transition-transform hover:scale-110 */}
                                                 <img
                                                     src="/images/footer/Ellipse-6284.svg"
                                                     alt="Instagram"
