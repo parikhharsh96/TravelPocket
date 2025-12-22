@@ -57,6 +57,7 @@ import { SignupModal } from '../auth/signup-modal';
 interface Package {
   packageId: number;
   packageName: string;
+  redirectLink?: string;
 }
 
 interface MenuGroup {
@@ -259,8 +260,9 @@ export default function HomeHeroSection() {
                   <Link
                     key={link.label}
                     href={link.href}
+                    onClick={(e) => e.preventDefault()}
                     className={`text-white font-['Figtree'] text-[12px] md:text-[12px] lg:text-[14px] font-normal leading-normal uppercase ${link.label !== "FAQs" ? "hidden lg:block" : ""
-                      }`}
+                      } cursor-not-allowed`}
                   >
                     {link.label}
                   </Link>
@@ -268,7 +270,7 @@ export default function HomeHeroSection() {
 
                 <Separator orientation="vertical" className="!h-4 w-px bg-[#BBB] hidden lg:block" />
 
-                <div className="hidden lg:flex items-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] uppercase font-['Figtree'] text-[#FFFFFF]">
+                <div className="hidden lg:flex items-center gap-1 sm:gap-2 text-[12px] md:text-[12px] lg:text-[14px] uppercase font-['Figtree'] text-[#FFFFFF] cursor-not-allowed">
                   <span>EN</span>
                   <img src="/images/Polygon_white.svg" alt="Dropdown" className="w-2 h-2 sm:w-3 sm:h-3" />
                 </div>
@@ -303,8 +305,8 @@ export default function HomeHeroSection() {
                       <Link
                         key={link.label}
                         href={link.href}
-                        className="text-[#FFFFFF] font-['Figtree'] text-[12px] md:text-[12px] font-semibold lg:text-[14px] uppercase hover:text-[#E97737] transition-colors"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        className="text-[#FFFFFF] font-['Figtree'] text-[12px] md:text-[12px] font-semibold lg:text-[14px] uppercase hover:text-[#E97737] transition-colors cursor-not-allowed"
+                        onClick={(e) => {e.preventDefault(); setIsMobileMenuOpen(!isMobileMenuOpen)}}
                       >
                         {link.label}
                       </Link>
@@ -312,73 +314,37 @@ export default function HomeHeroSection() {
 
                     <Separator orientation="horizontal" className="my-2 bg-[#E7E7E7] border border-[#E7E7E7]" />
 
-                    {/**DestionList Accordion */}
-                    <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem value="destinations">
-                        {/* Accordion Header */}
-                        <AccordionTrigger className="text-[#FFFFFF] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1" iconColor="text-[#FFFFFF]">
-                          All Destinations
-                        </AccordionTrigger>
-
-                        {/* Accordion Content — contains all links */}
-                        <AccordionContent className="">
-                          <ScrollArea className="h-64 w-full">
+                    {/**Dynamic Accordions from menuData */}
+                    {menuData?.map((item) => (
+                      <Accordion key={item.groupId} type="single" collapsible className="w-full">
+                        <AccordionItem value={item.groupName.toLowerCase().replace(/\s+/g, '-')}>
+                          <AccordionTrigger className="text-[#FFFFFF] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1" iconColor="text-[#FFFFFF]">
+                            {item.groupName}
+                          </AccordionTrigger>
+                          <AccordionContent className="max-h-48 overflow-y-auto">
                             <div className="flex flex-col gap-2 p-2">
-                              {allDestinations.map((destination, index) => (
-                                <div key={destination.label}>
+                              {(item.groupName === "Who We Are" && item.packages.length === 0 
+                                ? whoWeAreOptions.map(opt => ({ packageName: opt.label, packageId: opt.href, redirectLink: undefined }))
+                                : item.packages
+                              ).map((pkg, index) => (
+                                <div key={pkg.packageId}>
                                   <Link
-                                    href={destination.url}
-                                    className="block px-2 py-2 text-[#FFFFFF] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
+                                    href={pkg.redirectLink || (item.groupName === "Who We Are" ? `/${pkg.packageName}` : `/package/${pkg.packageId}`)}
+                                    className={`block px-2 py-2 text-[#FFFFFF] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors ${item.groupName === "Who We Are" ? "cursor-not-allowed" : ""}`}
+                                    onClick={item.groupName === "Who We Are" ? (e) => {e.preventDefault(); setIsMobileMenuOpen(false)} : () => setIsMobileMenuOpen(false)}
                                   >
-                                    {destination.label}
+                                    {pkg.packageName}
                                   </Link>
-
-                                  {/* Separator below each link except the last one */}
-                                  {index !== allDestinations.length - 1 && (
+                                  {index !== (item.groupName === "Who We Are" && item.packages.length === 0 ? whoWeAreOptions : item.packages).length - 1 && (
                                     <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" />
                                   )}
                                 </div>
                               ))}
                             </div>
-                          </ScrollArea>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-
-                    {/* <Separator orientation="horizontal" className="w-full border border-[#E7E7E7]" /> */}
-
-                    {/**Who are we accordion */}
-                    <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem value="who-we-are">
-                        {/* Accordion Header */}
-                        <AccordionTrigger iconColor="text-[#FFFFFF]" className="text-[#FFFFFF] font-['Figtree'] text-[16px] font-semibold leading-normal hover:text-[#E97737] transition-colors py-1">
-                          Who We Are
-                        </AccordionTrigger>
-
-                        {/* Accordion Content — contains all links */}
-                        <AccordionContent className="">
-                          <ScrollArea className="h-64 w-full">
-                            <div className="flex flex-col gap-2 p-2">
-                              {(getPackagesByGroup("Who We Are").length > 0 ? getPackagesByGroup("Who We Are") : whoWeAreOptions.map(opt => ({ packageName: opt.label, packageId: opt.href }))).map((option, index) => (
-                                <div key={option.packageId}>
-                                  <Link
-                                    href={`/${option.packageName}`}
-                                    className="block px-2 py-2 text-[#FFFFFF] font-['Figtree'] text-[15px] font-medium hover:text-[#E97737] transition-colors"
-                                  >
-                                    {option.packageName}
-                                  </Link>
-
-                                  {/* Separator below each link except the last one */}
-                                  {index !== (getPackagesByGroup("Who We Are").length > 0 ? getPackagesByGroup("Who We Are") : whoWeAreOptions).length - 1 && (
-                                    <Separator orientation="horizontal" className="w-full border border-[#E7E7E7] mb-2" />
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          </ScrollArea>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    ))}
 
                   </nav>
                 </div>
@@ -431,7 +397,8 @@ export default function HomeHeroSection() {
                                   <DropdownMenuItem>
                                     <Link
                                       href={ `/${option.packageName}`}
-                                      className="block px-3 py-2 text-[#1A2F46] font-['Figtree'] text-[16px] font-medium leading-[24px]"
+                                      onClick={(e) => e.preventDefault()}
+                                      className="block px-3 py-2 text-[#1A2F46] font-['Figtree'] text-[16px] font-medium leading-[24px] cursor-not-allowed"
                                     >
                                       {option.packageName}
                                     </Link>

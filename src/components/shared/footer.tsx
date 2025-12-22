@@ -43,7 +43,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                             <div className="space-y-2">
                                 {aboutTravelPocketLinks.map((item) => (
                                     <div key={item.label}>
-                                        <Link href={item.href} className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-[30px] transition-transform hover:font-semibold">
+                                        <Link href={item.href} onClick={(e) => e.preventDefault()} className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-[30px] transition-transform hover:font-semibold cursor-not-allowed">
                                             {item.label}
                                         </Link>
                                     </div>
@@ -62,7 +62,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                             <div className="space-y-2">
                                 {destinations.map((destination) => (
                                     <div key={destination.label}>
-                                        <Link href={destination.href} className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-[30px] transition-transform hover:font-semibold">
+                                        <Link href={destination.href} onClick={(e) => e.preventDefault()} className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-[30px] transition-transform hover:font-semibold cursor-not-allowed">
                                             {destination.label}
                                         </Link>
                                     </div>
@@ -81,7 +81,7 @@ export function Footer({ showSections = {} }: FooterProps) {
                             <div className="space-y-2">
                                 {packageTours.map((search) => (
                                     <div key={search.label}>
-                                        <Link href={search.href} className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-[30px] transition-transform hover:font-semibold">
+                                        <Link href={search.href} onClick={(e) => e.preventDefault()} className="text-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-[30px] transition-transform hover:font-semibold cursor-not-allowed">
                                             {search.label}
                                         </Link>
                                     </div>

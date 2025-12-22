@@ -52,7 +52,8 @@ export function FooterAccordion({ title, links, showCustomContent = false, child
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className="block text-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-[30px] hover:font-semibold transition-colors"
+                                onClick={(e) => e.preventDefault()}
+                                className="block text-[#4D4D4D] font-['Figtree'] text-[14px] font-normal leading-[30px] hover:font-semibold transition-colors cursor-not-allowed"
                             >
                                 {link.label}
                             </Link>
