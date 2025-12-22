@@ -38,7 +38,7 @@ export function GoogleAuthButton({ onSuccess, onError }: GoogleAuthButtonProps) 
       variant="outline"
       onClick={handleGoogleLogin}
       disabled={loading}
-      className="w-full rounded-lg border border-[#D2D8E4] bg-white text-black text-center font-['Figtree'] text-[16px] font-semibold leading-[19.5px] hover:bg-[#d2d8e4] py-3 bg-transparent"
+      className="w-full rounded-lg border border-[#D2D8E4] bg-white text-black text-center font-['Figtree'] text-[13px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-semibold leading-[19.5px] hover:bg-[#d2d8e4] py-2.5 sm:py-3 bg-transparent"
     >
       <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
         <path

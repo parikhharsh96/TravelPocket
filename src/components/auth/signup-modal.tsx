@@ -86,11 +86,11 @@ export function SignupModal({ children, open, onOpenChange }: SignupModalProps) 
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="h-[70vh] overflow-hidden p-0" width="w-[60vw] max-w-none" showCloseButton={true}>
+      <DialogContent className="max-h-[90vh] overflow-hidden p-0" width="w-[90vw] sm:w-[80vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] 2xl:w-[45vw] max-w-none" showCloseButton={true}>
         <DialogTitle className="sr-only">Sign up for TravelPocket</DialogTitle>
-        <div className="h-full flex">
-          {/* Left Column - Background Image (hidden on mobile and tablet) */}
-          <div className="hidden lg:flex lg:w-5/12 relative">
+        <div className="flex">
+          {/* Left Column - Background Image (hidden on mobile, visible on tablet+) */}
+          <div className="hidden md:flex md:w-2/5 lg:w-5/12 xl:w-2/5 relative">
             <img
               src="/images/signup-bg.svg"
               alt="Mountain landscape with prayer flags"
@@ -99,10 +99,9 @@ export function SignupModal({ children, open, onOpenChange }: SignupModalProps) 
           </div>
 
           {/* Right Column - Form Content */}
-          <div className="w-full lg:w-7/12 bg-[#ffffff] relative">
-            <ScrollArea className="h-[70vh] w-full">
-              <div className="flex items-center justify-center min-h-[70vh] p-6 py-8">
-                <div className="w-full max-w-md">
+          <div className="w-full md:w-3/5 lg:w-7/12 xl:w-3/5 bg-[#ffffff] relative">
+            <div className="flex items-center justify-center p-4 sm:p-6 py-6 sm:py-8">
+              <div className="w-full max-w-md">
                   {step === 1 && <MobileNumberForm initialData={signupData} onNext={handleNext} />}
                   {step === 2 && (
                     <OtpVerificationForm
@@ -115,9 +114,8 @@ export function SignupModal({ children, open, onOpenChange }: SignupModalProps) 
                   {step === 3 && (
                     <ProfileCompletionForm initialData={signupData} onComplete={handleComplete} onBack={handleBack} />
                   )}
-                </div>
               </div>
-            </ScrollArea>
+            </div>
           </div>
         </div>
       </DialogContent>

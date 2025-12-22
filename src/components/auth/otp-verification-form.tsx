@@ -198,24 +198,24 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack, onLoginSucce
 
   return (
     <div className="space-y-6">
-      <Button variant="ghost" onClick={onBack} className="p-0 h-auto text-[#5A5A5A] font-['Figtree'] text-[12px] font-normal leading-[14px] hover:text-[#1c1b1f]">
-        <ArrowLeft className="w-4 h-4 mr-2" />
+      <Button variant="ghost" onClick={onBack} className="p-0 h-auto text-[#5A5A5A] font-['Figtree'] text-[11px] sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[12px] 2xl:text-[12px] font-normal leading-[14px] hover:text-[#1c1b1f]">
+        <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
         Back
       </Button>
 
-      <div className="text-center space-y-4">
-        <h1 className="text-[#1A2F46] text-center font-['Playfair_Display'] text-[28px] font-semibold leading-normal">Verify your Mobile Number</h1>
-        <p className="text-black text-center font-['Figtree'] text-[14px] font-normal leading-[21px]">Enter the OTP sent to your Mobile Number</p>
-        <p className="text-black text-center font-['Figtree'] text-[14px] font-semibold leading-[21px]">{mobileNumber}</p>
+      <div className="text-center space-y-2 sm:space-y-3 md:space-y-3 lg:space-y-4 xl:space-y-4 2xl:space-y-4">
+        <h1 className="text-[#1A2F46] text-center font-['Playfair_Display'] text-[20px] sm:text-[22px] md:text-[22px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold leading-normal">Verify your Mobile Number</h1>
+        <p className="text-black text-center font-['Figtree'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-normal leading-[21px]">Enter the OTP sent to your Mobile Number</p>
+        <p className="text-black text-center font-['Figtree'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-semibold leading-[21px]">{mobileNumber}</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-4 rounded-md bg-[#FFF7F2] px-8 py-5">
-          <label className="block text-black font-['Figtree'] text-[14px] font-medium leading-normal">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6 md:space-y-6">
+        <div className="space-y-4 rounded-md bg-[#FFF7F2] px-3 md:px-4 lg:px-6 xl:px-8 2xl:px-8 py-4 md:py-5 lg:py-5">
+          <label className="block text-black font-['Figtree'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-medium leading-normal">
             Enter OTP<span className="text-black">*</span>
           </label>
 
-          <div className="flex gap-3">
+          <div className="flex justify-between gap-2 sm:gap-2 md:gap-3 lg:gap-3 xl:gap-3 2xl:gap-3">
             {otpValues.map((value, index) => (
               <Input
                 key={index}
@@ -226,7 +226,7 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack, onLoginSucce
                 value={value}
                 onChange={(e) => handleOtpChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                className="w-12 h-12 text-center text-black font-['Figtree'] text-[20px] font-medium leading-normal rounded-md border border-[#29A4C1] focus:border-[#243de2]"
+                className="w-10 h-10 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-12 lg:h-12 xl:w-12 xl:h-12 2xl:w-12 2xl:h-12 text-center text-black font-['Figtree'] text-[16px] sm:text-[18px] md:text-[18px] lg:text-[20px] xl:text-[20px] 2xl:text-[20px] font-medium leading-normal rounded-md border border-[#29A4C1] focus:border-[#243de2] px-1 py-1"
               />
             ))}
           </div>
@@ -234,8 +234,8 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack, onLoginSucce
           {errors.otp && <p className="text-[#ff0000] text-sm text-center">{errors.otp.message}</p>}
           {errorMessage && <p className="text-[#ff0000] text-sm text-center">{errorMessage}</p>}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-black font-['Figtree'] text-[15px] font-normal leading-[18px]">
-              <Clock className="w-4 h-4" />
+            <div className="flex items-center gap-2 text-black font-['Figtree'] text-[13px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[15px] font-normal leading-[18px]">
+              <Clock className="w-3 h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-4 xl:h-4 2xl:w-4 2xl:h-4" />
               <span>{countdown}s</span>
             </div>
 
@@ -244,12 +244,12 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack, onLoginSucce
                 type="button" 
                 onClick={handleResendOtp} 
                 disabled={resendLoading}
-                className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-semibold leading-[18px] hover:underline disabled:opacity-50"
+                className="text-[#E97737] text-center font-['Figtree'] text-[13px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[15px] font-semibold leading-[18px] hover:underline disabled:opacity-50"
               >
                 {resendLoading ? 'Sending...' : 'Re-Send OTP'}
               </button>
             ) : (
-              <span className="text-[#E97737] text-center font-['Figtree'] text-[14px] font-semibold leading-[18px]">Re-Send OTP</span>
+              <span className="text-[#E97737] text-center font-['Figtree'] text-[13px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[15px] font-semibold leading-[18px]">Re-Send OTP</span>
             )}
           </div>
         </div>
@@ -257,12 +257,12 @@ export function OtpVerificationForm({ mobileNumber, onNext, onBack, onLoginSucce
         <Button
           type="submit"
           disabled={loading || otpValues.join("").length !== 6}
-          className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg"
+          className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-['Figtree'] text-[13px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-semibold leading-[24px] uppercase py-2.5 sm:py-3 rounded-lg"
         >
           {loading ? "Verifying..." : "VERIFY OTP"}
         </Button>
 
-        <p className="text-[#4E4E4E] text-center font-['Figtree'] text-[11px] font-normal leading-[19.5px] text-center">
+        <p className="text-[#4E4E4E] text-center font-['Figtree'] text-[10px] sm:text-[11px] md:text-[11px] lg:text-[11px] xl:text-[11px] 2xl:text-[11px] font-normal leading-[19.5px] text-center">
           By verifying, you accept the{" "}
           <a href="#" className="text-[#e97737] hover:underline">
             Terms & Conditions

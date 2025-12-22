@@ -110,30 +110,30 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
 
   return (
     <div className="space-y-6">
-      <Button variant="ghost" onClick={onBack} className="p-0 h-auto text-[#5A5A5A] font-['Figtree'] text-[12px] font-normal leading-[14px] hover:text-[#1c1b1f]">
-        <ArrowLeft className="w-4 h-4 mr-2" />
+      <Button variant="ghost" onClick={onBack} className="p-0 h-auto text-[#5A5A5A] font-['Figtree'] text-[11px] sm:text-[12px] md:text-[12px] lg:text-[12px] xl:text-[12px] 2xl:text-[12px] font-normal leading-[14px] hover:text-[#1c1b1f]">
+        <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
         Back
       </Button>
 
       <div className="text-center space-y-2">
-        <h1 className="text-[#1A2F46] text-center font-['Playfair_Display'] text-[28px] font-semibold leading-normal">Complete your Sign up</h1>
+        <h1 className="text-[#1A2F46] text-center font-['Playfair_Display'] text-[20px] sm:text-[22px] md:text-[22px] lg:text-[24px] xl:text-[26px] 2xl:text-[28px] font-semibold leading-normal">Complete your Sign up</h1>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="mobile" className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">
+          <Label htmlFor="mobile" className="text-black font-['Figtree'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-medium leading-normal">
             Mobile Number <span className="text-[#ff0000]">*</span>
           </Label>
           <div className="flex gap-2">
             <Select value={initialData.countryCode} disabled>
-              <SelectTrigger className="w-24 border-[#d9d9d9] bg-[#d2d8e4] text-black font-['Figtree'] text-[16px] font-normal leading-normal">
+              <SelectTrigger className="w-[75px] sm:w-[80px] lg:w-24 lg:w-24 border-[#d9d9d9] bg-[#d2d8e4] text-black font-['Figtree'] text-[14px] sm:text-[15px] md:text-[16px] font-normal leading-normal">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-white">
                 <SelectItem value="+91">
                   <div className="flex items-center gap-2">
-                    <span className="text-[#5A5A5A] font-['Figtree'] text-[16px] font-normal leading-normal">🇮🇳</span>
-                    <span className="text-[#5A5A5A] font-['Figtree'] text-[16px] font-normal leading-normal">+91</span>
+                    <span className="text-[#5A5A5A] font-['Figtree'] text-[14px] sm:text-[15px] md:text-[16px] font-normal leading-normal hidden lg:block">🇮🇳</span>
+                    <span className="text-[#5A5A5A] font-['Figtree'] text-[14px] sm:text-[15px] md:text-[16px] font-normal leading-normal">+91</span>
                   </div>
                 </SelectItem>
               </SelectContent>
@@ -141,44 +141,44 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
             <Input
               value={initialData.mobileNumber}
               disabled
-              className="flex-1 border-[#d9d9d9] bg-[#d2d8e4] text-black font-['Figtree'] text-[16px] font-normal leading-normal"
+              className="flex-1 border-[#d9d9d9] bg-[#d2d8e4] text-black font-['Figtree'] text-[14px] sm:text-[15px] md:text-[16px] font-normal leading-normal"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">
+          <Label htmlFor="email" className="text-black font-['Figtree'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-medium leading-normal">
             Email Address <span className="text-[#ff0000]">*</span>
           </Label>
           <Input
             {...register("email")}
             type="email"
             placeholder="Enter Email Address"
-            className="border-[#d9d9d9] text-black font-['Figtree'] text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
+            className="border-[#d9d9d9] text-black font-['Figtree'] text-[14px] sm:text-[15px] md:text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
           />
           {errors.email && <p className="text-[#ff0000] text-sm">{errors.email.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="firstName" className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">
+          <Label htmlFor="firstName" className="text-black font-['Figtree'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-medium leading-normal">
             First Name <span className="text-[#ff0000]">*</span>
           </Label>
           <Input
             {...register("firstName")}
             placeholder="Enter First Name"
-            className="border-[#d9d9d9] text-black font-['Figtree'] text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
+            className="border-[#d9d9d9] text-black font-['Figtree'] text-[14px] sm:text-[15px] md:text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
           />
           {errors.firstName && <p className="text-[#ff0000] text-sm">{errors.firstName.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="lastName" className="text-black font-['Figtree'] text-[14px] font-medium leading-normal">
+          <Label htmlFor="lastName" className="text-black font-['Figtree'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-medium leading-normal">
             Last Name <span className="text-[#ff0000]">*</span>
           </Label>
           <Input
             {...register("lastName")}
             placeholder="Enter Last Name"
-            className="border-[#d9d9d9] text-black font-['Figtree'] text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
+            className="border-[#d9d9d9] text-black font-['Figtree'] text-[14px] sm:text-[15px] md:text-[16px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[16px] placeholder:font-normal placeholder:leading-normal"
           />
           {errors.lastName && <p className="text-[#ff0000] text-sm">{errors.lastName.message}</p>}
           {errorMessage && <p className="text-[#ff0000] text-sm">{errorMessage}</p>}
@@ -192,7 +192,7 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
               onCheckedChange={(checked) => setValue("marketingConsent", !!checked)}
               className="border-[#1c8ca7] data-[state=checked]:bg-[#1c8ca7] text-white"
             />
-            <Label htmlFor="marketing" className="text-black font-['Figtree'] text-[14px] font-normal leading-normal">
+            <Label htmlFor="marketing" className="text-black font-['Figtree'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-normal leading-normal">
               Keep me updated on special promotions and offers.
             </Label>
           </div>
@@ -204,7 +204,7 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
               onCheckedChange={(checked) => setValue("whatsappConsent", !!checked)}
               className="border-[#1c8ca7] data-[state=checked]:bg-[#1c8ca7] text-white"
             />
-            <Label htmlFor="whatsapp" className="text-black font-['Figtree'] text-[14px] font-normal leading-normal">
+            <Label htmlFor="whatsapp" className="text-black font-['Figtree'] text-[12px] sm:text-[13px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-normal leading-normal">
               I would like to get WhatsApp notifications
             </Label>
           </div>
@@ -213,7 +213,7 @@ export function ProfileCompletionForm({ initialData, onComplete, onBack }: Profi
         <Button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg"
+          className="w-full bg-[#e97737] hover:bg-[#c75414] text-white font-['Figtree'] text-[13px] sm:text-[14px] md:text-[14px] lg:text-[14px] xl:text-[14px] 2xl:text-[14px] font-semibold leading-[24px] uppercase py-2.5 sm:py-3 rounded-lg"
         >
           {loading ? "Creating Profile..." : "COMPLETE PROFILE"}
         </Button>
