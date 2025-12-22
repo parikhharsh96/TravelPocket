@@ -56,3 +56,8 @@ body {
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }
+
+.custom-disabled {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
