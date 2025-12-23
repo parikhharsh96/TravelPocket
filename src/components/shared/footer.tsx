@@ -15,6 +15,9 @@ import WhatsAppBanner from "./whatsapp-banner"
 import { aboutTravelPocketLinks, destinations, packageTours } from "@/data/footer"
 import { FooterAccordion } from "../ui/footer-accordion"
 import Link from "next/link"
+import { useState } from "react"
+import { useApi } from '@/lib/use-api';
+import { API_ENDPOINTS, API_CONSTANTS } from '@/lib/constants';
 
 type FooterProps = {
     showSections?: {
@@ -25,9 +28,59 @@ type FooterProps = {
 };
 
 export function Footer({ showSections = {} }: FooterProps) {
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [travelers, setTravelers] = useState("");
+    const [selectedPackage, setSelectedPackage] = useState("");
+    const [message, setMessage] = useState("");
+    const { data, loading, error, execute } = useApi<any>();
     
     const handleWhatsAppClick = () => {
         window.open("https://wa.me/917827033601", "_blank");
+    };
+    
+    const handleSubmit = async () => {
+        if (!name.trim() || !phone.trim() || !travelers.trim() || !selectedPackage) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        const enquiryData = {
+            firstName: name,
+            mobileNo: phone,
+            noOfAdults: parseInt(travelers) || 1,
+            groupId: getGroupIdFromPackage(selectedPackage),
+            remarks: message,
+            groupTypeId: API_CONSTANTS.GROUP_TYPE_ID,
+            clientTypeId: API_CONSTANTS.CLIENT_TYPE_ID,
+            leadSourceId: API_CONSTANTS.LEAD_SOURCE_ID,
+            travelDateFrom: new Date().toISOString(),
+            travelDateTo: new Date().toISOString(),
+            createdOn: new Date().toISOString()
+        };
+
+        const response = await execute(API_ENDPOINTS.booking.saveEnquiry, 'POST', enquiryData);
+        
+        if (response?.data?.success) {
+            alert('Request submitted successfully!');
+            setName('');
+            setPhone('');
+            setTravelers('');
+            setSelectedPackage('');
+            setMessage('');
+        } else {
+            alert('Failed to submit request. Please try again.');
+        }
+    };
+    
+    const getGroupIdFromPackage = (packageValue: string) => {
+        const packageMap: { [key: string]: number } = {
+            'kailash-mansarovar': 1,
+            'char-dham': 2,
+            'kedarnath': 3,
+            'custom-package': 4
+        };
+        return packageMap[packageValue] || 1;
     };
     
     return (
@@ -289,9 +342,24 @@ export function Footer({ showSections = {} }: FooterProps) {
                         <div className="space-y-4">
                             <h3 className="text-[#1A2F46] font-['Figtree'] text-[18px] font-semibold leading-normal mb-4 px-1">Drop your Request</h3>
                             <div className="space-y-3 px-1 flex flex-col gap-1">
-                                <Input placeholder="Name*" className="placeholder:text-muted-foreground h-[40px] rounded-[6px] border border-[#9FCADC] bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal" />
-                                <Input placeholder="Phone No.*" className="h-[40px] rounded-[6px] border border-[#9FCADC] bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal" />
-                                <Input placeholder="No. of Travellers*" className="h-[40px] rounded-[6px] border border-[#9FCADC] bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal" />
+                                <Input 
+                                    placeholder="Name*" 
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="placeholder:text-muted-foreground h-[40px] rounded-[6px] border border-[#9FCADC] bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal" 
+                                />
+                                <Input 
+                                    placeholder="Phone No.*" 
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    className="h-[40px] rounded-[6px] border border-[#9FCADC] bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal" 
+                                />
+                                <Input 
+                                    placeholder="No. of Travellers*" 
+                                    value={travelers}
+                                    onChange={(e) => setTravelers(e.target.value)}
+                                    className="h-[40px] rounded-[6px] border border-[#9FCADC] bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal" 
+                                />
                                 {/* <select className="flex h-[40px] w-full px-3 py-2 rounded-[6px] border border-[#9FCADC] bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal">
                                 <option value="" className="bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal">Choose Package*</option>
                                 <option value="kailash" className="bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal">Kailash Mansarovar</option>
@@ -300,9 +368,9 @@ export function Footer({ showSections = {} }: FooterProps) {
                                 <option value="custom" className="bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal">Custom Package</option>
                             </select> */}
 
-                                <Select>
+                                <Select value={selectedPackage} onValueChange={setSelectedPackage}>
                                     <SelectTrigger className="bg-white w-full rounded-[6px] border border-[#9FCADC]">
-                                        <SelectValue placeholder="" className="px-3 py-2 text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal" />
+                                        <SelectValue placeholder="Choose Package*" className="px-3 py-2 text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal" />
                                     </SelectTrigger>
                                     <SelectContent className="bg-white">
                                         <SelectItem value="kailash-mansarovar" className="text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal">Kailash Mansarovar</SelectItem>
@@ -311,12 +379,22 @@ export function Footer({ showSections = {} }: FooterProps) {
                                         <SelectItem value="custom-package" className="text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal">Custom Package</SelectItem>
                                     </SelectContent>
                                 </Select>
-                                <Textarea placeholder="Your Message" className="rounded-[6px] border border-[#9FCADC] bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal min-h-[80px]" />
-                                <Button className="w-[35%] self-center md:self-start rounded-[6px] bg-[#1A2F46] cursor-pointer text-white
+                                <Textarea 
+                                    placeholder="Your Message" 
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    className="rounded-[6px] border border-[#9FCADC] bg-white text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal min-h-[80px]" 
+                                />
+                                <Button 
+                                    onClick={handleSubmit}
+                                    disabled={loading}
+                                    className="w-[35%] self-center md:self-start rounded-[6px] bg-[#1A2F46] cursor-pointer text-white disabled:opacity-50
                     bg-[linear-gradient(90deg,_#E97737_0%,_#E97737_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
-             hover:bg-[position:0_0]">SUBMIT</Button>
+             hover:bg-[position:0_0]">
+                                    {loading ? 'SUBMITTING...' : 'SUBMIT'}
+                                </Button>
                             </div>
                         </div>
                     </div>

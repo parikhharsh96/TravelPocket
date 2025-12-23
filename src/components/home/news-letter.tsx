@@ -6,15 +6,43 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
+import { useApi } from '@/lib/use-api';
+import { API_ENDPOINTS, API_CONSTANTS } from '@/lib/constants';
 
 export function NewsletterSection() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
+    const { data, loading, error, execute } = useApi<any>();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        // Handle form submission
-        console.log("Form submitted:", { name, email })
+        
+        if (!name.trim() || !email.trim()) {
+            alert('Please fill in all required fields');
+            return;
+        }
+
+        const enquiryData = {
+            firstName: name,
+            emailAddress: email,
+            groupTypeId: API_CONSTANTS.GROUP_TYPE_ID,
+            clientTypeId: API_CONSTANTS.CLIENT_TYPE_ID,
+            leadSourceId: API_CONSTANTS.LEAD_SOURCE_ID,
+            noOfAdults: 1,
+            travelDateFrom: new Date().toISOString(),
+            travelDateTo: new Date().toISOString(),
+            createdOn: new Date().toISOString()
+        };
+
+        const response = await execute(API_ENDPOINTS.booking.saveEnquiry, 'POST', enquiryData);
+        
+        if (response?.data?.success) {
+            alert('Newsletter subscription successful!');
+            setName('');
+            setEmail('');
+        } else {
+            alert('Failed to subscribe. Please try again.');
+        }
     }
 
     return (
@@ -116,7 +144,7 @@ export function NewsletterSection() {
                                             placeholder="Name"
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
-                                            className="text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal text-white placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[14px] placeholder:font-normal placeholder:leading-normal focus:border-blue-400 focus:ring-blue-400 rounded-[6px] border border-[#9FCADC] bg-white"
+                                            className="text-[#1A2F46] font-['Figtree'] text-[14px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[14px] placeholder:font-normal placeholder:leading-normal focus:border-blue-400 focus:ring-blue-400 rounded-[6px] border border-[#9FCADC] bg-white"
                                             required
                                         />
                                         <Input
@@ -124,18 +152,19 @@ export function NewsletterSection() {
                                             placeholder="Email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
-                                            className="text-[#5A5A5A] font-['Figtree'] text-[14px] font-normal leading-normal text-white placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[14px] placeholder:font-normal placeholder:leading-normal focus:border-blue-400 focus:ring-blue-400 rounded-[6px] border border-[#9FCADC] bg-white"
+                                            className="text-[#1A2F46] font-['Figtree'] text-[14px] font-normal leading-normal placeholder:text-[#5A5A5A] placeholder:font-['Figtree'] placeholder:text-[14px] placeholder:font-normal placeholder:leading-normal focus:border-blue-400 focus:ring-blue-400 rounded-[6px] border border-[#9FCADC] bg-white"
                                             required
                                         />
                                         <Button
                                             type="submit"
-                                            className="w-full md:w-auto bg-[#E97737] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg cursor-pointer 
+                                            disabled={loading}
+                                            className="w-full md:w-auto bg-[#E97737] text-white font-['Figtree'] text-[14px] font-semibold leading-[24px] uppercase py-3 rounded-lg cursor-pointer disabled:opacity-50
                                             bg-[linear-gradient(90deg,_#C75414_0%,_#C75414_50%,_transparent_50%)] 
              bg-[length:200%_100%] bg-[position:100%_0] 
              transition-[background-position] duration-300 ease-out
              hover:bg-[position:0_0]"
                                         >
-                                            Submit
+                                            {loading ? 'SUBMITTING...' : 'Submit'}
                                         </Button>
                                     </div>
                                     {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
