@@ -5,11 +5,86 @@ import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
 import { User, Phone, MessageCircle, UserIcon, PhoneIcon } from "lucide-react"
 import { useState } from "react";
+import { useApi } from '@/lib/use-api';
+import { API_ENDPOINTS, API_CONSTANTS } from '@/lib/constants';
+
+interface EnquiryData {
+  enquiryID: number;
+  customerID: number;
+  firstName: string;
+  lastName: string;
+  mobileNo: string;
+  emailAddress: string;
+  city: string;
+  state: string;
+  country: string;
+  age: number;
+  groupTypeId: number;
+  groupTypeName: string;
+  clientTypeId: number;
+  clientTypeName: string;
+  groupId: number;
+  groupPackageName: string;
+  packageId: number;
+  dateId: number;
+  packageDate: string;
+  packageName: string;
+  mrp: number;
+  packageAmount: number;
+  travelDateFrom: string;
+  travelDateTo: string;
+  travelMonth: string;
+  noOfAdults: number;
+  noOfChildrens: number;
+  noOfInfants: number;
+  leadSourceId: number;
+  leadSourceName: string;
+  priorityId: number;
+  priorityName: string;
+  assignTo: string;
+  serviceRequired: string;
+  remarks: string;
+  decisionReason: string;
+  status: string;
+  statusId: number;
+  createdBy: string;
+  createdOn: string;
+}
 
 export default function ContactOurExperts() {
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const { data, loading, error, execute } = useApi<any>();
+
+  const handleSubmit = async () => {
+    if (!name.trim() || !phone.trim()) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    const enquiryData = {
+      firstName: name,
+      mobileNo: phone,
+      groupTypeId: API_CONSTANTS.GROUP_TYPE_ID,
+      clientTypeId: API_CONSTANTS.CLIENT_TYPE_ID,
+      leadSourceId: API_CONSTANTS.LEAD_SOURCE_ID,
+      noOfAdults: 1,
+      travelDateFrom: new Date().toISOString(),
+      travelDateTo: new Date().toISOString(),
+      createdOn: new Date().toISOString()
+    };
+
+    const response = await execute(API_ENDPOINTS.booking.saveEnquiry, 'POST', enquiryData);
+    
+    if (response?.data?.success) {
+      alert('Enquiry submitted successfully!');
+      setName('');
+      setPhone('');
+    } else {
+      alert('Failed to submit enquiry. Please try again.');
+    }
+  };
 
   const handleWhatsAppClick = () => {
     window.open("https://wa.me/917827033601", "_blank")
@@ -106,9 +181,13 @@ export default function ContactOurExperts() {
 
                   <button
                     type="button"
-                    className="w-full bg-[#E97737] hover:bg-orange-600 py-2 rounded-md transition"
+                    onClick={handleSubmit}
+                    disabled={loading}
+                    className="w-full bg-[#E97737] hover:bg-orange-600 py-2 rounded-md transition disabled:opacity-50"
                   >
-                    <span className="text-white text-center font-['Figtree'] text-[14px] font-semibold leading-none">ENQUIRE NOW</span>
+                    <span className="text-white text-center font-['Figtree'] text-[14px] font-semibold leading-none">
+                      {loading ? 'SUBMITTING...' : 'ENQUIRE NOW'}
+                    </span>
                   </button>
 
                   <div className="flex items-center justify-center text-black text-center font-['Figtree'] text-[14px] font-normal leading-none">OR</div>
@@ -227,9 +306,13 @@ export default function ContactOurExperts() {
 
                       <button
                         type="button"
-                        className="w-full bg-[#E97737] hover:bg-orange-600 py-2 rounded-md transition"
+                        onClick={handleSubmit}
+                        disabled={loading}
+                        className="w-full bg-[#E97737] hover:bg-orange-600 py-2 rounded-md transition disabled:opacity-50"
                       >
-                        <span className="text-white text-center font-['Figtree'] text-[14px] font-semibold leading-none">ENQUIRE NOW</span>
+                        <span className="text-white text-center font-['Figtree'] text-[14px] font-semibold leading-none">
+                          {loading ? 'SUBMITTING...' : 'ENQUIRE NOW'}
+                        </span>
                       </button>
 
                       <div className="flex items-center justify-center text-black text-center font-['Figtree'] text-[14px] font-normal leading-none">OR</div>

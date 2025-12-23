@@ -1237,15 +1237,20 @@ export default function DetailPackage() {
                             <div id="inclusions" className="rounded-[8px] border border-[#D2D8E4] bg-white" style={{ padding: "20px 15px" }}>
                                 <div className="flex flex-row gap-[30px]">
                                     <div onClick={() => setActiveTab("inclusions")}
-                                        className={`font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal transition-colors duration-200 ${activeTab === "inclusions"
+                                        className={`font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal transition-colors duration-200 cursor-pointer ${activeTab === "inclusions"
                                             ? "text-[#1A2F46]"
                                             : "text-[#ADADAD] hover:text-[#1A2F46]"
                                             }`}>Inclusions</div>
                                     <div onClick={() => setActiveTab("exclusions")}
-                                        className={`font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal transition-colors duration-200 ${activeTab === "exclusions"
+                                        className={`font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal transition-colors duration-200 cursor-pointer ${activeTab === "exclusions"
                                             ? "text-[#1A2F46]"
                                             : "text-[#ADADAD] hover:text-[#1A2F46]"
                                             }`}>Exclusions</div>
+                                    <div onClick={() => setActiveTab("terms")}
+                                        className={`font-['Playfair_Display'] text-[20px] lg:text-[32px] font-semibold leading-normal transition-colors duration-200 cursor-pointer ${activeTab === "terms"
+                                            ? "text-[#1A2F46]"
+                                            : "text-[#ADADAD] hover:text-[#1A2F46]"
+                                            }`}>Terms & Conditions</div>
                                 </div>
                                 <Separator orientation="horizontal" className="w-full bg-[#BBB] border border-[#BBB] mt-[20px] mb-[20px]" />
 
@@ -1269,7 +1274,7 @@ export default function DetailPackage() {
                                             ))
                                         )}
                                     </div>
-                                ) : (
+                                ) : activeTab === "exclusions" ? (
                                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
                                         {inclusionsLoading ? (
                                             Array.from({ length: 6 }).map((_, index) => (
@@ -1288,6 +1293,12 @@ export default function DetailPackage() {
                                                 </div>
                                             ))
                                         )}
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center justify-center py-12">
+                                        <p className="text-[#666] font-[Figtree] text-[16px] font-normal leading-[24px] text-center">
+                                            No data available in API
+                                        </p>
                                     </div>
                                 )}
 

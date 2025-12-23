@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useApi } from '@/lib/use-api';
 import { API_ENDPOINTS } from '@/lib/constants';
 
-interface KailashPackage {
+interface ADIKailashPackage {
     groupId: number;
     groupName: string;
     groupDescription: string;
@@ -27,11 +27,11 @@ interface KailashPackage {
     inclusionCaption: string;
 }
 
-export default function KailashMansarovarPage() {
+export default function ADIKailashPage() {
     const scrollRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
     const { data, loading, error, execute } = useApi<any>();
-    const [kailashPackages, setKailashPackages] = useState<KailashPackage[]>([]);
+    const [adikailashPackages, setAdKailashPackages] = useState<ADIKailashPackage[]>([]);
 
     useEffect(() => {
         const apiUrl = `${API_ENDPOINTS.customerHome.getTrendingPackages}?userid=0&pageno=1&pagesize=10`;
@@ -40,12 +40,12 @@ export default function KailashMansarovarPage() {
 
     useEffect(() => {
         if (data) {
-            console.log('Kailash Packages API data:', data);
+            console.log('ADI Kailash Packages API data:', data);
             if (data.data) {
-                const filteredPackages = data.data.filter((pkg: KailashPackage) => 
-                    pkg.groupName === "Kailash Mansarovar"
+                const filteredPackages = data.data.filter((pkg: ADIKailashPackage) => 
+                    pkg.groupName === "Adi Kailash"
                 );
-                setKailashPackages(filteredPackages);
+                setAdKailashPackages(filteredPackages);
             }
         }
         if (error) {
@@ -141,7 +141,7 @@ export default function KailashMansarovarPage() {
                             <div className="relative">
                                 <p className="text-[#1A2F46] text-center font-['Figtree'] text-[14px] md:text-[16px] font-semibold leading-normal capitalize">Walk the Sacred Circle</p>
                                 <h2 className="text-[#1A2F46] text-center font-['Playfair_Display'] text-[28px] md:text-[36px] font-semibold leading-normal">
-                                    Kailash Mansarovar: The Journey of a Lifetime
+                                    ADI Kailash: The Journey of a Lifetime
                                 </h2>
                             </div>
                         </div>
@@ -162,7 +162,7 @@ export default function KailashMansarovarPage() {
                             <span
                                 className="text-[#E97737] font-['Figtree'] text-[12px] md:text-[14px] font-semibold leading-normal uppercase tracking-wide group-hover:text-white"
                             >
-                                <span className="">EXPLORE Kailash Mansarovar TRIPS</span>
+                                <span className="">EXPLORE ADI KAILASH TRIPS</span>
                             </span>
 
                             <div className="ml-1 w-5 h-5 bg-white rounded-full flex items-center justify-center border border-[#E97737] group-hover:-rotate-45 transition-transform duration-300 ease-in-out">
@@ -175,7 +175,7 @@ export default function KailashMansarovarPage() {
                 {/* Packages Section */}
                 <div className="absolute left-0 right-0 z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 top-[65%]">
                     <h2 className="font-semibold mb-8 sm:mb-12 text-center">
-                        <span className="text-white text-center font-['Figtree'] text-[24px] md:text-[32px] font-semibold leading-normal">Kailash Mansarovar Yatra 2025 Packages</span>
+                        <span className="text-white text-center font-['Figtree'] text-[24px] md:text-[32px] font-semibold leading-normal">ADI KAILASH YATRA 2025 Packages</span>
                     </h2>
 
                     <div className="slider-wrp">
@@ -183,10 +183,10 @@ export default function KailashMansarovarPage() {
                             ref={scrollRef}
                             className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide no-scrollbar"
                         >
-                            {loading || kailashPackages.length === 0 ? (
+                            {loading || adikailashPackages.length === 0 ? (
                                 <PackagesSkeleton />
                             ) : (
-                                kailashPackages.map((pkg) => (
+                                adikailashPackages.map((pkg) => (
                                     <Card key={pkg.packageId} className="min-w-[300px] max-w-[320px] flex-shrink-0 rounded-xl group">
                                         <div className="relative overflow-hidden rounded-t-xl h-48">
                                             <img

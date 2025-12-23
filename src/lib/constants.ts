@@ -59,3 +59,10 @@ export const API_ENDPOINTS = {
 
 export type ApiEndpointKey = keyof typeof API_ENDPOINTS;
 
+// API Integration Constants
+export const API_CONSTANTS = {
+  LEAD_SOURCE_ID: 15,
+  GROUP_TYPE_ID: 19,
+  CLIENT_TYPE_ID: 21,
+} as const;
+

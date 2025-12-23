@@ -21,6 +21,7 @@ import { useApi } from '@/lib/use-api';
 import { api } from '@/lib/api-client';
 import { useEffect } from "react";
 import { API_ENDPOINTS } from '@/lib/constants';
+import ADIKailashPage from "@/components/home/adi-kailash";
 
 interface User {
   userId: number;
@@ -68,8 +69,9 @@ export default function Home() {
       <CharDhamSection />
       <Stories />
       <TestimonialCards />
-      <NepalTourSection />
-      <RajasthanTourSection />
+      {/* <NepalTourSection /> */}
+      {/* <RajasthanTourSection /> */}
+      <ADIKailashPage />
       <Blogs />
       <TravelGallery />
       <Footer showSections={{ whatsapp: true, helpCenter: true, newsletter: true }} />
